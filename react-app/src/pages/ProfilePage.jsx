@@ -241,7 +241,7 @@ export default function ProfilePage() {
               type="button"
               onClick={() => navigate('/')}
               style={{
-                padding: '14px 28px',
+                padding: '12px 28px',
                 fontSize: 15,
                 fontWeight: 600,
                 color: '#ffffff',
