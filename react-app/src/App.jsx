@@ -1,58 +1,67 @@
-import { Navigate, Route, Routes } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import LoginPage from './pages/LoginPage.jsx'
 import RegisterPage from './pages/RegisterPage.jsx'
 import ForgotPasswordPage from './pages/ForgotPasswordPage.jsx'
-import CustomerPage from './pages/CustomerPage.jsx'
-import SupplierPage from './pages/SupplierPage.jsx'
 import DashboardPage from './pages/DashboardPage.jsx'
 import ProfilePage from './pages/ProfilePage.jsx'
-import { getSessionUser } from './auth/demoAuth.js'
-
-function RequireAuth({ children }) {
-  const user = getSessionUser()
-  if (!user) return <Navigate to="/" replace />
-  return children
-}
+import CustomerPage from './pages/CustomerPage.jsx'
+import SupplierPage from './pages/SupplierPage.jsx'
+import RequestDetailPage from './pages/RequestDetailPage.jsx' // Новый импорт
+import ProtectedRoute from './components/ProtectedRoute.jsx'
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-      <Route
-        path="/dashboard"
-        element={
-          <RequireAuth>
-            <DashboardPage />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/customer"
-        element={
-          <RequireAuth>
-            <CustomerPage />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/supplier"
-        element={
-          <RequireAuth>
-            <SupplierPage />
-          </RequireAuth>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <RequireAuth>
-            <ProfilePage />
-          </RequireAuth>
-        }
-      />
-      <Route path="*" element={<Navigate to="/" replace />} />
-    </Routes>
+    <BrowserRouter>
+      <Routes>
+        {/* Публичные маршруты */}
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+
+        {/* Защищённые маршруты */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/customer"
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              <CustomerPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/customer/request/:id"
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              <RequestDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/supplier"
+          element={
+            <ProtectedRoute allowedRoles={['supplier']}>
+              <SupplierPage />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
