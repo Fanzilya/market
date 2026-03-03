@@ -1,0 +1,195 @@
+/* components/Pagination.module.css */
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    padding: 16px 0;
+    font-size: 14px;
+  }
+  
+  .paginationInfo {
+    color: #64748b;
+    font-size: 13px;
+  }
+  
+  .paginationControls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .paginationPages {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .paginationButton {
+    min-width: 36px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    transition: all 0.2s;
+  }
+  
+  .paginationButton:hover:not(:disabled) {
+    background: #f8fafc;
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  .paginationButton.active {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  .paginationButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background: #f1f5f9;
+  }
+  
+  .paginationButton.prevNext {
+    padding: 0 16px;
+    gap: 8px;
+  }
+  
+  .paginationDots {
+    padding: 0 8px;
+    color: #94a3b8;
+    font-weight: 500;
+  }
+  
+  .paginationJump {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: #64748b;
+    font-size: 13px;
+  }
+  
+  .paginationInput {
+    width: 60px;
+    height: 36px;
+    padding: 0 8px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    color: #1e293b;
+    background: white;
+    transition: all 0.2s;
+  }
+  
+  .paginationInput:focus {
+    outline: none;
+    border-color: #4A85F6;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  .paginationInput::-webkit-inner-spin-button,
+  .paginationInput::-webkit-outer-spin-button {
+    opacity: 0.5;
+    height: 20px;
+  }
+  
+  /* Dark mode */
+  :global(.dark) .paginationInfo {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .paginationButton {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .paginationButton:hover:not(:disabled) {
+    background: #334155;
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  :global(.dark) .paginationButton.active {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  :global(.dark) .paginationButton:disabled {
+    background: #334155;
+    opacity: 0.3;
+  }
+  
+  :global(.dark) .paginationDots {
+    color: #64748b;
+  }
+  
+  :global(.dark) .paginationJump {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .paginationInput {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .paginationInput:focus {
+    border-color: #4A85F6;
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .pagination {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 12px;
+    }
+  
+    .paginationControls {
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+  
+    .paginationJump {
+      justify-content: center;
+    }
+  
+    .paginationInfo {
+      text-align: center;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .paginationButton.prevNext span {
+      display: none;
+    }
+    
+    .paginationButton.prevNext {
+      padding: 0 12px;
+    }
+    
+    .paginationPages {
+      gap: 2px;
+    }
+    
+    .paginationButton {
+      min-width: 32px;
+      height: 32px;
+      font-size: 13px;
+    }
+  }

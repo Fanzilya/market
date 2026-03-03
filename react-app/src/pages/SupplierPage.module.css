@@ -1,0 +1,558 @@
+/* pages/SupplierPage.module.css */
+.page {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+  }
+  
+  .mainContent {
+    flex: 1;
+    margin-left: 260px;
+    padding: 24px 32px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  :global(.sidebar-collapsed) .mainContent {
+    margin-left: 80px;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+  }
+  
+  .headerLeft {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .pageTitle {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: -0.5px;
+  }
+  
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+  }
+  
+  .breadcrumb {
+    color: #94a3b8;
+  }
+  
+  .breadcrumbActive {
+    color: #4A85F6;
+    font-weight: 500;
+  }
+  
+  .separator {
+    color: #cbd5e1;
+  }
+  
+  .headerRight {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  
+  .companyInfo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 16px;
+    background: white;
+    border-radius: 30px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .companyLabel {
+    font-size: 12px;
+    color: #64748b;
+  }
+  
+  .companyName {
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .companyStore {
+    color: #4A85F6;
+    font-weight: 500;
+  }
+  
+  .searchSection {
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .bulkActions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 4px 8px 4px 16px;
+    background: white;
+    border-radius: 30px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .selectedCount {
+    font-size: 13px;
+    font-weight: 500;
+    color: #4A85F6;
+  }
+  
+  .bulkButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .bulkButton:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    border-color: #cbd5e1;
+  }
+  
+  .tableContainer {
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    overflow: auto;
+    margin-bottom: 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+  
+  /* Элементы таблицы */
+  .idBadge {
+    display: inline-block;
+    padding: 4px 8px;
+    background: #f1f5f9;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #4A85F6;
+    font-family: monospace;
+  }
+  
+  .customerInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .customerName {
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .customerContact {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .contactItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: #64748b;
+  }
+  
+  .icon {
+    flex-shrink: 0;
+    color: #94a3b8;
+  }
+  
+  .purchases {
+    font-weight: 600;
+    color: #10B981;
+    font-family: monospace;
+  }
+  
+  .orderInfo {
+    display: flex;
+    align-items: baseline;
+    gap: 4px;
+  }
+  
+  .orderQty {
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .orderLabel {
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  
+  .address {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #64748b;
+    max-width: 250px;
+  }
+  
+  .actionButton {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .actionButton:hover {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: #4A85F6;
+  }
+  
+  .footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+  
+  /* Состояние ошибки */
+  .errorState {
+    text-align: center;
+    padding: 60px 20px;
+    max-width: 400px;
+    margin: 100px auto;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .errorState svg {
+    margin-bottom: 20px;
+  }
+  
+  .errorState h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+  }
+  
+  .errorState p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 24px 0;
+  }
+  
+  .primaryButton {
+    padding: 12px 24px;
+    background: #4A85F6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .primaryButton:hover {
+    background: #3A6BC9;
+  }
+  
+  /* Dark mode */
+  :global(.dark) .page {
+    background: #0f172a;
+  }
+  
+  :global(.dark) .mainContent {
+    background: #0f172a;
+  }
+  
+  :global(.dark) .pageTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .breadcrumb {
+    color: #64748b;
+  }
+  
+  :global(.dark) .companyInfo {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .companyLabel {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .companyName {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .tableContainer {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .customerName {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .orderQty {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .address {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .checkbox {
+    accent-color: #4A85F6;
+  }
+  
+  :global(.dark) .errorState {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .errorState h2 {
+    color: #f1f5f9;
+  }
+  
+  /* Responsive */
+  @media (max-width: 1200px) {
+    .mainContent {
+      padding: 20px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .mainContent {
+      margin-left: 0;
+      padding: 16px;
+    }
+    
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    
+    .tableContainer {
+      overflow-x: auto;
+    }
+    
+    .tableContainer table {
+      min-width: 1000px;
+    }
+  }
+
+
+  /* Добавить в существующий SupplierPage.module.css */
+
+.clicksCounter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: #f0f9ff;
+    border-radius: 30px;
+    border: 1px solid #4A85F6;
+    color: #1e293b;
+    font-size: 14px;
+  }
+  
+  .clicksCounter strong {
+    color: #4A85F6;
+    font-size: 16px;
+  }
+  
+  .statsBar {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .stat {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+  
+  .statLabel {
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  .statValue {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1e293b;
+  }
+  
+  .objectInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .objectName {
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .customerName {
+    font-size: 12px;
+    color: #64748b;
+  }
+  
+  .typeBadge {
+    display: inline-block;
+    padding: 4px 10px;
+    background: #f1f5f9;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #475569;
+  }
+  
+  .date {
+    color: #64748b;
+    font-size: 13px;
+  }
+  
+  .statusBadge {
+    display: inline-block;
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  
+  .statusBadge.responded {
+    background: #e6f7e6;
+    color: #10B981;
+  }
+  
+  .statusBadge.new {
+    background: #f0f9ff;
+    color: #4A85F6;
+  }
+  
+  .actionButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 1px solid transparent;
+  }
+  
+  .respondButton {
+    background: #4A85F6;
+    color: white;
+  }
+  
+  .respondButton:hover {
+    background: #3A6BC9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+  }
+  
+  .viewButton {
+    background: #f8fafc;
+    border-color: #e2e8f0;
+    color: #64748b;
+  }
+  
+  .viewButton:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+  }
+  
+  /* Dark mode */
+  :global(.dark) .clicksCounter {
+    background: #2d3a4f;
+    border-color: #4A85F6;
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .statsBar {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .statValue {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .objectName {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .typeBadge {
+    background: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .statusBadge.responded {
+    background: #1a2e2a;
+    color: #34d399;
+  }
+  
+  :global(.dark) .statusBadge.new {
+    background: #1e2a3a;
+    color: #60a5fa;
+  }
+  
+  :global(.dark) .viewButton {
+    background: #334155;
+    border-color: #475569;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .viewButton:hover {
+    background: #3d4a5c;
+    color: #f1f5f9;
+  }

@@ -1,0 +1,67 @@
+/* components/StatsCard.module.css */
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    border: 1px solid #f0f2f5;
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(74, 133, 246, 0.1);
+    border-color: var(--card-color);
+  }
+  
+  .cardHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .cardIcon {
+    font-size: 24px;
+    background: rgba(74, 133, 246, 0.1);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    color: var(--card-color);
+  }
+  
+  .cardTitle {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+  }
+  
+  .cardContent {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+  
+  .cardValue {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1;
+  }
+  
+  .cardTrend {
+    font-size: 14px;
+    font-weight: 600;
+    color: #94a3b8;
+    background: #f8fafc;
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  
+  .cardTrend.positive {
+    color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+  }

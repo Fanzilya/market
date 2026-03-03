@@ -1,0 +1,46 @@
+/* components/SupplierTile.module.css */
+.tile {
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 18px;
+    background-color: #f8fafc;
+    transition: all 0.2s ease;
+  }
+  
+  .tileHover {
+    border-color: var(--primary, #4A85F6);
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .tileTitle {
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .tileIcon {
+    display: inline-flex;
+    color: var(--primary, #4A85F6);
+  }
+  
+  .tileValue {
+    margin: 0;
+    font-size: 15px;
+    color: #1e293b;
+    font-weight: 600;
+    white-space: pre-wrap;
+    line-height: 1.5;
+  }
+  
+  .emptyValue {
+    color: #94a3b8;
+    font-style: italic;
+  }

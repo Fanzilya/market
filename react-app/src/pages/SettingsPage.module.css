@@ -1,0 +1,661 @@
+/* src/pages/SettingsPage.module.css */
+.page {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 32px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* Шапка */
+  .header {
+    margin-bottom: 32px;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+  }
+  
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  .breadcrumb {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .breadcrumb:hover {
+    color: #4A85F6;
+  }
+  
+  .separator {
+    color: #cbd5e1;
+  }
+  
+  .current {
+    color: #4A85F6;
+    font-weight: 500;
+  }
+  
+  /* Карточка настроек */
+  .settingsCard {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #f0f2f5;
+    overflow: hidden;
+  }
+  
+  /* Табы */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 20px 20px 0 20px;
+    background: white;
+    border-bottom: 1px solid #f0f2f5;
+  }
+  
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    border-radius: 10px 10px 0 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .tab:hover {
+    color: #1e293b;
+    background: #f8fafc;
+  }
+  
+  .tab.active {
+    color: #4A85F6;
+    background: #ffffff;
+  }
+  
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #4A85F6;
+    border-radius: 2px 2px 0 0;
+  }
+  
+  /* Контент табов */
+  .tabContent {
+    padding: 32px;
+    max-width: 800px;
+  }
+  
+  .sectionTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 24px 0;
+  }
+  
+  .subsectionTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 32px 0 16px 0;
+    padding-top: 16px;
+    border-top: 1px solid #f0f2f5;
+  }
+  
+  /* Формы */
+  .formGroup {
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    display: block;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+  
+  .inputWrapper {
+    position: relative;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: all 0.2s;
+    background: white;
+    color: #1e293b;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #4A85F6;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  .inputDisabled {
+    background: #f8fafc;
+    color: #64748b;
+    cursor: not-allowed;
+  }
+  
+  .passwordToggle {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 4px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .passwordToggle:hover {
+    color: #4A85F6;
+  }
+  
+  /* Требования к паролю */
+  .passwordRequirements {
+    margin: 20px 0;
+    padding: 16px;
+    background: #f8fafc;
+    border-radius: 10px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .requirementItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 8px;
+  }
+  
+  .requirementItem:last-child {
+    margin-bottom: 0;
+  }
+  
+  .requirementMet {
+    color: #10B981;
+  }
+  
+  /* Уведомления */
+  .notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .notificationItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+    background: white;
+  }
+  
+  .notificationItemHover {
+    border-color: #4A85F6;
+    background: #f8fafc;
+    transform: translateX(4px);
+  }
+  
+  .notificationInfo {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .notificationIcon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(74, 133, 246, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #4A85F6;
+  }
+  
+  .notificationText {
+    flex: 1;
+  }
+  
+  .notificationTitle {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+    margin-bottom: 4px;
+  }
+  
+  .notificationDesc {
+    font-size: 13px;
+    color: #64748b;
+  }
+  
+  /* Toggle */
+  .toggle {
+    width: 44px;
+    height: 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .toggleOn {
+    background: #4A85F6;
+  }
+  
+  .toggleOff {
+    background: #e2e8f0;
+  }
+  
+  .toggleKnob {
+    position: absolute;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    background: white;
+    transition: left 0.2s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Кнопки */
+  .formActions {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+  }
+  
+  .primaryButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #4A85F6;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .primaryButton:hover:not(:disabled) {
+    background: #3A6BC9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+  }
+  
+  .primaryButton:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  .secondaryButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .secondaryButton:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+    background: #f8fafc;
+  }
+  
+  /* Сообщения */
+  .errorBox, .successBox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }
+  
+  .errorBox {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+  }
+  
+  .successBox {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #16a34a;
+  }
+  
+  /* Spinner */
+  .spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Модальное окно */
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+  }
+  
+  .modal {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .modalIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  
+  .modalTitle {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+  }
+  
+  .modalMessage {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0 0 24px 0;
+  }
+  
+  .modalActions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .modalCancel, .modalConfirm {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  
+  .modalCancel {
+    background: #f1f5f9;
+    color: #64748b;
+  }
+  
+  .modalCancel:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+  }
+  
+  .modalConfirm {
+    background: #ef4444;
+    color: white;
+  }
+  
+  .modalConfirm:hover {
+    background: #dc2626;
+  }
+  
+  /* Страница ошибки */
+  .errorContainer {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+  }
+  
+  .errorCard {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f2f5;
+  }
+  
+  .errorIcon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .errorCard h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+  }
+  
+  .errorCard p {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0 0 24px 0;
+  }
+  
+  .primaryButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #4A85F6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .primaryButton:hover {
+    background: #3A6BC9;
+    transform: translateY(-1px);
+  }
+  
+  /* Темная тема */
+  :global(.dark) .page {
+    background: #0f172a;
+  }
+  
+  :global(.dark) .title {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .settingsCard {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .tabs {
+    background: #1e293b;
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark) .tab {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .tab:hover {
+    color: #f1f5f9;
+    background: #334155;
+  }
+  
+  :global(.dark) .tab.active {
+    color: #4A85F6;
+    background: #2d3a4f;
+  }
+  
+  :global(.dark) .sectionTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .label {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .input {
+    background: #2d3a4f;
+    border-color: #475569;
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .input:focus {
+    border-color: #4A85F6;
+  }
+  
+  :global(.dark) .inputDisabled {
+    background: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .passwordRequirements {
+    background: #2d3a4f;
+    border-color: #475569;
+  }
+  
+  :global(.dark) .notificationItem {
+    background: #2d3a4f;
+    border-color: #475569;
+  }
+  
+  :global(.dark) .notificationTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .notificationDesc {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .modal {
+    background: #1e293b;
+  }
+  
+  :global(.dark) .modalTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .errorCard {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .errorCard h2 {
+    color: #f1f5f9;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .main {
+      margin-left: 0;
+      padding: 20px;
+    }
+    
+    .tabs {
+      overflow-x: auto;
+      padding: 16px 16px 0 16px;
+    }
+    
+    .tab {
+      padding: 10px 16px;
+      white-space: nowrap;
+    }
+    
+    .tabContent {
+      padding: 20px;
+    }
+    
+    .formActions {
+      flex-direction: column;
+    }
+    
+    .notificationItem {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    
+    .notificationInfo {
+      width: 100%;
+    }
+    
+    .toggle {
+      align-self: flex-end;
+    }
+  }

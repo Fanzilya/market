@@ -34,3 +34,15 @@ export function createOffer(offer) {
   return offer
 }
 
+// src/data/offers.js (добавьте этот экспорт, если его нет)
+
+export function listOffersBySupplierEmail(email) {
+  // Ваша реализация
+  return []
+}
+
+// Если нужен listAllOffers, добавьте его:
+export function listAllOffers() {
+  // Ваша реализация
+  return []
+}

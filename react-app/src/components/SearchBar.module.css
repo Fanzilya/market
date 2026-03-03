@@ -1,0 +1,353 @@
+/* components/SearchBar.module.css */
+.searchBar {
+    width: 100%;
+    max-width: 600px;
+  }
+  
+  .searchContainer {
+    display: flex;
+    align-items: center;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .searchContainer:focus-within {
+    border-color: #4A85F6;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  .searchIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 12px 0 16px;
+    color: #94a3b8;
+  }
+  
+  .searchInput {
+    flex: 1;
+    height: 44px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #1e293b;
+    outline: none;
+  }
+  
+  .searchInput::placeholder {
+    color: #94a3b8;
+  }
+  
+  .clearButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    margin-right: 4px;
+    border: none;
+    background: transparent;
+    color: #94a3b8;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .clearButton:hover {
+    background: #f1f5f9;
+    color: #64748b;
+  }
+  
+  .searchButton {
+    height: 36px;
+    padding: 0 20px;
+    margin: 4px;
+    background: #4A85F6;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .searchButton:hover {
+    background: #3A6BC9;
+  }
+  
+  /* Filter styles */
+  .filterWrapper {
+    position: relative;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #e2e8f0;
+    margin-right: 8px;
+  }
+  
+  .filterButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: transparent;
+    border: none;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .filterButton:hover {
+    color: #4A85F6;
+    background: #f8fafc;
+  }
+  
+  .filterBadge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 6px;
+    height: 6px;
+    background: #4A85F6;
+    border-radius: 50%;
+  }
+  
+  .filterDropdown {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    min-width: 200px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+    animation: slideDown 0.2s ease;
+  }
+  
+  .filterHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  
+  .filterTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .filterClose {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: #f8fafc;
+    border-radius: 6px;
+    color: #64748b;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .filterClose:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+  }
+  
+  .filterOption {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 10px 16px;
+    background: transparent;
+    border: none;
+    font-size: 14px;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+  }
+  
+  .filterOption:hover {
+    background: #f8fafc;
+    color: #4A85F6;
+  }
+  
+  .filterOption.active {
+    background: #f0f9ff;
+    color: #4A85F6;
+    font-weight: 500;
+  }
+  
+  .filterCount {
+    padding: 2px 8px;
+    background: #f1f5f9;
+    border-radius: 30px;
+    font-size: 11px;
+    color: #64748b;
+  }
+  
+  .filterOption.active .filterCount {
+    background: #4A85F6;
+    color: white;
+  }
+  
+  .searchHint {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #94a3b8;
+  }
+  
+  .searchHint kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 11px;
+    color: #64748b;
+    margin: 0 2px;
+  }
+  
+  /* Dark mode */
+  :global(.dark) .searchContainer {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .searchIcon {
+    color: #64748b;
+  }
+  
+  :global(.dark) .searchInput {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .searchInput::placeholder {
+    color: #64748b;
+  }
+  
+  :global(.dark) .clearButton {
+    color: #64748b;
+  }
+  
+  :global(.dark) .clearButton:hover {
+    background: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .filterWrapper {
+    border-right-color: #334155;
+  }
+  
+  :global(.dark) .filterButton {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .filterButton:hover {
+    background: #334155;
+    color: #4A85F6;
+  }
+  
+  :global(.dark) .filterDropdown {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .filterHeader {
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark) .filterTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .filterClose {
+    background: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .filterOption {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .filterOption:hover {
+    background: #334155;
+    color: #4A85F6;
+  }
+  
+  :global(.dark) .filterOption.active {
+    background: #2d3a4f;
+    color: #4A85F6;
+  }
+  
+  :global(.dark) .filterCount {
+    background: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .searchHint {
+    color: #64748b;
+  }
+  
+  :global(.dark) .searchHint kbd {
+    background: #334155;
+    border-color: #475569;
+    color: #94a3b8;
+  }
+  
+  /* Animations */
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* Responsive */
+  @media (max-width: 768px) {
+    .searchBar {
+      max-width: 100%;
+    }
+    
+    .searchHint {
+      display: none;
+    }
+    
+    .searchButton {
+      padding: 0 16px;
+      font-size: 13px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .filterDropdown {
+      position: fixed;
+      top: auto;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      width: auto;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+  }

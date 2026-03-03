@@ -1,0 +1,633 @@
+/* src/pages/ProfilePage.module.css */
+.page {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 32px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* Шапка */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+  }
+  
+  .breadcrumbs {
+    font-size: 14px;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .breadcrumbLink {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  
+  .breadcrumbLink:hover {
+    color: #4A85F6;
+  }
+  
+  .separator {
+    color: #cbd5e1;
+  }
+  
+  .current {
+    color: #4A85F6;
+    font-weight: 500;
+  }
+  
+  .headerActions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .actionButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .actionButton:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+    background: #f8fafc;
+  }
+  
+  /* Карточка профиля */
+  .profileCard {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #f0f2f5;
+    overflow: hidden;
+  }
+  
+  .profileHeader {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 32px;
+    background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%);
+    border-bottom: 1px solid #f0f2f5;
+  }
+  
+  .avatarLarge {
+    width: 96px;
+    height: 96px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+    font-weight: 700;
+    box-shadow: 0 8px 20px rgba(74, 133, 246, 0.3);
+    flex-shrink: 0;
+  }
+  
+  .profileInfo {
+    flex: 1;
+  }
+  
+  .profileName {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+  }
+  
+  .profileMeta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  
+  .roleBadge {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 16px;
+    background: rgba(74, 133, 246, 0.1);
+    color: #4A85F6;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    border: 1px solid rgba(74, 133, 246, 0.3);
+  }
+  
+  .email, .phone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  /* Табы */
+  .tabs {
+    display: flex;
+    gap: 4px;
+    padding: 0 32px;
+    background: white;
+    border-bottom: 1px solid #f0f2f5;
+  }
+  
+  .tab {
+    padding: 16px 24px;
+    background: transparent;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  
+  .tab:hover {
+    color: #1e293b;
+  }
+  
+  .tab.active {
+    color: #4A85F6;
+  }
+  
+  .tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #4A85F6;
+    border-radius: 2px 2px 0 0;
+  }
+  
+  /* Контент табов */
+  .tabContent {
+    padding: 32px;
+  }
+  
+  .tilesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  .tile {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 20px;
+    transition: all 0.2s;
+  }
+  
+  .tile:hover {
+    transform: translateY(-2px);
+    border-color: #4A85F6;
+    background: white;
+    box-shadow: 0 8px 20px rgba(74, 133, 246, 0.1);
+  }
+  
+  .tileEmpty {
+    opacity: 0.7;
+  }
+  
+  .tileTitle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+  }
+  
+  .tileIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .tileValue {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    word-break: break-word;
+  }
+  
+  /* Секция безопасности */
+  .securitySection {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+  
+  .securityCard {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 24px;
+  }
+  
+  .securityTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 16px 0;
+  }
+  
+  .securityDescription {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0 0 20px 0;
+    line-height: 1.5;
+  }
+  
+  .securityForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1e293b;
+  }
+  
+  .input {
+    padding: 12px 16px;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: all 0.2s;
+    background: white;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #4A85F6;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  .submitButton {
+    padding: 14px 20px;
+    background: #4A85F6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .submitButton:hover {
+    background: #3A6BC9;
+    transform: translateY(-1px);
+  }
+  
+  .enableButton {
+    padding: 12px 20px;
+    background: transparent;
+    border: 2px solid #4A85F6;
+    border-radius: 10px;
+    color: #4A85F6;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .enableButton:hover {
+    background: #4A85F6;
+    color: white;
+  }
+  
+  /* Опасная зона */
+  .dangerZone {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 16px;
+    padding: 24px;
+  }
+  
+  .dangerTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #dc2626;
+    margin: 0 0 8px 0;
+  }
+  
+  .dangerDescription {
+    font-size: 14px;
+    color: #ef4444;
+    margin: 0 0 20px 0;
+    opacity: 0.8;
+  }
+  
+  .deleteButton {
+    padding: 12px 24px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .deleteButton:hover {
+    background: #dc2626;
+  }
+  
+  /* Модальное окно */
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+  }
+  
+  .modal {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  }
+  
+  .modalIcon {
+    font-size: 48px;
+    margin-bottom: 16px;
+  }
+  
+  .modalTitle {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+  }
+  
+  .modalMessage {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0 0 24px 0;
+  }
+  
+  .modalActions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .modalCancel, .modalConfirm {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  
+  .modalCancel {
+    background: #f1f5f9;
+    color: #64748b;
+  }
+  
+  .modalCancel:hover {
+    background: #e2e8f0;
+    color: #1e293b;
+  }
+  
+  .modalConfirm {
+    background: #ef4444;
+    color: white;
+  }
+  
+  .modalConfirm:hover {
+    background: #dc2626;
+  }
+  
+  /* Страница ошибки */
+  .errorContainer {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: #f8fafc;
+  }
+  
+  .errorCard {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f2f5;
+  }
+  
+  .errorIcon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .errorCard h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+  }
+  
+  .errorCard p {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0 0 24px 0;
+  }
+  
+  .primaryButton {
+    display: inline-block;
+    padding: 14px 32px;
+    background: #4A85F6;
+    color: white;
+    text-decoration: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: all 0.2s;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .primaryButton:hover {
+    background: #3A6BC9;
+    transform: translateY(-1px);
+  }
+  
+  /* Темная тема */
+  :global(.dark) .page {
+    background: #0f172a;
+  }
+  
+  :global(.dark) .title {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .profileCard {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .profileHeader {
+    background: linear-gradient(135deg, #1e293b 0%, #2d3a4f 100%);
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark) .profileName {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .email, 
+  :global(.dark) .phone {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .tabs {
+    background: #1e293b;
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark) .tab {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .tab:hover {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .tile {
+    background: #2d3a4f;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .tile:hover {
+    background: #334155;
+    border-color: #4A85F6;
+  }
+  
+  :global(.dark) .tileTitle {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .tileValue {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .securityCard {
+    background: #2d3a4f;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .securityTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .label {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .input {
+    background: #1e293b;
+    border-color: #334155;
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .actionButton {
+    background: #1e293b;
+    border-color: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .actionButton:hover {
+    background: #2d3a4f;
+    color: #4A85F6;
+  }
+  
+  :global(.dark) .modal {
+    background: #1e293b;
+  }
+  
+  :global(.dark) .modalTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .modalCancel {
+    background: #334155;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .modalCancel:hover {
+    background: #3d4a5c;
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .errorCard {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .errorCard h2 {
+    color: #f1f5f9;
+  }
+  
+ 

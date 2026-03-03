@@ -1,0 +1,120 @@
+/* components/LogoutConfirm.module.css */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1100;
+    animation: fadeIn 0.2s ease;
+    backdrop-filter: blur(4px);
+  }
+  
+  .modal {
+    background: white;
+    border-radius: 24px;
+    padding: 32px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    animation: scaleIn 0.3s ease;
+  }
+  
+  .iconContainer {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+  }
+  
+  .icon {
+    font-size: 40px;
+    line-height: 1;
+  }
+  
+  .title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 12px 0;
+  }
+  
+  .message {
+    font-size: 15px;
+    color: #64748b;
+    margin: 0 0 28px 0;
+    line-height: 1.5;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .cancelButton, .confirmButton {
+    flex: 1;
+    padding: 14px 20px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+  }
+  
+  .cancelButton {
+    background: #f8fafc;
+    color: #64748b;
+  }
+  
+  .cancelButton:hover {
+    background: #f1f5f9;
+    color: #1e293b;
+    transform: translateY(-1px);
+  }
+  
+  .confirmButton {
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: white;
+    box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+  }
+  
+  .confirmButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .modal {
+      padding: 24px;
+    }
+    
+    .actions {
+      flex-direction: column;
+    }
+  }

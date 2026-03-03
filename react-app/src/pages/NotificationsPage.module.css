@@ -1,0 +1,542 @@
+/* pages/NotificationsPage.module.css */
+.page {
+    display: flex;
+    min-height: 100vh;
+    background: #f8fafc;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 32px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  /* Шапка */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+  }
+  
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #64748b;
+  }
+  
+  .breadcrumb {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .breadcrumb:hover {
+    color: #4A85F6;
+  }
+  
+  .separator {
+    color: #cbd5e1;
+  }
+  
+  .current {
+    color: #4A85F6;
+    font-weight: 500;
+  }
+  
+  /* Статистика */
+  .stats {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 16px 24px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .stat {
+    text-align: center;
+    min-width: 80px;
+  }
+  
+  .statValue {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.2;
+  }
+  
+  .statLabel {
+    font-size: 12px;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .statDivider {
+    width: 1px;
+    height: 40px;
+    background: #e2e8f0;
+  }
+  
+  /* Фильтры */
+  .filtersBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 24px;
+    padding: 16px 20px;
+    background: white;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .filterTabs {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .filterTab {
+    padding: 8px 20px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .filterTab:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  .filterTab.active {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 8px;
+  }
+  
+  .actionButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .actionButton:hover:not(:disabled) {
+    border-color: #4A85F6;
+    color: #4A85F6;
+    background: #f8fafc;
+  }
+  
+  .actionButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  .actionButton.actionDelete:hover:not(:disabled) {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: #fef2f2;
+  }
+  
+  /* Список уведомлений */
+  .notificationsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .notificationCard {
+    position: relative;
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s;
+  }
+  
+  .notificationCard:hover {
+    border-color: #4A85F6;
+    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.1);
+  }
+  
+  .notificationCard.unread {
+    background: #f0f9ff;
+    border-left: 4px solid #4A85F6;
+  }
+  
+  .notificationCard.important {
+    border: 1px solid #f59e0b;
+    box-shadow: 0 0 0 1px #f59e0b;
+  }
+  
+  .notificationIcon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .notificationContent {
+    flex: 1;
+    min-width: 0;
+  }
+  
+  .notificationHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  
+  .notificationTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+  }
+  
+  .notificationTime {
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  
+  .notificationMessage {
+    font-size: 14px;
+    color: #475569;
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+  }
+  
+  .notificationFooter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .viewButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #4A85F6;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .viewButton:hover {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  .notificationActions {
+    display: flex;
+    gap: 4px;
+  }
+  
+  .notificationAction {
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .notificationAction:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+    background: #f8fafc;
+  }
+  
+  .notificationAction.deleteAction:hover {
+    border-color: #ef4444;
+    color: #ef4444;
+    background: #fef2f2;
+  }
+  
+  .importantBadge {
+    position: absolute;
+    top: -6px;
+    right: 20px;
+    padding: 2px 8px;
+    background: #f59e0b;
+    color: white;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  /* Пустое состояние */
+  .emptyState {
+    text-align: center;
+    padding: 60px 20px;
+    background: white;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+  }
+  
+  .emptyState svg {
+    margin-bottom: 20px;
+  }
+  
+  .emptyState h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 8px 0;
+  }
+  
+  .emptyState p {
+    font-size: 14px;
+    color: #64748b;
+    margin: 0;
+  }
+  
+  /* Пагинация */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-top: 24px;
+  }
+  
+  .pageButton {
+    min-width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .pageButton:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  .pageButton.active {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  /* Темная тема */
+  :global(.dark) .page {
+    background: #0f172a;
+  }
+  
+  :global(.dark) .title {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .stats {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .statValue {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .filtersBar {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .filterTab {
+    background: #2d3a4f;
+    border-color: #475569;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .filterTab:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  :global(.dark) .filterTab.active {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  :global(.dark) .actionButton {
+    background: #2d3a4f;
+    border-color: #475569;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .notificationCard {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .notificationCard.unread {
+    background: #1e2a3a;
+  }
+  
+  :global(.dark) .notificationTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .notificationMessage {
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .notificationIcon {
+    background: #334155;
+  }
+  
+  :global(.dark) .notificationAction {
+    background: #2d3a4f;
+    border-color: #475569;
+    color: #94a3b8;
+  }
+  
+  :global(.dark) .emptyState {
+    background: #1e293b;
+    border-color: #334155;
+  }
+  
+  :global(.dark) .emptyState h3 {
+    color: #f1f5f9;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .main {
+      margin-left: 0;
+      padding: 20px;
+    }
+    
+    .header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .stats {
+      width: 100%;
+      justify-content: space-around;
+    }
+    
+    .filtersBar {
+      flex-direction: column;
+      align-items: stretch;
+    }
+    
+    .filterTabs {
+      justify-content: center;
+    }
+    
+    .actions {
+      justify-content: center;
+    }
+    
+    .notificationCard {
+      flex-direction: column;
+    }
+    
+    .notificationHeader {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .stat {
+      min-width: 60px;
+    }
+    
+    .statValue {
+      font-size: 20px;
+    }
+    
+    .statLabel {
+      font-size: 10px;
+    }
+    
+    .filterTabs {
+      flex-wrap: wrap;
+    }
+    
+    .filterTab {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .actions {
+      flex-direction: column;
+    }
+    
+    .notificationFooter {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .notificationActions {
+      align-self: flex-end;
+    }
+  }

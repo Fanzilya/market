@@ -1,0 +1,112 @@
+/* components/TopBar.module.css */
+.topBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+  }
+  
+  .topBarLeft {
+    flex: 1;
+  }
+  
+  .topBarTitle {
+    font-size: 20px;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+  }
+  
+  .topBarRight {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .profileButton {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .profileButton:hover {
+    background: #f1f5f9;
+    border-color: #4A85F6;
+  }
+  
+  .userAvatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .userInfo {
+    text-align: left;
+  }
+  
+  .userName {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1e293b;
+  }
+  
+  .userRole {
+    display: block;
+    font-size: 11px;
+    color: #64748b;
+  }
+  
+  /* Темная тема */
+  :global(.dark) .topBar {
+    background: #1e293b;
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark) .topBarTitle {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .profileButton {
+    background: #2d3a4f;
+    border-color: #475569;
+  }
+  
+  :global(.dark) .profileButton:hover {
+    background: #334155;
+    border-color: #4A85F6;
+  }
+  
+  :global(.dark) .userName {
+    color: #f1f5f9;
+  }
+  
+  :global(.dark) .userRole {
+    color: #94a3b8;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 768px) {
+    .userInfo {
+      display: none;
+    }
+    
+    .profileButton {
+      padding: 6px;
+    }
+  }
