@@ -767,3 +767,124 @@
   border-color: #475569;
   color: #94a3b8;
 }
+
+/* Добавьте в RequestDetailPage.module.css */
+
+.offersButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #10B981;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.offersButton:hover {
+  background: #0D9668;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+}
+
+.offersHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.viewAllOffersButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #10B981;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.viewAllOffersButton:hover {
+  background: #10B981;
+  border-color: #10B981;
+  color: white;
+}
+
+.viewAllLink {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  text-align: center;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #4A85F6;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 16px;
+}
+
+.viewAllLink:hover {
+  background: #4A85F6;
+  color: white;
+  border-color: #4A85F6;
+}
+
+.noOffersSection {
+  margin-top: 32px;
+  padding: 32px;
+  text-align: center;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px dashed #e2e8f0;
+}
+
+.noOffersText {
+  font-size: 15px;
+  color: #64748b;
+  margin: 0;
+}
+
+/* Темная тема */
+:global(.dark) .offersButton {
+  background: #0D9668;
+}
+
+:global(.dark) .viewAllOffersButton {
+  background: #2d3a4f;
+  border-color: #475569;
+  color: #10B981;
+}
+
+:global(.dark) .viewAllOffersButton:hover {
+  background: #10B981;
+  color: white;
+}
+
+:global(.dark) .viewAllLink {
+  background: #2d3a4f;
+  border-color: #475569;
+  color: #4A85F6;
+}
+
+:global(.dark) .noOffersSection {
+  background: #2d3a4f;
+  border-color: #475569;
+}
+
+:global(.dark) .noOffersText {
+  color: #94a3b8;
+}

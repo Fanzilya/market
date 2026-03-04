@@ -265,6 +265,11 @@ export default function RequestDetailPage() {
   // Редактирование доступно только если нет КП И заявка не в архиве
   const canEdit = !hasOffers && !isArchived
 
+  // Функция для перехода к списку КП
+  const goToOffers = () => {
+    navigate(`/customer/request/${requestId}/offers`)
+  }
+
   // Опции для отображения
   const motorStartOptions = {
     direct: 'Прямой пуск',
@@ -370,6 +375,21 @@ export default function RequestDetailPage() {
                 </button>
               </>
             )}
+            
+            {/* Кнопка перехода к КП (показываем всегда, если есть КП) */}
+            {hasOffers && (
+              <button 
+                className={styles.offersButton}
+                onClick={goToOffers}
+                title="Перейти к списку коммерческих предложений"
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2"/>
+                </svg>
+                КП ({offers.length})
+              </button>
+            )}
+            
             <button 
               className={styles.backButton}
               onClick={() => navigate(isSupplier ? '/supplier' : '/customer')}
@@ -608,9 +628,20 @@ export default function RequestDetailPage() {
           {/* Коммерческие предложения */}
           {offers.length > 0 && (
             <div className={styles.offersSection}>
-              <h3 className={styles.sectionTitle}>
-                Коммерческие предложения ({offers.length})
-              </h3>
+              <div className={styles.offersHeader}>
+                <h3 className={styles.sectionTitle}>
+                  Коммерческие предложения ({offers.length})
+                </h3>
+                <button 
+                  className={styles.viewAllOffersButton}
+                  onClick={goToOffers}
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2"/>
+                  </svg>
+                  Все КП
+                </button>
+              </div>
               <div className={styles.offersList}>
                 {offers.slice(0, 3).map((offer, index) => (
                   <div key={index} className={styles.offerCard}>
@@ -636,12 +667,21 @@ export default function RequestDetailPage() {
               </div>
               {offers.length > 3 && (
                 <button 
-                  className={styles.viewAllButton}
-                  onClick={() => navigate(`/customer/request/${requestId}/offers`)}
+                  className={styles.viewAllLink}
+                  onClick={goToOffers}
                 >
-                  Показать все предложения ({offers.length})
+                  Показать все предложения ({offers.length}) →
                 </button>
               )}
+            </div>
+          )}
+
+          {/* Если нет КП, показываем кнопку для просмотра (но она будет неактивной или информационной) */}
+          {!hasOffers && !isSupplier && (
+            <div className={styles.noOffersSection}>
+              <p className={styles.noOffersText}>
+                На данную заявку пока нет коммерческих предложений
+              </p>
             </div>
           )}
         </div>

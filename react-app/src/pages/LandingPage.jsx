@@ -18,10 +18,10 @@ export default function LandingPage() {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const PRIMARY = '#1877F2'
-  const PRIMARY_DARK = '#1877F2'
+  const PRIMARY = '#4A85F6'
+  const PRIMARY_DARK = '#3A6BC9'
   const PRIMARY_LIGHT = '#EBF5FF'
-  const PRIMARY_BORDER = '#1877F2'
+  const PRIMARY_BORDER = '#4A85F633'
 
   const styles = useMemo(
     () => ({
@@ -559,7 +559,7 @@ export default function LandingPage() {
 
   const customerFeatures = [
     { icon: '📋', text: 'Создание заявок через удобный опросный лист' },
-    // { icon: '💰', text: 'Сравнение коммерческих предложений' },
+    { icon: '💰', text: 'Сравнение коммерческих предложений' },
     { icon: '📊', text: 'Конъюнктурный анализ цен' },
     { icon: '✅', text: 'Выбор оптимального исполнителя' },
     { icon: '📈', text: 'Контроль выполнения работ' },
@@ -569,7 +569,7 @@ export default function LandingPage() {
     { icon: '📥', text: 'Просмотр заявок от заказчиков' },
     { icon: '📤', text: 'Отправка коммерческих предложений' },
     { icon: '🔧', text: 'Подбор оборудования под требования' },
-    // { icon: '📱', text: 'Уведомления о новых заявках' },
+    { icon: '📱', text: 'Уведомления о новых заявках' },
     { icon: '📊', text: 'Статистика и аналитика предложений' },
   ]
 
