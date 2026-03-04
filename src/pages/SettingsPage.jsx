@@ -6,7 +6,7 @@ import { getUserSettings, updateUserSettings } from '../data/settings.js'
 import Sidebar from '../components/Sidebar.jsx'
 import styles from './SettingsPage.module.css'
 
-export default function SettingsPage() {
+export const SettingsPage = ()=> {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [isMounted, setIsMounted] = useState(false)

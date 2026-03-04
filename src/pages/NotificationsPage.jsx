@@ -5,7 +5,7 @@ import { getSessionUser } from '../auth/demoAuth.js'
 import Sidebar from '../components/Sidebar.jsx'
 import styles from './NotificationsPage.module.css'
 
-export default function NotificationsPage() {
+export const NotificationsPage = ()=> {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [darkMode, setDarkMode] = useState(false)

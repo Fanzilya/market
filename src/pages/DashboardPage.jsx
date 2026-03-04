@@ -8,7 +8,7 @@ import Sidebar from '../components/Sidebar.jsx'
 import NotificationBell from '../components/NotificationBell.jsx'
 import styles from './DashboardPage.module.css'
 
-export default function DashboardPage() {
+export const DashboardPage = ()=> {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [darkMode, setDarkMode] = useState(false)

@@ -7,7 +7,7 @@ import { countOffersByRequestId } from '../data/offers.js'
 import Sidebar from '../components/Sidebar.jsx'
 import styles from './CustomerPage.module.css'
 
-export default function CustomerPage() {
+export const CustomerPage = ()=> {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [refreshKey, setRefreshKey] = useState(0)

@@ -8,7 +8,7 @@ import Sidebar from '../components/Sidebar.jsx'
 import * as XLSX from 'xlsx'
 import styles from './OffersPage.module.css'
 
-export default function OffersPage() {
+export const OffersPage = ()=> {
   const { requestId } = useParams()
   const user = getSessionUser()
   const navigate = useNavigate()

@@ -13,7 +13,7 @@ import { listAllRequests } from '../data/requests.js'
 import { createOffer, listOffersByRequestId } from '../data/offers.js'
 import styles from './SupplierPage.module.css'
 
-export default function SupplierPage() {
+export const SupplierPage = ()=> {
   const user = getSessionUser()
   const navigate = useNavigate()
   

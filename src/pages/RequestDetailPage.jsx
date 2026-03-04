@@ -229,7 +229,7 @@ const KNSSchema = ({ data, extras }) => {
   )
 }
 
-export default function RequestDetailPage() {
+export const RequestDetailPage = ()=> {
   const { requestId } = useParams()
   const user = getSessionUser()
   const navigate = useNavigate()

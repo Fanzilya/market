@@ -2,7 +2,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { DEMO_USERS, signInDemo } from '../auth/demoAuth.js'
 
-export default function LoginPage() {
+export const LoginPage = ()=> {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')

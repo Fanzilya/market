@@ -1,9 +1,9 @@
 // src/pages/CreateRequestPage.jsx
 import { useMemo, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getSessionUser } from '../auth/demoAuth.js'
-import { createRequest, getRequestById, updateRequest } from '../data/requests.js'
-import Sidebar from '../components/Sidebar.jsx'
+import { getSessionUser } from '../../../auth/demoAuth.js'
+import { createRequest, getRequestById, updateRequest } from '../../../data/requests.js'
+import Sidebar from '../../../components/Sidebar.jsx'
 import styles from './CreateRequestPage.module.css'
 
 // Компонент схемы КНС (вынесен отдельно)
@@ -12,14 +12,14 @@ const KNSSchema = ({ data, extras }) => {
     // Основные параметры
     workingPumps = '2',
     reservePumps = '1',
-    
+
     // Параметры трубопроводов
     inletDiameter = '250',
     inletDirection = '12',
     outletDiameter = '200',
     outletDirection = '3',
     outletCount = '1',
-    
+
     // Параметры станции
     stationDiameter = '3',
     stationHeight = '5',
@@ -41,10 +41,8 @@ const KNSSchema = ({ data, extras }) => {
   return (
     <div className={styles.schemaContainer}>
       <svg width="100%" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
-        {/* Основная схема КНС (вид сбоку) */}
         <g transform="translate(400, 300)">
-          
-          {/* Корпус станции */}
+
           <rect
             x="-100"
             y="-150"
@@ -55,7 +53,7 @@ const KNSSchema = ({ data, extras }) => {
             strokeWidth="3"
             rx="10"
           />
-          
+
           {/* Утепление (если указано) */}
           {insulation && parseFloat(insulation) > 0 && (
             <>
@@ -158,7 +156,7 @@ const KNSSchema = ({ data, extras }) => {
             <text x="-200" y="30" fontSize="9" fill="#64748b">
               {inletDiameter}мм
             </text>
-            
+
             {/* Решетка-дробилка (если выбрана) */}
             {extras['Канальный измельчитель'] && (
               <g transform="translate(-160, 40)">
@@ -192,7 +190,7 @@ const KNSSchema = ({ data, extras }) => {
                 <text x="10" y="12" textAnchor="middle" fontSize="7" fill="white">з</text>
               </g>
             )}
-            
+
             {extras['Расходомер на напорном трубопроводе'] && (
               <g transform="translate(150, 30)">
                 <circle cx="0" cy="0" r="10" fill="#EC4899" opacity="0.6" />
@@ -265,10 +263,10 @@ const KNSSchema = ({ data, extras }) => {
         {/* Легенда с количеством */}
         <g transform="translate(50, 500)">
           <text x="0" y="0" fontSize="12" fill="#1e293b" fontWeight="600">Комплектация:</text>
-          
+
           {Object.entries(extras).map(([key, value], index) => {
             if (!value) return null
-            
+
             let count = '1'
             if (key.includes('задвижк')) count = '4'
             if (key.includes('Обратный клапан')) count = '2'
@@ -276,7 +274,7 @@ const KNSSchema = ({ data, extras }) => {
             if (key.includes('Вентиляционная')) count = '2'
             if (key.includes('Цепь')) count = '3'
             if (key.includes('Направляющие')) count = '3'
-            
+
             return (
               <g key={key} transform={`translate(0, ${(index + 1) * 20})`}>
                 <circle cx="5" cy="5" r="3" fill="#4A85F6" />
@@ -288,7 +286,6 @@ const KNSSchema = ({ data, extras }) => {
           })}
         </g>
 
-        {/* Подписи с размерами */}
         <g transform="translate(650, 500)">
           <text x="0" y="0" fontSize="11" fill="#1e293b">Габариты:</text>
           <text x="0" y="20" fontSize="10" fill="#64748b">A: вх. {inletDiameter}мм</text>
@@ -301,7 +298,7 @@ const KNSSchema = ({ data, extras }) => {
   )
 }
 
-export default function CreateRequestPage() {
+export const CreateRequestPage = () => {
   const { requestId } = useParams()
   const user = getSessionUser()
   const navigate = useNavigate()
@@ -334,24 +331,24 @@ export default function CreateRequestPage() {
     medium: 'Хоз-бытовые сточные воды',
     temperature: '',
     explosionProof: false,
-    
+
     // Параметры трубопроводов
     inletDepth: '',
     inletDiameter: '',
     inletMaterial: '',
     inletDirection: '12',
-    
+
     outletDepth: '',
     outletDiameter: '',
     outletMaterial: '',
     outletDirection: '3',
     outletCount: '1',
-    
+
     // Параметры станции
     stationDiameter: '',
     stationHeight: '',
     insulation: '',
-    
+
     // Электрические параметры
     motorStartMethod: 'direct',
     powerInputs: '1',
@@ -401,11 +398,11 @@ export default function CreateRequestPage() {
           contactPhone: existingRequest.contactPhone || user?.phone || '',
           contactEmail: existingRequest.contactEmail || user?.email || '',
         })
-        
+
         if (existingRequest.kns) {
           setKnsData(existingRequest.kns)
         }
-        
+
         if (existingRequest.knsExtras) {
           setKnsExtras(existingRequest.knsExtras)
         }
@@ -469,7 +466,7 @@ export default function CreateRequestPage() {
       contactPerson: formData.contactPerson,
       contactPhone: formData.contactPhone,
       contactEmail: formData.contactEmail,
-      
+
       // Данные КНС (только если выбран тип КНС)
       kns: formData.configType === 'КНС' ? {
         // Основные параметры
@@ -481,30 +478,30 @@ export default function CreateRequestPage() {
         medium: knsData.medium,
         temperature: knsData.temperature,
         explosionProof: knsData.explosionProof,
-        
+
         // Параметры трубопроводов
         inletDepth: knsData.inletDepth,
         inletDiameter: knsData.inletDiameter,
         inletMaterial: knsData.inletMaterial,
         inletDirection: knsData.inletDirection,
-        
+
         outletDepth: knsData.outletDepth,
         outletDiameter: knsData.outletDiameter,
         outletMaterial: knsData.outletMaterial,
         outletDirection: knsData.outletDirection,
         outletCount: knsData.outletCount,
-        
+
         // Параметры станции
         stationDiameter: knsData.stationDiameter,
         stationHeight: knsData.stationHeight,
         insulation: knsData.insulation,
-        
+
         // Электрические параметры
         motorStartMethod: knsData.motorStartMethod,
         powerInputs: knsData.powerInputs,
         cabinetLocation: knsData.cabinetLocation,
       } : null,
-      
+
       // Дополнительная комплектация
       knsExtras: formData.configType === 'КНС' ? knsExtras : null,
     }
@@ -515,14 +512,14 @@ export default function CreateRequestPage() {
         if (isEditMode) {
           // Обновление существующей заявки
           const updated = updateRequest(requestId, requestData)
-          
+
           if (updated) {
             // Перенаправляем на страницу просмотра заявки с сообщением об успехе
-            navigate(`/customer/request/${requestId}`, { 
-              state: { 
+            navigate(`/customer/request/${requestId}`, {
+              state: {
                 message: 'Заявка успешно обновлена',
                 type: 'success'
-              } 
+              }
             })
           } else {
             setError('Не удалось обновить заявку')
@@ -538,13 +535,13 @@ export default function CreateRequestPage() {
             customerFullName: user.fullName,
             ...requestData
           })
-          
+
           if (newRequest) {
-            navigate('/customer', { 
-              state: { 
+            navigate('/customer', {
+              state: {
                 message: 'Заявка успешно создана',
                 type: 'success'
-              } 
+              }
             })
           } else {
             setError('Не удалось создать заявку')
@@ -616,7 +613,7 @@ export default function CreateRequestPage() {
 
   return (
     <div className={`${styles.page} ${darkMode ? styles.dark : ''}`}>
-      <Sidebar 
+      <Sidebar
         user={user}
         onLogout={() => navigate('/login')}
         darkMode={darkMode}
@@ -654,8 +651,8 @@ export default function CreateRequestPage() {
               </div>
               {getStepStatus(1) === 'completed' && (
                 <svg className={styles.stepIcon} width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" fill="#10B981"/>
-                  <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2"/>
+                  <circle cx="12" cy="12" r="10" fill="#10B981" />
+                  <path d="M8 12L11 15L16 9" stroke="white" strokeWidth="2" />
                 </svg>
               )}
             </div>
@@ -680,9 +677,9 @@ export default function CreateRequestPage() {
           {error && (
             <div className={styles.errorBox}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" fill="#FECACA"/>
-                <path d="M12 7V13" stroke="#DC2626" strokeWidth="2"/>
-                <circle cx="12" cy="17" r="1.5" fill="#DC2626"/>
+                <circle cx="12" cy="12" r="10" fill="#FECACA" />
+                <path d="M12 7V13" stroke="#DC2626" strokeWidth="2" />
+                <circle cx="12" cy="17" r="1.5" fill="#DC2626" />
               </svg>
               {error}
             </div>
@@ -692,7 +689,7 @@ export default function CreateRequestPage() {
           {activeStep === 1 && (
             <div className={styles.stepContent}>
               <h2 className={styles.sectionTitle}>Основная информация</h2>
-              
+
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
                   <label className={styles.label}>
@@ -701,7 +698,7 @@ export default function CreateRequestPage() {
                   <input
                     type="text"
                     value={formData.objectName}
-                    onChange={(e) => setFormData({...formData, objectName: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, objectName: e.target.value })}
                     onFocus={() => setFocusedInput('objectName')}
                     onBlur={() => setFocusedInput(null)}
                     className={`${styles.input} ${focusedInput === 'objectName' ? styles.inputFocused : ''}`}
@@ -716,7 +713,7 @@ export default function CreateRequestPage() {
                   <input
                     type="text"
                     value={formData.govCustomerName}
-                    onChange={(e) => setFormData({...formData, govCustomerName: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, govCustomerName: e.target.value })}
                     onFocus={() => setFocusedInput('govCustomer')}
                     onBlur={() => setFocusedInput(null)}
                     className={`${styles.input} ${focusedInput === 'govCustomer' ? styles.inputFocused : ''}`}
@@ -728,7 +725,7 @@ export default function CreateRequestPage() {
                   <label className={styles.label}>Тип конфигурации</label>
                   <select
                     value={formData.configType}
-                    onChange={(e) => setFormData({...formData, configType: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, configType: e.target.value })}
                     className={styles.select}
                   >
                     <option value="КНС">КНС (Канализационная насосная станция)</option>
@@ -740,14 +737,14 @@ export default function CreateRequestPage() {
               </div>
 
               <h3 className={styles.subsectionTitle}>Контактная информация</h3>
-              
+
               <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Контактное лицо</label>
                   <input
                     type="text"
                     value={formData.contactPerson}
-                    onChange={(e) => setFormData({...formData, contactPerson: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, contactPerson: e.target.value })}
                     className={`${styles.input} ${styles.inputDisabled}`}
                     disabled
                   />
@@ -758,7 +755,7 @@ export default function CreateRequestPage() {
                   <input
                     type="tel"
                     value={formData.contactPhone}
-                    onChange={(e) => setFormData({...formData, contactPhone: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
                     className={styles.input}
                     placeholder="+7 (___) ___-__-__"
                   />
@@ -769,7 +766,7 @@ export default function CreateRequestPage() {
                   <input
                     type="email"
                     value={formData.contactEmail}
-                    onChange={(e) => setFormData({...formData, contactEmail: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
                     className={`${styles.input} ${styles.inputDisabled}`}
                     disabled
                   />
@@ -782,7 +779,7 @@ export default function CreateRequestPage() {
           {activeStep === 2 && (
             <div className={styles.stepContent}>
               <h2 className={styles.sectionTitle}>Технические параметры</h2>
-              
+
               {formData.configType === 'КНС' && (
                 <>
                   {/* Основные параметры насосов */}
@@ -795,7 +792,7 @@ export default function CreateRequestPage() {
                       <input
                         type="text"
                         value={knsData.capacity}
-                        onChange={(e) => setKnsData({...knsData, capacity: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, capacity: e.target.value })}
                         onFocus={() => setFocusedInput('capacity')}
                         onBlur={() => setFocusedInput(null)}
                         className={`${styles.input} ${focusedInput === 'capacity' ? styles.inputFocused : ''}`}
@@ -810,7 +807,7 @@ export default function CreateRequestPage() {
                       <input
                         type="text"
                         value={knsData.head}
-                        onChange={(e) => setKnsData({...knsData, head: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, head: e.target.value })}
                         onFocus={() => setFocusedInput('head')}
                         onBlur={() => setFocusedInput(null)}
                         className={`${styles.input} ${focusedInput === 'head' ? styles.inputFocused : ''}`}
@@ -823,7 +820,7 @@ export default function CreateRequestPage() {
                       <input
                         type="number"
                         value={knsData.workingPumps}
-                        onChange={(e) => setKnsData({...knsData, workingPumps: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, workingPumps: e.target.value })}
                         className={styles.input}
                         placeholder="например: 2"
                         min="0"
@@ -835,7 +832,7 @@ export default function CreateRequestPage() {
                       <input
                         type="number"
                         value={knsData.reservePumps}
-                        onChange={(e) => setKnsData({...knsData, reservePumps: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, reservePumps: e.target.value })}
                         className={styles.input}
                         placeholder="например: 1"
                         min="0"
@@ -847,7 +844,7 @@ export default function CreateRequestPage() {
                       <input
                         type="number"
                         value={knsData.stockPumps}
-                        onChange={(e) => setKnsData({...knsData, stockPumps: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, stockPumps: e.target.value })}
                         className={styles.input}
                         placeholder="например: 0"
                         min="0"
@@ -862,7 +859,7 @@ export default function CreateRequestPage() {
                       <label className={styles.label}>Перекачиваемая среда</label>
                       <select
                         value={knsData.medium}
-                        onChange={(e) => setKnsData({...knsData, medium: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, medium: e.target.value })}
                         className={styles.select}
                       >
                         {mediumOptions.map(option => (
@@ -876,7 +873,7 @@ export default function CreateRequestPage() {
                       <input
                         type="text"
                         value={knsData.temperature}
-                        onChange={(e) => setKnsData({...knsData, temperature: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, temperature: e.target.value })}
                         className={styles.input}
                         placeholder="°C"
                       />
@@ -888,7 +885,7 @@ export default function CreateRequestPage() {
                       <input
                         type="checkbox"
                         checked={knsData.explosionProof}
-                        onChange={(e) => setKnsData({...knsData, explosionProof: e.target.checked})}
+                        onChange={(e) => setKnsData({ ...knsData, explosionProof: e.target.checked })}
                       />
                       <span className={styles.checkboxLabel}>Взрывозащищенное исполнение</span>
                     </label>
@@ -896,7 +893,7 @@ export default function CreateRequestPage() {
 
                   {/* Габаритные размеры */}
                   <h3 className={styles.subsectionTitle}>Габаритные размеры трубопроводов и корпуса насосной станции</h3>
-                  
+
                   <div className={styles.dimensionsSection}>
                     <div className={styles.dimensionsForm}>
                       <table className={styles.dimensionsTable}>
@@ -913,7 +910,7 @@ export default function CreateRequestPage() {
                               <input
                                 type="text"
                                 value={knsData.inletDepth}
-                                onChange={(e) => setKnsData({...knsData, inletDepth: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, inletDepth: e.target.value })}
                                 className={styles.dimensionInput}
                                 placeholder="м"
                               />
@@ -926,14 +923,14 @@ export default function CreateRequestPage() {
                                 <input
                                   type="text"
                                   value={knsData.inletDiameter}
-                                  onChange={(e) => setKnsData({...knsData, inletDiameter: e.target.value})}
+                                  onChange={(e) => setKnsData({ ...knsData, inletDiameter: e.target.value })}
                                   className={styles.dimensionInputSmall}
                                   placeholder="мм"
                                 />
                                 <input
                                   type="text"
                                   value={knsData.inletMaterial}
-                                  onChange={(e) => setKnsData({...knsData, inletMaterial: e.target.value})}
+                                  onChange={(e) => setKnsData({ ...knsData, inletMaterial: e.target.value })}
                                   className={styles.dimensionInputSmall}
                                   placeholder="материал"
                                 />
@@ -945,7 +942,7 @@ export default function CreateRequestPage() {
                             <td>
                               <select
                                 value={knsData.inletDirection}
-                                onChange={(e) => setKnsData({...knsData, inletDirection: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, inletDirection: e.target.value })}
                                 className={styles.dimensionSelect}
                               >
                                 {directionOptions.map(opt => (
@@ -960,7 +957,7 @@ export default function CreateRequestPage() {
                               <input
                                 type="text"
                                 value={knsData.outletDepth}
-                                onChange={(e) => setKnsData({...knsData, outletDepth: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, outletDepth: e.target.value })}
                                 className={styles.dimensionInput}
                                 placeholder="м"
                               />
@@ -973,14 +970,14 @@ export default function CreateRequestPage() {
                                 <input
                                   type="text"
                                   value={knsData.outletDiameter}
-                                  onChange={(e) => setKnsData({...knsData, outletDiameter: e.target.value})}
+                                  onChange={(e) => setKnsData({ ...knsData, outletDiameter: e.target.value })}
                                   className={styles.dimensionInputSmall}
                                   placeholder="мм"
                                 />
                                 <input
                                   type="text"
                                   value={knsData.outletMaterial}
-                                  onChange={(e) => setKnsData({...knsData, outletMaterial: e.target.value})}
+                                  onChange={(e) => setKnsData({ ...knsData, outletMaterial: e.target.value })}
                                   className={styles.dimensionInputSmall}
                                   placeholder="материал"
                                 />
@@ -992,7 +989,7 @@ export default function CreateRequestPage() {
                             <td>
                               <select
                                 value={knsData.outletDirection}
-                                onChange={(e) => setKnsData({...knsData, outletDirection: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, outletDirection: e.target.value })}
                                 className={styles.dimensionSelect}
                               >
                                 {directionOptions.map(opt => (
@@ -1006,7 +1003,7 @@ export default function CreateRequestPage() {
                             <td>
                               <select
                                 value={knsData.outletCount}
-                                onChange={(e) => setKnsData({...knsData, outletCount: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, outletCount: e.target.value })}
                                 className={styles.dimensionSelect}
                               >
                                 <option value="1">1</option>
@@ -1020,7 +1017,7 @@ export default function CreateRequestPage() {
                               <input
                                 type="text"
                                 value={knsData.stationDiameter}
-                                onChange={(e) => setKnsData({...knsData, stationDiameter: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, stationDiameter: e.target.value })}
                                 className={styles.dimensionInput}
                                 placeholder="м"
                               />
@@ -1032,7 +1029,7 @@ export default function CreateRequestPage() {
                               <input
                                 type="text"
                                 value={knsData.stationHeight}
-                                onChange={(e) => setKnsData({...knsData, stationHeight: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, stationHeight: e.target.value })}
                                 className={styles.dimensionInput}
                                 placeholder="м"
                               />
@@ -1044,7 +1041,7 @@ export default function CreateRequestPage() {
                               <input
                                 type="text"
                                 value={knsData.insulation}
-                                onChange={(e) => setKnsData({...knsData, insulation: e.target.value})}
+                                onChange={(e) => setKnsData({ ...knsData, insulation: e.target.value })}
                                 className={styles.dimensionInput}
                                 placeholder="м"
                               />
@@ -1066,7 +1063,7 @@ export default function CreateRequestPage() {
                       <label className={styles.label}>Метод пуска электродвигателей</label>
                       <select
                         value={knsData.motorStartMethod}
-                        onChange={(e) => setKnsData({...knsData, motorStartMethod: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, motorStartMethod: e.target.value })}
                         className={styles.select}
                       >
                         {motorStartOptions.map(option => (
@@ -1079,7 +1076,7 @@ export default function CreateRequestPage() {
                       <label className={styles.label}>Количество вводов питания</label>
                       <select
                         value={knsData.powerInputs}
-                        onChange={(e) => setKnsData({...knsData, powerInputs: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, powerInputs: e.target.value })}
                         className={styles.select}
                       >
                         <option value="1">1</option>
@@ -1091,7 +1088,7 @@ export default function CreateRequestPage() {
                       <label className={styles.label}>Место установки шкафа</label>
                       <select
                         value={knsData.cabinetLocation}
-                        onChange={(e) => setKnsData({...knsData, cabinetLocation: e.target.value})}
+                        onChange={(e) => setKnsData({ ...knsData, cabinetLocation: e.target.value })}
                         className={styles.select}
                       >
                         {cabinetLocationOptions.map(option => (
@@ -1109,7 +1106,7 @@ export default function CreateRequestPage() {
                         <input
                           type="checkbox"
                           checked={value}
-                          onChange={(e) => setKnsExtras({...knsExtras, [key]: e.target.checked})}
+                          onChange={(e) => setKnsExtras({ ...knsExtras, [key]: e.target.checked })}
                         />
                         <span className={styles.checkboxLabel}>{key}</span>
                       </label>
@@ -1121,9 +1118,9 @@ export default function CreateRequestPage() {
               {formData.configType !== 'КНС' && (
                 <div className={styles.infoMessage}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2"/>
-                    <path d="M12 16V12" stroke="#4A85F6" strokeWidth="2"/>
-                    <circle cx="12" cy="8" r="1" fill="#4A85F6"/>
+                    <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2" />
+                    <path d="M12 16V12" stroke="#4A85F6" strokeWidth="2" />
+                    <circle cx="12" cy="8" r="1" fill="#4A85F6" />
                   </svg>
                   <p>
                     Для выбранного типа конфигурации дополнительные параметры будут доступны позже.
@@ -1138,7 +1135,7 @@ export default function CreateRequestPage() {
           {activeStep === 3 && (
             <div className={styles.stepContent}>
               <h2 className={styles.sectionTitle}>Проверка данных</h2>
-              
+
               <div className={styles.previewCard}>
                 <h3 className={styles.previewTitle}>Основная информация</h3>
                 <div className={styles.previewGrid}>
@@ -1265,34 +1262,34 @@ export default function CreateRequestPage() {
           {/* Кнопки навигации */}
           <div className={styles.formActions}>
             {activeStep > 1 && (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className={styles.secondaryButton}
                 onClick={handleBack}
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M19 12H5" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
+                  <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
                 </svg>
                 Назад
               </button>
             )}
-            
+
             {activeStep < 3 ? (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className={styles.primaryButton}
                 onClick={handleNext}
               >
                 Далее
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2"/>
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2"/>
+                  <path d="M5 12H19" stroke="white" strokeWidth="2" />
+                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" />
                 </svg>
               </button>
             ) : (
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className={styles.primaryButton}
                 onClick={handleSubmit}
                 disabled={isSubmitting}
@@ -1305,18 +1302,18 @@ export default function CreateRequestPage() {
                 ) : (
                   <>
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                      <path d="M20 14.66V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V4C4 2.9 4.9 2 6 2H14L20 8V14.66Z" stroke="white" strokeWidth="2"/>
-                      <path d="M14 2V8H20" stroke="white" strokeWidth="2"/>
-                      <path d="M12 22V16" stroke="white" strokeWidth="2"/>
+                      <path d="M20 14.66V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V4C4 2.9 4.9 2 6 2H14L20 8V14.66Z" stroke="white" strokeWidth="2" />
+                      <path d="M14 2V8H20" stroke="white" strokeWidth="2" />
+                      <path d="M12 22V16" stroke="white" strokeWidth="2" />
                     </svg>
                     {isEditMode ? 'Обновить заявку' : 'Создать заявку'}
                   </>
                 )}
               </button>
             )}
-            
-            <button 
-              type="button" 
+
+            <button
+              type="button"
               className={styles.tertiaryButton}
               onClick={() => navigate('/customer')}
             >

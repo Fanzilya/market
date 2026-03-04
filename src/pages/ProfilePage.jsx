@@ -5,7 +5,7 @@ import { getSessionUser, signOut } from '../auth/demoAuth.js'
 import Sidebar from '../components/Sidebar.jsx'
 import styles from './ProfilePage.module.css'
 
-export default function ProfilePage() {
+export const  ProfilePage = ()=> {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [isMounted, setIsMounted] = useState(false)

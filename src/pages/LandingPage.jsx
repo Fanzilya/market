@@ -3,7 +3,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getSessionUser, signOut } from '../auth/demoAuth.js'
 
-export default function LandingPage() {
+export const LandingPage = ()=> {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -628,7 +628,6 @@ export default function LandingPage() {
         }
       `}</style>
 
-      {/* Navigation */}
       <nav style={styles.navbar}>
         <div style={styles.navContainer}>
           <Link to="/" style={styles.logo}>
@@ -719,7 +718,6 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       {isMobileMenuOpen && (
         <div style={styles.mobileMenu}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -736,7 +734,6 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* Hero Section */}
       <section id="home" style={styles.hero}>
         <div style={{ ...styles.bgShape, width: '500px', height: '500px', top: '-200px', right: '-100px' }} />
         <div style={{ ...styles.bgShape, width: '400px', height: '400px', bottom: '-150px', left: '-100px' }} />
