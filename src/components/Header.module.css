@@ -1,0 +1,375 @@
+/* src/components/Header.module.css */
+.header {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background: white;
+    border-bottom: 1px solid #E2E8F0;
+    transition: all 0.3s ease;
+    width: 100%;
+  }
+  
+  .headerScrolled {
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+  }
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  
+  .headerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 80px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+  }
+  
+  .logoIcon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logoText {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .nav {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+  }
+  
+  .navLink {
+    font-size: 15px;
+    font-weight: 500;
+    color: #64748B;
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+    cursor: pointer;
+  }
+  
+  .navLink:hover {
+    color: #4A85F6;
+  }
+  
+  .navLink.active {
+    color: #4A85F6;
+  }
+  
+  .navLink.active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #4A85F6, #10B981);
+  }
+  
+  .headerRight {
+    display: flex;
+    align-items: center;
+  }
+  
+  .userMenu {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .userProfile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .userProfile:hover {
+    border-color: #4A85F6;
+    background: #F1F5F9;
+  }
+  
+  .avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .userName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1E293B;
+  }
+  
+  .logoutButton {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background: transparent;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    color: #64748B;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .logoutButton:hover {
+    border-color: #EF4444;
+    color: #EF4444;
+    background: #FEF2F2;
+  }
+  
+  .authButtons {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  .authButton {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #4A85F6;
+    background: transparent;
+    border: 2px solid rgba(74, 133, 246, 0.5);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+  
+  .authButton:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(74, 133, 246, 0.2);
+  }
+  
+  .authButtonFilled {
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    border: none;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 15px rgba(74, 133, 246, 0.3);
+    cursor: pointer;
+  }
+  
+  .authButtonFilled:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(74, 133, 246, 0.4);
+  }
+  
+  .mobileToggle {
+    display: none;
+    padding: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .mobileMenu {
+    display: none;
+    padding: 20px;
+    border-top: 1px solid #E2E8F0;
+  }
+  
+  .mobileLink {
+    display: block;
+    padding: 12px 0;
+    font-size: 16px;
+    color: #64748B;
+    text-decoration: none;
+    border-bottom: 1px solid #F1F5F9;
+    cursor: pointer;
+  }
+  
+  .mobileLink:hover {
+    color: #4A85F6;
+  }
+  
+  .mobileAuthButton {
+    display: block;
+    padding: 14px 0;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #4A85F6;
+    background: transparent;
+    border: 2px solid rgba(74, 133, 246, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .mobileAuthButtonFilled {
+    display: block;
+    padding: 14px 0;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: white;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  .mobileLogoutButton {
+    display: block;
+    width: 100%;
+    padding: 14px 0;
+    margin-top: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #EF4444;
+    background: transparent;
+    border: 2px solid rgba(239, 68, 68, 0.5);
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .mobileLogoutButton:hover {
+    background: #FEF2F2;
+    border-color: #EF4444;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .nav {
+      display: none;
+    }
+    
+    .mobileToggle {
+      display: block;
+    }
+    
+    .mobileMenu {
+      display: block;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .headerContent {
+      height: 70px;
+    }
+    
+    .logoText {
+      font-size: 18px;
+    }
+    
+    .logoIcon {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .authButtons {
+      display: none;
+    }
+    
+    .userMenu {
+      display: none;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .container {
+      padding: 0 16px;
+    }
+  }
+  
+  /* Темная тема */
+  :global(.dark-mode) .header {
+    background: #1E293B;
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark-mode) .headerScrolled {
+    background: rgba(30, 41, 59, 0.95);
+  }
+  
+  :global(.dark-mode) .navLink {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .navLink:hover,
+  :global(.dark-mode) .navLink.active {
+    color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .userProfile {
+    background: #334155;
+    border-color: #475569;
+  }
+  
+  :global(.dark-mode) .userName {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .logoutButton {
+    border-color: #475569;
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .logoutButton:hover {
+    border-color: #EF4444;
+    color: #EF4444;
+    background: #2D1E1E;
+  }
+  
+  :global(.dark-mode) .mobileMenu {
+    background: #1E293B;
+    border-top-color: #334155;
+  }
+  
+  :global(.dark-mode) .mobileLink {
+    color: #94A3B8;
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark-mode) .mobileLink:hover {
+    color: #4A85F6;
+  }
