@@ -13,14 +13,14 @@ const KNSSchema = ({ data, extras }) => {
     // Основные параметры
     workingPumps = '2',
     reservePumps = '1',
-    
+
     // Параметры трубопроводов
     inletDiameter = '250',
     inletDirection = '12',
     outletDiameter = '200',
     outletDirection = '3',
     outletCount = '1',
-    
+
     // Параметры станции
     stationDiameter = '3',
     stationHeight = '5',
@@ -35,7 +35,7 @@ const KNSSchema = ({ data, extras }) => {
       <svg width="100%" height="500" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid meet">
         {/* Основная схема КНС (вид сбоку) */}
         <g transform="translate(400, 250)">
-          
+
           {/* Корпус станции */}
           <rect
             x="-100"
@@ -47,11 +47,11 @@ const KNSSchema = ({ data, extras }) => {
             strokeWidth="3"
             rx="10"
           />
-          
+
           {/* Подписи размеров станции */}
           <text x="-120" y="-160" fontSize="10" fill="#64748b">⌀{stationDiameter}м</text>
           <text x="120" y="0" fontSize="10" fill="#64748b" transform="rotate(90, 120, 0)">H={stationHeight}м</text>
-          
+
           {/* Утепление (если указано) */}
           {insulation && parseFloat(insulation) > 0 && (
             <>
@@ -154,7 +154,7 @@ const KNSSchema = ({ data, extras }) => {
             <text x="-200" y="30" fontSize="9" fill="#64748b">
               {inletDiameter}мм
             </text>
-            
+
             {/* Решетка-дробилка */}
             {extras?.['Канальный измельчитель'] && (
               <g transform="translate(-160, 40)">
@@ -188,7 +188,7 @@ const KNSSchema = ({ data, extras }) => {
                 <text x="10" y="12" textAnchor="middle" fontSize="7" fill="white">з</text>
               </g>
             )}
-            
+
             {extras?.['Расходомер на напорном трубопроводе'] && (
               <g transform="translate(150, 30)">
                 <circle cx="0" cy="0" r="10" fill="#EC4899" opacity="0.6" />
@@ -229,7 +229,7 @@ const KNSSchema = ({ data, extras }) => {
   )
 }
 
-export const RequestDetailPage = ()=> {
+export default function RequestDetailPage() {
   const { requestId } = useParams()
   const user = getSessionUser()
   const navigate = useNavigate()
@@ -261,7 +261,7 @@ export const RequestDetailPage = ()=> {
   // Проверяем, есть ли КП и находится ли заявка в архиве
   const hasOffers = offers.length > 0
   const isArchived = request?.archived === true
-  
+
   // Редактирование доступно только если нет КП И заявка не в архиве
   const canEdit = !hasOffers && !isArchived
 
@@ -326,7 +326,7 @@ export const RequestDetailPage = ()=> {
 
   return (
     <div className={`${styles.page} ${darkMode ? styles.dark : ''}`}>
-      <Sidebar 
+      <Sidebar
         user={user}
         onLogout={() => navigate('/login')}
         darkMode={darkMode}
@@ -348,55 +348,55 @@ export const RequestDetailPage = ()=> {
               <span className={styles.current}>{request.id}</span>
             </div>
           </div>
-          
+
           <div className={styles.headerActions}>
             {!isSupplier && (
               <>
                 {isArchived && (
                   <span className={styles.archiveBadge}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                      <path d="M4 8H20V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8Z" stroke="currentColor" strokeWidth="2"/>
-                      <path d="M2 4H22V8H2V4Z" stroke="currentColor" strokeWidth="2"/>
+                      <path d="M4 8H20V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8Z" stroke="currentColor" strokeWidth="2" />
+                      <path d="M2 4H22V8H2V4Z" stroke="currentColor" strokeWidth="2" />
                     </svg>
                     В архиве
                   </span>
                 )}
-                <button 
+                <button
                   className={`${styles.editButton} ${!canEdit ? styles.editButtonDisabled : ''}`}
                   onClick={() => canEdit ? navigate(`/customer/request/${requestId}/edit`) : null}
                   disabled={!canEdit}
                   title={!canEdit ? (hasOffers ? 'Редактирование недоступно: есть коммерческие предложения' : 'Заявка в архиве') : ''}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" />
+                    <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" />
                   </svg>
                   Редактировать
                 </button>
               </>
             )}
-            
+
             {/* Кнопка перехода к КП (показываем всегда, если есть КП) */}
             {hasOffers && (
-              <button 
+              <button
                 className={styles.offersButton}
                 onClick={goToOffers}
                 title="Перейти к списку коммерческих предложений"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" />
                 </svg>
                 КП ({offers.length})
               </button>
             )}
-            
-            <button 
+
+            <button
               className={styles.backButton}
               onClick={() => navigate(isSupplier ? '/supplier' : '/customer')}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M19 12H5" stroke="currentColor" strokeWidth="2"/>
-                <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2"/>
+                <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
+                <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
               </svg>
               Назад
             </button>
@@ -465,7 +465,7 @@ export const RequestDetailPage = ()=> {
           {request.configType === 'КНС' && request.kns && (
             <>
               <h3 className={styles.sectionTitle}>Конфигурация КНС</h3>
-              
+
               {/* Основные параметры */}
               <div className={styles.paramsSection}>
                 <h4 className={styles.subsectionTitle}>Основные параметры</h4>
@@ -632,12 +632,12 @@ export const RequestDetailPage = ()=> {
                 <h3 className={styles.sectionTitle}>
                   Коммерческие предложения ({offers.length})
                 </h3>
-                <button 
+                <button
                   className={styles.viewAllOffersButton}
                   onClick={goToOffers}
                 >
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" />
                   </svg>
                   Все КП
                 </button>
@@ -666,7 +666,7 @@ export const RequestDetailPage = ()=> {
                 ))}
               </div>
               {offers.length > 3 && (
-                <button 
+                <button
                   className={styles.viewAllLink}
                   onClick={goToOffers}
                 >

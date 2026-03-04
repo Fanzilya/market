@@ -13,10 +13,10 @@ import { listAllRequests } from '../data/requests.js'
 import { createOffer, listOffersByRequestId } from '../data/offers.js'
 import styles from './SupplierPage.module.css'
 
-export const SupplierPage = ()=> {
+export default function SupplierPage() {
   const user = getSessionUser()
   const navigate = useNavigate()
-  
+
   // Состояния
   const [selectedRequest, setSelectedRequest] = useState(null)
   const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
@@ -28,7 +28,7 @@ export const SupplierPage = ()=> {
   const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'desc' })
   const [darkMode, setDarkMode] = useState(false)
   const [freeClicksLeft, setFreeClicksLeft] = useState(5) // 5 бесплатных кликов
-  
+
   const itemsPerPage = 15
 
   useEffect(() => {
@@ -54,7 +54,7 @@ export const SupplierPage = ()=> {
   const myOffers = useMemo(() => {
     if (!user?.email) return []
     const _ = refreshKey
-    return requests.flatMap(r => 
+    return requests.flatMap(r =>
       listOffersByRequestId(r.id).filter(
         o => String(o.supplierEmail || '').toLowerCase() === user.email.toLowerCase()
       )
@@ -110,7 +110,7 @@ export const SupplierPage = ()=> {
   const handleViewRequest = (request) => {
     // Проверяем, откликался ли уже исполнитель на эту заявку
     const hasOffer = myOffers.some(o => o.requestId === request.id)
-    
+
     if (hasOffer) {
       // Если уже откликался - показываем детали
       setSelectedRequest(request)
@@ -123,10 +123,10 @@ export const SupplierPage = ()=> {
         setShowFreeClicksModal(true)
       } else {
         // Бесплатные клики закончились - предложить оплатить
-        navigate('/billing', { 
-          state: { 
-            message: 'Бесплатные клики закончились. Для просмотра заявок необходимо пополнить счет.' 
-          } 
+        navigate('/billing', {
+          state: {
+            message: 'Бесплатные клики закончились. Для просмотра заявок необходимо пополнить счет.'
+          }
         })
       }
     }
@@ -137,7 +137,7 @@ export const SupplierPage = ()=> {
     setFreeClicksLeft(prev => prev - 1)
     setShowFreeClicksModal(false)
     setIsDetailsModalOpen(true)
-    
+
     // Здесь можно добавить логику отметки о том, что исполнитель откликнулся
     // Например, создать черновик предложения или отметить просмотр
   }
@@ -152,7 +152,7 @@ export const SupplierPage = ()=> {
       supplierCompany: user.company?.name ?? '',
       ...offerData
     })
-    
+
     setIsDetailsModalOpen(false)
     setSelectedRequest(null)
     setRefreshKey(prev => prev + 1)
@@ -225,23 +225,23 @@ export const SupplierPage = ()=> {
       render: (row) => {
         const hasOffer = myOffers.some(o => o.requestId === row.id)
         return (
-          <button 
+          <button
             className={`${styles.actionButton} ${hasOffer ? styles.viewButton : styles.respondButton}`}
             onClick={() => handleViewRequest(row)}
           >
             {hasOffer ? (
               <>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2"/>
-                  <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
+                  <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
                 </svg>
                 Просмотр
               </>
             ) : (
               <>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                  <path d="M12 5L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                  <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                  <path d="M12 5L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
                 Откликнуться
               </>
@@ -257,9 +257,9 @@ export const SupplierPage = ()=> {
       <div className={styles.container}>
         <div className={styles.errorState}>
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="#EF4444" strokeWidth="2"/>
-            <path d="M12 8V12" stroke="#EF4444" strokeWidth="2" strokeLinecap="round"/>
-            <circle cx="12" cy="16" r="1" fill="#EF4444"/>
+            <circle cx="12" cy="12" r="10" stroke="#EF4444" strokeWidth="2" />
+            <path d="M12 8V12" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" />
+            <circle cx="12" cy="16" r="1" fill="#EF4444" />
           </svg>
           <h2>Сессия не найдена</h2>
           <p>Пожалуйста, войдите в систему для продолжения</p>
@@ -273,13 +273,13 @@ export const SupplierPage = ()=> {
 
   return (
     <div className={`${styles.page} ${darkMode ? styles.dark : ''}`}>
-      <Sidebar 
+      <Sidebar
         user={user}
         onLogout={handleLogout}
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
       />
-      
+
       <div className={styles.mainContent}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
@@ -290,12 +290,12 @@ export const SupplierPage = ()=> {
               <span className={styles.breadcrumbActive}>Заявки</span>
             </div>
           </div>
-          
+
           <div className={styles.headerRight}>
             <div className={styles.clicksCounter}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2"/>
-                <path d="M12 6V12L16 14" stroke="#4A85F6" strokeWidth="2" strokeLinecap="round"/>
+                <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2" />
+                <path d="M12 6V12L16 14" stroke="#4A85F6" strokeWidth="2" strokeLinecap="round" />
               </svg>
               <span>Бесплатных кликов: <strong>{freeClicksLeft}</strong></span>
             </div>
@@ -307,7 +307,7 @@ export const SupplierPage = ()=> {
         </div>
 
         <div className={styles.searchSection}>
-          <SearchBar 
+          <SearchBar
             value={searchQuery}
             onChange={setSearchQuery}
             placeholder="Поиск по номеру, названию объекта, заказчику..."

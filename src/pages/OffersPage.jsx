@@ -8,7 +8,7 @@ import Sidebar from '../components/Sidebar.jsx'
 import * as XLSX from 'xlsx'
 import styles from './OffersPage.module.css'
 
-export const OffersPage = ()=> {
+export default function OffersPage() {
   const { requestId } = useParams()
   const user = getSessionUser()
   const navigate = useNavigate()
@@ -19,7 +19,7 @@ export const OffersPage = ()=> {
   const [sortOrder, setSortOrder] = useState('asc')
   const [filterCompany, setFilterCompany] = useState('all')
   const [selectAll, setSelectAll] = useState(false)
-  
+
   // Состояния для чата
   const [showChat, setShowChat] = useState(false)
   const [chatMessages, setChatMessages] = useState([])
@@ -30,7 +30,7 @@ export const OffersPage = ()=> {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     setDarkMode(savedTheme === 'dark')
-    
+
     // Загружаем сохраненные сообщения чата
     loadChatMessages()
   }, [])
@@ -151,7 +151,7 @@ export const OffersPage = ()=> {
     e.stopPropagation()
     setActiveChatSupplier({ id: supplierId, name: supplierName })
     setShowChat(true)
-    
+
     // Отмечаем сообщения как прочитанные
     const updatedMessages = chatMessages.map(chat => {
       if (chat.supplierId === supplierId) {
@@ -248,7 +248,7 @@ export const OffersPage = ()=> {
 
   const sortedOffers = useMemo(() => {
     let sorted = [...offers]
-    
+
     // Сортировка
     sorted.sort((a, b) => {
       if (sortBy === 'price') {
@@ -264,13 +264,13 @@ export const OffersPage = ()=> {
       if (sortBy === 'company') {
         const nameA = (a.supplierCompany || a.supplierFullName || '').toLowerCase()
         const nameB = (b.supplierCompany || b.supplierFullName || '').toLowerCase()
-        return sortOrder === 'asc' 
-          ? nameA.localeCompare(nameB) 
+        return sortOrder === 'asc'
+          ? nameA.localeCompare(nameB)
           : nameB.localeCompare(nameA)
       }
       return 0
     })
-    
+
     return sorted
   }, [offers, sortBy, sortOrder])
 
@@ -281,7 +281,7 @@ export const OffersPage = ()=> {
 
   const filteredOffers = useMemo(() => {
     if (filterCompany === 'all') return sortedOffers
-    return sortedOffers.filter(o => 
+    return sortedOffers.filter(o =>
       (o.supplierCompany || o.supplierFullName) === filterCompany
     )
   }, [sortedOffers, filterCompany])
@@ -290,7 +290,7 @@ export const OffersPage = ()=> {
     const prices = offers.map(o => parseFloat(o.price) || 0).filter(p => p > 0)
     const pricesWithVAT = offers.map(o => parseFloat(o.analysisData.priceWithVAT) || 0).filter(p => p > 0)
     const pricesWithoutVAT = offers.map(o => parseFloat(o.analysisData.priceWithoutVAT) || 0).filter(p => p > 0)
-    
+
     return {
       total: offers.length,
       minPrice: prices.length ? Math.min(...prices) : 0,
@@ -308,7 +308,7 @@ export const OffersPage = ()=> {
   // Функция для экспорта в Excel
   const exportToExcel = () => {
     // Определяем, какие предложения экспортировать (выбранные или все)
-    const offersToExport = selectedOffers.length > 0 
+    const offersToExport = selectedOffers.length > 0
       ? filteredOffers.filter(o => selectedOffers.includes(o.id))
       : filteredOffers
 
@@ -431,7 +431,7 @@ export const OffersPage = ()=> {
 
   return (
     <div className={`${styles.page} ${darkMode ? styles.dark : ''} ${showChat ? styles.withChat : ''}`}>
-      <Sidebar 
+      <Sidebar
         user={user}
         onLogout={() => navigate('/login')}
         darkMode={darkMode}
@@ -451,28 +451,28 @@ export const OffersPage = ()=> {
               <span className={styles.current}>{request.id}</span>
             </div>
           </div>
-          
+
           <div className={styles.headerActions}>
-            <button 
+            <button
               className={styles.backButton}
               onClick={() => navigate(`/customer/request/${requestId}`)}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M19 12H5" stroke="currentColor" strokeWidth="2"/>
-                <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2"/>
+                <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
+                <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
               </svg>
               Вернуться к заявке
             </button>
-            
+
             {selectedOffers.length > 0 && (
-              <button 
+              <button
                 className={styles.exportButton}
                 onClick={exportToExcel}
               >
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M12 15V3" stroke="currentColor" strokeWidth="2"/>
+                  <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" />
+                  <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" />
+                  <path d="M12 15V3" stroke="currentColor" strokeWidth="2" />
                 </svg>
                 Экспорт выбранных ({selectedOffers.length})
               </button>
@@ -530,7 +530,7 @@ export const OffersPage = ()=> {
         <div className={styles.filtersBar}>
           <div className={styles.filterGroup}>
             <label className={styles.filterLabel}>Сортировать по:</label>
-            <select 
+            <select
               className={styles.filterSelect}
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -539,7 +539,7 @@ export const OffersPage = ()=> {
               <option value="date">Дате</option>
               <option value="company">Компании</option>
             </select>
-            <button 
+            <button
               className={styles.sortOrderButton}
               onClick={() => setSortOrder(prev => prev === 'asc' ? 'desc' : 'asc')}
             >
@@ -550,7 +550,7 @@ export const OffersPage = ()=> {
           {companies.length > 1 && (
             <div className={styles.filterGroup}>
               <label className={styles.filterLabel}>Компания:</label>
-              <select 
+              <select
                 className={styles.filterSelect}
                 value={filterCompany}
                 onChange={(e) => setFilterCompany(e.target.value)}
@@ -584,8 +584,8 @@ export const OffersPage = ()=> {
           {filteredOffers.length === 0 ? (
             <div className={styles.emptyState}>
               <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth="2"/>
-                <path d="M12 8V12M12 16H12.01" stroke="#CBD5E1" strokeWidth="2"/>
+                <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth="2" />
+                <path d="M12 8V12M12 16H12.01" stroke="#CBD5E1" strokeWidth="2" />
               </svg>
               <h3>Коммерческие предложения отсутствуют</h3>
               <p>На данную заявку пока нет предложений от поставщиков</p>
@@ -593,14 +593,14 @@ export const OffersPage = ()=> {
           ) : (
             <div className={styles.offersGrid}>
               {filteredOffers.map((offer) => (
-                <div 
-                  key={offer.id} 
+                <div
+                  key={offer.id}
                   className={`${styles.offerCard} ${selectedOffer === offer.id ? styles.offerCardSelected : ''} ${selectedOffers.includes(offer.id) ? styles.offerCardChecked : ''}`}
                   onClick={() => setSelectedOffer(offer.id)}
                 >
                   <div className={styles.offerHeader}>
                     <div className={styles.offerCompany}>
-                      <button 
+                      <button
                         className={`${styles.checkboxButton} ${selectedOffers.includes(offer.id) ? styles.checkboxButtonChecked : ''}`}
                         onClick={(e) => {
                           e.stopPropagation()
@@ -665,12 +665,12 @@ export const OffersPage = ()=> {
 
                   {/* Кнопка чата */}
                   <div className={styles.offerFooter}>
-                    <button 
+                    <button
                       className={styles.chatButton}
                       onClick={(e) => openChat(offer.supplierId || `supplier_${offer.id}`, offer.supplierCompany || offer.supplierFullName, e)}
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
                       Чат с поставщиком
                     </button>
@@ -693,14 +693,14 @@ export const OffersPage = ()=> {
         {/* Кнопка экспорта (дублирующая внизу) */}
         {selectedOffers.length > 0 && (
           <div className={styles.bottomExport}>
-            <button 
+            <button
               className={styles.exportButtonLarge}
               onClick={exportToExcel}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2"/>
-                <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2"/>
-                <path d="M12 15V3" stroke="currentColor" strokeWidth="2"/>
+                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" />
+                <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" />
+                <path d="M12 15V3" stroke="currentColor" strokeWidth="2" />
               </svg>
               Экспортировать в Excel ({selectedOffers.length} предложений)
             </button>
@@ -716,7 +716,7 @@ export const OffersPage = ()=> {
               <h3 className={styles.chatTitle}>Чат с поставщиком</h3>
               <span className={styles.chatSupplierName}>{activeChatSupplier.name}</span>
             </div>
-            <button 
+            <button
               className={styles.chatCloseButton}
               onClick={() => setShowChat(false)}
             >
@@ -726,8 +726,8 @@ export const OffersPage = ()=> {
 
           <div className={styles.chatMessages}>
             {getActiveChatMessages().map((msg) => (
-              <div 
-                key={msg.id} 
+              <div
+                key={msg.id}
                 className={`${styles.chatMessage} ${msg.sender === 'customer' ? styles.customerMessage : styles.supplierMessage}`}
               >
                 <div className={styles.messageContent}>
@@ -756,14 +756,14 @@ export const OffersPage = ()=> {
                 }
               }}
             />
-            <button 
+            <button
               className={styles.sendButton}
               onClick={sendMessage}
               disabled={!newMessage.trim()}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </button>
           </div>

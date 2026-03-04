@@ -1,7 +1,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
-export const RegisterPage = ()=> {
+export default function RegisterPage() {
   const [role, setRole] = useState('customer')
   const [fullName, setFullName] = useState('')
   const [email, setEmail] = useState('')
@@ -359,7 +359,7 @@ export const RegisterPage = ()=> {
         setError('Название компании должно содержать минимум 2 символа')
         return
       }
-      
+
       if (!/^\d+$/.test(innDigitsOnly) || !isInnValid) {
         setError('Введите корректный ИНН (10 или 12 цифр)')
         return
@@ -375,10 +375,10 @@ export const RegisterPage = ()=> {
         email: email.trim(),
         ...(role === 'supplier'
           ? {
-              companyName: companyName.trim(),
-              companyInn: innDigitsOnly,
-              
-            }
+            companyName: companyName.trim(),
+            companyInn: innDigitsOnly,
+
+          }
           : {}),
       })
       setSuccess('✓ Регистрация успешна! Перенаправляем на вход…')
@@ -432,16 +432,16 @@ export const RegisterPage = ()=> {
       <div className="left-panel" style={styles.leftPanel}>
         <div style={styles.logo}>
           <svg style={styles.logoIcon} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)"/>
-            <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7"/>
+            <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)" />
+            <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7" />
             <defs>
               <linearGradient id="gradient1" x1="6" y1="16" x2="34" y2="16" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#10B981"/>
-                <stop offset="1" stopColor="#1877F2"/>
+                <stop stopColor="#10B981" />
+                <stop offset="1" stopColor="#1877F2" />
               </linearGradient>
               <linearGradient id="gradient2" x1="20" y1="4" x2="34" y2="28" gradientUnits="userSpaceOnUse">
-                <stop stopColor="#1877F2"/>
-                <stop offset="1" stopColor="#0D5CB8"/>
+                <stop stopColor="#1877F2" />
+                <stop offset="1" stopColor="#0D5CB8" />
               </linearGradient>
             </defs>
           </svg>
@@ -454,9 +454,9 @@ export const RegisterPage = ()=> {
         {error && (
           <div className="shake-animation" style={{ ...styles.errorMessage, width: '100%', maxWidth: 400 }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" fill="#fecaca"/>
-              <path d="M12 7V13" stroke="#dc2626" strokeWidth="2" strokeLinecap="round"/>
-              <circle cx="12" cy="17" r="1.5" fill="#dc2626"/>
+              <circle cx="12" cy="12" r="10" fill="#fecaca" />
+              <path d="M12 7V13" stroke="#dc2626" strokeWidth="2" strokeLinecap="round" />
+              <circle cx="12" cy="17" r="1.5" fill="#dc2626" />
             </svg>
             <span>{error}</span>
           </div>
@@ -465,8 +465,8 @@ export const RegisterPage = ()=> {
         {success && (
           <div style={{ ...styles.successMessage, width: '100%', maxWidth: 400 }}>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="12" cy="12" r="10" fill="#bbf7d0"/>
-              <path d="M8 12L11 15L16 9" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              <circle cx="12" cy="12" r="10" fill="#bbf7d0" />
+              <path d="M8 12L11 15L16 9" stroke="#16a34a" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
             <span>{success}</span>
           </div>
@@ -482,9 +482,9 @@ export const RegisterPage = ()=> {
           >
             <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg style={styles.roleIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2"/>
-                <path d="M8 12H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                <path d="M12 8V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" />
+                <path d="M8 12H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path d="M12 8V16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
               </svg>
               Исполнитель (поставщик)
             </span>
@@ -497,8 +497,8 @@ export const RegisterPage = ()=> {
           >
             <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <svg style={styles.roleIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M3 7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V7Z" stroke="currentColor" strokeWidth="2"/>
-                <path d="M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7" stroke="currentColor" strokeWidth="2"/>
+                <path d="M3 7C3 5.89543 3.89543 5 5 5H19C20.1046 5 21 5.89543 21 7V19C21 20.1046 20.1046 21 19 21H5C3.89543 21 3 20.1046 3 19V7Z" stroke="currentColor" strokeWidth="2" />
+                <path d="M8 7V5C8 3.89543 8.89543 3 10 3H14C15.1046 3 16 3.89543 16 5V7" stroke="currentColor" strokeWidth="2" />
               </svg>
               Заказчик (проектировщик)
             </span>
@@ -614,8 +614,8 @@ export const RegisterPage = ()=> {
               {isValidEmail && !error && (
                 <div style={styles.validIcon}>
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                    <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                    <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </div>
               )}
@@ -653,14 +653,14 @@ export const RegisterPage = ()=> {
               >
                 {showPassword ? (
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M2 12C2 12 5 6 12 6C19 6 22 12 22 12C22 12 19 18 12 18C5 18 2 12 2 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2"/>
+                    <path d="M2 12C2 12 5 6 12 6C19 6 22 12 22 12C22 12 19 18 12 18C5 18 2 12 2 12Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
                   </svg>
                 ) : (
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1 1L23 23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M16.51 16.51C15.29 17.53 13.73 18.17 12 18.17C5 18.17 2 12.17 2 12.17C2 12.17 2.53 11.09 3.58 10.04" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    <path d="M8.29 8.29C9.28 7.68 10.57 7.27 12 7.27C19 7.27 22 13.27 22 13.27C22 13.27 21.68 13.92 21.13 14.53" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    <path d="M1 1L23 23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M16.51 16.51C15.29 17.53 13.73 18.17 12 18.17C5 18.17 2 12.17 2 12.17C2 12.17 2.53 11.09 3.58 10.04" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M8.29 8.29C9.28 7.68 10.57 7.27 12 7.27C19 7.27 22 13.27 22 13.27C22 13.27 21.68 13.92 21.13 14.53" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 )}
               </button>
@@ -701,31 +701,31 @@ export const RegisterPage = ()=> {
         <div style={styles.rightContent}>
           <div style={styles.dashboardPreview}>
             <svg viewBox="0 0 520 340" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto' }}>
-              <rect width="520" height="340" fill="#ffffff"/>
-              <rect x="0" y="0" width="520" height="60" fill="#f8fafc"/>
-              <circle cx="30" cy="30" r="8" fill="#10B981"/>
-              <circle cx="55" cy="30" r="8" fill="#1877F2"/>
-              <rect x="80" y="22" width="120" height="16" rx="4" fill="#e2e8f0"/>
-              <rect x="400" y="20" width="100" height="20" rx="6" fill="#1877F2" opacity="0.2"/>
-              <rect x="410" y="25" width="40" height="10" rx="2" fill="#1877F2"/>
-              <rect x="20" y="80" width="150" height="120" rx="8" fill="#f1f5f9"/>
-              <rect x="30" y="95" width="100" height="8" rx="4" fill="#cbd5e1"/>
-              <rect x="30" y="115" width="80" height="6" rx="3" fill="#e2e8f0"/>
-              <rect x="30" y="130" width="60" height="6" rx="3" fill="#e2e8f0"/>
-              <rect x="190" y="80" width="310" height="120" rx="8" fill="#f1f5f9"/>
-              <rect x="200" y="95" width="150" height="8" rx="4" fill="#cbd5e1"/>
-              <path d="M200 180 L240 160 L280 175 L320 145 L360 165 L400 140 L440 155 L480 130" stroke="#1877F2" strokeWidth="3" fill="none" strokeLinecap="round"/>
-              <path d="M200 190 L240 185 L280 195 L320 180 L360 190 L400 175 L440 185 L480 170" stroke="#10B981" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6"/>
-              <rect x="20" y="220" width="230" height="100" rx="8" fill="#f1f5f9"/>
-              <rect x="30" y="235" width="100" height="8" rx="4" fill="#cbd5e1"/>
-              <circle cx="130" cy="270" r="30" fill="#1877F2" opacity="0.3"/>
-              <circle cx="130" cy="270" r="20" fill="#1877F2" opacity="0.5"/>
-              <circle cx="130" cy="270" r="10" fill="#1877F2"/>
-              <rect x="270" y="220" width="230" height="100" rx="8" fill="#f1f5f9"/>
-              <rect x="280" y="235" width="100" height="8" rx="4" fill="#cbd5e1"/>
-              <rect x="280" y="255" width="200" height="12" rx="4" fill="#e2e8f0"/>
-              <rect x="280" y="275" width="180" height="12" rx="4" fill="#e2e8f0"/>
-              <rect x="280" y="295" width="160" height="12" rx="4" fill="#e2e8f0"/>
+              <rect width="520" height="340" fill="#ffffff" />
+              <rect x="0" y="0" width="520" height="60" fill="#f8fafc" />
+              <circle cx="30" cy="30" r="8" fill="#10B981" />
+              <circle cx="55" cy="30" r="8" fill="#1877F2" />
+              <rect x="80" y="22" width="120" height="16" rx="4" fill="#e2e8f0" />
+              <rect x="400" y="20" width="100" height="20" rx="6" fill="#1877F2" opacity="0.2" />
+              <rect x="410" y="25" width="40" height="10" rx="2" fill="#1877F2" />
+              <rect x="20" y="80" width="150" height="120" rx="8" fill="#f1f5f9" />
+              <rect x="30" y="95" width="100" height="8" rx="4" fill="#cbd5e1" />
+              <rect x="30" y="115" width="80" height="6" rx="3" fill="#e2e8f0" />
+              <rect x="30" y="130" width="60" height="6" rx="3" fill="#e2e8f0" />
+              <rect x="190" y="80" width="310" height="120" rx="8" fill="#f1f5f9" />
+              <rect x="200" y="95" width="150" height="8" rx="4" fill="#cbd5e1" />
+              <path d="M200 180 L240 160 L280 175 L320 145 L360 165 L400 140 L440 155 L480 130" stroke="#1877F2" strokeWidth="3" fill="none" strokeLinecap="round" />
+              <path d="M200 190 L240 185 L280 195 L320 180 L360 190 L400 175 L440 185 L480 170" stroke="#10B981" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+              <rect x="20" y="220" width="230" height="100" rx="8" fill="#f1f5f9" />
+              <rect x="30" y="235" width="100" height="8" rx="4" fill="#cbd5e1" />
+              <circle cx="130" cy="270" r="30" fill="#1877F2" opacity="0.3" />
+              <circle cx="130" cy="270" r="20" fill="#1877F2" opacity="0.5" />
+              <circle cx="130" cy="270" r="10" fill="#1877F2" />
+              <rect x="270" y="220" width="230" height="100" rx="8" fill="#f1f5f9" />
+              <rect x="280" y="235" width="100" height="8" rx="4" fill="#cbd5e1" />
+              <rect x="280" y="255" width="200" height="12" rx="4" fill="#e2e8f0" />
+              <rect x="280" y="275" width="180" height="12" rx="4" fill="#e2e8f0" />
+              <rect x="280" y="295" width="160" height="12" rx="4" fill="#e2e8f0" />
             </svg>
           </div>
 

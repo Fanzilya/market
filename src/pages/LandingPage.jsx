@@ -1,9 +1,8 @@
-// src/pages/LandingPage.jsx
 import { useMemo, useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getSessionUser, signOut } from '../auth/demoAuth.js'
 
-export const LandingPage = ()=> {
+export default function LandingPage() {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -490,8 +489,8 @@ export const LandingPage = ()=> {
     {
       icon: (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
       title: 'Управление заявками',
@@ -500,8 +499,8 @@ export const LandingPage = ()=> {
     {
       icon: (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M7 11C9.76142 11 12 8.76142 12 6C12 3.23858 9.76142 1 7 1C4.23858 1 2 3.23858 2 6C2 8.76142 4.23858 11 7 11Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M17 21V19C17 17.9391 16.5786 16.9217 15.8284 16.1716C15.0783 15.4214 14.0609 15 13 15H5C3.93913 15 2.92172 15.4214 2.17157 16.1716C1.42143 16.9217 1 17.9391 1 19V21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M7 11C9.76142 11 12 8.76142 12 6C12 3.23858 9.76142 1 7 1C4.23858 1 2 3.23858 2 6C2 8.76142 4.23858 11 7 11Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
       title: 'Работа с исполнителями',
@@ -510,9 +509,9 @@ export const LandingPage = ()=> {
     {
       icon: (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
       title: 'Аналитика и отчёты',
@@ -521,8 +520,8 @@ export const LandingPage = ()=> {
     {
       icon: (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2"/>
-          <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+          <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" />
+          <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
         </svg>
       ),
       title: 'Контроль сроков',
@@ -531,9 +530,9 @@ export const LandingPage = ()=> {
     {
       icon: (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="2"/>
-          <path d="M7 11V7C7 4.79086 8.79086 3 11 3H13C15.2091 3 17 4.79086 17 7V11" stroke="currentColor" strokeWidth="2"/>
-          <circle cx="12" cy="16" r="1" fill="currentColor"/>
+          <rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" strokeWidth="2" />
+          <path d="M7 11V7C7 4.79086 8.79086 3 11 3H13C15.2091 3 17 4.79086 17 7V11" stroke="currentColor" strokeWidth="2" />
+          <circle cx="12" cy="16" r="1" fill="currentColor" />
         </svg>
       ),
       title: 'Безопасность данных',
@@ -542,7 +541,7 @@ export const LandingPage = ()=> {
     {
       icon: (
         <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 15C21 15.5523 20.5523 16 20 16H7L3 21V5C3 4.44772 3.44772 4 4 4H20C20.5523 4 21 4.44772 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+          <path d="M21 15C21 15.5523 20.5523 16 20 16H7L3 21V5C3 4.44772 3.44772 4 4 4H20C20.5523 4 21 4.44772 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       ),
       title: 'Поддержка 24/7',
@@ -632,16 +631,16 @@ export const LandingPage = ()=> {
         <div style={styles.navContainer}>
           <Link to="/" style={styles.logo}>
             <svg style={styles.logoIcon} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)"/>
-              <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7"/>
+              <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)" />
+              <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7" />
               <defs>
                 <linearGradient id="gradient1" x1="6" y1="16" x2="34" y2="16" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#10B981"/>
-                  <stop offset="1" stopColor="#4A85F6"/>
+                  <stop stopColor="#10B981" />
+                  <stop offset="1" stopColor="#4A85F6" />
                 </linearGradient>
                 <linearGradient id="gradient2" x1="20" y1="4" x2="34" y2="28" gradientUnits="userSpaceOnUse">
-                  <stop stopColor="#4A85F6"/>
-                  <stop offset="1" stopColor="#3A6BC9"/>
+                  <stop stopColor="#4A85F6" />
+                  <stop offset="1" stopColor="#3A6BC9" />
                 </linearGradient>
               </defs>
             </svg>
@@ -705,12 +704,12 @@ export const LandingPage = ()=> {
           >
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               {isMobileMenuOpen ? (
-                <path d="M18 6L6 18M6 6L18 18" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M18 6L6 18M6 6L18 18" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               ) : (
                 <>
-                  <path d="M3 12H21" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M3 6H21" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M3 18H21" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M3 12H21" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M3 6H21" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M3 18H21" stroke={PRIMARY} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </>
               )}
             </svg>
@@ -750,15 +749,15 @@ export const LandingPage = ()=> {
             <div style={styles.heroButtons}>
               <Link to="/register" style={styles.heroButton}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <path d="M5 12H19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M12 5L19 12L12 19" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
                 Начать бесплатно
               </Link>
               <a href="#features" style={styles.heroButtonSecondary}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
-                  <path d="M10 8L16 12L10 16V8Z" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
+                  <path d="M10 8L16 12L10 16V8Z" fill="currentColor" />
                 </svg>
                 Узнать больше
               </a>
@@ -767,42 +766,42 @@ export const LandingPage = ()=> {
 
           <div style={styles.heroImage}>
             <svg viewBox="0 0 600 500" fill="none" xmlns="http://www.w3.org/2000/svg" style={{ width: '100%', height: 'auto' }}>
-              <rect width="600" height="500" fill="#F8FAFC"/>
-              
+              <rect width="600" height="500" fill="#F8FAFC" />
+
               {/* Dashboard Header */}
-              <rect x="0" y="0" width="600" height="70" fill="#ffffff" stroke="#E2E8F0" strokeWidth="2"/>
-              <rect x="20" y="20" width="120" height="30" rx="6" fill="#4A85F6"/>
-              <circle cx="540" cy="35" r="15" fill="#4A85F6"/>
-              
+              <rect x="0" y="0" width="600" height="70" fill="#ffffff" stroke="#E2E8F0" strokeWidth="2" />
+              <rect x="20" y="20" width="120" height="30" rx="6" fill="#4A85F6" />
+              <circle cx="540" cy="35" r="15" fill="#4A85F6" />
+
               {/* Sidebar */}
-              <rect x="0" y="70" width="180" height="430" fill="#ffffff" stroke="#E2E8F0" strokeWidth="2"/>
-              <rect x="20" y="90" width="140" height="30" rx="6" fill="#EBF5FF"/>
-              <rect x="20" y="130" width="140" height="25" rx="4" fill="#F1F5F9"/>
-              <rect x="20" y="165" width="140" height="25" rx="4" fill="#F1F5F9"/>
-              <rect x="20" y="200" width="140" height="25" rx="4" fill="#F1F5F9"/>
-              
+              <rect x="0" y="70" width="180" height="430" fill="#ffffff" stroke="#E2E8F0" strokeWidth="2" />
+              <rect x="20" y="90" width="140" height="30" rx="6" fill="#EBF5FF" />
+              <rect x="20" y="130" width="140" height="25" rx="4" fill="#F1F5F9" />
+              <rect x="20" y="165" width="140" height="25" rx="4" fill="#F1F5F9" />
+              <rect x="20" y="200" width="140" height="25" rx="4" fill="#F1F5F9" />
+
               {/* Main Content */}
-              <rect x="180" y="70" width="420" height="430" fill="#F4F7FE"/>
-              
+              <rect x="180" y="70" width="420" height="430" fill="#F4F7FE" />
+
               {/* Stats Cards */}
-              <rect x="200" y="90" width="180" height="100" rx="12" fill="#ffffff" stroke="#E2E8F0"/>
-              <rect x="220" y="110" width="80" height="20" rx="4" fill="#CBD5E1"/>
-              <rect x="220" y="145" width="120" height="30" rx="6" fill="#4A85F6"/>
-              
-              <rect x="400" y="90" width="180" height="100" rx="12" fill="#ffffff" stroke="#E2E8F0"/>
-              <rect x="420" y="110" width="80" height="20" rx="4" fill="#CBD5E1"/>
-              <rect x="420" y="145" width="120" height="30" rx="6" fill="#10B981"/>
-              
+              <rect x="200" y="90" width="180" height="100" rx="12" fill="#ffffff" stroke="#E2E8F0" />
+              <rect x="220" y="110" width="80" height="20" rx="4" fill="#CBD5E1" />
+              <rect x="220" y="145" width="120" height="30" rx="6" fill="#4A85F6" />
+
+              <rect x="400" y="90" width="180" height="100" rx="12" fill="#ffffff" stroke="#E2E8F0" />
+              <rect x="420" y="110" width="80" height="20" rx="4" fill="#CBD5E1" />
+              <rect x="420" y="145" width="120" height="30" rx="6" fill="#10B981" />
+
               {/* Chart */}
-              <rect x="200" y="210" width="380" height="180" rx="12" fill="#ffffff" stroke="#E2E8F0"/>
-              <path d="M220 350 L260 320 L300 340 L340 300 L380 310 L420 280 L460 290 L500 260 L540 270 L560 250" stroke="#4A85F6" strokeWidth="3" fill="none" strokeLinecap="round"/>
-              <path d="M220 360 L260 340 L300 355 L340 330 L380 340 L420 320 L460 330 L500 310 L540 320 L560 305" stroke="#10B981" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6"/>
-              
+              <rect x="200" y="210" width="380" height="180" rx="12" fill="#ffffff" stroke="#E2E8F0" />
+              <path d="M220 350 L260 320 L300 340 L340 300 L380 310 L420 280 L460 290 L500 260 L540 270 L560 250" stroke="#4A85F6" strokeWidth="3" fill="none" strokeLinecap="round" />
+              <path d="M220 360 L260 340 L300 355 L340 330 L380 340 L420 320 L460 330 L500 310 L540 320 L560 305" stroke="#10B981" strokeWidth="3" fill="none" strokeLinecap="round" opacity="0.6" />
+
               {/* Table */}
-              <rect x="200" y="410" width="380" height="80" rx="12" fill="#ffffff" stroke="#E2E8F0"/>
-              <rect x="220" y="430" width="340" height="15" rx="3" fill="#F1F5F9"/>
-              <rect x="220" y="455" width="340" height="15" rx="3" fill="#F1F5F9"/>
-              <rect x="220" y="480" width="340" height="15" rx="3" fill="#F1F5F9"/>
+              <rect x="200" y="410" width="380" height="80" rx="12" fill="#ffffff" stroke="#E2E8F0" />
+              <rect x="220" y="430" width="340" height="15" rx="3" fill="#F1F5F9" />
+              <rect x="220" y="455" width="340" height="15" rx="3" fill="#F1F5F9" />
+              <rect x="220" y="480" width="340" height="15" rx="3" fill="#F1F5F9" />
             </svg>
           </div>
         </div>
@@ -882,8 +881,8 @@ export const LandingPage = ()=> {
                   {(activeTab === 'customer' ? customerFeatures : supplierFeatures).slice(0, 5).map((item, idx) => (
                     <li key={idx} style={styles.roleListItem}>
                       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ color: PRIMARY, flexShrink: 0 }}>
-                        <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/>
+                        <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
                       </svg>
                       {item.text}
                     </li>
@@ -931,16 +930,16 @@ export const LandingPage = ()=> {
           <div style={styles.footerColumn}>
             <div style={styles.logo}>
               <svg style={styles.logoIcon} viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)"/>
-                <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7"/>
+                <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)" />
+                <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7" />
                 <defs>
                   <linearGradient id="gradient1" x1="6" y1="16" x2="34" y2="16" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#10B981"/>
-                    <stop offset="1" stopColor="#4A85F6"/>
+                    <stop stopColor="#10B981" />
+                    <stop offset="1" stopColor="#4A85F6" />
                   </linearGradient>
                   <linearGradient id="gradient2" x1="20" y1="4" x2="34" y2="28" gradientUnits="userSpaceOnUse">
-                    <stop stopColor="#4A85F6"/>
-                    <stop offset="1" stopColor="#3A6BC9"/>
+                    <stop stopColor="#4A85F6" />
+                    <stop offset="1" stopColor="#3A6BC9" />
                   </linearGradient>
                 </defs>
               </svg>
