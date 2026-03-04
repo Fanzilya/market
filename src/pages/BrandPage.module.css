@@ -1,6 +1,7 @@
 /* src/pages/BrandPage.module.css */
 .page {
     display: flex;
+    flex-direction: column;
     min-height: 100vh;
     background: #F8FAFC;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -8,27 +9,27 @@
   
   .main {
     flex: 1;
-    margin-left: 280px;
-    padding: 32px;
-    transition: margin-left 0.3s ease;
+    width: 100%;
+    padding: 40px 0 60px;
   }
   
-  /* Шапка */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  
+  /* Шапка страницы */
   .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     margin-bottom: 32px;
-    flex-wrap: wrap;
-    gap: 16px;
   }
   
   .title {
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
     color: #1E293B;
-    margin: 0 0 4px 0;
-    letter-spacing: -0.3px;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
   }
   
   .breadcrumbs {
@@ -37,6 +38,7 @@
     gap: 8px;
     font-size: 14px;
     color: #64748B;
+    flex-wrap: wrap;
   }
   
   .breadcrumb {
@@ -57,28 +59,7 @@
     font-weight: 500;
   }
   
-  .backButton {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 18px;
-    background: white;
-    border: 1px solid #E2E8F0;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #64748B;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .backButton:hover {
-    border-color: #4A85F6;
-    color: #4A85F6;
-    background: #F8FAFC;
-  }
-  
-  /* Шапка бренда */
+  /* Информация о бренде */
   .brandHeader {
     display: flex;
     gap: 32px;
@@ -87,18 +68,6 @@
     border-radius: 20px;
     border: 1px solid #E2E8F0;
     margin-bottom: 32px;
-    animation: slideUp 0.5s ease;
-  }
-  
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
   }
   
   .brandLogo {
@@ -112,11 +81,6 @@
     font-size: 60px;
     flex-shrink: 0;
     box-shadow: 0 10px 30px rgba(74, 133, 246, 0.3);
-    transition: transform 0.3s ease;
-  }
-  
-  .brandLogo:hover {
-    transform: scale(1.05) rotate(5deg);
   }
   
   .brandInfo {
@@ -245,12 +209,6 @@
   /* Контент табов */
   .tabContent {
     min-height: 400px;
-    animation: fadeIn 0.3s ease;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
   }
   
   /* Фильтр категорий */
@@ -279,13 +237,11 @@
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 8px center;
-    transition: all 0.2s;
   }
   
   .categorySelect:focus {
     outline: none;
     border-color: #4A85F6;
-    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
   }
   
   /* Сетка товаров */
@@ -302,27 +258,9 @@
     padding: 20px;
     cursor: pointer;
     transition: all 0.3s ease;
-    animation: fadeInUp 0.5s ease;
-    animation-fill-mode: both;
+    display: flex;
+    flex-direction: column;
   }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .productCard:nth-child(1) { animation-delay: 0.1s; }
-  .productCard:nth-child(2) { animation-delay: 0.2s; }
-  .productCard:nth-child(3) { animation-delay: 0.3s; }
-  .productCard:nth-child(4) { animation-delay: 0.4s; }
-  .productCard:nth-child(5) { animation-delay: 0.5s; }
-  .productCard:nth-child(6) { animation-delay: 0.6s; }
   
   .productCardHover {
     transform: translateY(-8px);
@@ -340,7 +278,6 @@
     justify-content: center;
     font-size: 48px;
     margin-bottom: 16px;
-    transition: transform 0.3s ease;
   }
   
   .productCard:hover .productImage {
@@ -369,12 +306,14 @@
     color: #64748B;
     line-height: 1.5;
     margin-bottom: 16px;
+    flex: 1;
   }
   
   .productFooter {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    margin-top: auto;
   }
   
   .productPrice {
@@ -416,38 +355,16 @@
     border: 1px solid #E2E8F0;
     border-radius: 12px;
     transition: all 0.2s;
-    animation: slideInRight 0.5s ease;
-    animation-fill-mode: both;
   }
-  
-  @keyframes slideInRight {
-    from {
-      opacity: 0;
-      transform: translateX(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateX(0);
-    }
-  }
-  
-  .documentItem:nth-child(1) { animation-delay: 0.1s; }
-  .documentItem:nth-child(2) { animation-delay: 0.2s; }
-  .documentItem:nth-child(3) { animation-delay: 0.3s; }
   
   .documentItem:hover {
     border-color: #4A85F6;
     box-shadow: 0 4px 12px rgba(74, 133, 246, 0.1);
-    transform: translateX(4px);
   }
   
   .documentItem svg {
     color: #4A85F6;
-    transition: transform 0.2s;
-  }
-  
-  .documentItem:hover svg {
-    transform: scale(1.1);
+    flex-shrink: 0;
   }
   
   .documentInfo {
@@ -477,6 +394,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    white-space: nowrap;
   }
   
   .downloadButton:hover {
@@ -497,12 +415,7 @@
   
   .emptyState svg {
     margin-bottom: 20px;
-    animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    opacity: 0.5;
   }
   
   .emptyState h3 {
@@ -521,10 +434,9 @@
   /* Страница ошибки */
   .errorContainer {
     display: flex;
-    min-height: 100vh;
+    min-height: 400px;
     align-items: center;
     justify-content: center;
-    background: #F8FAFC;
   }
   
   .errorCard {
@@ -535,29 +447,11 @@
     text-align: center;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     border: 1px solid #E2E8F0;
-    animation: scaleIn 0.3s ease;
-  }
-  
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
   }
   
   .errorIcon {
     font-size: 48px;
     margin-bottom: 20px;
-    animation: bounce 1s infinite;
-  }
-  
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-10px); }
   }
   
   .errorCard h2 {
@@ -571,7 +465,6 @@
     font-size: 15px;
     color: #64748B;
     margin: 0 0 24px 0;
-    line-height: 1.5;
   }
   
   .primaryButton {
@@ -595,50 +488,6 @@
     box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
   }
   
-  /* Темная тема */
-  :global(.dark-mode) .page {
-    background: #0F172A;
-  }
-  
-  :global(.dark-mode) .title {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .brandHeader,
-  :global(.dark-mode) .productCard,
-  :global(.dark-mode) .documentItem,
-  :global(.dark-mode) .emptyState,
-  :global(.dark-mode) .errorCard {
-    background: #1E293B;
-    border-color: #334155;
-  }
-  
-  :global(.dark-mode) .brandName,
-  :global(.dark-mode) .productName,
-  :global(.dark-mode) .documentName,
-  :global(.dark-mode) .emptyState h3,
-  :global(.dark-mode) .errorCard h2 {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .brandDescription,
-  :global(.dark-mode) .productDescription,
-  :global(.dark-mode) .emptyState p {
-    color: #94A3B8;
-  }
-  
-  :global(.dark-mode) .backButton {
-    background: #1E293B;
-    border-color: #334155;
-    color: #94A3B8;
-  }
-  
-  :global(.dark-mode) .backButton:hover {
-    border-color: #4A85F6;
-    color: #4A85F6;
-    background: #2D3A4F;
-  }
-  
   /* Адаптивность */
   @media (max-width: 1024px) {
     .productsGrid {
@@ -648,14 +497,28 @@
   
   @media (max-width: 768px) {
     .main {
-      margin-left: 0;
-      padding: 20px;
+      padding: 20px 0 40px;
+    }
+    
+    .container {
+      padding: 0 16px;
+    }
+    
+    .title {
+      font-size: 28px;
     }
     
     .brandHeader {
       flex-direction: column;
       align-items: center;
       text-align: center;
+      padding: 24px;
+    }
+    
+    .brandLogo {
+      width: 100px;
+      height: 100px;
+      font-size: 50px;
     }
     
     .brandMeta {
@@ -702,4 +565,72 @@
     .metaDivider {
       display: none;
     }
+    
+    .categoryFilter {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    
+    .categorySelect {
+      width: 100%;
+    }
+    
+    .productFooter {
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .productButton {
+      width: 100%;
+    }
+  }
+  
+  /* Темная тема */
+  :global(.dark-mode) .page {
+    background: #0F172A;
+  }
+  
+  :global(.dark-mode) .title {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .brandHeader,
+  :global(.dark-mode) .productCard,
+  :global(.dark-mode) .documentItem,
+  :global(.dark-mode) .emptyState,
+  :global(.dark-mode) .errorCard {
+    background: #1E293B;
+    border-color: #334155;
+  }
+  
+  :global(.dark-mode) .brandName,
+  :global(.dark-mode) .productName,
+  :global(.dark-mode) .documentName,
+  :global(.dark-mode) .emptyState h3,
+  :global(.dark-mode) .errorCard h2 {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .brandDescription,
+  :global(.dark-mode) .productDescription,
+  :global(.dark-mode) .emptyState p,
+  :global(.dark-mode) .errorCard p {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .categorySelect {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .downloadButton {
+    background: #334155;
+    border-color: #475569;
+    color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .downloadButton:hover {
+    background: #4A85F6;
+    color: white;
   }

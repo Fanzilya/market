@@ -1,0 +1,447 @@
+/* src/pages/RegisterPage.module.css */
+.page {
+    min-height: 100vh;
+    background: #F8FAFC;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  
+  .pageMounted {
+    opacity: 1;
+  }
+  
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+
+    margin: 0 auto;
+  }
+  
+  /* Левая колонка - форма */
+  .formColumn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+    background: white;
+  }
+  
+  .formContainer {
+    width: 100%;
+    max-width: 440px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    cursor: pointer;
+  }
+  
+  .logoIcon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logoText {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0 0 8px 0;
+  }
+  
+  .subtitle {
+    font-size: 15px;
+    color: #64748B;
+    margin-bottom: 32px;
+  }
+  
+  /* Выбор роли */
+  .roleSelector {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .roleButton {
+    padding: 12px 16px;
+    background: #F8FAFC;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+  }
+  
+  .roleButton:hover {
+    border-color: #4A85F6;
+    background: #F1F5F9;
+    color: #1E293B;
+  }
+  
+  .roleButtonActive {
+    border-color: #4A85F6;
+    background: rgba(74, 133, 246, 0.1);
+    color: #4A85F6;
+  }
+  
+  /* Форма */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.2s;
+    background: #F8FAFC;
+    box-sizing: border-box;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #4A85F6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  .inputFocused {
+    border-color: #4A85F6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  /* Поле с паролем */
+  .passwordWrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .inputPassword {
+    padding-right: 48px;
+  }
+  
+  .passwordToggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94A3B8;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+  }
+  
+  .passwordToggle:hover {
+    color: #4A85F6;
+  }
+  
+  /* Кнопка отправки */
+  .submitButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 133, 246, 0.3);
+    margin-top: 8px;
+  }
+  
+  .submitButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 133, 246, 0.4);
+  }
+  
+  .submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  /* Спиннер */
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Ссылка на логин */
+  .loginLink {
+    text-align: center;
+    font-size: 14px;
+    color: #64748B;
+    margin-top: 16px;
+  }
+  
+  .link {
+    color: #4A85F6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.2s;
+  }
+  
+  .link:hover {
+    color: #3A6BC9;
+    text-decoration: underline;
+  }
+  
+  /* Сообщение об ошибке */
+  .errorMessage {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 10px;
+    color: #DC2626;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  /* Правая колонка - промо */
+  .promoColumn {
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .promoColumn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .promoColumn::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .promoContent {
+    max-width: 600px;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .promoBadge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .promoTitle {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  
+  .promoDescription {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 24px;
+    opacity: 0.9;
+  }
+  
+  .promoDescription strong {
+    color: white;
+    font-weight: 700;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+  
+  .promoFeatures {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .promoFeature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  
+  .promoFeature span {
+    color: white;
+  }
+  
+  .promoFeature::before {
+    content: '✓';
+    color: white;
+    font-weight: 700;
+    font-size: 16px;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+    
+    .formColumn {
+      padding: 40px 24px;
+    }
+    
+    .promoColumn {
+      padding: 60px 24px;
+      min-height: 400px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .title {
+      font-size: 28px;
+    }
+    
+    .roleSelector {
+      grid-template-columns: 1fr;
+    }
+    
+    .promoTitle {
+      font-size: 24px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .formColumn {
+      padding: 30px 16px;
+    }
+    
+    .logoText {
+      font-size: 18px;
+    }
+    
+    .logoIcon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+  
+  /* Темная тема */
+  :global(.dark-mode) .page {
+    background: #0F172A;
+  }
+  
+  :global(.dark-mode) .formColumn {
+    background: #1E293B;
+  }
+  
+  :global(.dark-mode) .title,
+  :global(.dark-mode) .label {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .subtitle {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .input {
+    background: #334155;
+    border-color: #475569;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .input:focus {
+    border-color: #4A85F6;
+    background: #1E293B;
+  }
+  
+  :global(.dark-mode) .roleButton {
+    background: #334155;
+    border-color: #475569;
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .roleButton:hover {
+    border-color: #4A85F6;
+    background: #3D4A5C;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .roleButtonActive {
+    background: rgba(74, 133, 246, 0.2);
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .promoColumn {
+    background: linear-gradient(135deg, #0F172A, #1E293B);
+  }

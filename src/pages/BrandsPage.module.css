@@ -1,6 +1,7 @@
 /* src/pages/BrandsPage.module.css */
 .page {
     display: flex;
+    flex-direction: column;
     min-height: 100vh;
     background: #F8FAFC;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -8,22 +9,27 @@
   
   .main {
     flex: 1;
-    margin-left: 280px;
-    padding: 32px;
-    transition: margin-left 0.3s ease;
+    width: 100%;
+    padding: 40px 0 60px;
   }
   
-  /* Шапка */
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+  
+  /* Шапка страницы */
   .header {
     margin-bottom: 32px;
   }
   
   .title {
-    font-size: 28px;
-    font-weight: 600;
+    font-size: 32px;
+    font-weight: 700;
     color: #1E293B;
-    margin: 0 0 4px 0;
-    letter-spacing: -0.3px;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.5px;
   }
   
   .breadcrumbs {
@@ -32,6 +38,7 @@
     gap: 8px;
     font-size: 14px;
     color: #64748B;
+    flex-wrap: wrap;
   }
   
   .breadcrumb {
@@ -66,25 +73,7 @@
     padding: 24px;
     border: 1px solid #E2E8F0;
     transition: all 0.3s ease;
-    animation: scaleIn 0.5s ease;
-    animation-fill-mode: both;
   }
-  
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-  
-  .statCard:nth-child(1) { animation-delay: 0.1s; }
-  .statCard:nth-child(2) { animation-delay: 0.2s; }
-  .statCard:nth-child(3) { animation-delay: 0.3s; }
-  .statCard:nth-child(4) { animation-delay: 0.4s; }
   
   .statCard:hover {
     transform: translateY(-4px);
@@ -194,27 +183,9 @@
     padding: 24px;
     cursor: pointer;
     transition: all 0.3s ease;
-    animation: fadeInUp 0.5s ease;
-    animation-fill-mode: both;
+    display: flex;
+    flex-direction: column;
   }
-  
-  @keyframes fadeInUp {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .brandCard:nth-child(1) { animation-delay: 0.1s; }
-  .brandCard:nth-child(2) { animation-delay: 0.15s; }
-  .brandCard:nth-child(3) { animation-delay: 0.2s; }
-  .brandCard:nth-child(4) { animation-delay: 0.25s; }
-  .brandCard:nth-child(5) { animation-delay: 0.3s; }
-  .brandCard:nth-child(6) { animation-delay: 0.35s; }
   
   .brandCardHover {
     transform: translateY(-8px);
@@ -311,6 +282,7 @@
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s;
+    margin-top: auto;
   }
   
   .viewButton:hover {
@@ -328,22 +300,11 @@
     border-radius: 16px;
     border: 1px solid #E2E8F0;
     grid-column: 1 / -1;
-    animation: fadeIn 0.5s ease;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
   }
   
   .emptyState svg {
     margin-bottom: 20px;
-    animation: pulse 2s infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.5; }
+    opacity: 0.5;
   }
   
   .emptyState h3 {
@@ -359,122 +320,6 @@
     margin: 0;
   }
   
-  /* Страница ошибки */
-  .errorContainer {
-    display: flex;
-    min-height: 100vh;
-    align-items: center;
-    justify-content: center;
-    background: #F8FAFC;
-  }
-  
-  .errorCard {
-    background: white;
-    border-radius: 24px;
-    padding: 40px;
-    max-width: 400px;
-    text-align: center;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    border: 1px solid #E2E8F0;
-    animation: slideDown 0.5s ease;
-  }
-  
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-30px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .errorIcon {
-    font-size: 48px;
-    margin-bottom: 20px;
-    animation: shake 0.5s ease;
-  }
-  
-  @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
-  }
-  
-  .errorCard h2 {
-    font-size: 24px;
-    font-weight: 700;
-    color: #1E293B;
-    margin: 0 0 12px 0;
-  }
-  
-  .errorCard p {
-    font-size: 15px;
-    color: #64748B;
-    margin: 0 0 24px 0;
-  }
-  
-  .primaryButton {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 12px 24px;
-    background: #4A85F6;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .primaryButton:hover {
-    background: #3A6BC9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
-  }
-  
-  /* Темная тема */
-  :global(.dark-mode) .page {
-    background: #0F172A;
-  }
-  
-  :global(.dark-mode) .title {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .statCard,
-  :global(.dark-mode) .filtersBar,
-  :global(.dark-mode) .brandCard,
-  :global(.dark-mode) .emptyState,
-  :global(.dark-mode) .errorCard {
-    background: #1E293B;
-    border-color: #334155;
-  }
-  
-  :global(.dark-mode) .statValue {
-    color: #4A85F6;
-  }
-  
-  :global(.dark-mode) .brandName,
-  :global(.dark-mode) .brandStatValue,
-  :global(.dark-mode) .emptyState h3,
-  :global(.dark-mode) .errorCard h2 {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .searchInput {
-    background: #1E293B;
-    border-color: #334155;
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .searchInput:focus {
-    border-color: #4A85F6;
-  }
-  
   /* Адаптивность */
   @media (max-width: 1024px) {
     .statsGrid {
@@ -488,8 +333,15 @@
   
   @media (max-width: 768px) {
     .main {
-      margin-left: 0;
-      padding: 20px;
+      padding: 20px 0 40px;
+    }
+    
+    .container {
+      padding: 0 16px;
+    }
+    
+    .title {
+      font-size: 28px;
     }
     
     .filtersBar {
@@ -515,6 +367,10 @@
   }
   
   @media (max-width: 480px) {
+    .title {
+      font-size: 24px;
+    }
+    
     .statsGrid {
       grid-template-columns: 1fr;
     }
@@ -522,6 +378,7 @@
     .filterGroup {
       flex-direction: column;
       align-items: flex-start;
+      width: 100%;
     }
     
     .filterSelect {
@@ -543,4 +400,53 @@
     .brandStatLabel {
       margin-bottom: 0;
     }
+  }
+  
+  /* Темная тема */
+  :global(.dark-mode) .page {
+    background: #0F172A;
+  }
+  
+  :global(.dark-mode) .title {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .statCard,
+  :global(.dark-mode) .filtersBar,
+  :global(.dark-mode) .brandCard,
+  :global(.dark-mode) .emptyState {
+    background: #1E293B;
+    border-color: #334155;
+  }
+  
+  :global(.dark-mode) .statValue {
+    color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .brandName,
+  :global(.dark-mode) .brandStatValue,
+  :global(.dark-mode) .emptyState h3 {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .brandFullName,
+  :global(.dark-mode) .brandStatLabel,
+  :global(.dark-mode) .emptyState p {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .searchInput {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .searchInput:focus {
+    border-color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .filterSelect {
+    background: #1E293B;
+    border-color: #334155;
+    color: #F1F5F9;
   }
