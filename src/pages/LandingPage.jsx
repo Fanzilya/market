@@ -365,7 +365,7 @@ export default function LandingPage() {
                 </linearGradient>
               </defs>
             </svg>
-            <span className={styles.logoText}>Закупки.РФ</span>
+            <span className={styles.logoText}>Лого</span>
           </Link>
 
           <div className={styles.navLinks}>
@@ -843,7 +843,7 @@ export default function LandingPage() {
               <svg width="32" height="32" viewBox="0 0 40 40" fill="none">
                 <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)"/>
               </svg>
-              <span className={styles.footerLogoText}>Закупки.РФ</span>
+              <span className={styles.footerLogoText}>Лого</span>
             </div>
             <p className={styles.footerDescription}>
               Платформа для автоматизации сбора коммерческих предложений
@@ -873,7 +873,7 @@ export default function LandingPage() {
         </div>
 
         <div className={styles.footerBottom}>
-          <p className={styles.footerText}>© 2025 Закупки.РФ. Все права защищены.</p>
+          <p className={styles.footerText}>© 2025 Лого. Все права защищены.</p>
           <div className={styles.footerLinks}>
             <a href="#" className={styles.footerLink}>Политика конфиденциальности</a>
             <a href="#" className={styles.footerLink}>Условия использования</a>
