@@ -5,298 +5,7 @@ import { getSessionUser } from '../../../auth/demoAuth.js'
 import { createRequest, getRequestById, updateRequest } from '../../../data/requests.js'
 import Sidebar from '../../../components/Sidebar.jsx'
 import styles from './CreateRequestPage.module.css'
-
-// Компонент схемы КНС (вынесен отдельно)
-const KNSSchema = ({ data, extras }) => {
-  const {
-    // Основные параметры
-    workingPumps = '2',
-    reservePumps = '1',
-
-    // Параметры трубопроводов
-    inletDiameter = '250',
-    inletDirection = '12',
-    outletDiameter = '200',
-    outletDirection = '3',
-    outletCount = '1',
-
-    // Параметры станции
-    stationDiameter = '3',
-    stationHeight = '5',
-    insulation = '1.5'
-  } = data
-
-  // Преобразование направления в угол для отображения
-  const getDirectionAngle = (direction) => {
-    const hour = parseInt(direction) || 12
-    return (hour * 30) % 360
-  }
-
-  const inletAngle = getDirectionAngle(inletDirection)
-  const outletAngle = getDirectionAngle(outletDirection)
-
-  // Расчет количества насосов
-  const totalPumps = (parseInt(workingPumps) || 2) + (parseInt(reservePumps) || 1)
-
-  return (
-    <div className={styles.schemaContainer}>
-      <svg width="100%" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
-        <g transform="translate(400, 300)">
-
-          <rect
-            x="-100"
-            y="-150"
-            width="200"
-            height="300"
-            fill="none"
-            stroke="#4A85F6"
-            strokeWidth="3"
-            rx="10"
-          />
-
-          {/* Утепление (если указано) */}
-          {insulation && parseFloat(insulation) > 0 && (
-            <>
-              <rect
-                x="-105"
-                y="-155"
-                width="210"
-                height={parseFloat(insulation) * 50 + 310}
-                fill="rgba(74, 133, 246, 0.1)"
-                stroke="#4A85F6"
-                strokeWidth="1"
-                strokeDasharray="5,5"
-                rx="12"
-              />
-              <text
-                x="0"
-                y="-180"
-                textAnchor="middle"
-                fontSize="10"
-                fill="#4A85F6"
-              >
-                Утепление {insulation}м
-              </text>
-            </>
-          )}
-
-          {/* Лестница */}
-          <line
-            x1="80"
-            y1="-120"
-            x2="80"
-            y2="120"
-            stroke="#94a3b8"
-            strokeWidth="2"
-          />
-          {[-100, -50, 0, 50, 100].map((y, i) => (
-            <line
-              key={i}
-              x1="70"
-              y1={y}
-              x2="90"
-              y2={y}
-              stroke="#94a3b8"
-              strokeWidth="2"
-            />
-          ))}
-          <text x="95" y="-130" fontSize="8" fill="#64748b">Лестница</text>
-
-          {/* Вентиляционные трубы */}
-          <line x1="-80" y1="-160" x2="-80" y2="-140" stroke="#94a3b8" strokeWidth="2" />
-          <circle cx="-80" cy="-165" r="5" fill="#94a3b8" />
-          <line x1="80" y1="-160" x2="80" y2="-140" stroke="#94a3b8" strokeWidth="2" />
-          <circle cx="80" cy="-165" r="5" fill="#94a3b8" />
-          <text x="-90" y="-180" fontSize="8" fill="#64748b">Вент. труба 2шт</text>
-
-          {/* Насосы (отображаем в зависимости от количества) */}
-          {[...Array(totalPumps)].map((_, i) => {
-            const x = -60 + i * 40
-            const y = -30 + (i % 2) * 30
-            return (
-              <g key={i}>
-                <rect
-                  x={x}
-                  y={y}
-                  width="30"
-                  height="50"
-                  fill="#10B981"
-                  opacity="0.8"
-                  rx="5"
-                />
-                <circle cx={x + 15} cy={y - 5} r="5" fill="#10B981" />
-                <text
-                  x={x + 15}
-                  y={y + 30}
-                  textAnchor="middle"
-                  fontSize="8"
-                  fill="white"
-                >
-                  Н{i + 1}
-                </text>
-              </g>
-            )
-          })}
-          <text x="-70" y="-50" fontSize="8" fill="#10B981">
-            Насосы: {workingPumps} раб + {reservePumps} рез
-          </text>
-
-          {/* Подводящий трубопровод A (слева) */}
-          <g>
-            <line
-              x1="-200"
-              y1="50"
-              x2="-100"
-              y2="50"
-              stroke="#F59E0B"
-              strokeWidth="3"
-            />
-            <circle cx="-210" cy="50" r="8" fill="#F59E0B" />
-            <text x="-230" y="45" fontSize="10" fill="#F59E0B">A</text>
-            <text x="-200" y="30" fontSize="9" fill="#64748b">
-              {inletDiameter}мм
-            </text>
-
-            {/* Решетка-дробилка (если выбрана) */}
-            {extras['Канальный измельчитель'] && (
-              <g transform="translate(-160, 40)">
-                <rect x="0" y="0" width="30" height="20" fill="#EF4444" opacity="0.6" rx="3" />
-                <text x="15" y="12" textAnchor="middle" fontSize="8" fill="white">реш</text>
-                <text x="15" y="30" fontSize="8" fill="#EF4444">1шт</text>
-              </g>
-            )}
-          </g>
-
-          {/* Напорный трубопровод B (справа) */}
-          <g>
-            <line
-              x1="100"
-              y1="50"
-              x2="200"
-              y2="50"
-              stroke="#F59E0B"
-              strokeWidth="3"
-            />
-            <circle cx="210" cy="50" r="8" fill="#F59E0B" />
-            <text x="220" y="45" fontSize="10" fill="#F59E0B">B</text>
-            <text x="150" y="30" fontSize="9" fill="#64748b">
-              {outletDiameter}мм
-            </text>
-
-            {/* Задвижки и клапаны */}
-            {extras['Шиберный затвор на подводящей трубе'] && (
-              <g transform="translate(120, 40)">
-                <rect x="0" y="0" width="20" height="20" fill="#8B5CF6" opacity="0.6" rx="2" />
-                <text x="10" y="12" textAnchor="middle" fontSize="7" fill="white">з</text>
-              </g>
-            )}
-
-            {extras['Расходомер на напорном трубопроводе'] && (
-              <g transform="translate(150, 30)">
-                <circle cx="0" cy="0" r="10" fill="#EC4899" opacity="0.6" />
-                <text x="0" y="2" textAnchor="middle" fontSize="7" fill="white">FM</text>
-              </g>
-            )}
-          </g>
-
-          {/* Обратные клапаны (если выбраны) */}
-          {extras['Колодец с задвижкой перед КНС'] && (
-            <g transform="translate(-120, 20)">
-              <path d="M0,0 L10,-10 L20,0 L10,10 Z" fill="#8B5CF6" opacity="0.6" />
-              <text x="10" y="0" textAnchor="middle" fontSize="7" fill="white">OK</text>
-            </g>
-          )}
-
-          {/* Наземный павильон */}
-          {extras['Наземный павильон'] && (
-            <g transform="translate(-50, -220)">
-              <rect
-                x="0"
-                y="0"
-                width="100"
-                height="60"
-                fill="#8B5CF6"
-                opacity="0.3"
-                stroke="#8B5CF6"
-                strokeWidth="2"
-                rx="5"
-              />
-              <rect
-                x="10"
-                y="10"
-                width="80"
-                height="40"
-                fill="white"
-                stroke="#8B5CF6"
-                strokeWidth="1"
-                rx="3"
-              />
-              <circle cx="30" cy="20" r="3" fill="#8B5CF6" />
-              <circle cx="70" cy="20" r="3" fill="#8B5CF6" />
-              <text x="50" y="40" textAnchor="middle" fontSize="10" fill="#8B5CF6">
-                Павильон
-              </text>
-              <text x="50" y="70" textAnchor="middle" fontSize="9" fill="#8B5CF6">
-                Таль эл. 1шт
-              </text>
-            </g>
-          )}
-
-          {/* Грузоподъемное устройство */}
-          {extras['Грузоподъемное устройство'] && (
-            <g transform="translate(150, -120)">
-              <line x1="0" y1="0" x2="0" y2="40" stroke="#F59E0B" strokeWidth="2" />
-              <circle cx="0" cy="-10" r="8" fill="#F59E0B" />
-              <text x="15" y="0" fontSize="8" fill="#F59E0B">таль</text>
-            </g>
-          )}
-
-          {/* Газоанализатор */}
-          {extras['Газоанализатор'] && (
-            <g transform="translate(-150, -120)">
-              <rect x="0" y="0" width="30" height="20" fill="#3B82F6" opacity="0.6" rx="3" />
-              <text x="15" y="12" textAnchor="middle" fontSize="7" fill="white">GA</text>
-            </g>
-          )}
-        </g>
-
-        {/* Легенда с количеством */}
-        <g transform="translate(50, 500)">
-          <text x="0" y="0" fontSize="12" fill="#1e293b" fontWeight="600">Комплектация:</text>
-
-          {Object.entries(extras).map(([key, value], index) => {
-            if (!value) return null
-
-            let count = '1'
-            if (key.includes('задвижк')) count = '4'
-            if (key.includes('Обратный клапан')) count = '2'
-            if (key.includes('Поплавковый')) count = '4'
-            if (key.includes('Вентиляционная')) count = '2'
-            if (key.includes('Цепь')) count = '3'
-            if (key.includes('Направляющие')) count = '3'
-
-            return (
-              <g key={key} transform={`translate(0, ${(index + 1) * 20})`}>
-                <circle cx="5" cy="5" r="3" fill="#4A85F6" />
-                <text x="15" y="8" fontSize="10" fill="#64748b">
-                  {key} - {count} шт
-                </text>
-              </g>
-            )
-          })}
-        </g>
-
-        <g transform="translate(650, 500)">
-          <text x="0" y="0" fontSize="11" fill="#1e293b">Габариты:</text>
-          <text x="0" y="20" fontSize="10" fill="#64748b">A: вх. {inletDiameter}мм</text>
-          <text x="0" y="35" fontSize="10" fill="#64748b">B: вых. {outletDiameter}мм</text>
-          <text x="0" y="50" fontSize="10" fill="#64748b">C: станция ⌀{stationDiameter}м</text>
-          <text x="0" y="65" fontSize="10" fill="#64748b">H: {stationHeight}м</text>
-        </g>
-      </svg>
-    </div>
-  )
-}
+import { SchemeForm } from '@/features/scheme-form/'
 
 export default function CreateRequestPage() {
   const { requestId } = useParams()
@@ -353,6 +62,11 @@ export default function CreateRequestPage() {
     motorStartMethod: 'direct',
     powerInputs: '1',
     cabinetLocation: 'УХЛ1',
+
+    // Дополнительные элементы конструктора схемы
+    element1Name: '',
+    element1Value: '',
+    element2Param: '',
   })
 
   // Дополнительная комплектация для КНС
@@ -408,7 +122,7 @@ export default function CreateRequestPage() {
         }
       }
     }
-  }, [isEditMode, requestId]) // Убрали user из зависимостей
+  }, [isEditMode, requestId])
 
   const PRIMARY = '#4A85F6'
   const PRIMARY_DARK = '#3A6BC9'
@@ -500,6 +214,11 @@ export default function CreateRequestPage() {
         motorStartMethod: knsData.motorStartMethod,
         powerInputs: knsData.powerInputs,
         cabinetLocation: knsData.cabinetLocation,
+
+        // Дополнительные элементы конструктора схемы
+        element1Name: knsData.element1Name,
+        element1Value: knsData.element1Value,
+        element2Param: knsData.element2Param,
       } : null,
 
       // Дополнительная комплектация
@@ -777,7 +496,193 @@ export default function CreateRequestPage() {
 
           {/* Шаг 2: Технические параметры */}
           {activeStep === 2 && (
-            <SchemeForm />
+
+            <div className={styles.stepContent}>
+              <h2 className={styles.sectionTitle}>Технические параметры</h2>
+
+
+
+
+
+              {formData.configType === 'КНС' && (
+                <>
+                  {/* Основные параметры насосов */}
+                  <h3 className={styles.subsectionTitle}>Основные параметры</h3>
+                  <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>
+                        Производительность (м³/ч, л/с) <span className={styles.required}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={knsData.capacity}
+                        onChange={(e) => setKnsData({ ...knsData, capacity: e.target.value })}
+                        onFocus={() => setFocusedInput('capacity')}
+                        onBlur={() => setFocusedInput(null)}
+                        className={`${styles.input} ${focusedInput === 'capacity' ? styles.inputFocused : ''}`}
+                        placeholder="м³/ч"
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>
+                        Требуемый напор (м) <span className={styles.required}>*</span>
+                      </label>
+                      <input
+                        type="text"
+                        value={knsData.head}
+                        onChange={(e) => setKnsData({ ...knsData, head: e.target.value })}
+                        onFocus={() => setFocusedInput('head')}
+                        onBlur={() => setFocusedInput(null)}
+                        className={`${styles.input} ${focusedInput === 'head' ? styles.inputFocused : ''}`}
+                        placeholder="м"
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Кол-во рабочих насосов</label>
+                      <input
+                        type="number"
+                        value={knsData.workingPumps}
+                        onChange={(e) => setKnsData({ ...knsData, workingPumps: e.target.value })}
+                        className={styles.input}
+                        placeholder="например: 2"
+                        min="0"
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Кол-во резервных насосов</label>
+                      <input
+                        type="number"
+                        value={knsData.reservePumps}
+                        onChange={(e) => setKnsData({ ...knsData, reservePumps: e.target.value })}
+                        className={styles.input}
+                        placeholder="например: 1"
+                        min="0"
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Кол-во насосов на склад</label>
+                      <input
+                        type="number"
+                        value={knsData.stockPumps}
+                        onChange={(e) => setKnsData({ ...knsData, stockPumps: e.target.value })}
+                        className={styles.input}
+                        placeholder="например: 0"
+                        min="0"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Параметры среды */}
+                  <h3 className={styles.subsectionTitle}>Параметры среды</h3>
+                  <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Перекачиваемая среда</label>
+                      <select
+                        value={knsData.medium}
+                        onChange={(e) => setKnsData({ ...knsData, medium: e.target.value })}
+                        className={styles.select}
+                      >
+                        {mediumOptions.map(option => (
+                          <option key={option} value={option}>{option}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Температура среды (°C)</label>
+                      <input
+                        type="text"
+                        value={knsData.temperature}
+                        onChange={(e) => setKnsData({ ...knsData, temperature: e.target.value })}
+                        className={styles.input}
+                        placeholder="°C"
+                      />
+                    </div>
+                  </div>
+
+                  <div className={styles.checkboxGroup}>
+                    <label className={styles.checkbox}>
+                      <input
+                        type="checkbox"
+                        checked={knsData.explosionProof}
+                        onChange={(e) => setKnsData({ ...knsData, explosionProof: e.target.checked })}
+                      />
+                      <span className={styles.checkboxLabel}>Взрывозащищенное исполнение</span>
+                    </label>
+                  </div>
+
+
+
+                  {/* Электрические параметры */}
+                  <h3 className={styles.subsectionTitle}>Электрические параметры</h3>
+                  <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Метод пуска электродвигателей</label>
+                      <select
+                        value={knsData.motorStartMethod}
+                        onChange={(e) => setKnsData({ ...knsData, motorStartMethod: e.target.value })}
+                        className={styles.select}
+                      >
+                        {motorStartOptions.map(option => (
+                          <option key={option.value} value={option.value}>{option.label}</option>
+                        ))}
+                      </select>
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Количество вводов питания</label>
+                      <select
+                        value={knsData.powerInputs}
+                        onChange={(e) => setKnsData({ ...knsData, powerInputs: e.target.value })}
+                        className={styles.select}
+                      >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                      </select>
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Место установки шкафа</label>
+                      <select
+                        value={knsData.cabinetLocation}
+                        onChange={(e) => setKnsData({ ...knsData, cabinetLocation: e.target.value })}
+                        className={styles.select}
+                      >
+                        {cabinetLocationOptions.map(option => (
+                          <option key={option.value} value={option.value}>{option.label}</option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <SchemeForm
+                    knsData={knsData}
+                    setKnsData={setKnsData}
+                    directionOptions={directionOptions}
+                    knsExtras={knsExtras}
+                    setKnsExtras={setKnsExtras}
+                  />
+
+                </>
+              )}
+
+              {formData.configType !== 'КНС' && (
+                <div className={styles.infoMessage}>
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2" />
+                    <path d="M12 16V12" stroke="#4A85F6" strokeWidth="2" />
+                    <circle cx="12" cy="8" r="1" fill="#4A85F6" />
+                  </svg>
+                  <p>
+                    Для выбранного типа конфигурации дополнительные параметры будут доступны позже.
+                    Пожалуйста, продолжите создание заявки с основной информацией.
+                  </p>
+                </div>
+              )}
+            </div>
           )}
 
           {/* Шаг 3: Проверка и отправка */}
