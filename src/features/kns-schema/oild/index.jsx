@@ -24,7 +24,7 @@ export const KNSSchema = ({ data, extras }) => {
 
     return (
         <div className={styles.schemaContainer}>
-            <svg width="100%" height="100%" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
+            <svg width="100%" height="600" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid meet">
                 <SchemaCore
                     workingPumps={workingPumps}
                     reservePumps={reservePumps}
@@ -33,6 +33,15 @@ export const KNSSchema = ({ data, extras }) => {
                     insulation={insulation}
                     totalPumps={totalPumps}
                     extras={extras}
+                />
+
+                <SchemaLegend extras={extras} />
+
+                <SchemaDimensions
+                    inletDiameter={inletDiameter}
+                    outletDiameter={outletDiameter}
+                    stationDiameter={stationDiameter}
+                    stationHeight={stationHeight}
                 />
             </svg>
         </div>

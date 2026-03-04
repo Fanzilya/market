@@ -69,6 +69,10 @@ export default function CreateRequestPage() {
     element2Param: '',
   })
 
+
+
+
+
   // Дополнительная комплектация для КНС
   const [knsExtras, setKnsExtras] = useState({
     'Канальный измельчитель': false,
@@ -499,11 +503,6 @@ export default function CreateRequestPage() {
 
             <div className={styles.stepContent}>
               <h2 className={styles.sectionTitle}>Технические параметры</h2>
-
-
-
-
-
               {formData.configType === 'КНС' && (
                 <>
                   {/* Основные параметры насосов */}

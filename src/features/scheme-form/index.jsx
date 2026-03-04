@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import styles from './scheme-form.module.css'
 import { KNSSchema } from '../kns-schema'
 import { checkBox } from './components/teeska'
@@ -167,20 +167,27 @@ export const SchemeForm = ({ knsData, setKnsData, directionOptions, knsExtras, s
                 </div>
 
                 <div className={styles.dimensionsDiagram}>
-                    <KNSSchema data={knsData} extras={knsExtras} />
+                    <KNSSchema data={knsData} extras={elements} />
                 </div>
             </div>
 
             <h3 className={styles.subsectionTitle}>Дополнительная комплектация</h3>
             <div className={styles.extrasGrid}>
-                {checkBox.map((item, key) => (
+                {elements.map((item, key) => (
                     <label className={styles.checkbox} key={Object.entries(knsExtras).length + key}>
                         <input
                             type="checkbox"
-                            checked={false}
-                            onChange={(e) => setElement2(e.target.checked)}
+                            checked={item.checked}
+                            onChange={(e) => {
+                                const newElements = [...elements];
+                                newElements[key] = {
+                                    ...newElements[key],
+                                    checked: e.target.checked
+                                };
+                                setElements(newElements);
+                            }}
                         />
-                        <span className={styles.checkboxLabel}>Элемент 2</span>
+                        <span className={styles.checkboxLabel}>{item.name}</span>
                     </label>
                 ))}
 
