@@ -479,8 +479,8 @@
   .actionButton {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
+    /* gap: 8px; */
+    padding: 8px 45px;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 500;
@@ -556,3 +556,348 @@
     background: #3d4a5c;
     color: #f1f5f9;
   }
+
+  /* Дополнительные стили для SupplierPage.module.css */
+
+.filtersSection {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.searchWrapper {
+  flex: 2;
+  min-width: 300px;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: 10px 32px 10px 16px;
+  border: 2px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #1E293B;
+  background: white;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  min-width: 150px;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+}
+
+.regionBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #F1F5F9;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.techSpecsList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 300px;
+}
+
+.techSpecItem {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  font-size: 13px;
+  padding: 2px 0;
+  border-bottom: 1px dashed #F1F5F9;
+}
+
+.techSpecItem:last-child {
+  border-bottom: none;
+}
+
+.techSpecLabel {
+  color: #64748B;
+  min-width: 100px;
+  font-weight: 500;
+}
+
+.techSpecValue {
+  color: #1E293B;
+  font-weight: 600;
+}
+
+.noSpecs {
+  color: #94A3B8;
+  font-style: italic;
+  font-size: 13px;
+}
+
+/* Темная тема */
+:global(.dark-mode) .filterSelect {
+  background: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+}
+
+:global(.dark-mode) .filterSelect:focus {
+  border-color: #4A85F6;
+}
+
+:global(.dark-mode) .regionBadge {
+  background: #334155;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .techSpecLabel {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .techSpecValue {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .techSpecItem {
+  border-bottom-color: #334155;
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .filtersSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .searchWrapper {
+    min-width: auto;
+  }
+  
+  .filterGroup {
+    justify-content: space-between;
+  }
+  
+  .filterSelect {
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterGroup {
+    flex-direction: column;
+  }
+  
+  .filterSelect {
+    width: 100%;
+  }
+  
+  .techSpecsList {
+    max-width: 200px;
+  }
+  
+  .techSpecItem {
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
+/* Добавьте в SupplierPreviewPage.module.css */
+
+.clicksInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: #F0F9FF;
+  border: 1px solid #4A85F6;
+  border-radius: 12px;
+  margin: 24px 0;
+}
+
+.clicksInfoIcon {
+  flex-shrink: 0;
+}
+
+.clicksInfoContent {
+  flex: 1;
+}
+
+.clicksInfoTitle {
+  display: block;
+  font-size: 16px;
+  color: #1E293B;
+  margin-bottom: 4px;
+}
+
+.clicksInfoTitle strong {
+  color: #4A85F6;
+  font-size: 18px;
+}
+
+.clicksInfoText {
+  margin: 0;
+  font-size: 14px;
+  color: #64748B;
+  line-height: 1.5;
+}
+
+.respondButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: #94A3B8;
+  box-shadow: none;
+}
+
+.respondButton:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Темная тема */
+:global(.dark-mode) .clicksInfo {
+  background: #1E2A3A;
+  border-color: #4A85F6;
+}
+
+:global(.dark-mode) .clicksInfoTitle {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .clicksInfoText {
+  color: #94A3B8;
+}
+
+/* Добавьте в SupplierPage.module.css */
+
+.favoriteButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #E2E8F0;
+  color: #94A3B8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.favoriteButton:hover {
+  border-color: #F59E0B;
+  color: #F59E0B;
+  background: #FFFBEB;
+  transform: scale(1.1);
+}
+
+.favoriteActive {
+  color: #F59E0B;
+  border-color: #F59E0B;
+  background: #FFFBEB;
+}
+
+.favoriteActive:hover {
+  color: #D97706;
+  border-color: #D97706;
+}
+
+/* Обновленные фильтры */
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filterSelect {
+  padding: 10px 32px 10px 16px;
+  border: 2px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #1E293B;
+  background: white;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  min-width: 140px;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+}
+
+/* Статистика */
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #F8FAFC;
+  border-radius: 30px;
+  border: 1px solid #E2E8F0;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4A85F6;
+}
+
+/* Темная тема */
+:global(.dark-mode) .favoriteButton {
+  border-color: #475569;
+  color: #64748B;
+}
+
+:global(.dark-mode) .favoriteButton:hover {
+  border-color: #F59E0B;
+  color: #F59E0B;
+  background: #422006;
+}
+
+:global(.dark-mode) .favoriteActive {
+  color: #F59E0B;
+  border-color: #F59E0B;
+  background: #422006;
+}
+
+:global(.dark-mode) .filterSelect {
+  background: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+}
+
+:global(.dark-mode) .stat {
+  background: #2D3A4F;
+  border-color: #475569;
+}
+
+:global(.dark-mode) .statValue {
+  color: #4A85F6;
+}
+

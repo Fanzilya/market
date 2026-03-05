@@ -16,7 +16,9 @@ import ProductPage from '@/pages/ProductPage.jsx'
 import BrandPage from '@/pages/BrandPage.jsx'
 import BrandsPage from '@/pages/BrandsPage.jsx'
 import NotificationsPage from '@/pages/NotificationsPage.jsx'
+import SupplierPreviewPage from '@/pages/SupplierPreviewPage.jsx'
 import ProtectedRoute from '@/components/ProtectedRoute.jsx'
+import CreateOfferPage from '@/pages/CreateOfferPage.jsx'
 import { getSessionUser } from '@/auth/demoAuth.js'
 
 export default function App() {
@@ -61,6 +63,33 @@ export default function App() {
 
             {/* Редирект на главную для всех остальных маршрутов */}
             <Route path="*" element={<Navigate to="/" replace />} />
+
+            <Route
+  path="/supplier/request/:requestId/preview"
+  element={
+    <ProtectedRoute allowedRoles={['supplier']}>
+      <SupplierPreviewPage />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/supplier/request/:requestId/full"
+  element={
+    <ProtectedRoute allowedRoles={['supplier']}>
+      <RequestDetailPage />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/supplier/request/:requestId/offer/new"
+  element={
+    <ProtectedRoute allowedRoles={['supplier']}>
+      <CreateOfferPage />
+    </ProtectedRoute>
+  }
+/>
         </Routes>
     )
 }

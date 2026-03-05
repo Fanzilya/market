@@ -888,3 +888,259 @@
 :global(.dark) .noOffersText {
   color: #94a3b8;
 }
+
+/* Добавьте в RequestDetailPage.module.css */
+
+.successMessage {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background: #F0FDF4;
+  border: 1px solid #86EFAC;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  position: relative;
+}
+
+.closeMessage {
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #166534;
+  font-size: 16px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 6px;
+}
+
+.closeMessage:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+/* Кнопки для поставщика */
+.createOfferButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: linear-gradient(135deg, #10B981, #059669);
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.3);
+}
+
+.createOfferButton:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.4);
+}
+
+.viewOfferButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #F8FAFC;
+  border: 1px solid #4A85F6;
+  border-radius: 10px;
+  color: #4A85F6;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.viewOfferButton:hover {
+  background: #4A85F6;
+  color: white;
+}
+
+/* Секция моего предложения */
+.myOfferSection {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.myOfferCard {
+  background: #F8FAFC;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #E2E8F0;
+}
+
+.offerDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.offerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.offerNumber {
+  font-size: 16px;
+  font-weight: 700;
+  color: #4A85F6;
+}
+
+.offerDate {
+  font-size: 13px;
+  color: #64748B;
+}
+
+.offerCompany {
+  font-size: 15px;
+  color: #1E293B;
+}
+
+.offerPrice {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 12px;
+  background: white;
+  border-radius: 10px;
+}
+
+.priceLabel {
+  font-size: 14px;
+  color: #64748B;
+}
+
+.priceValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #10B981;
+}
+
+.offerDelivery {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.deliveryLabel {
+  min-width: 100px;
+  color: #64748B;
+}
+
+.offerCity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  color: #475569;
+}
+
+.cityLabel {
+  min-width: 100px;
+  color: #64748B;
+}
+
+.editOfferButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  color: #4A85F6;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.editOfferButton:hover {
+  border-color: #4A85F6;
+  background: #F8FAFC;
+}
+
+.noOfferCard {
+  text-align: center;
+  padding: 40px;
+  background: #F8FAFC;
+  border-radius: 16px;
+  border: 2px dashed #E2E8F0;
+}
+
+.noOfferCard p {
+  font-size: 15px;
+  color: #64748B;
+  margin-bottom: 20px;
+}
+
+/* Темная тема */
+:global(.dark-mode) .successMessage {
+  background: #14532D;
+  border-color: #4ADE80;
+}
+
+:global(.dark-mode) .closeMessage {
+  color: #DCFCE7;
+}
+
+:global(.dark-mode) .myOfferCard {
+  background: #2D3A4F;
+  border-color: #475569;
+}
+
+:global(.dark-mode) .offerHeader {
+  border-bottom-color: #475569;
+}
+
+:global(.dark-mode) .offerNumber {
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .offerCompany {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .offerPrice {
+  background: #1E293B;
+}
+
+:global(.dark-mode) .offerDelivery,
+:global(.dark-mode) .offerCity {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .editOfferButton {
+  background: #1E293B;
+  border-color: #475569;
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .editOfferButton:hover {
+  border-color: #60A5FA;
+  background: #2D3A4F;
+}
+
+:global(.dark-mode) .noOfferCard {
+  background: #2D3A4F;
+  border-color: #475569;
+}

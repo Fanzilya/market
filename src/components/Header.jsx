@@ -59,17 +59,12 @@ export default function Header() {
             >
               Главная
             </Link>
-            <Link 
-              to="/brands" 
-              className={`${styles.navLink} ${isActive('/brands') ? styles.active : ''}`}
-            >
-              Производители
-            </Link>
+            
             <Link 
               to="/catalog" 
               className={`${styles.navLink} ${isActive('/catalog') ? styles.active : ''}`}
             >
-              Каталог
+              Производителям
             </Link>
           </nav>
 

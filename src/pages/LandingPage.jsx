@@ -322,7 +322,7 @@ export default function LandingPage() {
       </section>
 
 
-      <section className={styles.manufacturerPromo}>
+      {/* <section className={styles.manufacturerPromo}>
         <div className={styles.container}>
           <div className={styles.manufacturerPromoContent}>
             <div className={styles.manufacturerPromoText}>
@@ -400,7 +400,7 @@ export default function LandingPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Секция о КНС */}
       <section ref={knsRef} className={styles.kns}>

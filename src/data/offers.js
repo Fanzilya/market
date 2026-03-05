@@ -46,3 +46,16 @@ export function listAllOffers() {
   // Ваша реализация
   return []
 }
+
+// src/data/offers.js (добавить функцию)
+
+// Получить предложения конкретного поставщика для конкретной заявки
+export const getOffersBySupplierForRequest = (supplierEmail, requestId) => {
+  if (!supplierEmail || !requestId) return []
+  
+  const allOffers = JSON.parse(localStorage.getItem('offers') || '[]')
+  return allOffers.filter(offer => 
+    offer.requestId === requestId && 
+    offer.supplierEmail.toLowerCase() === supplierEmail.toLowerCase()
+  ).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+} 

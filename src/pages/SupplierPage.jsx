@@ -2,15 +2,18 @@
 import { useMemo, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSessionUser, signOut } from '../auth/demoAuth.js'
-import Navigation from '../components/Navigation.jsx'
 import Sidebar from '../components/Sidebar.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import DataTable from '../components/DataTable.jsx'
 import Pagination from '../components/Pagination.jsx'
-import RequestDetailsModal from '../components/RequestDetailsModal.jsx'
-import FreeClicksModal from '../components/FreeClicksModal.jsx'
 import { listAllRequests } from '../data/requests.js'
-import { createOffer, listOffersByRequestId } from '../data/offers.js'
+import { listOffersByRequestId } from '../data/offers.js'
+import { 
+  getFavoriteRequests, 
+  addToFavorites, 
+  removeFromFavorites, 
+  isRequestFavorite 
+} from '../data/favorites.js'
 import styles from './SupplierPage.module.css'
 
 export default function SupplierPage() {
@@ -18,32 +21,50 @@ export default function SupplierPage() {
   const navigate = useNavigate()
 
   // Состояния
-  const [selectedRequest, setSelectedRequest] = useState(null)
-  const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false)
-  const [showFreeClicksModal, setShowFreeClicksModal] = useState(false)
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [refreshKey, setRefreshKey] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedRegion, setSelectedRegion] = useState('all')
+  const [selectedType, setSelectedType] = useState('all')
+  const [selectedStatus, setSelectedStatus] = useState('all') // all, new, responded, favorites
   const [currentPage, setCurrentPage] = useState(1)
   const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'desc' })
   const [darkMode, setDarkMode] = useState(false)
-  const [freeClicksLeft, setFreeClicksLeft] = useState(5) // 5 бесплатных кликов
+  const [freeClicksLeft, setFreeClicksLeft] = useState(5)
+  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
+  const [favoriteRequests, setFavoriteRequests] = useState([])
 
   const itemsPerPage = 15
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     setDarkMode(savedTheme === 'dark')
-  }, [])
+    
+    // Загружаем избранное
+    if (user?.email) {
+      setFavoriteRequests(getFavoriteRequests(user.email))
+    }
+  }, [user])
 
   useEffect(() => {
     localStorage.setItem('theme', darkMode ? 'dark' : 'light')
     if (darkMode) {
-      document.body.classList.add(styles.darkMode)
+      document.body.classList.add('dark-mode')
     } else {
-      document.body.classList.remove(styles.darkMode)
+      document.body.classList.remove('dark-mode')
     }
   }, [darkMode])
+
+  // Слушаем обновления избранного
+  useEffect(() => {
+    const handleFavoritesUpdate = () => {
+      if (user?.email) {
+        setFavoriteRequests(getFavoriteRequests(user.email))
+      }
+    }
+    
+    window.addEventListener('favorites-updated', handleFavoritesUpdate)
+    return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate)
+  }, [user])
 
   // Данные
   const requests = useMemo(() => {
@@ -61,18 +82,48 @@ export default function SupplierPage() {
     )
   }, [requests, user?.email, refreshKey])
 
+  // Получаем уникальные регионы и типы для фильтров
+  const regions = useMemo(() => {
+    const allRegions = requests.map(r => r.region || 'Не указан')
+    return ['all', ...new Set(allRegions)]
+  }, [requests])
+
+  const types = useMemo(() => {
+    const allTypes = requests.map(r => r.configType || 'КНС')
+    return ['all', ...new Set(allTypes)]
+  }, [requests])
+
   // Фильтрация заявок
   const filteredRequests = useMemo(() => {
     return requests.filter(request => {
-      if (!searchQuery) return true
-      const query = searchQuery.toLowerCase()
-      return (
-        request.id.toLowerCase().includes(query) ||
-        request.govCustomerName.toLowerCase().includes(query) ||
-        request.objectName.toLowerCase().includes(query)
-      )
+      // Поиск по тексту
+      const matchesSearch = searchQuery === '' ||
+        request.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        request.govCustomerName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        request.objectName.toLowerCase().includes(searchQuery.toLowerCase())
+
+      // Фильтр по региону
+      const matchesRegion = selectedRegion === 'all' || (request.region || 'Не указан') === selectedRegion
+
+      // Фильтр по типу оборудования
+      const matchesType = selectedType === 'all' || (request.configType || 'КНС') === selectedType
+
+      // Фильтр по статусу
+      const hasOffer = myOffers.some(o => o.requestId === request.id)
+      const isFavorite = favoriteRequests.includes(request.id)
+      
+      let matchesStatus = true
+      if (selectedStatus === 'new') {
+        matchesStatus = !hasOffer
+      } else if (selectedStatus === 'responded') {
+        matchesStatus = hasOffer
+      } else if (selectedStatus === 'favorites') {
+        matchesStatus = isFavorite
+      }
+
+      return matchesSearch && matchesRegion && matchesType && matchesStatus
     })
-  }, [requests, searchQuery])
+  }, [requests, searchQuery, selectedRegion, selectedType, selectedStatus, myOffers, favoriteRequests])
 
   // Сортировка
   const sortedRequests = useMemo(() => {
@@ -81,6 +132,11 @@ export default function SupplierPage() {
     return [...filteredRequests].sort((a, b) => {
       let aValue = a[sortConfig.key]
       let bValue = b[sortConfig.key]
+
+      if (sortConfig.key === 'createdAt') {
+        aValue = new Date(aValue || Date.now()).getTime()
+        bValue = new Date(bValue || Date.now()).getTime()
+      }
 
       if (aValue < bValue) {
         return sortConfig.direction === 'asc' ? -1 : 1
@@ -107,20 +163,33 @@ export default function SupplierPage() {
     }))
   }
 
+  const handleToggleFavorite = (e, requestId) => {
+    e.stopPropagation() // Предотвращаем переход по заявке
+    
+    if (!user?.email) return
+    
+    if (favoriteRequests.includes(requestId)) {
+      removeFromFavorites(user.email, requestId)
+    } else {
+      addToFavorites(user.email, requestId)
+    }
+  }
+
   const handleViewRequest = (request) => {
     // Проверяем, откликался ли уже исполнитель на эту заявку
     const hasOffer = myOffers.some(o => o.requestId === request.id)
 
     if (hasOffer) {
-      // Если уже откликался - показываем детали
-      setSelectedRequest(request)
-      setIsDetailsModalOpen(true)
+      // Если уже откликался - переходим на страницу с полной информацией
+      navigate(`/supplier/request/${request.id}/full`)
     } else {
       // Если не откликался - проверяем бесплатные клики
       if (freeClicksLeft > 0) {
-        // Есть бесплатные клики
-        setSelectedRequest(request)
-        setShowFreeClicksModal(true)
+        // Уменьшаем количество бесплатных кликов и переходим на страницу предпросмотра
+        setFreeClicksLeft(prev => prev - 1)
+        navigate(`/supplier/request/${request.id}/preview`, {
+          state: { request }
+        })
       } else {
         // Бесплатные клики закончились - предложить оплатить
         navigate('/billing', {
@@ -132,73 +201,112 @@ export default function SupplierPage() {
     }
   }
 
-  const handleConfirmFreeClick = () => {
-    // Уменьшаем количество бесплатных кликов
-    setFreeClicksLeft(prev => prev - 1)
-    setShowFreeClicksModal(false)
-    setIsDetailsModalOpen(true)
-
-    // Здесь можно добавить логику отметки о том, что исполнитель откликнулся
-    // Например, создать черновик предложения или отметить просмотр
-  }
-
-  const handleCreateOffer = (offerData) => {
-    createOffer({
-      id: `OFFER-${Date.now().toString(36).toUpperCase()}`,
-      createdAt: new Date().toISOString(),
-      requestId: selectedRequest.id,
-      supplierEmail: user.email,
-      supplierFullName: user.fullName,
-      supplierCompany: user.company?.name ?? '',
-      ...offerData
-    })
-
-    setIsDetailsModalOpen(false)
-    setSelectedRequest(null)
-    setRefreshKey(prev => prev + 1)
-  }
-
   const handleLogout = () => {
     signOut()
     navigate('/', { replace: true })
   }
 
+  // Функция для получения технических характеристик (ограниченных)
+  const getLimitedTechSpecs = (request) => {
+    if (!request.kns) return []
+
+    const specs = []
+
+    // Показываем только базовые технические характеристики, без контактной информации
+    if (request.kns.capacity) specs.push({ label: 'Производительность', value: `${request.kns.capacity} м³/ч` })
+    if (request.kns.head) specs.push({ label: 'Напор', value: `${request.kns.head} м` })
+    if (request.kns.workingPumps) specs.push({ label: 'Рабочих насосов', value: request.kns.workingPumps })
+    if (request.kns.reservePumps) specs.push({ label: 'Резервных насосов', value: request.kns.reservePumps })
+    if (request.kns.medium) specs.push({ label: 'Среда', value: request.kns.medium })
+    if (request.kns.temperature) specs.push({ label: 'Температура', value: `${request.kns.temperature}°C` })
+    if (request.kns.inletDiameter) specs.push({ label: 'Диаметр входа', value: `${request.kns.inletDiameter} мм` })
+    if (request.kns.outletDiameter) specs.push({ label: 'Диаметр выхода', value: `${request.kns.outletDiameter} мм` })
+    if (request.kns.stationDiameter) specs.push({ label: 'Диаметр станции', value: `${request.kns.stationDiameter} м` })
+    if (request.kns.stationHeight) specs.push({ label: 'Высота станции', value: `${request.kns.stationHeight} м` })
+
+    return specs
+  }
+
   // Колонки таблицы
   const columns = [
+    {
+      key: 'favorite',
+      header: '',
+      width: '40px',
+      render: (row) => {
+        const isFavorite = favoriteRequests.includes(row.id)
+        return (
+          <button
+            className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
+            onClick={(e) => handleToggleFavorite(e, row.id)}
+            title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" 
+                stroke="currentColor" 
+                strokeWidth="2"
+                fill={isFavorite ? 'currentColor' : 'none'}
+              />
+            </svg>
+          </button>
+        )
+      }
+    },
     {
       key: 'id',
       header: 'Номер заявки',
       sortable: true,
-      width: '150px',
+      width: '130px',
       render: (row) => (
         <span className={styles.idBadge}>{row.id}</span>
       )
     },
     {
-      key: 'objectName',
-      header: 'Название объекта',
-      sortable: true,
-      render: (row) => (
-        <div className={styles.objectInfo}>
-          <div className={styles.objectName}>{row.objectName}</div>
-          <div className={styles.customerName}>{row.govCustomerName}</div>
-        </div>
-      )
-    },
-    {
       key: 'configType',
       header: 'Тип',
-      sortable: true,
-      width: '120px',
+      width: '100px',
       render: (row) => (
         <span className={styles.typeBadge}>{row.configType || 'КНС'}</span>
       )
     },
     {
+      key: 'region',
+      header: 'Регион',
+      width: '120px',
+      render: (row) => (
+        <span className={styles.regionBadge}>{row.region || 'Не указан'}</span>
+      )
+    },
+    
+    {
+      key: 'techSpecs',
+      header: 'Технические характеристики',
+      render: (row) => {
+        const specs = getLimitedTechSpecs(row)
+        return (
+          <div className={styles.techSpecsList}>
+            {specs.length > 0 ? (
+              specs.slice(0, 3).map((spec, idx) => (
+                <div key={idx} className={styles.techSpecItem}>
+                  <span className={styles.techSpecLabel}>{spec.label}:</span>
+                  <span className={styles.techSpecValue}>{spec.value}</span>
+                </div>
+              ))
+            ) : (
+              <span className={styles.noSpecs}>Нет данных</span>
+            )}
+            {specs.length > 3 && (
+              <span className={styles.moreSpecs}>+{specs.length - 3} еще</span>
+            )}
+          </div>
+        )
+      }
+    },
+    {
       key: 'createdAt',
       header: 'Дата',
       sortable: true,
-      width: '120px',
+      width: '100px',
       render: (row) => (
         <span className={styles.date}>
           {new Date(row.createdAt || Date.now()).toLocaleDateString('ru-RU')}
@@ -208,7 +316,7 @@ export default function SupplierPage() {
     {
       key: 'status',
       header: 'Статус',
-      width: '120px',
+      width: '100px',
       render: (row) => {
         const hasOffer = myOffers.some(o => o.requestId === row.id)
         return (
@@ -243,7 +351,7 @@ export default function SupplierPage() {
                   <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   <path d="M12 5L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                 </svg>
-                Откликнуться
+                Предпросмотр
               </>
             )}
           </button>
@@ -254,13 +362,9 @@ export default function SupplierPage() {
 
   if (!user) {
     return (
-      <div className={styles.container}>
-        <div className={styles.errorState}>
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="#EF4444" strokeWidth="2" />
-            <path d="M12 8V12" stroke="#EF4444" strokeWidth="2" strokeLinecap="round" />
-            <circle cx="12" cy="16" r="1" fill="#EF4444" />
-          </svg>
+      <div className={styles.errorContainer}>
+        <div className={styles.errorCard}>
+          <div className={styles.errorIcon}>⚠️</div>
           <h2>Сессия не найдена</h2>
           <p>Пожалуйста, войдите в систему для продолжения</p>
           <button onClick={() => navigate('/')} className={styles.primaryButton}>
@@ -285,7 +389,7 @@ export default function SupplierPage() {
           <div className={styles.headerLeft}>
             <h1 className={styles.pageTitle}>Заявки</h1>
             <div className={styles.breadcrumbs}>
-              <span className={styles.breadcrumb}>Главная</span>
+              <span className={styles.breadcrumb} onClick={() => navigate('/dashboard')}>Главная</span>
               <span className={styles.separator}>›</span>
               <span className={styles.breadcrumbActive}>Заявки</span>
             </div>
@@ -306,12 +410,49 @@ export default function SupplierPage() {
           </div>
         </div>
 
-        <div className={styles.searchSection}>
-          <SearchBar
-            value={searchQuery}
-            onChange={setSearchQuery}
-            placeholder="Поиск по номеру, названию объекта, заказчику..."
-          />
+        <div className={styles.filtersSection}>
+          <div className={styles.searchWrapper}>
+            <SearchBar
+              value={searchQuery}
+              onChange={setSearchQuery}
+              placeholder="Поиск по номеру, названию объекта, заказчику..."
+            />
+          </div>
+
+          <div className={styles.filterGroup}>
+            <select
+              className={styles.filterSelect}
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+            >
+              <option value="all">Все регионы</option>
+              {regions.filter(r => r !== 'all').map(region => (
+                <option key={region} value={region}>{region}</option>
+              ))}
+            </select>
+
+            <select
+              className={styles.filterSelect}
+              value={selectedType}
+              onChange={(e) => setSelectedType(e.target.value)}
+            >
+              <option value="all">Все типы</option>
+              {types.filter(t => t !== 'all').map(type => (
+                <option key={type} value={type}>{type}</option>
+              ))}
+            </select>
+
+            <select
+              className={styles.filterSelect}
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+            >
+              <option value="all">Все статусы</option>
+              <option value="new">Новые</option>
+              <option value="responded">Откликнулся</option>
+              <option value="favorites">Избранное</option>
+            </select>
+          </div>
         </div>
 
         <div className={styles.statsBar}>
@@ -328,6 +469,14 @@ export default function SupplierPage() {
             <span className={styles.statValue}>
               {requests.filter(r => !myOffers.some(o => o.requestId === r.id)).length}
             </span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>В избранном:</span>
+            <span className={styles.statValue}>{favoriteRequests.length}</span>
+          </div>
+          <div className={styles.stat}>
+            <span className={styles.statLabel}>Осталось кликов:</span>
+            <span className={styles.statValue}>{freeClicksLeft}</span>
           </div>
         </div>
 
@@ -350,30 +499,6 @@ export default function SupplierPage() {
           />
         </div>
       </div>
-
-      {/* Модальное окно с деталями заявки */}
-      {isDetailsModalOpen && selectedRequest && (
-        <RequestDetailsModal
-          request={selectedRequest}
-          userEmail={user.email}
-          hasOffer={myOffers.some(o => o.requestId === selectedRequest.id)}
-          onSubmit={handleCreateOffer}
-          onClose={() => {
-            setIsDetailsModalOpen(false)
-            setSelectedRequest(null)
-          }}
-        />
-      )}
-
-      {/* Модальное окно с информацией о бесплатных кликах */}
-      {showFreeClicksModal && selectedRequest && (
-        <FreeClicksModal
-          clicksLeft={freeClicksLeft}
-          onConfirm={handleConfirmFreeClick}
-          onClose={() => setShowFreeClicksModal(false)}
-          onGoToBilling={() => navigate('/billing')}
-        />
-      )}
     </div>
   )
 }

@@ -28,6 +28,8 @@ const KNSSchema = ({ data, extras }) => {
   } = data
 
   // Расчет количества насосов
+
+  
   const totalPumps = (parseInt(workingPumps) || 2) + (parseInt(reservePumps) || 1)
 
   return (

@@ -12,10 +12,11 @@ export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoTo
           </svg>
         </div>
         
-        <h2 className={styles.title}>Бесплатный просмотр</h2>
+        <h2 className={styles.title}>Бесплатный отклик</h2>
         
         <p className={styles.message}>
-          У вас осталось <strong>{clicksLeft}</strong> {getClicksWord(clicksLeft)} для просмотра контактной информации заказчика.
+          У вас осталось <strong>{clicksLeft}</strong> {getClicksWord(clicksLeft)}. 
+          Сейчас будет использован 1 отклик для просмотра контактной информации заказчика.
         </p>
         
         <div className={styles.infoBox}>
@@ -25,8 +26,7 @@ export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoTo
             <circle cx="12" cy="8" r="1" fill="#F59E0B"/>
           </svg>
           <span>
-            После использования бесплатных просмотров, каждый следующий просмотр будет стоить 100 ₽. 
-            Средства будут списаны с вашего счета.
+            После отклика вы сможете создать коммерческое предложение и увидеть все контактные данные заказчика.
           </span>
         </div>
 
@@ -48,7 +48,7 @@ export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoTo
 }
 
 function getClicksWord(count) {
-  if (count % 10 === 1 && count % 100 !== 11) return 'бесплатный клик'
-  if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) return 'бесплатных клика'
-  return 'бесплатных кликов'
+  if (count % 10 === 1 && count % 100 !== 11) return 'бесплатный отклик'
+  if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) return 'бесплатных отклика'
+  return 'бесплатных откликов'
 }
