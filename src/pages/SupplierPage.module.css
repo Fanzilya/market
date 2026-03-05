@@ -1,569 +1,120 @@
 /* pages/SupplierPage.module.css */
 .page {
-    display: flex;
-    min-height: 100vh;
-    background: #f8fafc;
-  }
-  
-  .mainContent {
-    flex: 1;
-    margin-left: 260px;
-    padding: 24px 32px;
-    transition: margin-left 0.3s ease;
-  }
-  
-  :global(.sidebar-collapsed) .mainContent {
-    margin-left: 80px;
-  }
-  
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 24px;
-  }
-  
-  .headerLeft {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .pageTitle {
-    margin: 0;
-    font-size: 28px;
-    font-weight: 700;
-    color: #1e293b;
-    letter-spacing: -0.5px;
-  }
-  
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-  }
-  
-  .breadcrumb {
-    color: #94a3b8;
-  }
-  
-  .breadcrumbActive {
-    color: #4A85F6;
-    font-weight: 500;
-  }
-  
-  .separator {
-    color: #cbd5e1;
-  }
-  
-  .headerRight {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-  
-  .companyInfo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 8px 16px;
-    background: white;
-    border-radius: 30px;
-    border: 1px solid #e2e8f0;
-  }
-  
-  .companyLabel {
-    font-size: 12px;
-    color: #64748b;
-  }
-  
-  .companyName {
-    font-weight: 700;
-    color: #1e293b;
-  }
-  
-  .companyStore {
-    color: #4A85F6;
-    font-weight: 500;
-  }
-  
-  .searchSection {
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  
-  .bulkActions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 4px 8px 4px 16px;
-    background: white;
-    border-radius: 30px;
-    border: 1px solid #e2e8f0;
-  }
-  
-  .selectedCount {
-    font-size: 13px;
-    font-weight: 500;
-    color: #4A85F6;
-  }
-  
-  .bulkButton {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 12px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 20px;
-    font-size: 12px;
-    color: #64748b;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .bulkButton:hover {
-    background: #f1f5f9;
-    color: #1e293b;
-    border-color: #cbd5e1;
-  }
-  
-  .tableContainer {
-    background: white;
-    border-radius: 16px;
-    border: 1px solid #e2e8f0;
-    overflow: auto;
-    margin-bottom: 24px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
-  }
-  
-  /* Элементы таблицы */
-  .idBadge {
-    display: inline-block;
-    padding: 4px 8px;
-    background: #f1f5f9;
-    border-radius: 6px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #4A85F6;
-    font-family: monospace;
-  }
-  
-  .customerInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .customerName {
-    font-weight: 600;
-    color: #1e293b;
-  }
-  
-  .customerContact {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-  
-  .contactItem {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: #64748b;
-  }
-  
-  .icon {
-    flex-shrink: 0;
-    color: #94a3b8;
-  }
-  
-  .purchases {
-    font-weight: 600;
-    color: #10B981;
-    font-family: monospace;
-  }
-  
-  .orderInfo {
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-  }
-  
-  .orderQty {
-    font-weight: 600;
-    color: #1e293b;
-  }
-  
-  .orderLabel {
-    font-size: 11px;
-    color: #94a3b8;
-  }
-  
-  .address {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 13px;
-    color: #64748b;
-    max-width: 250px;
-  }
-  
-  .actionButton {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    color: #64748b;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s;
-  }
-  
-  .actionButton:hover {
-    background: #4A85F6;
-    border-color: #4A85F6;
-    color: white;
-  }
-  
-  .checkbox {
-    width: 18px;
-    height: 18px;
-    cursor: pointer;
-    accent-color: #4A85F6;
-  }
-  
-  .footer {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-  
-  /* Состояние ошибки */
-  .errorState {
-    text-align: center;
-    padding: 60px 20px;
-    max-width: 400px;
-    margin: 100px auto;
-    background: white;
-    border-radius: 16px;
-    border: 1px solid #e2e8f0;
-  }
-  
-  .errorState svg {
-    margin-bottom: 20px;
-  }
-  
-  .errorState h2 {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1e293b;
-    margin: 0 0 8px 0;
-  }
-  
-  .errorState p {
-    font-size: 14px;
-    color: #64748b;
-    margin: 0 0 24px 0;
-  }
-  
-  .primaryButton {
-    padding: 12px 24px;
-    background: #4A85F6;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  
-  .primaryButton:hover {
-    background: #3A6BC9;
-  }
-  
-  /* Dark mode */
-  :global(.dark) .page {
-    background: #0f172a;
-  }
-  
-  :global(.dark) .mainContent {
-    background: #0f172a;
-  }
-  
-  :global(.dark) .pageTitle {
-    color: #f1f5f9;
-  }
-  
-  :global(.dark) .breadcrumb {
-    color: #64748b;
-  }
-  
-  :global(.dark) .companyInfo {
-    background: #1e293b;
-    border-color: #334155;
-  }
-  
-  :global(.dark) .companyLabel {
-    color: #94a3b8;
-  }
-  
-  :global(.dark) .companyName {
-    color: #f1f5f9;
-  }
-  
-  :global(.dark) .tableContainer {
-    background: #1e293b;
-    border-color: #334155;
-  }
-  
-  :global(.dark) .customerName {
-    color: #f1f5f9;
-  }
-  
-  :global(.dark) .orderQty {
-    color: #f1f5f9;
-  }
-  
-  :global(.dark) .address {
-    color: #94a3b8;
-  }
-  
-  :global(.dark) .checkbox {
-    accent-color: #4A85F6;
-  }
-  
-  :global(.dark) .errorState {
-    background: #1e293b;
-    border-color: #334155;
-  }
-  
-  :global(.dark) .errorState h2 {
-    color: #f1f5f9;
-  }
-  
-  /* Responsive */
-  @media (max-width: 1200px) {
-    .mainContent {
-      padding: 20px;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .mainContent {
-      margin-left: 0;
-      padding: 16px;
-    }
-    
-    .header {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 16px;
-    }
-    
-    .tableContainer {
-      overflow-x: auto;
-    }
-    
-    .tableContainer table {
-      min-width: 1000px;
-    }
-  }
+  display: flex;
+  min-height: 100vh;
+  background: #F8FAFC;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
 
+.mainContent {
+  flex: 1;
+  margin-left: 280px;
+  padding: 32px;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 280px);
+}
 
-  /* Добавить в существующий SupplierPage.module.css */
+/* Шапка */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.headerLeft {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pageTitle {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1E293B;
+  letter-spacing: -0.5px;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748B;
+}
+
+.breadcrumb {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.breadcrumb:hover {
+  color: #4A85F6;
+}
+
+.separator {
+  color: #CBD5E1;
+  font-size: 16px;
+}
+
+.breadcrumbActive {
+  color: #4A85F6;
+  font-weight: 500;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
 
 .clicksCounter {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 8px 16px;
-    background: #f0f9ff;
-    border-radius: 30px;
-    border: 1px solid #4A85F6;
-    color: #1e293b;
-    font-size: 14px;
-  }
-  
-  .clicksCounter strong {
-    color: #4A85F6;
-    font-size: 16px;
-  }
-  
-  .statsBar {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 16px 20px;
-    background: white;
-    border-radius: 12px;
-    margin-bottom: 24px;
-    border: 1px solid #e2e8f0;
-  }
-  
-  .stat {
-    display: flex;
-    align-items: baseline;
-    gap: 8px;
-  }
-  
-  .statLabel {
-    font-size: 14px;
-    color: #64748b;
-  }
-  
-  .statValue {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1e293b;
-  }
-  
-  .objectInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .objectName {
-    font-weight: 600;
-    color: #1e293b;
-  }
-  
-  .customerName {
-    font-size: 12px;
-    color: #64748b;
-  }
-  
-  .typeBadge {
-    display: inline-block;
-    padding: 4px 10px;
-    background: #f1f5f9;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-    color: #475569;
-  }
-  
-  .date {
-    color: #64748b;
-    font-size: 13px;
-  }
-  
-  .statusBadge {
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 500;
-  }
-  
-  .statusBadge.responded {
-    background: #e6f7e6;
-    color: #10B981;
-  }
-  
-  .statusBadge.new {
-    background: #f0f9ff;
-    color: #4A85F6;
-  }
-  
-  .actionButton {
-    display: inline-flex;
-    align-items: center;
-    /* gap: 8px; */
-    padding: 8px 45px;
-    border-radius: 8px;
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s;
-    border: 1px solid transparent;
-  }
-  
-  .respondButton {
-    background: #4A85F6;
-    color: white;
-  }
-  
-  .respondButton:hover {
-    background: #3A6BC9;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
-  }
-  
-  .viewButton {
-    background: #f8fafc;
-    border-color: #e2e8f0;
-    color: #64748b;
-  }
-  
-  .viewButton:hover {
-    background: #f1f5f9;
-    color: #1e293b;
-  }
-  
-  /* Dark mode */
-  :global(.dark) .clicksCounter {
-    background: #2d3a4f;
-    border-color: #4A85F6;
-    color: #f1f5f9;
-  }
-  
-  :global(.dark) .statsBar {
-    background: #1e293b;
-    border-color: #334155;
-  }
-  
-  :global(.dark) .statValue {
-    color: #f1f5f9;
-  }
-  
-  :global(.dark) .objectName {
-    color: #f1f5f9;
-  }
-  
-  :global(.dark) .typeBadge {
-    background: #334155;
-    color: #94a3b8;
-  }
-  
-  :global(.dark) .statusBadge.responded {
-    background: #1a2e2a;
-    color: #34d399;
-  }
-  
-  :global(.dark) .statusBadge.new {
-    background: #1e2a3a;
-    color: #60a5fa;
-  }
-  
-  :global(.dark) .viewButton {
-    background: #334155;
-    border-color: #475569;
-    color: #94a3b8;
-  }
-  
-  :global(.dark) .viewButton:hover {
-    background: #3d4a5c;
-    color: #f1f5f9;
-  }
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: #F0F9FF;
+  border-radius: 30px;
+  border: 1px solid #4A85F6;
+  color: #1E293B;
+  font-size: 14px;
+}
 
-  /* Дополнительные стили для SupplierPage.module.css */
+.clicksCounter strong {
+  color: #4A85F6;
+  font-size: 16px;
+}
 
+.companyInfo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 16px;
+  background: white;
+  border-radius: 30px;
+  border: 1px solid #E2E8F0;
+}
+
+.companyLabel {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.companyName {
+  font-weight: 700;
+  color: #1E293B;
+}
+
+/* Секция фильтров */
 .filtersSection {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   flex-wrap: wrap;
 }
 
@@ -591,13 +142,119 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
-  min-width: 150px;
+  min-width: 140px;
 }
 
 .filterSelect:focus {
   outline: none;
   border-color: #4A85F6;
   box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+}
+
+/* Статистика */
+.statsBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  border: 1px solid #E2E8F0;
+  flex-wrap: wrap;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 12px;
+  background: #F8FAFC;
+  border-radius: 20px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.statValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #4A85F6;
+}
+
+/* Таблица */
+.tableContainer {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  overflow: auto;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: left;
+  padding: 16px 20px;
+  background: #F8FAFC;
+  color: #64748B;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #E2E8F0;
+  white-space: nowrap;
+}
+
+.table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #1E293B;
+  vertical-align: middle;
+}
+
+.table tr {
+  transition: background 0.2s;
+}
+
+.table tr:hover {
+  background: #F8FAFC;
+}
+
+/* Ячейки таблицы */
+.idBadge {
+  display: inline-block;
+  padding: 4px 8px;
+  background: #F1F5F9;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4A85F6;
+  font-family: monospace;
+}
+
+.objectInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.objectName {
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.customerName {
+  font-size: 12px;
+  color: #64748B;
 }
 
 .regionBadge {
@@ -610,6 +267,40 @@
   color: #475569;
 }
 
+.typeBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  background: #F1F5F9;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.date {
+  color: #64748B;
+  font-size: 13px;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.statusBadge.new {
+  background: #F0F9FF;
+  color: #4A85F6;
+}
+
+.statusBadge.responded {
+  background: #E6F7E6;
+  color: #10B981;
+}
+
+/* Технические характеристики */
 .techSpecsList {
   display: flex;
   flex-direction: column;
@@ -647,142 +338,13 @@
   font-size: 13px;
 }
 
-/* Темная тема */
-:global(.dark-mode) .filterSelect {
-  background: #1E293B;
-  border-color: #334155;
-  color: #F1F5F9;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
-}
-
-:global(.dark-mode) .filterSelect:focus {
-  border-color: #4A85F6;
-}
-
-:global(.dark-mode) .regionBadge {
-  background: #334155;
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .techSpecLabel {
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .techSpecValue {
-  color: #F1F5F9;
-}
-
-:global(.dark-mode) .techSpecItem {
-  border-bottom-color: #334155;
-}
-
-/* Адаптивность */
-@media (max-width: 768px) {
-  .filtersSection {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .searchWrapper {
-    min-width: auto;
-  }
-  
-  .filterGroup {
-    justify-content: space-between;
-  }
-  
-  .filterSelect {
-    flex: 1;
-  }
-}
-
-@media (max-width: 480px) {
-  .filterGroup {
-    flex-direction: column;
-  }
-  
-  .filterSelect {
-    width: 100%;
-  }
-  
-  .techSpecsList {
-    max-width: 200px;
-  }
-  
-  .techSpecItem {
-    flex-direction: column;
-    gap: 2px;
-  }
-}
-
-/* Добавьте в SupplierPreviewPage.module.css */
-
-.clicksInfo {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  background: #F0F9FF;
-  border: 1px solid #4A85F6;
-  border-radius: 12px;
-  margin: 24px 0;
-}
-
-.clicksInfoIcon {
-  flex-shrink: 0;
-}
-
-.clicksInfoContent {
-  flex: 1;
-}
-
-.clicksInfoTitle {
-  display: block;
-  font-size: 16px;
-  color: #1E293B;
-  margin-bottom: 4px;
-}
-
-.clicksInfoTitle strong {
+.moreSpecs {
   color: #4A85F6;
-  font-size: 18px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
-.clicksInfoText {
-  margin: 0;
-  font-size: 14px;
-  color: #64748B;
-  line-height: 1.5;
-}
-
-.respondButton:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-  background: #94A3B8;
-  box-shadow: none;
-}
-
-.respondButton:disabled:hover {
-  transform: none;
-  box-shadow: none;
-}
-
-/* Темная тема */
-:global(.dark-mode) .clicksInfo {
-  background: #1E2A3A;
-  border-color: #4A85F6;
-}
-
-:global(.dark-mode) .clicksInfoTitle {
-  color: #F1F5F9;
-}
-
-:global(.dark-mode) .clicksInfoText {
-  color: #94A3B8;
-}
-
-/* Добавьте в SupplierPage.module.css */
-
+/* Кнопка избранного */
 .favoriteButton {
   width: 32px;
   height: 32px;
@@ -810,64 +372,337 @@
   background: #FFFBEB;
 }
 
-.favoriteActive:hover {
-  color: #D97706;
-  border-color: #D97706;
+/* Кнопки действий */
+.actionButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: 1px solid transparent;
+  white-space: nowrap;
 }
 
-/* Обновленные фильтры */
-.filterGroup {
+.respondButton {
+  background: #4A85F6;
+  color: white;
+  box-shadow: 0 2px 6px rgba(74, 133, 246, 0.2);
+}
+
+.respondButton:hover {
+  background: #3A6BC9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+}
+
+.viewButton {
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+}
+
+.viewButton:hover {
+  background: #F1F5F9;
+  color: #1E293B;
+  border-color: #CBD5E1;
+}
+
+/* Чекбокс */
+.checkbox {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #4A85F6;
+}
+
+/* Пагинация */
+.footer {
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
-.filterSelect {
-  padding: 10px 32px 10px 16px;
-  border: 2px solid #E2E8F0;
-  border-radius: 10px;
-  font-size: 14px;
-  color: #1E293B;
+/* Пустое состояние */
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
   background: white;
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 10px center;
-  min-width: 140px;
-}
-
-.filterSelect:focus {
-  outline: none;
-  border-color: #4A85F6;
-  box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
-}
-
-/* Статистика */
-.stat {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  padding: 8px 16px;
-  background: #F8FAFC;
-  border-radius: 30px;
+  border-radius: 16px;
   border: 1px solid #E2E8F0;
 }
 
-.statLabel {
-  font-size: 13px;
-  color: #64748B;
-  font-weight: 500;
+.emptyState svg {
+  margin-bottom: 20px;
+  opacity: 0.5;
 }
 
-.statValue {
+.emptyState h3 {
   font-size: 18px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 8px 0;
+}
+
+.emptyState p {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0;
+}
+
+/* Состояние ошибки */
+.errorContainer {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #F8FAFC;
+}
+
+.errorCard {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E2E8F0;
+}
+
+.errorIcon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.errorCard h2 {
+  font-size: 24px;
   font-weight: 700;
-  color: #4A85F6;
+  color: #1E293B;
+  margin: 0 0 12px 0;
+}
+
+.errorCard p {
+  font-size: 15px;
+  color: #64748B;
+  margin: 0 0 24px 0;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #4A85F6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.primaryButton:hover {
+  background: #3A6BC9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+  .mainContent {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .mainContent {
+    margin-left: 0;
+    width: 100%;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filtersSection {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .searchWrapper {
+    min-width: auto;
+  }
+  
+  .filterGroup {
+    justify-content: space-between;
+  }
+  
+  .filterSelect {
+    flex: 1;
+  }
+  
+  .tableContainer {
+    overflow-x: auto;
+  }
+  
+  .table {
+    min-width: 1000px;
+  }
+}
+
+@media (max-width: 768px) {
+  .mainContent {
+    padding: 16px;
+  }
+  
+  .statsBar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .stat {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .headerRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .filterGroup {
+    flex-direction: column;
+  }
+  
+  .filterSelect {
+    width: 100%;
+  }
+  
+  .techSpecsList {
+    max-width: 200px;
+  }
+  
+  .techSpecItem {
+    flex-direction: column;
+    gap: 2px;
+  }
+  
+  .actionButton {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
 }
 
 /* Темная тема */
+:global(.dark-mode) .page {
+  background: #0F172A;
+}
+
+:global(.dark-mode) .mainContent {
+  background: #0F172A;
+}
+
+:global(.dark-mode) .pageTitle {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .clicksCounter {
+  background: #1E2A3A;
+  border-color: #4A85F6;
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .companyInfo {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .companyLabel {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .companyName {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .statsBar {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .stat {
+  background: #2D3A4F;
+}
+
+:global(.dark-mode) .statLabel {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .statValue {
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .tableContainer {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .table th {
+  background: #2D3A4F;
+  color: #94A3B8;
+  border-bottom-color: #475569;
+}
+
+:global(.dark-mode) .table td {
+  color: #F1F5F9;
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .table tr:hover {
+  background: #2D3A4F;
+}
+
+:global(.dark-mode) .idBadge {
+  background: #334155;
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .objectName {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .customerName {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .regionBadge,
+:global(.dark-mode) .typeBadge {
+  background: #334155;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .date {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .statusBadge.new {
+  background: #1E2A3A;
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .statusBadge.responded {
+  background: #1A2E2A;
+  color: #34D399;
+}
+
 :global(.dark-mode) .favoriteButton {
   border-color: #475569;
   color: #64748B;
@@ -892,12 +727,43 @@
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
 }
 
-:global(.dark-mode) .stat {
-  background: #2D3A4F;
+:global(.dark-mode) .techSpecLabel {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .techSpecValue {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .techSpecItem {
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .viewButton {
+  background: #334155;
   border-color: #475569;
+  color: #94A3B8;
 }
 
-:global(.dark-mode) .statValue {
-  color: #4A85F6;
+:global(.dark-mode) .viewButton:hover {
+  background: #3D4A5C;
+  color: #F1F5F9;
 }
 
+:global(.dark-mode) .emptyState {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .emptyState h3 {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .errorCard {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .errorCard h2 {
+  color: #F1F5F9;
+}
