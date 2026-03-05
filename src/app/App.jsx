@@ -19,6 +19,7 @@ import NotificationsPage from '@/pages/NotificationsPage.jsx'
 import SupplierPreviewPage from '@/pages/SupplierPreviewPage.jsx'
 import ProtectedRoute from '@/components/ProtectedRoute.jsx'
 import CreateOfferPage from '@/pages/CreateOfferPage.jsx'
+import OfferDetailPage from '@/pages/OfferDetailPage.jsx'
 import { getSessionUser } from '@/auth/demoAuth.js'
 
 export default function App() {
@@ -27,7 +28,6 @@ export default function App() {
         if (!user) return '/login'
         return user.role === 'customer' ? '/customer' : '/supplier'
     }
-
     return (
         <Routes>
             {/* Публичные маршруты */}
@@ -53,43 +53,24 @@ export default function App() {
             <Route path="/customer/request/:requestId" element={<ProtectedRoute allowedRoles={['customer']}><RequestDetailPage /></ProtectedRoute>} />
             <Route path="/customer/request/:requestId/edit" element={<ProtectedRoute allowedRoles={['customer']}><CreateRequestPage /></ProtectedRoute>} />
             <Route path="/customer/request/:requestId/offers" element={<ProtectedRoute allowedRoles={['customer']}><OffersPage /></ProtectedRoute>} />
+            
+            {/* Новый маршрут для деталей предложения */}
+            <Route path="/customer/offer/:offerId" element={<ProtectedRoute allowedRoles={['customer']}><OfferDetailPage /></ProtectedRoute>} />
 
             {/* Маршруты для поставщика */}
             <Route path="/supplier" element={<ProtectedRoute allowedRoles={['supplier']}><SupplierPage /></ProtectedRoute>} />
             <Route path="/supplier/request/:requestId" element={<ProtectedRoute allowedRoles={['supplier']}><RequestDetailPage /></ProtectedRoute>} />
+            <Route path="/supplier/request/:requestId/preview" element={<ProtectedRoute allowedRoles={['supplier']}><SupplierPreviewPage /></ProtectedRoute>} />
+            <Route path="/supplier/request/:requestId/full" element={<ProtectedRoute allowedRoles={['supplier']}><RequestDetailPage /></ProtectedRoute>} />
+            <Route path="/supplier/request/:requestId/offer/new" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
+            <Route path="/supplier/offer/:offerId" element={<ProtectedRoute allowedRoles={['supplier']}><OfferDetailPage /></ProtectedRoute>} />
+            <Route path="/supplier/offer/:offerId/edit" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
 
             {/* Редирект на правильную страницу заявок */}
             <Route path="/requests" element={<Navigate to={getRequestsPath()} replace />} />
 
             {/* Редирект на главную для всех остальных маршрутов */}
             <Route path="*" element={<Navigate to="/" replace />} />
-
-            <Route
-  path="/supplier/request/:requestId/preview"
-  element={
-    <ProtectedRoute allowedRoles={['supplier']}>
-      <SupplierPreviewPage />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/supplier/request/:requestId/full"
-  element={
-    <ProtectedRoute allowedRoles={['supplier']}>
-      <RequestDetailPage />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/supplier/request/:requestId/offer/new"
-  element={
-    <ProtectedRoute allowedRoles={['supplier']}>
-      <CreateOfferPage />
-    </ProtectedRoute>
-  }
-/>
         </Routes>
     )
 }
