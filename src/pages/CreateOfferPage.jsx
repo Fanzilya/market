@@ -33,13 +33,21 @@ export default function CreateOfferPage() {
     offerDate: new Date().toISOString().split('T')[0], // Дата КП
     
     // Условия поставки
+    hasDelivery: false, // Флаг наличия доставки
     deliveryCost: '', // Стоимость доставки
     deliveryTime: '', // Срок поставки
     paymentTerms: '', // Условия оплаты
     warrantyPeriod: '', // Гарантийный срок
     
+    // Пусконаладочные работы
+    hasCommissioning: false, // Флаг наличия ПНР
+    commissioningCost: '', // Стоимость пусконаладочных работ
+    commissioningDescription: '', // Описание ПНР
+    
+    // Материалы и оборудование
+    materials: [], // Массив материалов для инженерного оборудования
+    
     // Дополнительные услуги
-    commissioning: '', // Пусконаладочные работы
     additionalServices: '', // Дополнительные услуги
     
     // Контактная информация
@@ -51,6 +59,14 @@ export default function CreateOfferPage() {
     // Документы
     documents: [], // Прикрепленные документы
     comment: '' // Комментарий
+  })
+
+  // Состояние для нового материала
+  const [newMaterial, setNewMaterial] = useState({
+    name: '',
+    quantity: '',
+    unit: 'шт',
+    price: ''
   })
 
   useEffect(() => {
@@ -90,7 +106,7 @@ export default function CreateOfferPage() {
   }, [requestId, request, user])
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target
+    const { name, value, type, checked, files } = e.target
     if (type === 'file') {
       // Для файлов добавляем в массив documents
       const fileList = Array.from(files)
@@ -98,9 +114,43 @@ export default function CreateOfferPage() {
         ...prev,
         documents: [...prev.documents, ...fileList]
       }))
+    } else if (type === 'checkbox') {
+      setFormData(prev => ({ ...prev, [name]: checked }))
     } else {
       setFormData(prev => ({ ...prev, [name]: value }))
     }
+  }
+
+  const handleMaterialChange = (e) => {
+    const { name, value } = e.target
+    setNewMaterial(prev => ({ ...prev, [name]: value }))
+  }
+
+  const addMaterial = () => {
+    if (!newMaterial.name.trim() || !newMaterial.quantity || !newMaterial.price) {
+      alert('Заполните все поля материала')
+      return
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      materials: [...prev.materials, { ...newMaterial, id: Date.now() }]
+    }))
+
+    // Очищаем форму
+    setNewMaterial({
+      name: '',
+      quantity: '',
+      unit: 'шт',
+      price: ''
+    })
+  }
+
+  const removeMaterial = (materialId) => {
+    setFormData(prev => ({
+      ...prev,
+      materials: prev.materials.filter(m => m.id !== materialId)
+    }))
   }
 
   const removeDocument = (index) => {
@@ -304,6 +354,12 @@ export default function CreateOfferPage() {
               onClick={() => setActiveTab('delivery')}
             >
               Условия поставки
+            </button>
+            <button
+              className={`${styles.tab} ${activeTab === 'materials' ? styles.tabActive : ''}`}
+              onClick={() => setActiveTab('materials')}
+            >
+              Материалы и оборудование
             </button>
             <button
               className={`${styles.tab} ${activeTab === 'docs' ? styles.tabActive : ''}`}
@@ -519,33 +575,48 @@ export default function CreateOfferPage() {
               <div className={styles.tabContent}>
                 <h3 className={styles.sectionTitle}>Условия поставки</h3>
                 
-                <div className={styles.formGrid}>
-                  <div className={styles.formGroup}>
-                    <label className={styles.label}>Стоимость доставки</label>
+                <div className={styles.formGroup}>
+                  <label className={styles.checkboxLabel}>
                     <input
-                      type="text"
-                      name="deliveryCost"
-                      value={formData.deliveryCost}
+                      type="checkbox"
+                      name="hasDelivery"
+                      checked={formData.hasDelivery}
                       onChange={handleChange}
-                      placeholder="50 000 ₽"
-                      className={styles.input}
-                      disabled={showSuccess}
+                      className={styles.checkbox}
                     />
-                  </div>
-
-                  <div className={styles.formGroup}>
-                    <label className={styles.label}>Срок поставки</label>
-                    <input
-                      type="text"
-                      name="deliveryTime"
-                      value={formData.deliveryTime}
-                      onChange={handleChange}
-                      placeholder="30 дней"
-                      className={styles.input}
-                      disabled={showSuccess}
-                    />
-                  </div>
+                    Включить доставку
+                  </label>
                 </div>
+
+                {formData.hasDelivery && (
+                  <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Стоимость доставки</label>
+                      <input
+                        type="text"
+                        name="deliveryCost"
+                        value={formData.deliveryCost}
+                        onChange={handleChange}
+                        placeholder="50 000 ₽"
+                        className={styles.input}
+                        disabled={showSuccess}
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Срок поставки</label>
+                      <input
+                        type="text"
+                        name="deliveryTime"
+                        value={formData.deliveryTime}
+                        onChange={handleChange}
+                        placeholder="30 дней"
+                        className={styles.input}
+                        disabled={showSuccess}
+                      />
+                    </div>
+                  </div>
+                )}
 
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Условия оплаты</label>
@@ -574,17 +645,48 @@ export default function CreateOfferPage() {
                 </div>
 
                 <div className={styles.formGroup}>
-                  <label className={styles.label}>Пусконаладочные работы</label>
-                  <textarea
-                    name="commissioning"
-                    value={formData.commissioning}
-                    onChange={handleChange}
-                    placeholder="Описание пусконаладочных работ, условия и стоимость"
-                    className={styles.textarea}
-                    rows="3"
-                    disabled={showSuccess}
-                  />
+                  <label className={styles.checkboxLabel}>
+                    <input
+                      type="checkbox"
+                      name="hasCommissioning"
+                      checked={formData.hasCommissioning}
+                      onChange={handleChange}
+                      className={styles.checkbox}
+                    />
+                    Включить пусконаладочные работы
+                  </label>
                 </div>
+
+                {formData.hasCommissioning && (
+                  <>
+                    <div className={styles.formGrid}>
+                      <div className={styles.formGroup}>
+                        <label className={styles.label}>Стоимость ПНР</label>
+                        <input
+                          type="text"
+                          name="commissioningCost"
+                          value={formData.commissioningCost}
+                          onChange={handleChange}
+                          placeholder="100 000 ₽"
+                          className={styles.input}
+                          disabled={showSuccess}
+                        />
+                      </div>
+                    </div>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Описание ПНР</label>
+                      <textarea
+                        name="commissioningDescription"
+                        value={formData.commissioningDescription}
+                        onChange={handleChange}
+                        placeholder="Подробное описание пусконаладочных работ"
+                        className={styles.textarea}
+                        rows="3"
+                        disabled={showSuccess}
+                      />
+                    </div>
+                  </>
+                )}
 
                 <div className={styles.formGroup}>
                   <label className={styles.label}>Дополнительные услуги</label>
@@ -601,57 +703,388 @@ export default function CreateOfferPage() {
               </div>
             )}
 
-            {/* Вкладка: Документы */}
-            {activeTab === 'docs' && (
+            {/* Вкладка: Материалы и оборудование */}
+            {activeTab === 'materials' && (
               <div className={styles.tabContent}>
-                <h3 className={styles.sectionTitle}>Документы</h3>
+                <h3 className={styles.sectionTitle}>Материалы и оборудование</h3>
                 
-                <div className={styles.uploadArea}>
-                  <input
-                    type="file"
-                    id="fileUpload"
-                    multiple
-                    onChange={handleChange}
-                    className={styles.fileInput}
-                    disabled={showSuccess}
-                  />
-                  <label htmlFor="fileUpload" className={styles.uploadLabel}>
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
-                      <path d="M12 16V4" stroke="#4A85F6" strokeWidth="2"/>
-                      <path d="M8 8L12 4L16 8" stroke="#4A85F6" strokeWidth="2"/>
-                      <path d="M20 16V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V16" stroke="#4A85F6" strokeWidth="2"/>
+                <div className={styles.materialsForm}>
+                  <h4 className={styles.subsectionTitle}>Добавить материал</h4>
+                  
+                  <div className={styles.formGrid}>
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Наименование</label>
+                      <input
+                        type="text"
+                        name="name"
+                        value={newMaterial.name}
+                        onChange={handleMaterialChange}
+                        placeholder="Насос, труба, фитинг и т.д."
+                        className={styles.input}
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Количество</label>
+                      <input
+                        type="text"
+                        name="quantity"
+                        value={newMaterial.quantity}
+                        onChange={handleMaterialChange}
+                        placeholder="10"
+                        className={styles.input}
+                      />
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Ед. измерения</label>
+                      <select
+                        name="unit"
+                        value={newMaterial.unit}
+                        onChange={handleMaterialChange}
+                        className={styles.select}
+                      >
+                        <option value="шт">шт</option>
+                        <option value="м">м</option>
+                        <option value="кг">кг</option>
+                        <option value="компл">компл</option>
+                        <option value="упак">упак</option>
+                      </select>
+                    </div>
+
+                    <div className={styles.formGroup}>
+                      <label className={styles.label}>Цена за ед.</label>
+                      <input
+                        type="text"
+                        name="price"
+                        value={newMaterial.price}
+                        onChange={handleMaterialChange}
+                        placeholder="5 000 ₽"
+                        className={styles.input}
+                      />
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className={styles.addMaterialButton}
+                    onClick={addMaterial}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M12 4V20" stroke="currentColor" strokeWidth="2"/>
+                      <path d="M4 12H20" stroke="currentColor" strokeWidth="2"/>
                     </svg>
-                    <span>Нажмите для загрузки файлов</span>
-                    <span className={styles.uploadHint}>PDF, DOC, XLS, JPG до 10 МБ</span>
-                  </label>
+                    Добавить материал
+                  </button>
                 </div>
 
-                {formData.documents.length > 0 && (
-                  <div className={styles.documentsList}>
-                    <h4 className={styles.documentsTitle}>Загруженные файлы:</h4>
-                    {formData.documents.map((file, index) => (
-                      <div key={index} className={styles.documentItem}>
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                          <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#4A85F6" strokeWidth="2"/>
-                        </svg>
-                        <span className={styles.documentName}>{file.name}</span>
-                        <span className={styles.documentSize}>
-                          {(file.size / 1024).toFixed(1)} КБ
-                        </span>
-                        <button
-                          type="button"
-                          className={styles.removeDocument}
-                          onClick={() => removeDocument(index)}
-                          disabled={showSuccess}
-                        >
-                          ✕
-                        </button>
-                      </div>
-                    ))}
+                {formData.materials.length > 0 && (
+                  <div className={styles.materialsList}>
+                    <h4 className={styles.subsectionTitle}>Добавленные материалы</h4>
+                    
+                    <table className={styles.materialsTable}>
+                      <thead>
+                        <tr>
+                          <th>Наименование</th>
+                          <th>Кол-во</th>
+                          <th>Ед. изм.</th>
+                          <th>Цена за ед.</th>
+                          <th>Сумма</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {formData.materials.map(material => {
+                          const total = parseFloat(material.price) * parseFloat(material.quantity)
+                          return (
+                            <tr key={material.id}>
+                              <td>{material.name}</td>
+                              <td>{material.quantity}</td>
+                              <td>{material.unit}</td>
+                              <td>{material.price} ₽</td>
+                              <td>{total.toFixed(2)} ₽</td>
+                              <td>
+                                <button
+                                  type="button"
+                                  className={styles.removeMaterialButton}
+                                  onClick={() => removeMaterial(material.id)}
+                                >
+                                  ✕
+                                </button>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    </table>
                   </div>
                 )}
               </div>
             )}
+
+            {/* Вкладка: Документы */}
+{activeTab === 'docs' && (
+  <div className={styles.tabContent}>
+    <h3 className={styles.sectionTitle}>Документы</h3>
+    
+    {/* Типы документов */}
+    <div className={styles.documentTypesGrid}>
+      {/* Паспорт на оборудование */}
+      <div className={styles.documentTypeCard}>
+        <div className={styles.documentTypeHeader}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M16 17H8M16 13H8M10 9H8" stroke="#4A85F6" strokeWidth="2" strokeLinecap="round"/>
+          </svg>
+          <span className={styles.documentTypeTitle}>Паспорт на оборудование</span>
+        </div>
+        <div className={styles.documentTypeUpload}>
+          <input
+            type="file"
+            id="passportUpload"
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+            onChange={(e) => {
+              const files = Array.from(e.target.files).map(file => ({
+                file,
+                type: 'passport',
+                typeName: 'Паспорт на оборудование'
+              }))
+              setFormData(prev => ({
+                ...prev,
+                documents: [...prev.documents, ...files]
+              }))
+            }}
+            className={styles.fileInput}
+            disabled={showSuccess}
+          />
+          <label htmlFor="passportUpload" className={styles.documentTypeLabel}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 16V4" stroke="currentColor" strokeWidth="2"/>
+              <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+            Загрузить паспорт
+          </label>
+        </div>
+      </div>
+
+      {/* Сертификат на оборудование */}
+      <div className={styles.documentTypeCard}>
+        <div className={styles.documentTypeHeader}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M2 17L12 22L22 17" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M2 12L12 17L22 12" stroke="#4A85F6" strokeWidth="2"/>
+          </svg>
+          <span className={styles.documentTypeTitle}>Сертификат на оборудование</span>
+        </div>
+        <div className={styles.documentTypeUpload}>
+          <input
+            type="file"
+            id="certificateUpload"
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+            onChange={(e) => {
+              const files = Array.from(e.target.files).map(file => ({
+                file,
+                type: 'certificate',
+                typeName: 'Сертификат на оборудование'
+              }))
+              setFormData(prev => ({
+                ...prev,
+                documents: [...prev.documents, ...files]
+              }))
+            }}
+            className={styles.fileInput}
+            disabled={showSuccess}
+          />
+          <label htmlFor="certificateUpload" className={styles.documentTypeLabel}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 16V4" stroke="currentColor" strokeWidth="2"/>
+              <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+            Загрузить сертификат
+          </label>
+        </div>
+      </div>
+
+      {/* Чертежи */}
+      <div className={styles.documentTypeCard}>
+        <div className={styles.documentTypeHeader}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4H20V20H4V4Z" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M8 8H16V16H8V8Z" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M12 8V16" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M8 12H16" stroke="#4A85F6" strokeWidth="2"/>
+          </svg>
+          <span className={styles.documentTypeTitle}>Чертежи</span>
+        </div>
+        <div className={styles.documentTypeUpload}>
+          <input
+            type="file"
+            id="drawingsUpload"
+            accept=".pdf,.dwg,.dxf,.cdw,.jpg,.jpeg,.png"
+            onChange={(e) => {
+              const files = Array.from(e.target.files).map(file => ({
+                file,
+                type: 'drawing',
+                typeName: 'Чертежи'
+              }))
+              setFormData(prev => ({
+                ...prev,
+                documents: [...prev.documents, ...files]
+              }))
+            }}
+            className={styles.fileInput}
+            disabled={showSuccess}
+          />
+          <label htmlFor="drawingsUpload" className={styles.documentTypeLabel}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 16V4" stroke="currentColor" strokeWidth="2"/>
+              <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+            Загрузить чертежи
+          </label>
+        </div>
+      </div>
+
+      {/* КП (Коммерческое предложение) */}
+      <div className={styles.documentTypeCard}>
+        <div className={styles.documentTypeHeader}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M4 4H20V8L12 16L4 8V4Z" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M4 8H20" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M8 12L12 16L16 12" stroke="#4A85F6" strokeWidth="2"/>
+          </svg>
+          <span className={styles.documentTypeTitle}>КП (Коммерческое предложение)</span>
+        </div>
+        <div className={styles.documentTypeUpload}>
+          <input
+            type="file"
+            id="offerDocUpload"
+            accept=".pdf,.doc,.docx,.xls,.xlsx"
+            onChange={(e) => {
+              const files = Array.from(e.target.files).map(file => ({
+                file,
+                type: 'offer',
+                typeName: 'КП'
+              }))
+              setFormData(prev => ({
+                ...prev,
+                documents: [...prev.documents, ...files]
+              }))
+            }}
+            className={styles.fileInput}
+            disabled={showSuccess}
+          />
+          <label htmlFor="offerDocUpload" className={styles.documentTypeLabel}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 16V4" stroke="currentColor" strokeWidth="2"/>
+              <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+            Загрузить КП
+          </label>
+        </div>
+      </div>
+
+      {/* Дополнительные файлы */}
+      <div className={styles.documentTypeCard}>
+        <div className={styles.documentTypeHeader}>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L13 2Z" stroke="#4A85F6" strokeWidth="2"/>
+            <path d="M13 2V8H19" stroke="#4A85F6" strokeWidth="2"/>
+            <circle cx="9" cy="14" r="1.5" fill="#4A85F6"/>
+            <circle cx="15" cy="14" r="1.5" fill="#4A85F6"/>
+            <circle cx="12" cy="18" r="1.5" fill="#4A85F6"/>
+          </svg>
+          <span className={styles.documentTypeTitle}>Дополнительные файлы</span>
+        </div>
+        <div className={styles.documentTypeUpload}>
+          <input
+            type="file"
+            id="additionalUpload"
+            multiple
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.dwg,.dxf"
+            onChange={(e) => {
+              const files = Array.from(e.target.files).map(file => ({
+                file,
+                type: 'additional',
+                typeName: 'Дополнительные файлы'
+              }))
+              setFormData(prev => ({
+                ...prev,
+                documents: [...prev.documents, ...files]
+              }))
+            }}
+            className={styles.fileInput}
+            disabled={showSuccess}
+          />
+          <label htmlFor="additionalUpload" className={styles.documentTypeLabel}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+              <path d="M12 16V4" stroke="currentColor" strokeWidth="2"/>
+              <path d="M8 8L12 4L16 8" stroke="currentColor" strokeWidth="2"/>
+            </svg>
+            Загрузить файлы
+          </label>
+        </div>
+      </div>
+    </div>
+
+    {/* Список загруженных документов */}
+    {formData.documents.length > 0 && (
+      <div className={styles.documentsList}>
+        <h4 className={styles.documentsTitle}>Загруженные документы:</h4>
+        {formData.documents.map((doc, index) => (
+          <div key={index} className={styles.documentItem}>
+            <div className={styles.documentIcon}>
+              {doc.type === 'passport' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="#4A85F6" strokeWidth="2"/>
+                </svg>
+              )}
+              {doc.type === 'certificate' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="#4A85F6" strokeWidth="2"/>
+                </svg>
+              )}
+              {doc.type === 'drawing' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 4H20V20H4V4Z" stroke="#4A85F6" strokeWidth="2"/>
+                </svg>
+              )}
+              {doc.type === 'offer' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 4H20V8L12 16L4 8V4Z" stroke="#4A85F6" strokeWidth="2"/>
+                </svg>
+              )}
+              {doc.type === 'additional' && (
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <path d="M13 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L13 2Z" stroke="#4A85F6" strokeWidth="2"/>
+                </svg>
+              )}
+            </div>
+            <div className={styles.documentInfo}>
+              <span className={styles.documentType}>{doc.typeName}</span>
+              <span className={styles.documentName}>{doc.file.name}</span>
+              <span className={styles.documentSize}>
+                {(doc.file.size / 1024).toFixed(1)} КБ
+              </span>
+            </div>
+            <button
+              type="button"
+              className={styles.removeDocument}
+              onClick={() => removeDocument(index)}
+              disabled={showSuccess}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <path d="M18 6L6 18" stroke="currentColor" strokeWidth="2"/>
+                <path d="M6 6L18 18" stroke="currentColor" strokeWidth="2"/>
+              </svg>
+            </button>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
 
             {/* Кнопки действий */}
             {!showSuccess && (
@@ -691,4 +1124,3 @@ export default function CreateOfferPage() {
     </div>
   )
 }
-

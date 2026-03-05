@@ -228,7 +228,7 @@
     margin-left: 2px;
   }
   
-  .input, .textarea {
+  .input, .textarea, .select {
     width: 100%;
     padding: 12px 16px;
     border: 2px solid #E2E8F0;
@@ -240,7 +240,16 @@
     box-sizing: border-box;
   }
   
-  .input:focus, .textarea:focus {
+  .select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 40px;
+  }
+  
+  .input:focus, .textarea:focus, .select:focus {
     outline: none;
     border-color: #4A85F6;
     box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
@@ -251,7 +260,183 @@
     font-family: inherit;
   }
   
-  /* Загрузка файлов */
+  /* Чекбоксы */
+  .checkboxLabel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1E293B;
+    cursor: pointer;
+    padding: 8px 0;
+  }
+  
+  .checkbox {
+    width: 18px;
+    height: 18px;
+    border: 2px solid #CBD5E1;
+    border-radius: 4px;
+    cursor: pointer;
+    accent-color: #4A85F6;
+  }
+  
+  /* Сетка типов документов */
+  .documentTypesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+  
+  .documentTypeCard {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 16px;
+    transition: all 0.2s ease;
+  }
+  
+  .documentTypeCard:hover {
+    border-color: #4A85F6;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transform: translateY(-2px);
+  }
+  
+  .documentTypeHeader {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  
+  .documentTypeTitle {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+  }
+  
+  .documentTypeUpload {
+    position: relative;
+  }
+  
+  .documentTypeLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px;
+    background: white;
+    border: 1px dashed #4A85F6;
+    border-radius: 8px;
+    color: #4A85F6;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .documentTypeLabel:hover {
+    background: rgba(74, 133, 246, 0.05);
+    border-color: #3A6BC9;
+  }
+  
+  /* Список документов */
+  .documentsList {
+    margin-top: 24px;
+    border-top: 1px solid #E2E8F0;
+    padding-top: 24px;
+  }
+  
+  .documentsTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 0 0 16px 0;
+  }
+  
+  .documentItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    margin-bottom: 12px;
+    transition: all 0.2s ease;
+  }
+  
+  .documentItem:hover {
+    border-color: #4A85F6;
+    background: white;
+  }
+  
+  .documentIcon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(74, 133, 246, 0.1);
+    border-radius: 10px;
+  }
+  
+  .documentInfo {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .documentType {
+    font-size: 12px;
+    font-weight: 600;
+    color: #4A85F6;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .documentName {
+    font-size: 14px;
+    font-weight: 500;
+    color: #1E293B;
+    word-break: break-word;
+  }
+  
+  .documentSize {
+    font-size: 12px;
+    color: #64748B;
+  }
+  
+  .removeDocument {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .removeDocument:hover {
+    background: #FEE2E2;
+    border-color: #EF4444;
+    color: #EF4444;
+  }
+  
+  .removeDocument:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Загрузка файлов (старый стиль, оставляем для совместимости) */
   .uploadArea {
     border: 2px dashed #E2E8F0;
     border-radius: 12px;
@@ -289,47 +474,68 @@
     color: #64748B !important;
   }
   
-  /* Список документов */
-  .documentsList {
-    margin-top: 20px;
+  /* Материалы и оборудование */
+  .materialsForm {
+    background: #F8FAFC;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
   }
   
-  .documentsTitle {
+  .materialsList {
+    margin-top: 24px;
+  }
+  
+  .materialsTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  
+  .materialsTable th {
+    text-align: left;
+    padding: 12px;
+    background: #F1F5F9;
+    color: #1E293B;
+    font-weight: 600;
+    font-size: 13px;
+    border-bottom: 2px solid #E2E8F0;
+  }
+  
+  .materialsTable td {
+    padding: 12px;
+    border-bottom: 1px solid #E2E8F0;
+    color: #1E293B;
+  }
+  
+  .materialsTable tr:hover td {
+    background: #F8FAFC;
+  }
+  
+  .addMaterialButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: white;
+    border: 2px solid #4A85F6;
+    border-radius: 10px;
+    color: #4A85F6;
     font-size: 14px;
     font-weight: 600;
-    color: #1E293B;
-    margin: 0 0 12px 0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-top: 16px;
   }
   
-  .documentItem {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
-    background: #F8FAFC;
-    border: 1px solid #E2E8F0;
-    border-radius: 8px;
-    margin-bottom: 8px;
+  .addMaterialButton:hover {
+    background: #4A85F6;
+    color: white;
   }
   
-  .documentItem:last-child {
-    margin-bottom: 0;
-  }
-  
-  .documentName {
-    flex: 1;
-    font-size: 14px;
-    color: #1E293B;
-  }
-  
-  .documentSize {
-    font-size: 12px;
-    color: #64748B;
-  }
-  
-  .removeDocument {
-    width: 24px;
-    height: 24px;
+  .removeMaterialButton {
+    width: 28px;
+    height: 28px;
     border-radius: 6px;
     background: #F1F5F9;
     border: none;
@@ -341,7 +547,7 @@
     transition: all 0.2s;
   }
   
-  .removeDocument:hover {
+  .removeMaterialButton:hover {
     background: #FEE2E2;
     color: #EF4444;
   }
@@ -385,11 +591,31 @@
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(74, 133, 246, 0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .submitButton::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transform: translate(-50%, -50%);
+    transition: width 0.3s, height 0.3s;
   }
   
   .submitButton:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(74, 133, 246, 0.4);
+  }
+  
+  .submitButton:active::after {
+    width: 200px;
+    height: 200px;
   }
   
   .submitButton:disabled {
@@ -423,6 +649,62 @@
   
   @keyframes spin {
     to { transform: rotate(360deg); }
+  }
+  
+  /* Уведомление об успехе */
+  .successNotification {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 24px 32px;
+    background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
+    border: 1px solid #86EFAC;
+    border-radius: 16px;
+    margin-bottom: 24px;
+    animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .successIcon {
+    flex-shrink: 0;
+    animation: scaleIn 0.3s ease 0.2s both;
+  }
+  
+  @keyframes scaleIn {
+    from {
+      transform: scale(0);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+  
+  .successContent {
+    flex: 1;
+  }
+  
+  .successTitle {
+    font-size: 20px;
+    font-weight: 700;
+    color: #166534;
+    margin: 0 0 4px 0;
+  }
+  
+  .successMessage {
+    font-size: 15px;
+    color: #166534;
+    margin: 0;
+    opacity: 0.9;
   }
   
   /* Страница ошибки */
@@ -483,6 +765,16 @@
     box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
   }
   
+  /* Блокировка полей при отправке */
+  .input:disabled,
+  .textarea:disabled,
+  .select:disabled,
+  .checkbox:disabled,
+  button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
   /* Адаптивность */
   @media (max-width: 1024px) {
     .requestInfoGrid {
@@ -491,6 +783,10 @@
     
     .formGrid {
       grid-template-columns: 1fr;
+    }
+  
+    .documentTypesGrid {
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     }
   }
   
@@ -511,6 +807,15 @@
     .formActions {
       flex-direction: column;
     }
+  
+    .materialsTable {
+      font-size: 12px;
+    }
+  
+    .materialsTable th,
+    .materialsTable td {
+      padding: 8px;
+    }
   }
   
   @media (max-width: 480px) {
@@ -522,6 +827,23 @@
     .documentItem {
       flex-direction: column;
       text-align: center;
+      align-items: flex-start;
+    }
+  
+    .documentIcon {
+      align-self: center;
+    }
+  
+    .documentInfo {
+      width: 100%;
+    }
+  
+    .removeDocument {
+      align-self: flex-end;
+    }
+  
+    .documentTypesGrid {
+      grid-template-columns: 1fr;
     }
   }
   
@@ -556,6 +878,24 @@
     color: #F1F5F9;
   }
   
+  :global(.dark-mode) .clicksInfo p {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .tab {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .tab:hover {
+    color: #4A85F6;
+    background: #1E293B;
+  }
+  
+  :global(.dark-mode) .tabActive {
+    color: #4A85F6;
+    background: rgba(74, 133, 246, 0.15);
+  }
+  
   :global(.dark-mode) .tabContent {
     background: #1E293B;
     border-color: #334155;
@@ -566,19 +906,29 @@
     border-bottom-color: #334155;
   }
   
+  :global(.dark-mode) .subsectionTitle {
+    color: #F1F5F9;
+  }
+  
   :global(.dark-mode) .label {
     color: #F1F5F9;
   }
   
+  :global(.dark-mode) .checkboxLabel {
+    color: #F1F5F9;
+  }
+  
   :global(.dark-mode) .input,
-  :global(.dark-mode) .textarea {
+  :global(.dark-mode) .textarea,
+  :global(.dark-mode) .select {
     background: #2D3A4F;
     border-color: #475569;
     color: #F1F5F9;
   }
   
   :global(.dark-mode) .input:focus,
-  :global(.dark-mode) .textarea:focus {
+  :global(.dark-mode) .textarea:focus,
+  :global(.dark-mode) .select:focus {
     border-color: #4A85F6;
   }
   
@@ -590,13 +940,85 @@
     color: #F1F5F9;
   }
   
+  :global(.dark-mode) .documentTypeCard {
+    background: #2D3A4F;
+    border-color: #475569;
+  }
+  
+  :global(.dark-mode) .documentTypeTitle {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .documentTypeLabel {
+    background: #1E293B;
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .documentTypeLabel:hover {
+    background: #2D3A4F;
+  }
+  
   :global(.dark-mode) .documentItem {
     background: #2D3A4F;
     border-color: #475569;
   }
   
+  :global(.dark-mode) .documentItem:hover {
+    background: #334155;
+    border-color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .documentIcon {
+    background: rgba(74, 133, 246, 0.15);
+  }
+  
   :global(.dark-mode) .documentName {
     color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .documentSize {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .materialsForm {
+    background: #2D3A4F;
+  }
+  
+  :global(.dark-mode) .materialsTable th {
+    background: #334155;
+    color: #F1F5F9;
+    border-bottom-color: #475569;
+  }
+  
+  :global(.dark-mode) .materialsTable td {
+    color: #F1F5F9;
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark-mode) .materialsTable tr:hover td {
+    background: #334155;
+  }
+  
+  :global(.dark-mode) .addMaterialButton {
+    background: #1E293B;
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .addMaterialButton:hover {
+    background: #4A85F6;
+    color: white;
+  }
+  
+  :global(.dark-mode) .removeMaterialButton {
+    background: #334155;
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .removeMaterialButton:hover {
+    background: #FEE2E2;
+    color: #EF4444;
   }
   
   :global(.dark-mode) .cancelButton {
@@ -609,106 +1031,12 @@
     color: #F1F5F9;
   }
   
-  :global(.dark-mode) .errorCard {
-    background: #1E293B;
-    border-color: #334155;
+  :global(.dark-mode) .errorBox {
+    background: #451A1A;
+    border-color: #7F1D1D;
+    color: #FCA5A5;
   }
   
-  :global(.dark-mode) .errorCard h2 {
-    color: #F1F5F9;
-  }
-
-  /* Добавьте в CreateOfferPage.module.css */
-
-.successNotification {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding: 24px 32px;
-    background: linear-gradient(135deg, #F0FDF4, #DCFCE7);
-    border: 1px solid #86EFAC;
-    border-radius: 16px;
-    margin-bottom: 24px;
-    animation: slideDown 0.3s ease;
-  }
-  
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .successIcon {
-    flex-shrink: 0;
-    animation: scaleIn 0.3s ease 0.2s both;
-  }
-  
-  @keyframes scaleIn {
-    from {
-      transform: scale(0);
-    }
-    to {
-      transform: scale(1);
-    }
-  }
-  
-  .successContent {
-    flex: 1;
-  }
-  
-  .successTitle {
-    font-size: 20px;
-    font-weight: 700;
-    color: #166534;
-    margin: 0 0 4px 0;
-  }
-  
-  .successMessage {
-    font-size: 15px;
-    color: #166534;
-    margin: 0;
-    opacity: 0.9;
-  }
-  
-  /* Блокировка полей при отправке */
-  .input:disabled,
-  .textarea:disabled,
-  select:disabled,
-  button:disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
-  }
-  
-  /* Анимация для кнопки отправки */
-  .submitButton {
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .submitButton::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
-    transform: translate(-50%, -50%);
-    transition: width 0.3s, height 0.3s;
-  }
-  
-  .submitButton:active::after {
-    width: 200px;
-    height: 200px;
-  }
-  
-  /* Темная тема для уведомления */
   :global(.dark-mode) .successNotification {
     background: linear-gradient(135deg, #14532D, #166534);
     border-color: #4ADE80;
@@ -717,4 +1045,21 @@
   :global(.dark-mode) .successTitle,
   :global(.dark-mode) .successMessage {
     color: #DCFCE7;
+  }
+  
+  :global(.dark-mode) .errorCard {
+    background: #1E293B;
+    border-color: #334155;
+  }
+  
+  :global(.dark-mode) .errorCard h2 {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .errorCard p {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .select {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
   }

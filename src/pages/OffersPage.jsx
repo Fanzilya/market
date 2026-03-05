@@ -1,5 +1,5 @@
 // src/pages/OffersPage.jsx
-import { useMemo, useState, useEffect, useRef } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getSessionUser } from '../auth/demoAuth.js'
 import { getRequestById } from '../data/requests.js'
@@ -13,26 +13,16 @@ export default function OffersPage() {
   const user = getSessionUser()
   const navigate = useNavigate()
   const [darkMode, setDarkMode] = useState(false)
-  const [selectedOffer, setSelectedOffer] = useState(null)
   const [selectedOffers, setSelectedOffers] = useState([])
   const [sortBy, setSortBy] = useState('price')
   const [sortOrder, setSortOrder] = useState('asc')
   const [filterCompany, setFilterCompany] = useState('all')
   const [selectAll, setSelectAll] = useState(false)
-
-  // Состояния для чата
-  const [showChat, setShowChat] = useState(false)
-  const [chatMessages, setChatMessages] = useState([])
-  const [newMessage, setNewMessage] = useState('')
-  const [activeChatSupplier, setActiveChatSupplier] = useState(null)
-  const messagesEndRef = useRef(null)
+  const [viewMode, setViewMode] = useState('table') // 'table' или 'cards'
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     setDarkMode(savedTheme === 'dark')
-
-    // Загружаем сохраненные сообщения чата
-    loadChatMessages()
   }, [])
 
   useEffect(() => {
@@ -44,13 +34,6 @@ export default function OffersPage() {
     }
   }, [darkMode])
 
-  // Прокрутка вниз при новых сообщениях
-  useEffect(() => {
-    if (messagesEndRef.current) {
-      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
-    }
-  }, [chatMessages])
-
   const request = useMemo(() => {
     return requestId ? getRequestById(requestId) : null
   }, [requestId])
@@ -59,7 +42,6 @@ export default function OffersPage() {
     if (!requestId) return []
     return listOffersByRequestId(requestId).map((offer, index) => ({
       ...offer,
-      // Добавляем данные для конъюнктурного анализа
       analysisData: {
         number: index + 1,
         unit: offer.unit || 'шт',
@@ -73,183 +55,13 @@ export default function OffersPage() {
         inn: offer.inn || '7701234567',
         website: offer.website || 'www.example.com',
         location: offer.location || 'г. Москва',
-        status: offer.status || '2', // 1 - Производитель, 2 - Поставщик
+        status: offer.status || '2',
       }
     }))
   }, [requestId])
 
-  // Загрузка сообщений чата из localStorage
-  const loadChatMessages = () => {
-    const chatKey = `chat_${requestId}`
-    const saved = localStorage.getItem(chatKey)
-    if (saved) {
-      try {
-        setChatMessages(JSON.parse(saved))
-      } catch (e) {
-        console.error('Ошибка загрузки сообщений чата:', e)
-      }
-    } else {
-      // Демо-сообщения для примера
-      const demoTemplate = [
-        {
-          id: 1,
-          supplierId: 'supplier1',
-          supplierName: 'ООО "СтройИнжПроект"',
-          messages: [
-            {
-              id: 'm1',
-              sender: 'supplier',
-              text: 'Здравствуйте! Готов ответить на ваши вопросы по предложению.',
-              timestamp: new Date(Date.now() - 86400000).toISOString(),
-              read: true
-            },
-            {
-              id: 'm2',
-              sender: 'customer',
-              text: 'Добрый день! Подскажите, входит ли доставка в стоимость?',
-              timestamp: new Date(Date.now() - 43200000).toISOString(),
-              read: true
-            },
-            {
-              id: 'm3',
-              sender: 'supplier',
-              text: 'Доставка оплачивается отдельно, но можем предложить скидку при заказе от 3-х единиц.',
-              timestamp: new Date(Date.now() - 21600000).toISOString(),
-              read: false
-            }
-          ]
-        },
-        {
-          id: 2,
-          supplierId: 'supplier2',
-          supplierName: 'ООО "ТехноСтрой"',
-          messages: [
-            {
-              id: 'm4',
-              sender: 'customer',
-              text: 'Здравствуйте! Можете предоставить сертификаты на оборудование?',
-              timestamp: new Date(Date.now() - 172800000).toISOString(),
-              read: true
-            },
-            {
-              id: 'm5',
-              sender: 'supplier',
-              text: 'Да, конечно. Отправил сертификаты в приложении к сообщению.',
-              timestamp: new Date(Date.now() - 86400000).toISOString(),
-              read: true
-            }
-          ]
-        }
-      ]
-      setChatMessages(demoTemplate)
-      localStorage.setItem(chatKey, JSON.stringify(demoTemplate))
-    }
-  }
-
-  // Открыть чат с поставщиком
-  const openChat = (supplierId, supplierName, e) => {
-    e.stopPropagation()
-    setActiveChatSupplier({ id: supplierId, name: supplierName })
-    setShowChat(true)
-
-    // Отмечаем сообщения как прочитанные
-    const updatedMessages = chatMessages.map(chat => {
-      if (chat.supplierId === supplierId) {
-        return {
-          ...chat,
-          messages: chat.messages.map(msg => ({ ...msg, read: true }))
-        }
-      }
-      return chat
-    })
-    setChatMessages(updatedMessages)
-    localStorage.setItem(`chat_${requestId}`, JSON.stringify(updatedMessages))
-  }
-
-  // Отправить сообщение
-  const sendMessage = () => {
-    if (!newMessage.trim() || !activeChatSupplier) return
-
-    const newMsg = {
-      id: `msg_${Date.now()}`,
-      sender: 'customer',
-      text: newMessage,
-      timestamp: new Date().toISOString(),
-      read: false
-    }
-
-    const updatedMessages = chatMessages.map(chat => {
-      if (chat.supplierId === activeChatSupplier.id) {
-        return {
-          ...chat,
-          messages: [...chat.messages, newMsg]
-        }
-      }
-      return chat
-    })
-
-    setChatMessages(updatedMessages)
-    localStorage.setItem(`chat_${requestId}`, JSON.stringify(updatedMessages))
-    setNewMessage('')
-
-    // Симуляция ответа от поставщика через 3 секунды
-    setTimeout(() => {
-      const replyMsg = {
-        id: `msg_${Date.now() + 1000}`,
-        sender: 'supplier',
-        text: 'Спасибо за сообщение! Я отвечу в ближайшее время.',
-        timestamp: new Date().toISOString(),
-        read: false
-      }
-
-      const withReply = updatedMessages.map(chat => {
-        if (chat.supplierId === activeChatSupplier.id) {
-          return {
-            ...chat,
-            messages: [...chat.messages, replyMsg]
-          }
-        }
-        return chat
-      })
-
-      setChatMessages(withReply)
-      localStorage.setItem(`chat_${requestId}`, JSON.stringify(withReply))
-    }, 3000)
-  }
-
-  // Получить сообщения для активного чата
-  const getActiveChatMessages = () => {
-    if (!activeChatSupplier) return []
-    const chat = chatMessages.find(c => c.supplierId === activeChatSupplier.id)
-    return chat?.messages || []
-  }
-
-  // Форматирование времени
-  const formatChatTime = (timestamp) => {
-    const date = new Date(timestamp)
-    const now = new Date()
-    const diffMs = now - date
-    const diffMins = Math.floor(diffMs / 60000)
-    const diffHours = Math.floor(diffMs / 3600000)
-    const diffDays = Math.floor(diffMs / 86400000)
-
-    if (diffMins < 60) {
-      return `${diffMins} мин назад`
-    } else if (diffHours < 24) {
-      return `${diffHours} ч назад`
-    } else if (diffDays === 1) {
-      return 'вчера'
-    } else if (diffDays < 7) {
-      return `${diffDays} дн назад`
-    } else {
-      return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' })
-    }
-  }
-
   const sortedOffers = useMemo(() => {
     let sorted = [...offers]
-
-    // Сортировка
     sorted.sort((a, b) => {
       if (sortBy === 'price') {
         const priceA = parseFloat(a.price) || 0
@@ -270,7 +82,6 @@ export default function OffersPage() {
       }
       return 0
     })
-
     return sorted
   }, [offers, sortBy, sortOrder])
 
@@ -288,95 +99,81 @@ export default function OffersPage() {
 
   const stats = useMemo(() => {
     const prices = offers.map(o => parseFloat(o.price) || 0).filter(p => p > 0)
-    const pricesWithVAT = offers.map(o => parseFloat(o.analysisData.priceWithVAT) || 0).filter(p => p > 0)
-    const pricesWithoutVAT = offers.map(o => parseFloat(o.analysisData.priceWithoutVAT) || 0).filter(p => p > 0)
-
     return {
       total: offers.length,
       minPrice: prices.length ? Math.min(...prices) : 0,
       maxPrice: prices.length ? Math.max(...prices) : 0,
       avgPrice: prices.length ? (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(2) : 0,
-      minPriceWithVAT: pricesWithVAT.length ? Math.min(...pricesWithVAT) : 0,
-      maxPriceWithVAT: pricesWithVAT.length ? Math.max(...pricesWithVAT) : 0,
-      avgPriceWithVAT: pricesWithVAT.length ? (pricesWithVAT.reduce((a, b) => a + b, 0) / pricesWithVAT.length).toFixed(2) : 0,
-      minPriceWithoutVAT: pricesWithoutVAT.length ? Math.min(...pricesWithoutVAT) : 0,
-      maxPriceWithoutVAT: pricesWithoutVAT.length ? Math.max(...pricesWithoutVAT) : 0,
-      avgPriceWithoutVAT: pricesWithoutVAT.length ? (pricesWithoutVAT.reduce((a, b) => a + b, 0) / pricesWithoutVAT.length).toFixed(2) : 0,
     }
   }, [offers])
 
-  // Функция для экспорта в Excel
-  const exportToExcel = () => {
-    // Определяем, какие предложения экспортировать (выбранные или все)
+  const exportToExcel = async () => {
     const offersToExport = selectedOffers.length > 0
       ? filteredOffers.filter(o => selectedOffers.includes(o.id))
       : filteredOffers
-
+  
     if (offersToExport.length === 0) {
       alert('Нет предложений для экспорта')
       return
     }
+  
+    try {
+      // Загружаем шаблон
+      const templateUrl = '/export_template.xlsx' // или '/export_template.xlsx'
+      const response = await fetch(templateUrl)
+      const templateData = await response.arrayBuffer()
+      
+      // Читаем шаблон
+      const wb = XLSX.read(templateData, { type: 'array' })
+      const ws = wb.Sheets['Лист1'] // или нужный лист
+  
+      // Находим строку, с которой начинаются данные
+      // Например, данные начинаются с 16 строки (после всех заголовков)
+      XLSX.utils.sheet_add_aoa(ws, [[` ${request?.objectName || ''}`]], { origin: 'A3' })
+      const startRow = 12
+      
+      // Вставляем данные
+      offersToExport.forEach((offer, index) => {
+        const rowNum = startRow + index
+        const priceWithVAT = parseFloat(offer.price) || 0
+        
 
-    // Создаем данные для экспорта в формате конъюнктурного анализа
-    const exportData = offersToExport.map((offer, index) => ({
-      'Номер по порядку': index + 1,
-      'Наименование': request?.objectName || 'Насосное оборудование',
-      'Единица измерения': offer.analysisData.unit,
-      'Текущая отпускная цена за единицу измерения с НДС, рублей': offer.analysisData.priceWithVAT,
-      'Текущая отпускная цена за единицу измерения без учета НДС, рублей': offer.analysisData.priceWithoutVAT,
-      'Месяц и год составления обосновывающего документа': offer.analysisData.documentDate,
-      'Полное наименование производителя (поставщика)': offer.analysisData.supplierFullName,
-      'Сокращенное наименование производителя (поставщика)': offer.analysisData.supplierShortName,
-      'Страна производителя': offer.analysisData.country,
-      'КПП организации': offer.analysisData.kpp,
-      'ИНН организации': offer.analysisData.inn,
-      'Гиперссылка на веб-сайт производителя (поставщика)': offer.analysisData.website,
-      'Населенный пункт расположения склада': offer.analysisData.location,
-      'Статус организации': offer.analysisData.status === '1' ? 'Производитель' : 'Поставщик',
-      'Контактное лицо': offer.contactPerson || '',
-      'Телефон': offer.contactPhone || '',
-      'Email': offer.contactEmail || '',
-      'Комментарий': offer.comment || '',
-    }))
-
-    // Создаем рабочий лист
-    const ws = XLSX.utils.json_to_sheet(exportData)
-
-    // Настраиваем ширину колонок
-    const colWidths = [
-      { wch: 10 }, // Номер
-      { wch: 40 }, // Наименование
-      { wch: 15 }, // Единица измерения
-      { wch: 25 }, // Цена с НДС
-      { wch: 25 }, // Цена без НДС
-      { wch: 25 }, // Дата документа
-      { wch: 40 }, // Полное наименование
-      { wch: 30 }, // Сокращенное наименование
-      { wch: 20 }, // Страна
-      { wch: 15 }, // КПП
-      { wch: 15 }, // ИНН
-      { wch: 30 }, // Сайт
-      { wch: 30 }, // Населенный пункт
-      { wch: 20 }, // Статус
-      { wch: 25 }, // Контактное лицо
-      { wch: 20 }, // Телефон
-      { wch: 30 }, // Email
-      { wch: 40 }, // Комментарий
-    ]
-    ws['!cols'] = colWidths
-
-    // Создаем рабочую книгу
-    const wb = XLSX.utils.book_new()
-    XLSX.utils.book_append_sheet(wb, ws, 'Конъюнктурный анализ')
-
-    // Генерируем имя файла
-    const fileName = `Конъюнктурный_анализ_${request?.id || 'заявка'}_${new Date().toISOString().slice(0, 10)}.xlsx`
-
-    // Сохраняем файл
-    XLSX.writeFile(wb, fileName)
+        
+        // Заполняем ячейки
+        XLSX.utils.sheet_add_aoa(ws, [[
+          index + 1, // №
+          '', // Код
+          request?.objectName || '', // Наименование из заявки
+          offer.supplierCompany || offer.supplierFullName || '', // Из КП
+          offer.unit || 'шт', // Ед. изм. заявка
+          offer.unit || 'шт', // Ед. изм. КП
+          priceWithVAT, // Цена с НДС
+          priceWithVAT / 1.2, // Цена без НДС
+          new Date(offer.createdAt).toLocaleDateString('ru-RU', { month: 'long', year: 'numeric' }), // Дата
+          '', // Индекс
+          1, // Коэффициент
+          priceWithVAT / 1.2, // Текущая цена
+          '', '', '', '', '', '', '', '', // Затраты (пусто)
+          offer.supplierCompany || offer.supplierFullName || '', // Поставщик
+          offer.analysisData?.country || 'Россия', // Страна
+          offer.analysisData?.kpp || '', // КПП
+          offer.analysisData?.inn || '', // ИНН
+          offer.analysisData?.website || '', // Сайт
+          offer.analysisData?.location || '', // Населенный пункт
+          offer.analysisData?.status || '2' // Статус
+        ]], { origin: `A${rowNum}` })
+      })
+  
+      // Сохраняем файл
+      const fileName = `Конъюктурный анализ _${request?.id || 'заявка'}_${new Date().toISOString().slice(0, 10)}.xlsx`
+      XLSX.writeFile(wb, fileName)
+      
+    } catch (error) {
+      console.error('Ошибка при загрузке шаблона:', error)
+      alert('Не удалось загрузить шаблон')
+    }
   }
 
-  // Функция для выбора всех предложений
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedOffers([])
@@ -386,7 +183,6 @@ export default function OffersPage() {
     setSelectAll(!selectAll)
   }
 
-  // Функция для выбора отдельного предложения
   const handleSelectOffer = (offerId) => {
     if (selectedOffers.includes(offerId)) {
       setSelectedOffers(selectedOffers.filter(id => id !== offerId))
@@ -397,6 +193,11 @@ export default function OffersPage() {
         setSelectAll(true)
       }
     }
+  }
+
+  // Функция для перехода на детали предложения
+  const handleViewOffer = (offerId) => {
+    navigate(`/customer/offer/${offerId}`)
   }
 
   if (!user) {
@@ -430,7 +231,7 @@ export default function OffersPage() {
   }
 
   return (
-    <div className={`${styles.page} ${darkMode ? styles.dark : ''} ${showChat ? styles.withChat : ''}`}>
+    <div className={`${styles.page} ${darkMode ? styles.dark : ''}`}>
       <Sidebar
         user={user}
         onLogout={() => navigate('/login')}
@@ -445,14 +246,16 @@ export default function OffersPage() {
             <h1 className={styles.title}>Коммерческие предложения</h1>
             <div className={styles.breadcrumbs}>
               <span className={styles.breadcrumb} onClick={() => navigate('/dashboard')}>Главная</span>
-              <span className={styles.separator}>/</span>
+              <span className={styles.separator}>›</span>
               <span className={styles.breadcrumb} onClick={() => navigate('/customer')}>Заявки</span>
-              <span className={styles.separator}>/</span>
+              <span className={styles.separator}>›</span>
               <span className={styles.current}>{request.id}</span>
             </div>
           </div>
 
           <div className={styles.headerActions}>
+            
+
             <button
               className={styles.backButton}
               onClick={() => navigate(`/customer/request/${requestId}`)}
@@ -461,7 +264,7 @@ export default function OffersPage() {
                 <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
                 <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
               </svg>
-              Вернуться к заявке
+              Назад
             </button>
 
             {selectedOffers.length > 0 && (
@@ -474,7 +277,7 @@ export default function OffersPage() {
                   <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" />
                   <path d="M12 15V3" stroke="currentColor" strokeWidth="2" />
                 </svg>
-                Экспорт выбранных ({selectedOffers.length})
+                Экспорт ({selectedOffers.length})
               </button>
             )}
           </div>
@@ -504,7 +307,7 @@ export default function OffersPage() {
           </div>
         </div>
 
-        {/* Статистика по КП */}
+        {/* Статистика */}
         {offers.length > 0 && (
           <div className={styles.statsGrid}>
             <div className={styles.statCard}>
@@ -512,32 +315,32 @@ export default function OffersPage() {
               <span className={styles.statLabel}>Всего КП</span>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statValue}>{stats.minPriceWithVAT.toLocaleString()} ₽</span>
-              <span className={styles.statLabel}>Мин. цена (с НДС)</span>
+              <span className={styles.statValue}>{stats.minPrice.toLocaleString()} ₽</span>
+              <span className={styles.statLabel}>Мин. цена</span>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statValue}>{stats.maxPriceWithVAT.toLocaleString()} ₽</span>
-              <span className={styles.statLabel}>Макс. цена (с НДС)</span>
+              <span className={styles.statValue}>{stats.maxPrice.toLocaleString()} ₽</span>
+              <span className={styles.statLabel}>Макс. цена</span>
             </div>
             <div className={styles.statCard}>
-              <span className={styles.statValue}>{stats.avgPriceWithVAT.toLocaleString()} ₽</span>
-              <span className={styles.statLabel}>Ср. цена (с НДС)</span>
+              <span className={styles.statValue}>{stats.avgPrice.toLocaleString()} ₽</span>
+              <span className={styles.statLabel}>Ср. цена</span>
             </div>
           </div>
         )}
 
-        {/* Фильтры и сортировка */}
+        {/* Фильтры */}
         <div className={styles.filtersBar}>
           <div className={styles.filterGroup}>
-            <label className={styles.filterLabel}>Сортировать по:</label>
+            <label className={styles.filterLabel}>Сортировать:</label>
             <select
               className={styles.filterSelect}
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
             >
-              <option value="price">Цене</option>
-              <option value="date">Дате</option>
-              <option value="company">Компании</option>
+              <option value="price">По цене</option>
+              <option value="date">По дате</option>
+              <option value="company">По компании</option>
             </select>
             <button
               className={styles.sortOrderButton}
@@ -575,200 +378,211 @@ export default function OffersPage() {
                 />
                 Выбрать все
               </label>
+              <div className={styles.viewToggle}>
+              <button
+                className={`${styles.viewToggleButton} ${viewMode === 'table' ? styles.active : ''}`}
+                onClick={() => setViewMode('table')}
+                title="Таблица"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+                  <path d="M3 9H21" stroke="currentColor" strokeWidth="2" />
+                  <path d="M3 15H21" stroke="currentColor" strokeWidth="2" />
+                  <path d="M9 3V21" stroke="currentColor" strokeWidth="2" />
+                  <path d="M15 3V21" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              </button>
+              <button
+                className={`${styles.viewToggleButton} ${viewMode === 'cards' ? styles.active : ''}`}
+                onClick={() => setViewMode('cards')}
+                title="Карточки"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                  <rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                  <rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                  <rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                  <rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                </svg>
+              </button>
+            </div>
             </div>
           )}
         </div>
 
-        {/* Список КП */}
-        <div className={styles.offersContainer}>
-          {filteredOffers.length === 0 ? (
-            <div className={styles.emptyState}>
-              <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth="2" />
-                <path d="M12 8V12M12 16H12.01" stroke="#CBD5E1" strokeWidth="2" />
-              </svg>
-              <h3>Коммерческие предложения отсутствуют</h3>
-              <p>На данную заявку пока нет предложений от поставщиков</p>
-            </div>
-          ) : (
-            <div className={styles.offersGrid}>
-              {filteredOffers.map((offer) => (
-                <div
-                  key={offer.id}
-                  className={`${styles.offerCard} ${selectedOffer === offer.id ? styles.offerCardSelected : ''} ${selectedOffers.includes(offer.id) ? styles.offerCardChecked : ''}`}
-                  onClick={() => setSelectedOffer(offer.id)}
-                >
-                  <div className={styles.offerHeader}>
-                    <div className={styles.offerCompany}>
-                      <button
-                        className={`${styles.checkboxButton} ${selectedOffers.includes(offer.id) ? styles.checkboxButtonChecked : ''}`}
-                        onClick={(e) => {
-                          e.stopPropagation()
-                          handleSelectOffer(offer.id)
-                        }}
-                      >
-                        {selectedOffers.includes(offer.id) ? '✓' : ''}
-                      </button>
-
-                      <div className={styles.companyIcon}>
-                        {offer.supplierCompany?.charAt(0) || offer.supplierFullName?.charAt(0)}
+        {/* Таблица или карточки */}
+        {filteredOffers.length === 0 ? (
+          <div className={styles.emptyState}>
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+              <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth="2" />
+              <path d="M12 8V12M12 16H12.01" stroke="#CBD5E1" strokeWidth="2" />
+            </svg>
+            <h3>Коммерческие предложения отсутствуют</h3>
+            <p>На данную заявку пока нет предложений от поставщиков</p>
+          </div>
+        ) : viewMode === 'table' ? (
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.th} style={{ width: '40px' }}>
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                      className={styles.checkbox}
+                    />
+                  </th>
+                  <th className={styles.th}>Компания</th>
+                  <th className={styles.th}>Цена</th>
+                  <th className={styles.th}>Дата</th>
+                  <th className={styles.th}>ИНН</th>
+                  <th className={styles.th}>КПП</th>
+                  <th className={styles.th}>Статус</th>
+                  <th className={styles.th}>Действия</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredOffers.map((offer) => (
+                  <tr
+                    key={offer.id}
+                    className={styles.tr}
+                    onClick={() => handleViewOffer(offer.id)} // ← переход по клику на строку
+                  >
+                    <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+                      <input
+                        type="checkbox"
+                        checked={selectedOffers.includes(offer.id)}
+                        onChange={() => handleSelectOffer(offer.id)}
+                        className={styles.checkbox}
+                      />
+                    </td>
+                    <td className={styles.td}>
+                      <div className={styles.companyCell}>
+                        <div className={styles.companyAvatar}>
+                          {offer.supplierCompany?.charAt(0) || offer.supplierFullName?.charAt(0)}
+                        </div>
+                        <div>
+                          <div className={styles.companyName}>{offer.supplierCompany || offer.supplierFullName}</div>
+                          <div className={styles.companyContact}>{offer.contactEmail || '—'}</div>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className={styles.companyName}>
-                          {offer.supplierCompany || offer.supplierFullName}
-                        </h3>
-                        <span className={styles.offerDate}>
-                          {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
-                        </span>
-                      </div>
-                    </div>
-                    <div className={styles.offerPrice}>
-                      {offer.price} ₽
-                    </div>
-                  </div>
-
-                  {/* Данные для конъюнктурного анализа */}
-                  <div className={styles.analysisData}>
-                    <div className={styles.analysisRow}>
-                      <span className={styles.analysisLabel}>ИНН:</span>
-                      <span className={styles.analysisValue}>{offer.analysisData.inn}</span>
-                    </div>
-                    <div className={styles.analysisRow}>
-                      <span className={styles.analysisLabel}>КПП:</span>
-                      <span className={styles.analysisValue}>{offer.analysisData.kpp}</span>
-                    </div>
-                    <div className={styles.analysisRow}>
-                      <span className={styles.analysisLabel}>Страна:</span>
-                      <span className={styles.analysisValue}>{offer.analysisData.country}</span>
-                    </div>
-                    <div className={styles.analysisRow}>
-                      <span className={styles.analysisLabel}>Статус:</span>
-                      <span className={styles.analysisValue}>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.priceCell}>{offer.price} ₽</span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.dateCell}>
+                        {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
+                      </span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.innCell}>{offer.analysisData.inn}</span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={styles.kppCell}>{offer.analysisData.kpp}</span>
+                    </td>
+                    <td className={styles.td}>
+                      <span className={`${styles.statusCell} ${offer.analysisData.status === '1' ? styles.manufacturer : styles.supplier}`}>
                         {offer.analysisData.status === '1' ? 'Производитель' : 'Поставщик'}
                       </span>
-                    </div>
-                    <div className={styles.analysisRow}>
-                      <span className={styles.analysisLabel}>Цена с НДС:</span>
-                      <span className={styles.analysisValue}>{offer.analysisData.priceWithVAT} ₽</span>
-                    </div>
-                    <div className={styles.analysisRow}>
-                      <span className={styles.analysisLabel}>Цена без НДС:</span>
-                      <span className={styles.analysisValue}>{offer.analysisData.priceWithoutVAT} ₽</span>
-                    </div>
-                  </div>
-
-                  {offer.comment && (
-                    <div className={styles.offerComment}>
-                      <p>{offer.comment}</p>
-                    </div>
-                  )}
-
-                  {/* Кнопка чата */}
-                  <div className={styles.offerFooter}>
-                    <button
-                      className={styles.chatButton}
-                      onClick={(e) => openChat(offer.supplierId || `supplier_${offer.id}`, offer.supplierCompany || offer.supplierFullName, e)}
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M21 15C21 15.5304 20.7893 16.0391 20.4142 16.4142C20.0391 16.7893 19.5304 17 19 17H7L3 21V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H19C19.5304 3 20.0391 3.21071 20.4142 3.58579C20.7893 3.96086 21 4.46957 21 5V15Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                      Чат с поставщиком
-                    </button>
-                  </div>
-
-                  {offer.attachments && offer.attachments.length > 0 && (
-                    <div className={styles.attachments}>
-                      <span className={styles.attachmentsLabel}>Файлы:</span>
-                      {offer.attachments.map((file, i) => (
-                        <span key={i} className={styles.attachment}>{file}</span>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Кнопка экспорта (дублирующая внизу) */}
-        {selectedOffers.length > 0 && (
-          <div className={styles.bottomExport}>
-            <button
-              className={styles.exportButtonLarge}
-              onClick={exportToExcel}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15" stroke="currentColor" strokeWidth="2" />
-                <path d="M7 10L12 15L17 10" stroke="currentColor" strokeWidth="2" />
-                <path d="M12 15V3" stroke="currentColor" strokeWidth="2" />
-              </svg>
-              Экспортировать в Excel ({selectedOffers.length} предложений)
-            </button>
+                    </td>
+                    <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+                      <button
+                        className={styles.viewOfferButton}
+                        onClick={() => handleViewOffer(offer.id)} // ← переход по кнопке
+                      >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                          <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
+                          <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                        </svg>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        )}
-      </main>
-
-      {/* Боковая панель чата */}
-      {showChat && activeChatSupplier && (
-        <div className={styles.chatSidebar}>
-          <div className={styles.chatHeader}>
-            <div className={styles.chatHeaderInfo}>
-              <h3 className={styles.chatTitle}>Чат с поставщиком</h3>
-              <span className={styles.chatSupplierName}>{activeChatSupplier.name}</span>
-            </div>
-            <button
-              className={styles.chatCloseButton}
-              onClick={() => setShowChat(false)}
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className={styles.chatMessages}>
-            {getActiveChatMessages().map((msg) => (
+        ) : (
+          <div className={styles.cardsGrid}>
+            {filteredOffers.map((offer) => (
               <div
-                key={msg.id}
-                className={`${styles.chatMessage} ${msg.sender === 'customer' ? styles.customerMessage : styles.supplierMessage}`}
+                key={offer.id}
+                className={`${styles.offerCard} ${selectedOffers.includes(offer.id) ? styles.offerCardSelected : ''}`}
+                onClick={() => handleViewOffer(offer.id)} // ← переход по клику на карточку
               >
-                <div className={styles.messageContent}>
-                  <p>{msg.text}</p>
-                  <span className={styles.messageTime}>
-                    {formatChatTime(msg.timestamp)}
-                    {msg.sender === 'supplier' && !msg.read && (
-                      <span className={styles.messageUnread}>•</span>
-                    )}
-                  </span>
+                <div className={styles.cardHeader}>
+                  <div className={styles.cardHeaderLeft}>
+                    <input
+                      type="checkbox"
+                      checked={selectedOffers.includes(offer.id)}
+                      onChange={(e) => {
+                        e.stopPropagation()
+                        handleSelectOffer(offer.id)
+                      }}
+                      className={styles.cardCheckbox}
+                    />
+                    <div className={styles.cardAvatar}>
+                      {offer.supplierCompany?.charAt(0) || offer.supplierFullName?.charAt(0)}
+                    </div>
+                    <div>
+                      <h3 className={styles.cardCompany}>{offer.supplierCompany || offer.supplierFullName}</h3>
+                      <span className={styles.cardDate}>
+                        {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
+                      </span>
+                    </div>
+                  </div>
+                  <div className={styles.cardPrice}>
+                    {offer.price} ₽
+                  </div>
+                </div>
+
+                <div className={styles.cardBody}>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>ИНН:</span>
+                    <span className={styles.cardValue}>{offer.analysisData.inn}</span>
+                  </div>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>КПП:</span>
+                    <span className={styles.cardValue}>{offer.analysisData.kpp}</span>
+                  </div>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>Страна:</span>
+                    <span className={styles.cardValue}>{offer.analysisData.country}</span>
+                  </div>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>Статус:</span>
+                    <span className={`${styles.cardStatus} ${offer.analysisData.status === '1' ? styles.cardManufacturer : styles.cardSupplier}`}>
+                      {offer.analysisData.status === '1' ? 'Производитель' : 'Поставщик'}
+                    </span>
+                  </div>
+                </div>
+
+                {offer.comment && (
+                  <div className={styles.cardComment}>
+                    <p>{offer.comment}</p>
+                  </div>
+                )}
+
+                <div className={styles.cardFooter}>
+                  <button
+                    className={styles.cardButton}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      handleViewOffer(offer.id) // ← переход по кнопке "Подробнее"
+                    }}
+                  >
+                    Подробнее
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19" stroke="currentColor" strokeWidth="2" />
+                      <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  </button>
                 </div>
               </div>
             ))}
-            <div ref={messagesEndRef} />
           </div>
-
-          <div className={styles.chatInput}>
-            <textarea
-              value={newMessage}
-              onChange={(e) => setNewMessage(e.target.value)}
-              placeholder="Напишите сообщение..."
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && !e.shiftKey) {
-                  e.preventDefault()
-                  sendMessage()
-                }
-              }}
-            />
-            <button
-              className={styles.sendButton}
-              onClick={sendMessage}
-              disabled={!newMessage.trim()}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                <path d="M22 2L11 13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                <path d="M22 2L15 22L11 13L2 9L22 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+      </main>
     </div>
   )
 }
