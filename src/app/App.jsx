@@ -20,6 +20,7 @@ import SupplierPreviewPage from '@/pages/SupplierPreviewPage.jsx'
 import ProtectedRoute from '@/components/ProtectedRoute.jsx'
 import CreateOfferPage from '@/pages/CreateOfferPage.jsx'
 import OfferDetailPage from '@/pages/OfferDetailPage.jsx'
+import SupplierBalancePage from '@/pages/SupplierBalancePage.jsx'
 import { getSessionUser } from '@/auth/demoAuth.js'
 
 export default function App() {
@@ -65,6 +66,7 @@ export default function App() {
             <Route path="/supplier/request/:requestId/offer/new" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
             <Route path="/supplier/offer/:offerId" element={<ProtectedRoute allowedRoles={['supplier']}><OfferDetailPage /></ProtectedRoute>} />
             <Route path="/supplier/offer/:offerId/edit" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
+            <Route path="/supplier/balance" element={<SupplierBalancePage />} />
 
             {/* Редирект на правильную страницу заявок */}
             <Route path="/requests" element={<Navigate to={getRequestsPath()} replace />} />

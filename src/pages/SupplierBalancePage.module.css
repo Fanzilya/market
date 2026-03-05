@@ -1,0 +1,1011 @@
+/* src/pages/SupplierBalancePage.module.css */
+.page {
+    display: flex;
+    min-height: 100vh;
+    background: #F8FAFC;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  }
+  
+  .main {
+    flex: 1;
+    margin-left: 280px;
+    padding: 32px;
+    transition: margin-left 0.3s ease;
+  }
+  
+  .container {
+    margin: 0 auto;
+  }
+  
+  /* Шапка страницы */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .title {
+    font-size: 28px;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+  }
+  
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #64748B;
+    flex-wrap: wrap;
+  }
+  
+  .breadcrumb {
+    cursor: pointer;
+    transition: color 0.2s;
+  }
+  
+  .breadcrumb:hover {
+    color: #4A85F6;
+  }
+  
+  .separator {
+    color: #CBD5E1;
+    font-size: 16px;
+  }
+  
+  .current {
+    color: #4A85F6;
+    font-weight: 500;
+  }
+  
+  /* Карточка баланса */
+  .balanceCard {
+    background: linear-gradient(135deg, #1E293B, #0F172A);
+    border-radius: 24px;
+    padding: 32px;
+    margin-bottom: 32px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .balanceCard::before {
+    content: '🪙';
+    position: absolute;
+    right: -20px;
+    bottom: -20px;
+    font-size: 180px;
+    opacity: 0.1;
+    transform: rotate(15deg);
+  }
+  
+  .balanceHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .balanceTitle {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  .balanceTitle svg {
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.3));
+  }
+  
+  .historyButton {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 20px;
+    color: white;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    backdrop-filter: blur(10px);
+  }
+  
+  .historyButton:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+  }
+  
+  .balanceAmount {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+  
+  .coinIcon {
+    font-size: 48px;
+    filter: drop-shadow(0 4px 8px rgba(255, 215, 0, 0.5));
+    animation: spin 10s linear infinite;
+  }
+  
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+  
+  .coinValue {
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+    background: linear-gradient(135deg, #FFD700, #FFA500);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .coinLabel {
+    font-size: 20px;
+    color: #94A3B8;
+  }
+  
+  .balanceStats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  
+  .statItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .statLabel {
+    font-size: 12px;
+    color: #94A3B8;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .statValue {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  
+  /* Табы */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #E2E8F0;
+    padding-bottom: 8px;
+    overflow-x: auto;
+  }
+  
+  .tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: transparent;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #64748B;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  
+  .tab:hover {
+    color: #4A85F6;
+    background: #F8FAFC;
+  }
+  
+  .tabActive {
+    color: #4A85F6;
+    background: rgba(74, 133, 246, 0.1);
+    font-weight: 600;
+    position: relative;
+  }
+  
+  .tabActive::after {
+    content: '';
+    position: absolute;
+    bottom: -9px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #4A85F6;
+  }
+  
+  /* Контент табов */
+  .tabContent {
+    background: white;
+    border-radius: 20px;
+    border: 1px solid #E2E8F0;
+    padding: 32px;
+    min-height: 500px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  }
+  
+  .sectionTitle {
+    font-size: 18px;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 0 0 24px 0;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #F1F5F9;
+  }
+  
+  /* Сетка пакетов */
+  .packagesGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  
+  .packageCard {
+    background: #F8FAFC;
+    border: 2px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 24px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .packageCard:hover {
+    transform: translateY(-4px);
+    border-color: #4A85F6;
+    box-shadow: 0 10px 25px rgba(74, 133, 246, 0.15);
+  }
+  
+  .packageSelected {
+    border-color: #4A85F6;
+    background: rgba(74, 133, 246, 0.05);
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.2);
+  }
+  
+  .packagePopular {
+    border-color: #FFD700;
+    background: linear-gradient(135deg, #FEF9E7, #F8FAFC);
+  }
+  
+  .popularBadge {
+    position: absolute;
+    top: 12px;
+    right: -30px;
+    background: #FFD700;
+    color: #1E293B;
+    padding: 4px 30px;
+    font-size: 12px;
+    font-weight: 600;
+    transform: rotate(45deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .packageIcon {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  
+  .coinStack {
+    display: inline-block;
+    animation: bounce 2s infinite;
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+  
+  .packageCoins {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1E293B;
+    margin-bottom: 8px;
+  }
+  
+  .packageCoins span {
+    font-size: 14px;
+    font-weight: 400;
+    color: #64748B;
+  }
+  
+  .packageBonus {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  
+  .packagePrice {
+    margin-bottom: 8px;
+  }
+  
+  .oldPrice {
+    font-size: 14px;
+    color: #94A3B8;
+    text-decoration: line-through;
+    margin-right: 8px;
+  }
+  
+  .currentPrice {
+    font-size: 22px;
+    font-weight: 700;
+    color: #1E293B;
+  }
+  
+  .pricePerCoin {
+    font-size: 12px;
+    color: #64748B;
+  }
+  
+  /* Секция оплаты */
+  .paymentSection {
+    margin-bottom: 24px;
+  }
+  
+  .paymentMethods {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  
+  .paymentMethod {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    flex: 1;
+    min-width: 150px;
+  }
+  
+  .paymentMethod:hover {
+    border-color: #4A85F6;
+    background: white;
+  }
+  
+  .paymentMethod input[type="radio"] {
+    accent-color: #4A85F6;
+    width: 18px;
+    height: 18px;
+  }
+  
+  .paymentMethodIcon {
+    font-size: 20px;
+  }
+  
+  .payButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(74, 133, 246, 0.3);
+  }
+  
+  .payButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 133, 246, 0.4);
+  }
+  
+  .payButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Информационный блок */
+  .infoBlock {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px;
+    background: #F0F9FF;
+    border: 1px solid #4A85F6;
+    border-radius: 12px;
+    margin-top: 24px;
+  }
+  
+  .infoBlock strong {
+    display: block;
+    color: #1E293B;
+    margin-bottom: 4px;
+  }
+  
+  .infoBlock p {
+    margin: 0;
+    color: #64748B;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* История транзакций */
+  .historyHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  
+  .historyFilters {
+    display: flex;
+    gap: 12px;
+  }
+  
+  .filterSelect {
+    padding: 8px 16px;
+    border: 2px solid #E2E8F0;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #1E293B;
+    background: white;
+    cursor: pointer;
+  }
+  
+  .filterSelect:focus {
+    outline: none;
+    border-color: #4A85F6;
+  }
+  
+  .transactionsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  
+  .transactionItem {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 20px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    transition: all 0.2s;
+  }
+  
+  .transactionItem:hover {
+    border-color: #4A85F6;
+    background: white;
+    transform: translateX(4px);
+  }
+  
+  .transactionIcon {
+    font-size: 24px;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(74, 133, 246, 0.1);
+    border-radius: 12px;
+  }
+  
+  .transactionInfo {
+    flex: 1;
+  }
+  
+  .transactionDesc {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1E293B;
+    margin-bottom: 4px;
+  }
+  
+  .transactionDate {
+    font-size: 12px;
+    color: #64748B;
+  }
+  
+  .transactionAmount {
+    font-size: 16px;
+    font-weight: 600;
+    min-width: 100px;
+    text-align: right;
+  }
+  
+  .positive {
+    color: #10B981;
+  }
+  
+  .negative {
+    color: #EF4444;
+  }
+  
+  .transactionBalance {
+    font-size: 14px;
+    color: #64748B;
+    min-width: 80px;
+    text-align: right;
+  }
+  
+  /* Пагинация */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+  
+  .pageButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    color: #64748B;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .pageButton:hover:not(:disabled) {
+    border-color: #4A85F6;
+    color: #4A85F6;
+    background: #F8FAFC;
+  }
+  
+  .pageButton.active {
+    background: #4A85F6;
+    border-color: #4A85F6;
+    color: white;
+  }
+  
+  .pageButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  
+  /* Статистика */
+  .statsCards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+  
+  .statsCard {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    transition: all 0.2s;
+  }
+  
+  .statsCard:hover {
+    border-color: #4A85F6;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.1);
+  }
+  
+  .statsCardIcon {
+    font-size: 32px;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(74, 133, 246, 0.1);
+    border-radius: 12px;
+  }
+  
+  .statsCardInfo {
+    flex: 1;
+  }
+  
+  .statsCardValue {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: #1E293B;
+    line-height: 1.2;
+  }
+  
+  .statsCardLabel {
+    font-size: 12px;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .chartTitle {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 32px 0 20px 0;
+  }
+  
+  .chartContainer {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 200px;
+    margin-bottom: 32px;
+    padding: 20px 0;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  
+  .chartBar {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+  }
+  
+  .chartBarFill {
+    width: 100%;
+    background: linear-gradient(to top, #4A85F6, #3A6BC9);
+    border-radius: 8px 8px 0 0;
+    transition: height 0.3s;
+    position: relative;
+    min-height: 4px;
+    animation: growBar 0.5s ease;
+  }
+  
+  @keyframes growBar {
+    from { height: 0; }
+    to { height: var(--height); }
+  }
+  
+  .chartBarValue {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 10px;
+    color: #64748B;
+    white-space: nowrap;
+  }
+  
+  .chartBarLabel {
+    margin-top: 8px;
+    font-size: 11px;
+    color: #64748B;
+    transform: rotate(-45deg);
+    white-space: nowrap;
+  }
+  
+  /* Сетка информации */
+  .infoGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px solid #E2E8F0;
+  }
+  
+  .infoItem {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .infoLabel {
+    font-size: 11px;
+    font-weight: 600;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .infoValue {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1E293B;
+  }
+  
+  /* Страница ошибки */
+  .errorContainer {
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+  }
+  
+  .errorCard {
+    background: white;
+    border-radius: 24px;
+    padding: 40px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E2E8F0;
+  }
+  
+  .errorIcon {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .errorCard h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0 0 12px 0;
+  }
+  
+  .errorCard p {
+    font-size: 15px;
+    color: #64748B;
+    margin: 0 0 24px 0;
+  }
+  
+  .primaryButton {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    background: #4A85F6;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .primaryButton:hover {
+    background: #3A6BC9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .main {
+      margin-left: 0;
+      padding: 24px;
+    }
+  
+    .packagesGrid {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    }
+  
+    .statsCards {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .main {
+      padding: 20px;
+    }
+  
+    .balanceAmount {
+      flex-wrap: wrap;
+    }
+  
+    .coinValue {
+      font-size: 48px;
+    }
+  
+    .balanceStats {
+      flex-direction: column;
+      gap: 16px;
+    }
+  
+    .paymentMethods {
+      flex-direction: column;
+    }
+  
+    .paymentMethod {
+      width: 100%;
+    }
+  
+    .transactionItem {
+      flex-wrap: wrap;
+    }
+  
+    .transactionAmount {
+      min-width: auto;
+      text-align: left;
+    }
+  
+    .transactionBalance {
+      text-align: left;
+    }
+  
+    .statsCards {
+      grid-template-columns: 1fr;
+    }
+  
+    .infoGrid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .title {
+      font-size: 24px;
+    }
+  
+    .tab {
+      padding: 10px 16px;
+      font-size: 14px;
+    }
+  
+    .tabContent {
+      padding: 20px;
+    }
+  
+    .packagesGrid {
+      grid-template-columns: 1fr;
+    }
+  
+    .packageCard {
+      max-width: 300px;
+      margin: 0 auto;
+      width: 100%;
+    }
+  }
+  
+  /* Темная тема */
+  :global(.dark-mode) .page {
+    background: #0F172A;
+  }
+  
+  :global(.dark-mode) .title {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .tabContent {
+    background: #1E293B;
+    border-color: #334155;
+  }
+  
+  :global(.dark-mode) .sectionTitle {
+    color: #F1F5F9;
+    border-bottom-color: #334155;
+  }
+  
+  :global(.dark-mode) .tab {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .tab:hover {
+    color: #4A85F6;
+    background: #2D3A4F;
+  }
+  
+  :global(.dark-mode) .tabActive {
+    color: #4A85F6;
+    background: rgba(74, 133, 246, 0.2);
+  }
+  
+  :global(.dark-mode) .packageCard {
+    background: #2D3A4F;
+    border-color: #475569;
+  }
+  
+  :global(.dark-mode) .packageCoins {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .currentPrice {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .packagePopular {
+    background: linear-gradient(135deg, #2D3A4F, #1E293B);
+  }
+  
+  :global(.dark-mode) .paymentMethod {
+    background: #2D3A4F;
+    border-color: #475569;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .paymentMethod:hover {
+    background: #334155;
+  }
+  
+  :global(.dark-mode) .filterSelect {
+    background: #2D3A4F;
+    border-color: #475569;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .transactionItem {
+    background: #2D3A4F;
+    border-color: #475569;
+  }
+  
+  :global(.dark-mode) .transactionDesc {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .statsCard {
+    background: #2D3A4F;
+    border-color: #475569;
+  }
+  
+  :global(.dark-mode) .statsCardValue {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .infoItem {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .infoValue {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .infoBlock {
+    background: #1E2A3A;
+    border-color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .infoBlock strong {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .infoBlock p {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .pageButton {
+    background: #2D3A4F;
+    border-color: #475569;
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .pageButton:hover:not(:disabled) {
+    background: #334155;
+  }
+  
+  :global(.dark-mode) .errorCard {
+    background: #1E293B;
+    border-color: #334155;
+  }
+  
+  :global(.dark-mode) .errorCard h2 {
+    color: #F1F5F9;
+  }
