@@ -1,0 +1,14 @@
+import styles from "./error-box.module.css"
+
+export const ErrorBox = (error) => {
+    return (
+        <div className={styles.errorBox}>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" fill="#FECACA" />
+                <path d="M12 7V13" stroke="#DC2626" strokeWidth="2" />
+                <circle cx="12" cy="17" r="1.5" fill="#DC2626" />
+            </svg>
+            {error}
+        </div>
+    );
+};

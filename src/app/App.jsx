@@ -24,39 +24,39 @@ import SupplierBalancePage from '@/pages/SupplierBalancePage.jsx'
 import { getSessionUser } from '@/auth/demoAuth.js'
 
 export default function App() {
-    const getRequestsPath = () => {
-        const user = getSessionUser()
-        if (!user) return '/login'
-        return user.role === 'customer' ? '/customer' : '/supplier'
-    }
-    return (
-        <Routes>
-            {/* Публичные маршруты */}
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-            
-            {/* Публичные маршруты для брендов и товаров */}
-            <Route path="/brands" element={<BrandsPage />} />
-            <Route path="/brand/:slug" element={<BrandPage />} />
-            <Route path="/product/:id" element={<ProductPage />} />
+  const getRequestsPath = () => {
+    const user = getSessionUser()
+    if (!user) return '/login'
+    return user.role === 'customer' ? '/customer' : '/supplier'
+  }
+  return (
+    <Routes>
+      {/* Публичные маршруты */}
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
-            {/* Защищённые маршруты */}
-            <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-            <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
-            <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
-            <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+      {/* Публичные маршруты для брендов и товаров */}
+      <Route path="/brands" element={<BrandsPage />} />
+      <Route path="/brand/:slug" element={<BrandPage />} />
+      <Route path="/product/:id" element={<ProductPage />} />
 
-            {/* Маршруты для заказчика */}
-            <Route path="/customer" element={<ProtectedRoute allowedRoles={['customer']}><CustomerPage /></ProtectedRoute>} />
-            <Route path="/customer/request/new" element={<ProtectedRoute allowedRoles={['customer']}><CreateRequestPage /></ProtectedRoute>} />
-            <Route path="/customer/request/:requestId" element={<ProtectedRoute allowedRoles={['customer']}><RequestDetailPage /></ProtectedRoute>} />
-            <Route path="/customer/request/:requestId/edit" element={<ProtectedRoute allowedRoles={['customer']}><CreateRequestPage /></ProtectedRoute>} />
-            <Route path="/customer/request/:requestId/offers" element={<ProtectedRoute allowedRoles={['customer']}><OffersPage /></ProtectedRoute>} />
-            
-            {/* Новый маршрут для деталей предложения */}
-            <Route path="/customer/offer/:offerId" element={<ProtectedRoute allowedRoles={['customer']}><OfferDetailPage /></ProtectedRoute>} />
+      {/* Защищённые маршруты */}
+      <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
+      <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+      <Route path="/settings" element={<ProtectedRoute><SettingsPage /></ProtectedRoute>} />
+      <Route path="/notifications" element={<ProtectedRoute><NotificationsPage /></ProtectedRoute>} />
+
+      {/* Маршруты для заказчика */}
+      <Route path="/customer" element={<ProtectedRoute allowedRoles={['customer']}><CustomerPage /></ProtectedRoute>} />
+      <Route path="/customer/request/new" element={<ProtectedRoute allowedRoles={['customer']}><CreateRequestPage /></ProtectedRoute>} />
+      <Route path="/customer/request/:requestId" element={<ProtectedRoute allowedRoles={['customer']}><RequestDetailPage /></ProtectedRoute>} />
+      <Route path="/customer/request/:requestId/edit" element={<ProtectedRoute allowedRoles={['customer']}><CreateRequestPage /></ProtectedRoute>} />
+      <Route path="/customer/request/:requestId/offers" element={<ProtectedRoute allowedRoles={['customer']}><OffersPage /></ProtectedRoute>} />
+
+      {/* Новый маршрут для деталей предложения */}
+      <Route path="/customer/offer/:offerId" element={<ProtectedRoute allowedRoles={['customer']}><OfferDetailPage /></ProtectedRoute>} />
 
             {/* Маршруты для поставщика */}
             <Route path="/supplier" element={<ProtectedRoute allowedRoles={['supplier']}><SupplierPage /></ProtectedRoute>} />
@@ -68,11 +68,11 @@ export default function App() {
             <Route path="/supplier/offer/:offerId/edit" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
             <Route path="/supplier/balance" element={<SupplierBalancePage />} />
 
-            {/* Редирект на правильную страницу заявок */}
-            <Route path="/requests" element={<Navigate to={getRequestsPath()} replace />} />
+      {/* Редирект на правильную страницу заявок */}
+      <Route path="/requests" element={<Navigate to={getRequestsPath()} replace />} />
 
-            {/* Редирект на главную для всех остальных маршрутов */}
-            <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-    )
+      {/* Редирект на главную для всех остальных маршрутов */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  )
 }
