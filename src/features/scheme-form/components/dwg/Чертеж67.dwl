@@ -1,3 +1,0 @@
-User
-DESKTOP-MFNJJGP 
-4 марта 2026 г.  16:00:56

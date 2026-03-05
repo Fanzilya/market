@@ -5,7 +5,7 @@ import { getSessionUser } from '../../../auth/demoAuth.js'
 import { createRequest, getRequestById, updateRequest } from '../../../data/requests.js'
 import Sidebar from '../../../components/Sidebar.jsx'
 import styles from './CreateRequestPage.module.css'
-import { SchemeForm } from '@/features/scheme-form/'
+import { TechnicalParametersStep } from '@/features/form-request/steps/technical-parameters-step.jsx'
 
 export default function CreateRequestPage() {
   const { requestId } = useParams()
@@ -13,7 +13,7 @@ export default function CreateRequestPage() {
   const navigate = useNavigate()
   const [isMounted, setIsMounted] = useState(false)
   const [darkMode, setDarkMode] = useState(false)
-  const [activeStep, setActiveStep] = useState(1)
+  const [activeStep, setActiveStep] = useState(2)
   const [focusedInput, setFocusedInput] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState('')
@@ -499,190 +499,17 @@ export default function CreateRequestPage() {
           )}
 
           {/* Шаг 2: Технические параметры */}
-          {activeStep === 2 && (
-
-            <div className={styles.stepContent}>
-              <h2 className={styles.sectionTitle}>Технические параметры</h2>
-              {formData.configType === 'КНС' && (
-                <>
-                  {/* Основные параметры насосов */}
-                  <h3 className={styles.subsectionTitle}>Основные параметры</h3>
-                  <div className={styles.formGrid}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        Производительность (м³/ч, л/с) <span className={styles.required}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={knsData.capacity}
-                        onChange={(e) => setKnsData({ ...knsData, capacity: e.target.value })}
-                        onFocus={() => setFocusedInput('capacity')}
-                        onBlur={() => setFocusedInput(null)}
-                        className={`${styles.input} ${focusedInput === 'capacity' ? styles.inputFocused : ''}`}
-                        placeholder="м³/ч"
-                      />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>
-                        Требуемый напор (м) <span className={styles.required}>*</span>
-                      </label>
-                      <input
-                        type="text"
-                        value={knsData.head}
-                        onChange={(e) => setKnsData({ ...knsData, head: e.target.value })}
-                        onFocus={() => setFocusedInput('head')}
-                        onBlur={() => setFocusedInput(null)}
-                        className={`${styles.input} ${focusedInput === 'head' ? styles.inputFocused : ''}`}
-                        placeholder="м"
-                      />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Кол-во рабочих насосов</label>
-                      <input
-                        type="number"
-                        value={knsData.workingPumps}
-                        onChange={(e) => setKnsData({ ...knsData, workingPumps: e.target.value })}
-                        className={styles.input}
-                        placeholder="например: 2"
-                        min="0"
-                      />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Кол-во резервных насосов</label>
-                      <input
-                        type="number"
-                        value={knsData.reservePumps}
-                        onChange={(e) => setKnsData({ ...knsData, reservePumps: e.target.value })}
-                        className={styles.input}
-                        placeholder="например: 1"
-                        min="0"
-                      />
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Кол-во насосов на склад</label>
-                      <input
-                        type="number"
-                        value={knsData.stockPumps}
-                        onChange={(e) => setKnsData({ ...knsData, stockPumps: e.target.value })}
-                        className={styles.input}
-                        placeholder="например: 0"
-                        min="0"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Параметры среды */}
-                  <h3 className={styles.subsectionTitle}>Параметры среды</h3>
-                  <div className={styles.formGrid}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Перекачиваемая среда</label>
-                      <select
-                        value={knsData.medium}
-                        onChange={(e) => setKnsData({ ...knsData, medium: e.target.value })}
-                        className={styles.select}
-                      >
-                        {mediumOptions.map(option => (
-                          <option key={option} value={option}>{option}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Температура среды (°C)</label>
-                      <input
-                        type="text"
-                        value={knsData.temperature}
-                        onChange={(e) => setKnsData({ ...knsData, temperature: e.target.value })}
-                        className={styles.input}
-                        placeholder="°C"
-                      />
-                    </div>
-                  </div>
-
-                  <div className={styles.checkboxGroup}>
-                    <label className={styles.checkbox}>
-                      <input
-                        type="checkbox"
-                        checked={knsData.explosionProof}
-                        onChange={(e) => setKnsData({ ...knsData, explosionProof: e.target.checked })}
-                      />
-                      <span className={styles.checkboxLabel}>Взрывозащищенное исполнение</span>
-                    </label>
-                  </div>
-
-
-
-                  {/* Электрические параметры */}
-                  <h3 className={styles.subsectionTitle}>Электрические параметры</h3>
-                  <div className={styles.formGrid}>
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Метод пуска электродвигателей</label>
-                      <select
-                        value={knsData.motorStartMethod}
-                        onChange={(e) => setKnsData({ ...knsData, motorStartMethod: e.target.value })}
-                        className={styles.select}
-                      >
-                        {motorStartOptions.map(option => (
-                          <option key={option.value} value={option.value}>{option.label}</option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Количество вводов питания</label>
-                      <select
-                        value={knsData.powerInputs}
-                        onChange={(e) => setKnsData({ ...knsData, powerInputs: e.target.value })}
-                        className={styles.select}
-                      >
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                      </select>
-                    </div>
-
-                    <div className={styles.formGroup}>
-                      <label className={styles.label}>Место установки шкафа</label>
-                      <select
-                        value={knsData.cabinetLocation}
-                        onChange={(e) => setKnsData({ ...knsData, cabinetLocation: e.target.value })}
-                        className={styles.select}
-                      >
-                        {cabinetLocationOptions.map(option => (
-                          <option key={option.value} value={option.value}>{option.label}</option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <SchemeForm
-                    knsData={knsData}
-                    setKnsData={setKnsData}
-                    directionOptions={directionOptions}
-                    knsExtras={knsExtras}
-                    setKnsExtras={setKnsExtras}
-                  />
-
-                </>
-              )}
-
-              {formData.configType !== 'КНС' && (
-                <div className={styles.infoMessage}>
-                  <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2" />
-                    <path d="M12 16V12" stroke="#4A85F6" strokeWidth="2" />
-                    <circle cx="12" cy="8" r="1" fill="#4A85F6" />
-                  </svg>
-                  <p>
-                    Для выбранного типа конфигурации дополнительные параметры будут доступны позже.
-                    Пожалуйста, продолжите создание заявки с основной информацией.
-                  </p>
-                </div>
-              )}
-            </div>
-          )}
+          {activeStep === 2 && <TechnicalParametersStep
+            styles={styles}
+            knsData={knsData}
+            formData={formData}
+            focusedInput={focusedInput}
+            motorStartOptions={motorStartOptions}
+            setKnsData={setKnsData}
+            directionOptions={directionOptions}
+            knsExtras={knsExtras}
+            setKnsExtras={setKnsExtras}
+          />}
 
           {/* Шаг 3: Проверка и отправка */}
           {activeStep === 3 && (

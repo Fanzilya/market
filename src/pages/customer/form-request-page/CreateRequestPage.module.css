@@ -161,6 +161,7 @@
   margin-bottom: 20px;
 }
 
+
 .formGroup {
   display: flex;
   flex-direction: column;
@@ -675,16 +676,6 @@
   box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
 }
 
-.dimensionsDiagram {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  background: white;
-  border-radius: 12px;
-  padding: 16px;
-  border: 1px solid #e2e8f0;
-}
 
 .diagramContainer {
   width: 100%;
@@ -746,9 +737,10 @@
 /* Добавьте в CreateRequestPage.module.css */
 
 .schemaContainer {
+  position: sticky;
+  top: 50px;
   width: 100%;
-  height: 100%;
-  min-height: 600px;
+  height: 90vh;
   background: white;
   border-radius: 12px;
   padding: 16px;
