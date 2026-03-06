@@ -13,13 +13,12 @@ export const KNSSchema = observer(({ data, extras, styles }) => {
 
     const elements = schemeActionsModel.elements;
 
-    // Объединяем все элементы для управления
     const allElements = [
         ...schemeKNS.map(item => ({
             ...item,
             id: `static-${item.value || item.name}`,
             isStatic: true,
-            canMove: true // Разрешаем движение статических элементов
+            canMove: true
         })),
         ...elements.map(item => ({
             ...item,
@@ -365,72 +364,72 @@ export const KNSSchema = observer(({ data, extras, styles }) => {
                     }}
                     onClick={handleContainerClick}
                 >
-                    {/* Все элементы (включая schemeKNS) */}
-                    {allElements.map((item) => {
-                        const isDragging = draggingId === item.id;
-                        const isFocused = focusedId === item.id;
-                        const isResizing = resizeInfo?.id === item.id;
+                    {allElements
+                        .map((item) => {
+                            const isDragging = draggingId === item.id;
+                            const isFocused = focusedId === item.id;
+                            const isResizing = resizeInfo?.id === item.id;
 
-                        return (
-                            <div
-                                key={item.id}
-                                style={{
-                                    position: 'absolute',
-                                    left: item.innerX,
-                                    top: item.innerY,
-                                    width: item.innerWidth,
-                                    height: item.innerHeight,
-                                    cursor: isDragging ? 'grabbing' : 'grab',
-                                    zIndex: isDragging || isResizing ? 100 : (isFocused ? 50 : (item.isStatic ? 1 : 2)),
-                                    userSelect: 'none',
-                                    outline: isFocused ? '2px solid #2196F3' : 'none',
-                                    outlineOffset: '2px',
-                                    opacity: item.isStatic && !isFocused && !isDragging ? 0.7 : 1
-                                }}
-                                onMouseDown={(e) => handleDragStart(e, item.id)}
-                                onClick={(e) => handleFocus(item.id, e)}
-                                onDoubleClick={() => handleDoubleClick(item.id)}
-                            >
-                                <img
-                                    src={item.image}
-                                    alt={item.name}
+                            return (
+                                <div
+                                    key={item.id}
                                     style={{
-                                        width: '100%',
-                                        height: '100%',
-                                        objectFit: 'contain',
-                                        pointerEvents: 'none',
-                                        border: isDragging || isResizing ? '2px solid #4CAF50' : '1px solid #ccc',
-                                        boxShadow: isDragging || isResizing ? '0 4px 8px rgba(0,0,0,0.2)' : 'none'
+                                        position: 'absolute',
+                                        left: item.innerX,
+                                        top: item.innerY,
+                                        width: item.innerWidth,
+                                        height: item.innerHeight,
+                                        cursor: isDragging ? 'grabbing' : 'grab',
+                                        zIndex: isDragging || isResizing ? 100 : (isFocused ? 50 : (item.isStatic ? 1 : 2)),
+                                        userSelect: 'none',
+                                        outline: isFocused ? '2px solid #2196F3' : 'none',
+                                        outlineOffset: '2px',
+                                        opacity: item.isStatic && !isFocused && !isDragging ? 0.7 : 1
                                     }}
-                                />
+                                    onMouseDown={(e) => handleDragStart(e, item.id)}
+                                    onClick={(e) => handleFocus(item.id, e)}
+                                    onDoubleClick={() => handleDoubleClick(item.id)}
+                                >
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'contain',
+                                            pointerEvents: 'none',
+                                            border: isDragging || isResizing ? '2px solid #4CAF50' : '1px solid #ccc',
+                                            boxShadow: isDragging || isResizing ? '0 4px 8px rgba(0,0,0,0.2)' : 'none'
+                                        }}
+                                    />
 
-                                {/* Ручки для изменения размера (показываем только для фокусированного элемента) */}
-                                {isFocused && (
-                                    <>
-                                        {/* Угловые ручки */}
-                                        <div style={getResizeHandleStyle('top-left', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'top-left')} />
-                                        <div style={getResizeHandleStyle('top-right', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'top-right')} />
-                                        <div style={getResizeHandleStyle('bottom-right', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'bottom-right')} />
-                                        <div style={getResizeHandleStyle('bottom-left', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'bottom-left')} />
+                                    {/* Ручки для изменения размера (показываем только для фокусированного элемента) */}
+                                    {isFocused && (
+                                        <>
+                                            {/* Угловые ручки */}
+                                            <div style={getResizeHandleStyle('top-left', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'top-left')} />
+                                            <div style={getResizeHandleStyle('top-right', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'top-right')} />
+                                            <div style={getResizeHandleStyle('bottom-right', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'bottom-right')} />
+                                            <div style={getResizeHandleStyle('bottom-left', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'bottom-left')} />
 
-                                        {/* Боковые ручки */}
-                                        <div style={getResizeHandleStyle('top', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'top')} />
-                                        <div style={getResizeHandleStyle('right', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'right')} />
-                                        <div style={getResizeHandleStyle('bottom', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'bottom')} />
-                                        <div style={getResizeHandleStyle('left', isFocused)}
-                                            onMouseDown={(e) => handleResizeStart(e, item.id, 'left')} />
-                                    </>
-                                )}
-                            </div>
-                        );
-                    })}
+                                            {/* Боковые ручки */}
+                                            <div style={getResizeHandleStyle('top', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'top')} />
+                                            <div style={getResizeHandleStyle('right', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'right')} />
+                                            <div style={getResizeHandleStyle('bottom', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'bottom')} />
+                                            <div style={getResizeHandleStyle('left', isFocused)}
+                                                onMouseDown={(e) => handleResizeStart(e, item.id, 'left')} />
+                                        </>
+                                    )}
+                                </div>
+                            );
+                        })}
                 </div>
             </ZoomableContainer>
         </div>

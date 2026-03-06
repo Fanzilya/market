@@ -111,34 +111,34 @@ export default function OffersPage() {
     const offersToExport = selectedOffers.length > 0
       ? filteredOffers.filter(o => selectedOffers.includes(o.id))
       : filteredOffers
-  
+
     if (offersToExport.length === 0) {
       alert('Нет предложений для экспорта')
       return
     }
-  
+
     try {
       // Загружаем шаблон
       const templateUrl = '/export_template.xlsx' // или '/export_template.xlsx'
       const response = await fetch(templateUrl)
       const templateData = await response.arrayBuffer()
-      
+
       // Читаем шаблон
       const wb = XLSX.read(templateData, { type: 'array' })
       const ws = wb.Sheets['Лист1'] // или нужный лист
-  
+
       // Находим строку, с которой начинаются данные
       // Например, данные начинаются с 16 строки (после всех заголовков)
       XLSX.utils.sheet_add_aoa(ws, [[` ${request?.objectName || ''}`]], { origin: 'A3' })
       const startRow = 12
-      
+
       // Вставляем данные
       offersToExport.forEach((offer, index) => {
         const rowNum = startRow + index
         const priceWithVAT = parseFloat(offer.price) || 0
-        
 
-        
+
+
         // Заполняем ячейки
         XLSX.utils.sheet_add_aoa(ws, [[
           index + 1, // №
@@ -163,11 +163,11 @@ export default function OffersPage() {
           offer.analysisData?.status || '2' // Статус
         ]], { origin: `A${rowNum}` })
       })
-  
+
       // Сохраняем файл
       const fileName = `Конъюктурный анализ _${request?.id || 'заявка'}_${new Date().toISOString().slice(0, 10)}.xlsx`
       XLSX.writeFile(wb, fileName)
-      
+
     } catch (error) {
       console.error('Ошибка при загрузке шаблона:', error)
       alert('Не удалось загрузить шаблон')
@@ -254,7 +254,7 @@ export default function OffersPage() {
           </div>
 
           <div className={styles.headerActions}>
-            
+
 
             <button
               className={styles.backButton}
@@ -379,32 +379,32 @@ export default function OffersPage() {
                 Выбрать все
               </label>
               <div className={styles.viewToggle}>
-              <button
-                className={`${styles.viewToggleButton} ${viewMode === 'table' ? styles.active : ''}`}
-                onClick={() => setViewMode('table')}
-                title="Таблица"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
-                  <path d="M3 9H21" stroke="currentColor" strokeWidth="2" />
-                  <path d="M3 15H21" stroke="currentColor" strokeWidth="2" />
-                  <path d="M9 3V21" stroke="currentColor" strokeWidth="2" />
-                  <path d="M15 3V21" stroke="currentColor" strokeWidth="2" />
-                </svg>
-              </button>
-              <button
-                className={`${styles.viewToggleButton} ${viewMode === 'cards' ? styles.active : ''}`}
-                onClick={() => setViewMode('cards')}
-                title="Карточки"
-              >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                  <rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
-                  <rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
-                  <rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
-                  <rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
-                </svg>
-              </button>
-            </div>
+                <button
+                  className={`${styles.viewToggleButton} ${viewMode === 'table' ? styles.active : ''}`}
+                  onClick={() => setViewMode('table')}
+                  title="Таблица"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <path d="M3 9H21" stroke="currentColor" strokeWidth="2" />
+                    <path d="M3 15H21" stroke="currentColor" strokeWidth="2" />
+                    <path d="M9 3V21" stroke="currentColor" strokeWidth="2" />
+                    <path d="M15 3V21" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                </button>
+                <button
+                  className={`${styles.viewToggleButton} ${viewMode === 'cards' ? styles.active : ''}`}
+                  onClick={() => setViewMode('cards')}
+                  title="Карточки"
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <rect x="13" y="3" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <rect x="3" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                    <rect x="13" y="13" width="8" height="8" rx="2" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                </button>
+              </div>
             </div>
           )}
         </div>

@@ -41,7 +41,7 @@ export default function ProfilePage() {
   }
 
   const isSupplier = user.role === 'supplier'
-  const availableTabs = TABS.filter(tab => 
+  const availableTabs = TABS.filter(tab =>
     !tab.showFor || (tab.showFor === 'supplier' && isSupplier)
   )
 
@@ -62,7 +62,7 @@ export default function ProfilePage() {
         <div className={styles.profileCard}>
           <ProfileHeader user={user} />
 
-          <ProfileTabs 
+          <ProfileTabs
             tabs={availableTabs}
             activeTab={activeTab}
             onTabChange={setActiveTab}

@@ -1,30 +1,30 @@
 // src/App.jsx
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import LandingPage from '@/pages/LandingPage.jsx'
-import LoginPage from '@/pages/LoginPage.jsx'
-import RegisterPage from '@/pages/RegisterPage.jsx'
-import ForgotPasswordPage from '@/pages/ForgotPasswordPage.jsx'
+import LandingPage from '@/moduls/landing/LandingPage.jsx'
+import LoginPage from '@/pages/auth/LoginPage/LoginPage.jsx'
+import RegisterPage from '@/pages/auth/RegisterPage/RegisterPage.jsx'
+import ForgotPasswordPage from '@/pages/auth/ForgotPasswordPage/ForgotPasswordPage.jsx'
 import DashboardPage from '@/pages/general/DashboardPage/DashboardPage.jsx'
 import SettingsPage from '@/pages/general/SettingsPage/SettingsPage.jsx'
 import ProfilePage from '@/pages/general/ProfilePage'
-import CustomerPage from '@/pages/CustomerPage.jsx'
+import CustomerPage from '@/pages/customer/CustomerPage/CustomerPage.jsx'
 import SupplierPage from '@/pages/supplier/SupplierPage'
 import RequestDetailPage from '@/pages/RequestDetailPage.jsx'
-import CreateRequestPage from '@/pages/customer/form-request-page/CreateRequestPage'
+import CreateRequestPage from '@/pages/customer/CreateRequestPage/CreateRequestPage'
 import OffersPage from '@/pages/OffersPage.jsx'
-import ProductPage from '@/pages/ProductPage.jsx'
-import BrandPage from '@/pages/BrandPage.jsx'
-import BrandsPage from '@/pages/BrandsPage.jsx'
-import NotificationsPage from '@/pages/NotificationsPage.jsx'
+import BrandPage from '@/moduls/shop/BrandPage/BrandPage.jsx'
+import NotificationsPage from '@/moduls/common/NotificationsPage/NotificationsPage.jsx'
 import SupplierPreviewPage from '@/pages/supplier/SupplierPreviewPage'
 import ProtectedRoute from '@/components/ProtectedRoute.jsx'
 import CreateOfferPage from '@/pages/supplier/CreateOfferPage'
-import OfferDetailPage from '@/pages/OfferDetailPage.jsx'
+import OfferDetailPage from '@/moduls/common/OfferDetailPage/OfferDetailPage.jsx'
 import SupplierBalancePage from '@/pages/supplier/SupplierBalancePage'
-import AdminDashboardPage from '@/pages/AdminDashboardPage.jsx'
-import AdminPage from '@/pages/AdminPage.jsx'
-import AdminUsersPage from '@/pages/AdminUsersPage.jsx'
+import AdminDashboardPage from '@/pages/admin/AdminDashboardPage/AdminDashboardPage.jsx'
+import AdminPage from '@/pages/admin/AdminPage/AdminPage.jsx'
+import AdminUsersPage from '@/pages/admin/AdminUsersPage/AdminUsersPage.jsx'
 import { getSessionUser } from '@/auth/demoAuth.js'
+import ProductPage from '@/moduls/shop/ProductPage/ProductPage'
+import BrandsPage from '@/moduls/shop/BrandsPage/BrandsPage'
 
 export default function App() {
   const getRequestsPath = () => {
@@ -34,12 +34,11 @@ export default function App() {
   }
   return (
     <Routes>
-
-
-<Route path="/admin" element={<AdminDashboardPage />} />
-<Route path="/admin/requests" element={<AdminPage />} />
-<Route path="/admin/offers" element={<AdminPage />} /> 
-<Route path="/admin/users" element={<AdminUsersPage/>} />
+      {/* Админ */}
+      <Route path="/admin" element={<AdminDashboardPage />} />
+      <Route path="/admin/requests" element={<AdminPage />} />
+      <Route path="/admin/offers" element={<AdminPage />} />
+      <Route path="/admin/users" element={<AdminUsersPage />} />
       {/* Публичные маршруты */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />
@@ -67,15 +66,15 @@ export default function App() {
       {/* Новый маршрут для деталей предложения */}
       <Route path="/customer/offer/:offerId" element={<ProtectedRoute allowedRoles={['customer']}><OfferDetailPage /></ProtectedRoute>} />
 
-            {/* Маршруты для поставщика */}
-            <Route path="/supplier" element={<ProtectedRoute allowedRoles={['supplier']}><SupplierPage /></ProtectedRoute>} />
-            <Route path="/supplier/request/:requestId" element={<ProtectedRoute allowedRoles={['supplier']}><RequestDetailPage /></ProtectedRoute>} />
-            <Route path="/supplier/request/:requestId/preview" element={<ProtectedRoute allowedRoles={['supplier']}><SupplierPreviewPage /></ProtectedRoute>} />
-            <Route path="/supplier/request/:requestId/full" element={<ProtectedRoute allowedRoles={['supplier']}><RequestDetailPage /></ProtectedRoute>} />
-            <Route path="/supplier/request/:requestId/offer/new" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
-            <Route path="/supplier/offer/:offerId" element={<ProtectedRoute allowedRoles={['supplier']}><OfferDetailPage /></ProtectedRoute>} />
-            <Route path="/supplier/offer/:offerId/edit" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
-            <Route path="/supplier/balance" element={<SupplierBalancePage />} />
+      {/* Маршруты для поставщика */}
+      <Route path="/supplier" element={<ProtectedRoute allowedRoles={['supplier']}><SupplierPage /></ProtectedRoute>} />
+      <Route path="/supplier/request/:requestId" element={<ProtectedRoute allowedRoles={['supplier']}><RequestDetailPage /></ProtectedRoute>} />
+      <Route path="/supplier/request/:requestId/preview" element={<ProtectedRoute allowedRoles={['supplier']}><SupplierPreviewPage /></ProtectedRoute>} />
+      <Route path="/supplier/request/:requestId/full" element={<ProtectedRoute allowedRoles={['supplier']}><RequestDetailPage /></ProtectedRoute>} />
+      <Route path="/supplier/request/:requestId/offer/new" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
+      <Route path="/supplier/offer/:offerId" element={<ProtectedRoute allowedRoles={['supplier']}><OfferDetailPage /></ProtectedRoute>} />
+      <Route path="/supplier/offer/:offerId/edit" element={<ProtectedRoute allowedRoles={['supplier']}><CreateOfferPage /></ProtectedRoute>} />
+      <Route path="/supplier/balance" element={<SupplierBalancePage />} />
 
       {/* Редирект на правильную страницу заявок */}
       <Route path="/requests" element={<Navigate to={getRequestsPath()} replace />} />

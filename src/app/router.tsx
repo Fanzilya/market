@@ -7,28 +7,28 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/',
     async lazy() {
-      const { LandingPage } = await import('@/pages/LandingPage');
+      const { LandingPage } = await import('@/moduls/landing/LandingPage');
       return { Component: LandingPage };
     },
   },
   {
     path: '/login',
     async lazy() {
-      const { LoginPage } = await import('@/pages/LoginPage');
+      const { LoginPage } = await import('@/pages/auth/LoginPage/LoginPage');
       return { Component: LoginPage };
     },
   },
   {
     path: '/register',
     async lazy() {
-      const { RegisterPage } = await import('@/pages/RegisterPage');
+      const { RegisterPage } = await import('@/pages/auth/RegisterPage/RegisterPage');
       return { Component: RegisterPage };
     },
   },
   {
     path: '/forgot-password',
     async lazy() {
-      const { ForgotPasswordPage } = await import('@/pages/ForgotPasswordPage');
+      const { ForgotPasswordPage } = await import('@/pages/auth/ForgotPasswordPage/ForgotPasswordPage');
       return { Component: ForgotPasswordPage };
     },
   },
@@ -76,7 +76,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/notifications',
     async lazy() {
-      const { NotificationsPage } = await import('@/pages/NotificationsPage');
+      const { NotificationsPage } = await import('@/moduls/common/NotificationsPage/NotificationsPage');
       return {
         Component: () => (
           <ProtectedRoute>
@@ -91,7 +91,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/customer',
     async lazy() {
-      const { CustomerPage } = await import('@/pages/CustomerPage');
+      const { CustomerPage } = await import('@/pages/customer/CustomerPage/CustomerPage');
       return {
         Component: () => (
           <ProtectedRoute allowedRoles={['customer']}>
@@ -104,7 +104,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/customer/request/new',
     async lazy() {
-      const { CreateRequestPage } = await import('@/pages/customer/form-request-page/CreateRequestPage');
+      const { CreateRequestPage } = await import('@/pages/customer/CreateRequestPage/CreateRequestPage');
       return {
         Component: () => (
           <ProtectedRoute allowedRoles={['customer']}>
@@ -130,7 +130,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/customer/request/:requestId/edit',
     async lazy() {
-      const { CreateRequestPage } = await import('@/pages/customer/form-request-page/CreateRequestPage');
+      const { CreateRequestPage } = await import('@/pages/customer/CreateRequestPage/CreateRequestPage');
       return {
         Component: () => (
           <ProtectedRoute allowedRoles={['customer']}>
