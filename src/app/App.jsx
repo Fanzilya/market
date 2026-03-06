@@ -4,11 +4,11 @@ import LandingPage from '@/pages/LandingPage.jsx'
 import LoginPage from '@/pages/LoginPage.jsx'
 import RegisterPage from '@/pages/RegisterPage.jsx'
 import ForgotPasswordPage from '@/pages/ForgotPasswordPage.jsx'
-import DashboardPage from '@/pages/DashboardPage.jsx'
-import SettingsPage from '@/pages/SettingsPage.jsx'
-import ProfilePage from '@/pages/ProfilePage.jsx'
+import DashboardPage from '@/pages/general/DashboardPage/DashboardPage.jsx'
+import SettingsPage from '@/pages/general/SettingsPage/SettingsPage.jsx'
+import ProfilePage from '@/pages/general/ProfilePage'
 import CustomerPage from '@/pages/CustomerPage.jsx'
-import SupplierPage from '@/pages/SupplierPage.jsx'
+import SupplierPage from '@/pages/supplier/SupplierPage'
 import RequestDetailPage from '@/pages/RequestDetailPage.jsx'
 import CreateRequestPage from '@/pages/customer/form-request-page/CreateRequestPage'
 import OffersPage from '@/pages/OffersPage.jsx'
@@ -16,13 +16,13 @@ import ProductPage from '@/pages/ProductPage.jsx'
 import BrandPage from '@/pages/BrandPage.jsx'
 import BrandsPage from '@/pages/BrandsPage.jsx'
 import NotificationsPage from '@/pages/NotificationsPage.jsx'
-import SupplierPreviewPage from '@/pages/SupplierPreviewPage.jsx'
+import SupplierPreviewPage from '@/pages/supplier/SupplierPreviewPage'
 import ProtectedRoute from '@/components/ProtectedRoute.jsx'
-import CreateOfferPage from '@/pages/CreateOfferPage.jsx'
+import CreateOfferPage from '@/pages/supplier/CreateOfferPage'
 import OfferDetailPage from '@/pages/OfferDetailPage.jsx'
-import SupplierBalancePage from '@/pages/SupplierBalancePage.jsx'
+import SupplierBalancePage from '@/pages/supplier/SupplierBalancePage'
 import AdminDashboardPage from '@/pages/AdminDashboardPage.jsx'
-import AdminPage from '@/pages/AdminPage.jsx' // ваша существующая страница
+import AdminPage from '@/pages/AdminPage.jsx'
 import AdminUsersPage from '@/pages/AdminUsersPage.jsx'
 import { getSessionUser } from '@/auth/demoAuth.js'
 
@@ -39,7 +39,7 @@ export default function App() {
 <Route path="/admin" element={<AdminDashboardPage />} />
 <Route path="/admin/requests" element={<AdminPage />} />
 <Route path="/admin/offers" element={<AdminPage />} /> 
-<Route path="/admin/users" element={<AdminUsersPage />} />
+<Route path="/admin/users" element={<AdminUsersPage/>} />
       {/* Публичные маршруты */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />

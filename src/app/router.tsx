@@ -37,7 +37,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/dashboard',
     async lazy() {
-      const { DashboardPage } = await import('@/pages/DashboardPage');
+      const { DashboardPage } = await import('@/pages/general/DashboardPage/DashboardPage');
       return {
         Component: () => (
           <ProtectedRoute>
@@ -50,7 +50,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/profile',
     async lazy() {
-      const { ProfilePage } = await import('@/pages/ProfilePage');
+      const { ProfilePage } = await import('@/pages/general/ProfilePage');
       return {
         Component: () => (
           <ProtectedRoute>
@@ -63,7 +63,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/settings',
     async lazy() {
-      const { SettingsPage } = await import('@/pages/SettingsPage');
+      const { SettingsPage } = await import('@/pages/general/SettingsPage/SettingsPage');
       return {
         Component: () => (
           <ProtectedRoute>
@@ -158,7 +158,7 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/supplier',
     async lazy() {
-      const { SupplierPage } = await import('@/pages/SupplierPage');
+      const { SupplierPage } = await import('@/pages/supplier/SupplierPage');
       return {
         Component: () => (
           <ProtectedRoute allowedRoles={['supplier']}>

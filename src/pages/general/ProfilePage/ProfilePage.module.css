@@ -1,0 +1,791 @@
+/* src/pages/ProfilePage/ProfilePage.module.css */
+
+/* Основные контейнеры */
+.page {
+  min-height: 100vh;
+  background: #F8FAFC;
+  display: flex;
+  transition: background-color 0.3s ease;
+}
+
+.page.dark {
+  background: #0F172A;
+}
+
+.main {
+  flex: 1;
+  margin-left: 280px;
+  padding: 32px;
+  transition: margin-left 0.3s ease;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Шапка страницы */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.dark .title {
+  color: #F1F5F9;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.breadcrumbLink {
+  color: #64748B;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.breadcrumbLink:hover {
+  color: #4A85F6;
+}
+
+.separator {
+  color: #94A3B8;
+}
+
+.current {
+  color: #0F172A;
+  font-weight: 500;
+}
+
+.dark .current {
+  color: #E2E8F0;
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+}
+
+.actionButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dark .actionButton {
+  background: #1E293B;
+  border-color: #334155;
+  color: #CBD5E1;
+}
+
+.actionButton:hover {
+  border-color: #4A85F6;
+  color: #4A85F6;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.15);
+}
+
+/* Карточка профиля */
+.profileCard {
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  overflow: hidden;
+  animation: slideUp 0.5s ease;
+}
+
+.dark .profileCard {
+  background: #1E293B;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Шапка профиля */
+.profileHeader {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 32px;
+  background: linear-gradient(135deg, #667EEA 0%, #764BA2 100%);
+  color: white;
+}
+
+.avatarLarge {
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: 600;
+  color: white;
+  border: 3px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.profileInfo {
+  flex: 1;
+}
+
+.profileName {
+  font-size: 28px;
+  font-weight: 600;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.profileMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.roleBadge {
+  padding: 6px 12px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.email, .phone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Табы */
+.tabs {
+  display: flex;
+  gap: 4px;
+  padding: 16px 32px 0;
+  border-bottom: 1px solid #E2E8F0;
+}
+
+.dark .tabs {
+  border-bottom-color: #334155;
+}
+
+.tab {
+  padding: 12px 20px;
+  background: none;
+  border: none;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.dark .tab {
+  color: #94A3B8;
+}
+
+.tab:hover {
+  color: #4A85F6;
+}
+
+.tab.active {
+  color: #4A85F6;
+}
+
+.tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #4A85F6;
+  border-radius: 2px 2px 0 0;
+}
+
+/* Контент табов */
+.tabContent {
+  padding: 32px;
+}
+
+/* Сетка тайлов */
+.tilesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+/* Тайл */
+.tile {
+  background: #F8FAFC;
+  border-radius: 16px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.dark .tile {
+  background: #0F172A;
+}
+
+.tile:hover {
+  transform: translateY(-2px);
+  border-color: #4A85F6;
+  box-shadow: 0 8px 20px rgba(74, 133, 246, 0.15);
+}
+
+.tile.tileHover {
+  border-color: #4A85F6;
+  background: white;
+}
+
+.dark .tile.tileHover {
+  background: #1E293B;
+}
+
+.tile.tileEmpty {
+  opacity: 0.7;
+}
+
+.tileTitle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: #64748B;
+  margin-bottom: 12px;
+}
+
+.dark .tileTitle {
+  color: #94A3B8;
+}
+
+.tileIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(74, 133, 246, 0.1);
+  border-radius: 8px;
+  color: #4A85F6;
+}
+
+.tileValue {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0F172A;
+  padding-left: 38px;
+  word-break: break-word;
+}
+
+.dark .tileValue {
+  color: #F1F5F9;
+}
+
+/* Секция безопасности */
+.securitySection {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.securityCard {
+  background: #F8FAFC;
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.dark .securityCard {
+  background: #0F172A;
+}
+
+.securityTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 8px 0;
+}
+
+.dark .securityTitle {
+  color: #F1F5F9;
+}
+
+.securityDescription {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+}
+
+.dark .securityDescription {
+  color: #94A3B8;
+}
+
+/* Форма безопасности */
+.securityForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #475569;
+}
+
+.dark .label {
+  color: #CBD5E1;
+}
+
+.input {
+  padding: 12px 16px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  font-size: 14px;
+  color: #0F172A;
+  transition: all 0.2s ease;
+}
+
+.dark .input {
+  background: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+}
+
+.input::placeholder {
+  color: #94A3B8;
+}
+
+/* Кнопки */
+.submitButton {
+  padding: 12px 24px;
+  background: #4A85F6;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 12px;
+}
+
+.submitButton:hover {
+  background: #3A6BC9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+}
+
+.enableButton {
+  padding: 10px 20px;
+  background: transparent;
+  border: 1px solid #4A85F6;
+  border-radius: 12px;
+  color: #4A85F6;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.enableButton:hover {
+  background: #4A85F6;
+  color: white;
+}
+
+/* Опасная зона */
+.dangerZone {
+  background: #FEF2F2;
+  border-radius: 16px;
+  padding: 24px;
+  border: 1px solid #FECACA;
+}
+
+.dark .dangerZone {
+  background: #2D1A1A;
+  border-color: #991B1B;
+}
+
+.dangerTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #B91C1C;
+  margin: 0 0 8px 0;
+}
+
+.dark .dangerTitle {
+  color: #FCA5A5;
+}
+
+.dangerDescription {
+  font-size: 14px;
+  color: #B91C1C;
+  margin: 0 0 20px 0;
+  line-height: 1.6;
+  opacity: 0.9;
+}
+
+.dark .dangerDescription {
+  color: #FECACA;
+}
+
+.deleteButton {
+  padding: 10px 20px;
+  background: #EF4444;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deleteButton:hover {
+  background: #DC2626;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* Пустое состояние */
+.emptyState {
+  text-align: center;
+  padding: 48px;
+  color: #64748B;
+  font-size: 16px;
+}
+
+.dark .emptyState {
+  color: #94A3B8;
+}
+
+/* Модальное окно */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal {
+  background: white;
+  border-radius: 24px;
+  padding: 32px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.4s ease;
+}
+
+.dark .modal {
+  background: #1E293B;
+}
+
+.modalIcon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  animation: bounce 1s ease infinite;
+}
+
+.modalTitle {
+  font-size: 20px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 8px 0;
+}
+
+.dark .modalTitle {
+  color: #F1F5F9;
+}
+
+.modalMessage {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.dark .modalMessage {
+  color: #94A3B8;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+}
+
+.modalCancel {
+  flex: 1;
+  padding: 12px;
+  background: #F1F5F9;
+  border: none;
+  border-radius: 12px;
+  color: #475569;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.dark .modalCancel {
+  background: #334155;
+  color: #CBD5E1;
+}
+
+.modalCancel:hover {
+  background: #E2E8F0;
+}
+
+.dark .modalCancel:hover {
+  background: #475569;
+}
+
+.modalConfirm {
+  flex: 1;
+  padding: 12px;
+  background: #EF4444;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalConfirm:hover {
+  background: #DC2626;
+}
+
+/* Ошибки */
+.errorContainer {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #F8FAFC;
+}
+
+.dark .errorContainer {
+  background: #0F172A;
+}
+
+.errorCard {
+  background: white;
+  border-radius: 24px;
+  padding: 48px;
+  text-align: center;
+  max-width: 400px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+}
+
+.dark .errorCard {
+  background: #1E293B;
+}
+
+.errorIcon {
+  font-size: 64px;
+  margin-bottom: 24px;
+  animation: pulse 2s ease infinite;
+}
+
+.errorCard h2 {
+  font-size: 24px;
+  font-weight: 600;
+  color: #0F172A;
+  margin: 0 0 12px 0;
+}
+
+.dark .errorCard h2 {
+  color: #F1F5F9;
+}
+
+.errorCard p {
+  font-size: 16px;
+  color: #64748B;
+  margin: 0 0 32px 0;
+  line-height: 1.6;
+}
+
+.dark .errorCard p {
+  color: #94A3B8;
+}
+
+.primaryButton {
+  display: inline-block;
+  padding: 12px 32px;
+  background: #4A85F6;
+  border: none;
+  border-radius: 12px;
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primaryButton:hover {
+  background: #3A6BC9;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 133, 246, 0.3);
+}
+
+/* Анимации */
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .main {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .profileHeader {
+    flex-direction: column;
+    text-align: center;
+    padding: 24px;
+  }
+
+  .profileMeta {
+    justify-content: center;
+  }
+
+  .tabs {
+    padding: 12px 16px 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .tabs::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tab {
+    padding: 10px 16px;
+    white-space: nowrap;
+  }
+
+  .tabContent {
+    padding: 20px;
+  }
+
+  .tilesGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal {
+    width: 95%;
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 28px;
+  }
+
+  .profileName {
+    font-size: 24px;
+  }
+
+  .avatarLarge {
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
+  }
+}
