@@ -21,6 +21,9 @@ import ProtectedRoute from '@/components/ProtectedRoute.jsx'
 import CreateOfferPage from '@/pages/CreateOfferPage.jsx'
 import OfferDetailPage from '@/pages/OfferDetailPage.jsx'
 import SupplierBalancePage from '@/pages/SupplierBalancePage.jsx'
+import AdminDashboardPage from '@/pages/AdminDashboardPage.jsx'
+import AdminPage from '@/pages/AdminPage.jsx' // ваша существующая страница
+import AdminUsersPage from '@/pages/AdminUsersPage.jsx'
 import { getSessionUser } from '@/auth/demoAuth.js'
 
 export default function App() {
@@ -31,6 +34,12 @@ export default function App() {
   }
   return (
     <Routes>
+
+
+<Route path="/admin" element={<AdminDashboardPage />} />
+<Route path="/admin/requests" element={<AdminPage />} />
+<Route path="/admin/offers" element={<AdminPage />} /> 
+<Route path="/admin/users" element={<AdminUsersPage />} />
       {/* Публичные маршруты */}
       <Route path="/" element={<LandingPage />} />
       <Route path="/login" element={<LoginPage />} />

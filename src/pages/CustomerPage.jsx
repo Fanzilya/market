@@ -2,7 +2,7 @@
 import { useMemo, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getSessionUser, signOut } from '../auth/demoAuth.js'
-import { listRequestsForCustomerEmail, archiveRequest } from '../data/requests.js'
+import { listRequestsForCustomerEmail, archiveRequest, deleteRequest, getRequestStatusDisplay } from '../data/requests.js'
 import { countOffersByRequestId } from '../data/offers.js'
 import Sidebar from '../components/Sidebar.jsx'
 import styles from './CustomerPage.module.css'
@@ -41,16 +41,67 @@ export default function CustomerPage() {
     return listRequestsForCustomerEmail(user.email)
   }, [user?.email, refreshKey])
 
+  // Подсчет статистики по статусам
+  const stats = useMemo(() => {
+    let moderation = 0
+    let revision = 0
+    let rejected = 0
+    let published = 0
+    let withOffers = 0
+    let archived = 0
+
+    requests.forEach(r => {
+      if (r.archived) {
+        archived++
+      } else {
+        switch(r.status) {
+          case 'moderation':
+            moderation++
+            break
+          case 'revision':
+            revision++
+            break
+          case 'rejected':
+            rejected++
+            break
+          case 'published':
+            published++
+            if (countOffersByRequestId(r.id) > 0) withOffers++
+            break
+        }
+      }
+    })
+
+    return {
+      total: requests.length,
+      moderation,
+      revision,
+      rejected,
+      published,
+      withOffers,
+      noOffers: published - withOffers,
+      archived
+    }
+  }, [requests])
+
   const filteredRequests = useMemo(() => {
     return requests.filter(r => {
       const matchesSearch = r.objectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
         r.id.toLowerCase().includes(searchQuery.toLowerCase())
+      
       const offerCount = countOffersByRequestId(r.id)
-      const matchesStatus = selectedStatus === 'all' ||
-        (selectedStatus === 'with-offers' && offerCount > 0) ||
-        (selectedStatus === 'no-offers' && offerCount === 0) ||
-        (selectedStatus === 'archived' && r.archived === true)
-      return matchesSearch && matchesStatus
+      
+      // Фильтр по статусам
+      if (selectedStatus === 'all') return matchesSearch
+      if (selectedStatus === 'moderation') return matchesSearch && r.status === 'moderation' && !r.archived
+      if (selectedStatus === 'revision') return matchesSearch && r.status === 'revision' && !r.archived
+      if (selectedStatus === 'rejected') return matchesSearch && r.status === 'rejected' && !r.archived
+      if (selectedStatus === 'published') return matchesSearch && r.status === 'published' && !r.archived
+      if (selectedStatus === 'with-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount > 0
+      if (selectedStatus === 'no-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount === 0
+      if (selectedStatus === 'archived') return matchesSearch && r.archived === true
+      
+      return matchesSearch
     })
   }, [requests, searchQuery, selectedStatus])
 
@@ -61,13 +112,6 @@ export default function CustomerPage() {
   }, [filteredRequests, currentPage])
 
   const totalPages = Math.ceil(filteredRequests.length / itemsPerPage)
-
-  const stats = useMemo(() => ({
-    total: requests.length,
-    withOffers: requests.filter(r => countOffersByRequestId(r.id) > 0).length,
-    noOffers: requests.filter(r => countOffersByRequestId(r.id) === 0 && !r.archived).length,
-    archived: requests.filter(r => r.archived === true).length,
-  }), [requests])
 
   const onLogout = () => {
     setShowLogoutConfirm(true)
@@ -88,23 +132,17 @@ export default function CustomerPage() {
     navigate(`/customer/request/${requestId}/offers`)
   }
 
-  // Функция для перехода на страницу редактирования заявки (только если нет КП)
-  const goToEditRequest = (requestId, offerCount, e) => {
+  // Функция для перехода на страницу редактирования заявки
+  const goToEditRequest = (requestId, e) => {
     e.stopPropagation()
-    if (offerCount === 0) {
-      navigate(`/customer/request/${requestId}/edit`)
-    } else {
-      alert('Редактирование невозможно: на заявку уже получены коммерческие предложения')
-    }
+    navigate(`/customer/request/${requestId}/edit`)
   }
 
   // Функция для открытия модального окна архивации
-  const openArchiveConfirm = (requestId, offerCount, e) => {
+  const openArchiveConfirm = (requestId, e) => {
     e.stopPropagation()
-    if (offerCount > 0) {
-      setSelectedRequestForArchive(requestId)
-      setShowArchiveConfirm(true)
-    }
+    setSelectedRequestForArchive(requestId)
+    setShowArchiveConfirm(true)
   }
 
   // Функция для архивации заявки
@@ -119,18 +157,51 @@ export default function CustomerPage() {
     }
   }
 
-  // Функция для удаления заявки (только если нет КП)
-  const handleDeleteRequest = (requestId, offerCount, e) => {
+  // Функция для удаления заявки
+  const handleDeleteRequest = (requestId, e) => {
     e.stopPropagation()
-    if (offerCount === 0) {
-      if (window.confirm('Вы уверены, что хотите удалить эту заявку?')) {
-        // Здесь будет логика удаления
-        console.log('Удаление заявки:', requestId)
+    if (window.confirm('Вы уверены, что хотите удалить эту заявку? Это действие нельзя отменить.')) {
+      const result = deleteRequest(requestId)
+      if (result) {
         setRefreshKey(prev => prev + 1)
       }
-    } else {
-      alert('Удаление невозможно: на заявку уже получены коммерческие предложения. Вы можете отправить заявку в архив.')
     }
+  }
+
+  // Функция для повторной отправки на модерацию (после доработки)
+  const handleResubmit = (requestId, e) => {
+    e.stopPropagation()
+    // Здесь будет логика повторной отправки
+    console.log('Повторная отправка:', requestId)
+    // После реализации функции в requests.js:
+    // resubmitRequest(requestId)
+    // setRefreshKey(prev => prev + 1)
+  }
+
+  // Получить класс статуса для отображения
+  const getStatusClass = (request) => {
+    if (request.archived) return styles.statusArchived
+    
+    switch(request.status) {
+      case 'moderation':
+        return styles.statusModeration
+      case 'revision':
+        return styles.statusRevision
+      case 'rejected':
+        return styles.statusRejected
+      case 'published':
+        return countOffersByRequestId(request.id) > 0 ? styles.statusSuccess : styles.statusPublished
+      default:
+        return styles.statusDraft
+    }
+  }
+
+  // Получить текст статуса
+  const getStatusText = (request) => {
+    if (request.archived) return 'В архиве'
+    
+    const display = getRequestStatusDisplay(request, 'customer')
+    return display.text
   }
 
   if (!user) {
@@ -168,12 +239,11 @@ export default function CustomerPage() {
               <span className={styles.current}>Заявки</span>
             </div>
           </div>
-
         </div>
 
         {/* Карточка с заявками */}
         <div className={styles.requestsCard}>
-          {/* Поиск */}
+          {/* Поиск и создание */}
           <div className={styles.searchSection}>
             <div className={styles.searchWrapper}>
               <svg className={styles.searchIcon} width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -201,7 +271,6 @@ export default function CustomerPage() {
                 Создать заявку
               </button>
             </div>
-
           </div>
 
           {/* Табы статусов */}
@@ -213,16 +282,28 @@ export default function CustomerPage() {
               Все <span className={styles.tabCount}>{stats.total}</span>
             </button>
             <button
+              className={`${styles.tab} ${selectedStatus === 'moderation' ? styles.active : ''}`}
+              onClick={() => setSelectedStatus('moderation')}
+            >
+              На модерации <span className={styles.tabCount}>{stats.moderation}</span>
+            </button>
+            <button
+              className={`${styles.tab} ${selectedStatus === 'revision' ? styles.active : ''}`}
+              onClick={() => setSelectedStatus('revision')}
+            >
+              На доработке <span className={styles.tabCount}>{stats.revision}</span>
+            </button>
+            <button
+              className={`${styles.tab} ${selectedStatus === 'published' ? styles.active : ''}`}
+              onClick={() => setSelectedStatus('published')}
+            >
+              Опубликовано <span className={styles.tabCount}>{stats.published}</span>
+            </button>
+            <button
               className={`${styles.tab} ${selectedStatus === 'with-offers' ? styles.active : ''}`}
               onClick={() => setSelectedStatus('with-offers')}
             >
               С КП <span className={styles.tabCount}>{stats.withOffers}</span>
-            </button>
-            <button
-              className={`${styles.tab} ${selectedStatus === 'no-offers' ? styles.active : ''}`}
-              onClick={() => setSelectedStatus('no-offers')}
-            >
-              Без КП <span className={styles.tabCount}>{stats.noOffers}</span>
             </button>
             <button
               className={`${styles.tab} ${selectedStatus === 'archived' ? styles.active : ''}`}
@@ -269,6 +350,8 @@ export default function CustomerPage() {
                   {paginatedRequests.map((r) => {
                     const offerCount = countOffersByRequestId(r.id)
                     const isArchived = r.archived === true
+                    const statusClass = getStatusClass(r)
+                    const statusText = getStatusText(r)
 
                     return (
                       <tr
@@ -314,18 +397,13 @@ export default function CustomerPage() {
                           </span>
                         </td>
                         <td className={styles.td}>
-                          {isArchived ? (
-                            <span className={`${styles.statusBadge} ${styles.statusArchived}`}>
-                              В архиве
-                            </span>
-                          ) : (
-                            <span className={`${styles.statusBadge} ${offerCount > 0 ? styles.statusSuccess : styles.statusWarning}`}>
-                              {offerCount > 0 ? 'Есть КП' : 'Нет КП'}
-                            </span>
-                          )}
+                          <span className={`${styles.statusBadge} ${statusClass}`}>
+                            {statusText}
+                          </span>
                         </td>
                         <td className={styles.td}>
                           <div className={styles.actions}>
+                            {/* Кнопка просмотра - доступна всегда */}
                             <button
                               className={styles.actionButton}
                               onClick={(e) => {
@@ -342,56 +420,129 @@ export default function CustomerPage() {
 
                             {!isArchived && (
                               <>
-                                <button
-                                  className={styles.actionButton}
-                                  onClick={(e) => {
-                                    e.stopPropagation()
-                                    goToOffers(r.id)
-                                  }}
-                                  title="Просмотр КП"
-                                >
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                    <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" />
-                                  </svg>
-                                </button>
+                                {/* Для опубликованных: просмотр КП и архив */}
+                                {r.status === 'published' && (
+                                  <>
+                                    <button
+                                      className={styles.actionButton}
+                                      onClick={(e) => {
+                                        e.stopPropagation()
+                                        goToOffers(r.id)
+                                      }}
+                                      title="Просмотр КП"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    </button>
 
-                                <button
-                                  className={`${styles.actionButton} ${offerCount > 0 ? styles.actionDisabled : ''}`}
-                                  onClick={(e) => goToEditRequest(r.id, offerCount, e)}
-                                  title={offerCount > 0 ? "Редактирование недоступно (есть КП)" : "Редактировать"}
-                                  disabled={offerCount > 0}
-                                >
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                    <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" />
-                                    <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" />
-                                  </svg>
-                                </button>
-
-                                {offerCount > 0 && (
-                                  <button
-                                    className={`${styles.actionButton} ${styles.actionArchive}`}
-                                    onClick={(e) => openArchiveConfirm(r.id, offerCount, e)}
-                                    title="Отправить в архив"
-                                  >
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                      <path d="M4 8H20V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8Z" stroke="currentColor" strokeWidth="2" />
-                                      <path d="M2 4H22V8H2V4Z" stroke="currentColor" strokeWidth="2" />
-                                      <path d="M10 12H14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                                    </svg>
-                                  </button>
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionArchive}`}
+                                      onClick={(e) => openArchiveConfirm(r.id, e)}
+                                      title="Отправить в архив"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M4 8H20V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8Z" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M2 4H22V8H2V4Z" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M10 12H14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                      </svg>
+                                    </button>
+                                  </>
                                 )}
 
-                                <button
-                                  className={`${styles.actionButton} ${offerCount > 0 ? styles.actionDisabled : styles.actionDelete}`}
-                                  onClick={(e) => handleDeleteRequest(r.id, offerCount, e)}
-                                  title={offerCount > 0 ? "Удаление недоступно (есть КП)" : "Удалить"}
-                                  disabled={offerCount > 0}
-                                >
-                                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                    <path d="M3 6H5H21" stroke="currentColor" strokeWidth="2" />
-                                    <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" strokeWidth="2" />
-                                  </svg>
-                                </button>
+                                {/* Для на модерации: редактирование и удаление */}
+                                {r.status === 'moderation' && (
+                                  <>
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionEdit}`}
+                                      onClick={(e) => goToEditRequest(r.id, e)}
+                                      title="Редактировать"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    </button>
+
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionDelete}`}
+                                      onClick={(e) => handleDeleteRequest(r.id, e)}
+                                      title="Удалить"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M3 6H5H21" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    </button>
+                                  </>
+                                )}
+
+                                {/* Для на доработке: редактирование и повторная отправка */}
+                                {r.status === 'revision' && (
+                                  <>
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionEdit}`}
+                                      onClick={(e) => goToEditRequest(r.id, e)}
+                                      title="Редактировать"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    </button>
+
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionWarning}`}
+                                      onClick={(e) => handleResubmit(r.id, e)}
+                                      title="Отправить на повторную модерацию"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M23 12C23 13 22 16 20 18C18 20 15 22 12 22C7 22 3 19 2 15" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M1 5L5 9L9 5" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M5 9V3C5 2 6 1 7 1H21C22 1 23 2 23 3V9" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    </button>
+                                  </>
+                                )}
+
+                                {/* Для отклоненных: редактирование, удаление, архив */}
+                                {r.status === 'rejected' && (
+                                  <>
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionEdit}`}
+                                      onClick={(e) => goToEditRequest(r.id, e)}
+                                      title="Редактировать"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    </button>
+
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionDelete}`}
+                                      onClick={(e) => handleDeleteRequest(r.id, e)}
+                                      title="Удалить"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M3 6H5H21" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6M19 6V20C19 20.5304 18.7893 21.0391 18.4142 21.4142C18.0391 21.7893 17.5304 22 17 22H7C6.46957 22 5.96086 21.7893 5.58579 21.4142C5.21071 21.0391 5 20.5304 5 20V6H19Z" stroke="currentColor" strokeWidth="2" />
+                                      </svg>
+                                    </button>
+
+                                    <button
+                                      className={`${styles.actionButton} ${styles.actionArchive}`}
+                                      onClick={(e) => openArchiveConfirm(r.id, e)}
+                                      title="Отправить в архив"
+                                    >
+                                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                        <path d="M4 8H20V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8Z" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M2 4H22V8H2V4Z" stroke="currentColor" strokeWidth="2" />
+                                        <path d="M10 12H14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                      </svg>
+                                    </button>
+                                  </>
+                                )}
                               </>
                             )}
                           </div>

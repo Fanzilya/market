@@ -1002,3 +1002,97 @@
     border-color: #fbbf24;
     color: #fbbf24;
   }
+
+  /* Добавьте в конец файла CustomerPage.module.css */
+
+/* Статусы */
+.statusModeration {
+  background: rgba(245, 158, 11, 0.1);
+  color: #F59E0B;
+}
+
+.statusRevision {
+  background: rgba(139, 92, 246, 0.1);
+  color: #8B5CF6;
+}
+
+.statusRejected {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.statusPublished {
+  background: rgba(74, 133, 246, 0.1);
+  color: #4A85F6;
+}
+
+.statusSuccess {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+.statusDraft {
+  background: rgba(100, 116, 139, 0.1);
+  color: #64748B;
+}
+
+.statusArchived {
+  background: rgba(100, 116, 139, 0.1);
+  color: #64748B;
+}
+
+/* Кнопки действий */
+.actionWarning {
+  color: #F59E0B;
+}
+
+.actionWarning:hover {
+  background: #F59E0B !important;
+  color: white !important;
+}
+
+.actionEdit:hover {
+  background: #4A85F6 !important;
+  color: white !important;
+}
+
+.actionArchive:hover {
+  background: #64748B !important;
+  color: white !important;
+}
+
+.actionDelete:hover {
+  background: #EF4444 !important;
+  color: white !important;
+}
+
+/* Темная тема для статусов */
+:global(.dark-mode) .statusModeration {
+  background: rgba(245, 158, 11, 0.2);
+  color: #FBBF24;
+}
+
+:global(.dark-mode) .statusRevision {
+  background: rgba(139, 92, 246, 0.2);
+  color: #A78BFA;
+}
+
+:global(.dark-mode) .statusRejected {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+}
+
+:global(.dark-mode) .statusPublished {
+  background: rgba(74, 133, 246, 0.2);
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .statusSuccess {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+}
+
+:global(.dark-mode) .statusDraft {
+  background: rgba(100, 116, 139, 0.2);
+  color: #94A3B8;
+}

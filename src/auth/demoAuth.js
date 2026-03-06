@@ -1,3 +1,4 @@
+// src/auth/demoAuth.js
 const STORAGE_KEY = 'marketplays_demo_user_v1'
 const PASSWORD_OVERRIDES_KEY = 'marketplays_password_overrides_v1'
 
@@ -49,6 +50,14 @@ export const DEMO_USERS = [
       about:
         'Проектирование и поставка инженерных решений для КНС. Опыт 10+ лет, работаем по всей РФ.',
     },
+  },
+  {
+    role: 'admin',
+    roleLabel: 'Администратор системы',
+    fullName: 'Администратор Системы',
+    email: 'admin@marketplays.ru',
+    password: 'Admin123',
+    phone: '+7 (900) 999-99-99',
   },
 ]
 
@@ -140,4 +149,13 @@ export function changePasswordDemo({ email, currentPassword, newPassword }) {
   return { ok: true }
 }
 
-
+export function getAllUsers() {
+  return DEMO_USERS.map(user => ({
+    email: user.email,
+    role: user.role,
+    roleLabel: user.roleLabel,
+    fullName: user.fullName,
+    phone: user.phone,
+    company: user.company
+  }))
+}

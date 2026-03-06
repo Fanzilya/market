@@ -6,7 +6,7 @@ import Sidebar from '../components/Sidebar.jsx'
 import SearchBar from '../components/SearchBar.jsx'
 import DataTable from '../components/DataTable.jsx'
 import Pagination from '../components/Pagination.jsx'
-import { listAllRequests } from '../data/requests.js'
+import { listPublishedRequestsForSuppliers } from '../data/requests.js'
 import { listOffersByRequestId } from '../data/offers.js'
 import {
   getFavoriteRequests,
@@ -27,13 +27,18 @@ export default function SupplierPage() {
   const [selectedType, setSelectedType] = useState('all')
   const [selectedStatus, setSelectedStatus] = useState('all') // all, new, responded, favorites
   const [currentPage, setCurrentPage] = useState(1)
-  const [sortConfig, setSortConfig] = useState({ key: 'id', direction: 'desc' })
+  const [sortConfig, setSortConfig] = useState({ key: 'publishedAt', direction: 'desc' })
   const [darkMode, setDarkMode] = useState(false)
   const [freeClicksLeft, setFreeClicksLeft] = useState(5)
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [favoriteRequests, setFavoriteRequests] = useState([])
 
   const itemsPerPage = 15
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    setDarkMode(savedTheme === 'dark')
+  }, [])
 
   useEffect(() => {
     localStorage.setItem('theme', darkMode ? 'dark' : 'light')
@@ -56,10 +61,10 @@ export default function SupplierPage() {
     return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate)
   }, [user])
 
-  // Данные
+  // Данные - только опубликованные заявки
   const requests = useMemo(() => {
     const _ = refreshKey
-    return listAllRequests()
+    return listPublishedRequestsForSuppliers()
   }, [refreshKey])
 
   const myOffers = useMemo(() => {
@@ -123,7 +128,7 @@ export default function SupplierPage() {
       let aValue = a[sortConfig.key]
       let bValue = b[sortConfig.key]
 
-      if (sortConfig.key === 'createdAt') {
+      if (sortConfig.key === 'publishedAt' || sortConfig.key === 'createdAt') {
         aValue = new Date(aValue || Date.now()).getTime()
         bValue = new Date(bValue || Date.now()).getTime()
       }
@@ -154,7 +159,7 @@ export default function SupplierPage() {
   }
 
   const handleToggleFavorite = (e, requestId) => {
-    e.stopPropagation() // Предотвращаем переход по заявке
+    e.stopPropagation()
 
     if (!user?.email) return
 
@@ -182,7 +187,7 @@ export default function SupplierPage() {
         })
       } else {
         // Бесплатные клики закончились - предложить оплатить
-        navigate('/billing', {
+        navigate('/supplier/balance', {
           state: {
             message: 'Бесплатные клики закончились. Для просмотра заявок необходимо пополнить счет.'
           }
@@ -267,7 +272,6 @@ export default function SupplierPage() {
         <span className={styles.regionBadge}>{row.region || 'Не указан'}</span>
       )
     },
-
     {
       key: 'techSpecs',
       header: 'Технические характеристики',
@@ -293,13 +297,13 @@ export default function SupplierPage() {
       }
     },
     {
-      key: 'createdAt',
-      header: 'Дата',
+      key: 'publishedAt',
+      header: 'Дата публикации',
       sortable: true,
-      width: '100px',
+      width: '120px',
       render: (row) => (
         <span className={styles.date}>
-          {new Date(row.createdAt || Date.now()).toLocaleDateString('ru-RU')}
+          {new Date(row.publishedAt || row.createdAt || Date.now()).toLocaleDateString('ru-RU')}
         </span>
       )
     },
@@ -365,6 +369,22 @@ export default function SupplierPage() {
     )
   }
 
+  // Если пользователь не поставщик, показываем ошибку
+  if (user.role !== 'supplier') {
+    return (
+      <div className={styles.errorContainer}>
+        <div className={styles.errorCard}>
+          <div className={styles.errorIcon}>🔒</div>
+          <h2>Доступ запрещен</h2>
+          <p>Эта страница доступна только поставщикам</p>
+          <button onClick={() => navigate('/')} className={styles.primaryButton}>
+            Вернуться на главную
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className={`${styles.page} ${darkMode ? styles.dark : ''}`}>
       <Sidebar
@@ -377,7 +397,7 @@ export default function SupplierPage() {
       <div className={styles.mainContent}>
         <div className={styles.header}>
           <div className={styles.headerLeft}>
-            <h1 className={styles.pageTitle}>Заявки</h1>
+            <h1 className={styles.pageTitle}>Доступные заявки</h1>
             <div className={styles.breadcrumbs}>
               <span className={styles.breadcrumb} onClick={() => navigate('/dashboard')}>Главная</span>
               <span className={styles.separator}>›</span>
@@ -447,7 +467,7 @@ export default function SupplierPage() {
 
         <div className={styles.statsBar}>
           <div className={styles.stat}>
-            <span className={styles.statLabel}>Всего заявок:</span>
+            <span className={styles.statLabel}>Доступно заявок:</span>
             <span className={styles.statValue}>{requests.length}</span>
           </div>
           <div className={styles.stat}>
@@ -471,24 +491,56 @@ export default function SupplierPage() {
         </div>
 
         <div className={styles.tableContainer}>
-          <DataTable
-            columns={columns}
-            data={paginatedRequests}
-            sortConfig={sortConfig}
-            onSort={handleSort}
-          />
+          {paginatedRequests.length === 0 ? (
+            <div className={styles.emptyState}>
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth="2" />
+                <path d="M12 8V12M12 16H12.01" stroke="#CBD5E1" strokeWidth="2" />
+              </svg>
+              <h3>Нет доступных заявок</h3>
+              <p>В данный момент нет опубликованных заявок</p>
+            </div>
+          ) : (
+            <DataTable
+              columns={columns}
+              data={paginatedRequests}
+              sortConfig={sortConfig}
+              onSort={handleSort}
+            />
+          )}
         </div>
 
-        <div className={styles.footer}>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            totalItems={sortedRequests.length}
-            itemsPerPage={itemsPerPage}
-          />
-        </div>
+        {paginatedRequests.length > 0 && (
+          <div className={styles.footer}>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              totalItems={sortedRequests.length}
+              itemsPerPage={itemsPerPage}
+            />
+          </div>
+        )}
       </div>
+
+      {/* Модальное окно подтверждения выхода */}
+      {showLogoutConfirm && (
+        <div className={styles.modalOverlay} onClick={() => setShowLogoutConfirm(false)}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalIcon}>👋</div>
+            <h3 className={styles.modalTitle}>Выйти из аккаунта?</h3>
+            <p className={styles.modalMessage}>Вы будете перенаправлены на страницу входа</p>
+            <div className={styles.modalActions}>
+              <button className={styles.modalCancel} onClick={() => setShowLogoutConfirm(false)}>
+                Отмена
+              </button>
+              <button className={styles.modalConfirm} onClick={handleLogout}>
+                Выйти
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

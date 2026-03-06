@@ -87,3 +87,4 @@ export const countOffersByRequestId = (requestId) => {
   const offers = loadOffers()
   return offers.filter(offer => offer.requestId === requestId).length
 }
+

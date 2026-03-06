@@ -416,3 +416,46 @@
   background: #ef4444;
   color: white;
 }
+
+/* components/Sidebar.module.css - добавьте в конец файла */
+
+.navBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  margin-left: auto;
+  background: #EF4444;
+  border-radius: 10px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.navBadgeCollapsed {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  min-width: 16px;
+  height: 16px;
+  padding: 0 4px;
+  background: #EF4444;
+  border-radius: 8px;
+  color: white;
+  font-size: 9px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--bg-primary, white);
+}
+
+/* Темная тема для бейджей */
+:global(.dark-mode) .navBadge,
+:global(.dark-mode) .navBadgeCollapsed {
+  background: #EF4444;
+  border-color: #1E293B;
+}
