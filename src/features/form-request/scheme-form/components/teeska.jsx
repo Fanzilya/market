@@ -51,13 +51,11 @@ export const SchemeParams = {
 }
 
 
-
-
-export const checkBox = [
+export const floatSwitches = [
     {
-        name: "План 1",
+        name: "Поплавки",
         value: SchemeParams.floatSwitch_1,
-        checked: false,
+        checked: true,
         image: floatSwitch_1,
         innerWidth: 100,
         innerHeight: 100,
@@ -67,7 +65,7 @@ export const checkBox = [
     {
         name: "План 2",
         value: SchemeParams.floatSwitch_2,
-        checked: false,
+        checked: true,
         image: floatSwitch_2,
         innerWidth: 100,
         innerHeight: 100,
@@ -77,7 +75,7 @@ export const checkBox = [
     {
         name: "План 3",
         value: SchemeParams.floatSwitch_3,
-        checked: false,
+        checked: true,
         image: floatSwitch_3,
         innerWidth: 100,
         innerHeight: 100,
@@ -87,6 +85,20 @@ export const checkBox = [
     {
         name: "План 4",
         value: SchemeParams.floatSwitch_4,
+        checked: true,
+        image: floatSwitch_4,
+        innerWidth: 100,
+        innerHeight: 100,
+        innerX: 100,
+        innerY: 100,
+    },
+]
+
+
+export const checkBox = [
+    {
+        name: "Поплавки",
+        value: SchemeParams.floatSwitch_4,
         checked: false,
         image: floatSwitch_4,
         innerWidth: 100,
@@ -95,7 +107,7 @@ export const checkBox = [
         innerY: 100,
     },
     {
-        name: "План 1",
+        name: "Решётка сверху",
         value: SchemeParams.gridAbove,
         checked: false,
         image: gridAbove,
@@ -105,7 +117,7 @@ export const checkBox = [
         innerY: 100,
     },
     {
-        name: "План 2",
+        name: "Решётка",
         value: SchemeParams.grid,
         checked: false,
         image: grid,
@@ -115,27 +127,27 @@ export const checkBox = [
         innerY: 100,
     },
     {
-        name: "План 1",
+        name: "Павильон сверху",
         value: SchemeParams.pavilionAbove,
         checked: false,
         image: pavilionAbove,
-        innerWidth: 100,
-        innerHeight: 100,
-        innerX: 100,
-        innerY: 100,
+        innerWidth: 231,
+        innerHeight: 165,
+        innerX: 293,
+        innerY: 293,
     },
     {
-        name: "План 2",
+        name: "Павильон",
         value: SchemeParams.pavilion,
-        checked: false,
+        checked: true,
         image: pavilion,
-        innerWidth: 100,
-        innerHeight: 100,
-        innerX: 100,
-        innerY: 100,
+        innerWidth: 231,
+        innerHeight: 165,
+        innerX: 293,
+        innerY: 10,
     },
     {
-        name: "План 3",
+        name: "Насосы + напорка",
         value: SchemeParams.pumpsPressure,
         checked: false,
         image: pumpsPressure,
@@ -145,7 +157,7 @@ export const checkBox = [
         innerY: 100,
     },
     {
-        name: "План 4",
+        name: "Измельчитель",
         value: SchemeParams.shredder,
         checked: false,
         image: shredder,
