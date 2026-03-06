@@ -1,8 +1,11 @@
+import { observer } from 'mobx-react-lite';
+import { CoordinateManager } from '../components/coordinate-manager';
 import { KNSSchema } from '../kns-schema';
 import { checkBox } from '../scheme-form/components/teeska';
 import { useState } from 'react';
+import { schemeActionsModel } from '../model/scheme-actions-model';
 
-export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInput, motorStartOptions, setKnsData, knsExtras, setKnsExtras }) => {
+export const TechnicalParametersStep = observer(({ knsData, styles, formData, focusedInput, motorStartOptions, setKnsData, knsExtras, setKnsExtras }) => {
 
     // Опции для выпадающих списков
     const mediumOptions = [
@@ -32,8 +35,7 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
         { value: '11', label: '11 часов (330°)' },
     ]
 
-
-    const [elements, setElements] = useState(checkBox)
+    const { setElements, elements } = schemeActionsModel
 
     return (
         <div className={styles.stepContent}>
@@ -216,14 +218,14 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
                                                 type="text"
                                                 value={knsData.inletDiameter}
                                                 onChange={(e) => setKnsData({ ...knsData, inletDiameter: e.target.value })}
-                                                className={styles.dimensionInputSmall}
+                                                className={styles.input}
                                                 placeholder="мм"
                                             />
                                             <input
                                                 type="text"
                                                 value={knsData.inletMaterial}
                                                 onChange={(e) => setKnsData({ ...knsData, inletMaterial: e.target.value })}
-                                                className={styles.dimensionInputSmall}
+                                                className={styles.input}
                                                 placeholder="материал"
                                             />
                                         </div>
@@ -237,7 +239,7 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
                                         <select
                                             value={knsData.inletDirection}
                                             onChange={(e) => setKnsData({ ...knsData, inletDirection: e.target.value })}
-                                            className={styles.dimensionSelect}
+                                            className={styles.select}
                                         >
                                             {directionOptions.map(opt => (
                                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -269,14 +271,14 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
                                                 type="text"
                                                 value={knsData.outletDiameter}
                                                 onChange={(e) => setKnsData({ ...knsData, outletDiameter: e.target.value })}
-                                                className={styles.dimensionInputSmall}
+                                                className={styles.input}
                                                 placeholder="мм"
                                             />
                                             <input
                                                 type="text"
                                                 value={knsData.outletMaterial}
                                                 onChange={(e) => setKnsData({ ...knsData, outletMaterial: e.target.value })}
-                                                className={styles.dimensionInputSmall}
+                                                className={styles.input}
                                                 placeholder="материал"
                                             />
                                         </div>
@@ -290,7 +292,7 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
                                         <select
                                             value={knsData.outletDirection}
                                             onChange={(e) => setKnsData({ ...knsData, outletDirection: e.target.value })}
-                                            className={styles.dimensionSelect}
+                                            className={styles.select}
                                         >
                                             {directionOptions.map(opt => (
                                                 <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -306,7 +308,7 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
                                         <select
                                             value={knsData.outletCount}
                                             onChange={(e) => setKnsData({ ...knsData, outletCount: e.target.value })}
-                                            className={styles.dimensionSelect}
+                                            className={styles.select}
                                         >
                                             <option value="1">1</option>
                                             <option value="2">2</option>
@@ -389,6 +391,13 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
                                 </label>
                             ))} */}
                         </div>
+
+
+
+                        <CoordinateManager model={schemeActionsModel} />
+
+
+
                     </div>
                     <KNSSchema styles={styles} data={knsData} extras={elements} />
                 </div>
@@ -409,4 +418,4 @@ export const TechnicalParametersStep = ({ knsData, styles, formData, focusedInpu
             )}
         </div>
     );
-};
+})
