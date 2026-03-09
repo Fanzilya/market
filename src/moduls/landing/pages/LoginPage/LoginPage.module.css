@@ -1,0 +1,547 @@
+/* src/pages/LoginPage.module.css */
+.page {
+    min-height: 100vh;
+    background: #F8FAFC;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    transition: opacity 0.5s ease;
+  }
+  
+  .container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    min-height: 100vh;
+    margin: 0 auto;
+  }
+  
+  /* Левая колонка - форма */
+  .formColumn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 32px;
+    background: white;
+  }
+  
+  .formContainer {
+    width: 100%;
+    max-width: 440px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 32px;
+    cursor: pointer;
+  }
+  
+  .logoIcon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .logoText {
+    font-size: 22px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .title {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0 0 8px 0;
+  }
+  
+  .subtitle {
+    font-size: 15px;
+    color: #64748B;
+    margin-bottom: 32px;
+  }
+  
+  /* Форма */
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  
+  .label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #1E293B;
+  }
+  
+  .inputWrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 2px solid #E2E8F0;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.2s;
+    background: #F8FAFC;
+    box-sizing: border-box;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #4A85F6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  .inputFocused {
+    border-color: #4A85F6;
+    background: white;
+    box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+  }
+  
+  .inputValid {
+    border-color: #10B981;
+    background: white;
+  }
+  
+  /* Поле с паролем */
+  .passwordWrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  .inputPassword {
+    padding-right: 48px;
+  }
+  
+  .passwordToggle {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #94A3B8;
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s;
+  }
+  
+  .passwordToggle:hover {
+    color: #4A85F6;
+  }
+  
+  .validIcon {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #10B981;
+  }
+  
+  /* Запомнить меня */
+  .rememberRow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 4px;
+  }
+  
+  .checkbox {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+  }
+  
+  .checkboxInput {
+    width: 18px;
+    height: 18px;
+    accent-color: #4A85F6;
+    cursor: pointer;
+  }
+  
+  .checkboxLabel {
+    font-size: 14px;
+    color: #64748B;
+    font-weight: 500;
+  }
+  
+  .forgotLink {
+    color: #4A85F6;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  
+  .forgotLink:hover {
+    color: #3A6BC9;
+    text-decoration: underline;
+  }
+  
+  /* Кнопка входа */
+  .submitButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(74, 133, 246, 0.3);
+    margin-top: 8px;
+  }
+  
+  .submitButton:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(74, 133, 246, 0.4);
+  }
+  
+  .submitButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  /* Спиннер */
+  .spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+  
+  /* Демо-аккаунты */
+  .demoAccounts {
+    margin-top: 24px;
+    padding: 16px;
+    background: #F8FAFC;
+    border-radius: 12px;
+    border: 1px solid #E2E8F0;
+  }
+  
+  .demoTitle {
+    font-size: 13px;
+    color: #64748B;
+    margin-bottom: 12px;
+    text-align: center;
+  }
+  
+  .demoButtons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+  }
+  
+  .demoButton {
+    flex: 1;
+    padding: 10px;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1E293B;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  
+  .demoButton:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+    background: #F8FAFC;
+  }
+  
+  /* Ссылка на регистрацию */
+  .registerLink {
+    text-align: center;
+    font-size: 14px;
+    color: #64748B;
+    margin-top: 24px;
+  }
+  
+  .link {
+    color: #4A85F6;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+  }
+  
+  .link:hover {
+    color: #3A6BC9;
+    text-decoration: underline;
+  }
+  
+  /* Сообщение об ошибке */
+  .errorMessage {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #FEF2F2;
+    border: 1px solid #FECACA;
+    border-radius: 10px;
+    color: #DC2626;
+    font-size: 14px;
+    margin-bottom: 20px;
+  }
+  
+  /* Правая колонка - промо */
+  .promoColumn {
+    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .promoColumn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .promoColumn::after {
+    content: '';
+    position: absolute;
+    bottom: -30%;
+    left: -10%;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  
+  .promoContent {
+    max-width: 600px;
+    color: white;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .promoBadge {
+    display: inline-block;
+    padding: 6px 14px;
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(5px);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 24px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .promoTitle {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 16px;
+    line-height: 1.3;
+  }
+  
+  .promoDescription {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 32px;
+    opacity: 0.9;
+  }
+  
+  .promoFeatures {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 32px;
+  }
+  
+  .promoFeature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 15px;
+  }
+  
+  .promoFeature::before {
+    content: '✓';
+    font-weight: 700;
+    font-size: 18px;
+    color: white;
+  }
+  
+  .promoStats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 32px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(5px);
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .promoStat {
+    text-align: center;
+  }
+  
+  .promoStatValue {
+    display: block;
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 4px;
+  }
+  
+  .promoStatLabel {
+    font-size: 12px;
+    opacity: 0.8;
+  }
+  
+  .promoImage {
+    margin-top: 20px;
+  }
+  
+  .promoImage svg {
+    width: 100%;
+    height: auto;
+  }
+  
+  /* Адаптивность */
+  @media (max-width: 1024px) {
+    .container {
+      grid-template-columns: 1fr;
+    }
+    
+    .formColumn {
+      padding: 40px 24px;
+    }
+    
+    .promoColumn {
+      padding: 60px 24px;
+      min-height: 400px;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .title {
+      font-size: 28px;
+    }
+    
+    .promoTitle {
+      font-size: 28px;
+    }
+    
+    .promoStats {
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .formColumn {
+      padding: 30px 16px;
+    }
+    
+    .logoText {
+      font-size: 18px;
+    }
+    
+    .logoIcon {
+      width: 32px;
+      height: 32px;
+    }
+    
+    .demoButtons {
+      flex-direction: column;
+    }
+    
+    .rememberRow {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 12px;
+    }
+  }
+  
+  /* Темная тема */
+  :global(.dark-mode) .page {
+    background: #0F172A;
+  }
+  
+  :global(.dark-mode) .formColumn {
+    background: #1E293B;
+  }
+  
+  :global(.dark-mode) .title,
+  :global(.dark-mode) .label {
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .subtitle {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .input {
+    background: #334155;
+    border-color: #475569;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .input:focus {
+    border-color: #4A85F6;
+    background: #1E293B;
+  }
+  
+  :global(.dark-mode) .demoAccounts {
+    background: #334155;
+    border-color: #475569;
+  }
+  
+  :global(.dark-mode) .demoTitle {
+    color: #94A3B8;
+  }
+  
+  :global(.dark-mode) .demoButton {
+    background: #1E293B;
+    border-color: #475569;
+    color: #F1F5F9;
+  }
+  
+  :global(.dark-mode) .demoButton:hover {
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  :global(.dark-mode) .promoColumn {
+    background: linear-gradient(135deg, #0F172A, #1E293B);
+  }

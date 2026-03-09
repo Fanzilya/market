@@ -1,0 +1,54 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "lib": [
+            "dom",
+            "dom.iterable",
+            "esnext"
+        ],
+        "allowJs": true,
+        "skipLibCheck": true,
+        "esModuleInterop": true,
+        "allowSyntheticDefaultImports": true,
+        "strict": true,
+        "forceConsistentCasingInFileNames": true,
+        "noFallthroughCasesInSwitch": true,
+        "module": "esnext",
+        "moduleResolution": "node",
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "src/*"
+            ],
+            "@landing/*": [
+                "src/moduls/landing/*"
+            ],
+            "@shop/*": [
+                "src/moduls/shop/*"
+            ],
+            "@admin/*": [
+                "src/moduls/personal-account/admin/*"
+            ],
+            "@customer/*": [
+                "src/moduls/personal-account/customer/*"
+            ],
+            "@supplier/*": [
+                "src/moduls/personal-account/supplier/*"
+            ],
+            "@general/*": [
+                "src/moduls/personal-account/general/*"
+            ],
+            "@common/*": [
+                "src/moduls/personal-account/common/*"
+            ],
+        },
+    },
+    "include": [
+        "src",
+        "auth"
+    ],
+}

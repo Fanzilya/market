@@ -1,7 +1,7 @@
-import { getSessionUser } from "../auth/demoAuth"
+import { getSessionUser } from "../../auth/demoAuth"
 
 export const getRequestsPath = () => {
-    const user = getSessionUser()
-    if (!user) return '/login'
-    return user.role === 'customer' ? '/customer' : '/supplier'
-  }
+  const user = getSessionUser()
+  if (!user) return '/login'
+  return user.role === 'customer' ? '/customer' : '/supplier'
+}
