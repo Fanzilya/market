@@ -373,3 +373,47 @@
   :global(.dark-mode) .mobileLink:hover {
     color: #4A85F6;
   }
+
+  .logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 12px;
+  transition: background-color 0.2s;
+}
+
+.logo:hover {
+  background-color: rgba(74, 133, 246, 0.05);
+}
+
+.logoImage {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.logoText {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4A85F6, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Для свернутого сайдбара */
+.collapsed .logoImage {
+  width: 32px;
+  height: 32px;
+}
+
+.collapsed .logoText {
+  display: none;
+}
+
+/* Темная тема */
+:global(.dark-mode) .logo:hover {
+  background-color: rgba(74, 133, 246, 0.15);
+}

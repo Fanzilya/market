@@ -12,21 +12,12 @@ export default function Footer() {
         <div className={styles.footerContent}>
           <div className={styles.footerColumn}>
             <div className={styles.logo} onClick={() => navigate('/')}>
-              <svg className={styles.logoIcon} viewBox="0 0 40 40" fill="none">
-                <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)" />
-                <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7" />
-                <defs>
-                  <linearGradient id="gradient1" x1="6" y1="16" x2="34" y2="16">
-                    <stop stopColor="#10B981" />
-                    <stop offset="1" stopColor="#4A85F6" />
-                  </linearGradient>
-                  <linearGradient id="gradient2" x1="20" y1="4" x2="34" y2="28">
-                    <stop stopColor="#4A85F6" />
-                    <stop offset="1" stopColor="#3A6BC9" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <span className={styles.logoText}>Лого</span>
+              <img 
+                  src="/public/logo.png" 
+                  alt="КликПроект" 
+                  className={styles.logoImage}
+                />
+              <span className={styles.logoText}>КликПроект</span>
             </div>
             <p className={styles.footerDescription}>
               Платформа для автоматизации сбора коммерческих предложений
@@ -74,7 +65,7 @@ export default function Footer() {
         </div>
 
         <div className={styles.footerBottom}>
-          <p className={styles.copyright}>© {currentYear} Лого. Все права защищены.</p>
+          <p className={styles.copyright}>© {currentYear} КликПроект. Все права защищены.</p>
           <div className={styles.footerBottomLinks}>
             <Link to="/privacy" className={styles.footerBottomLink}>Политика конфиденциальности</Link>
             <Link to="/terms" className={styles.footerBottomLink}>Условия использования</Link>
