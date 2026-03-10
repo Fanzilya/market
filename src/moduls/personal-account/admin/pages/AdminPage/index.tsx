@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from './AdminPage.module.css'
 import { AdminPageDataModel } from '../../features/AdminPage/model-data'
+import Icon from '@/shared/ui-kits/Icon'
 
 export const AdminPage = () => {
   const navigate = useNavigate()
@@ -218,10 +219,7 @@ export const AdminPage = () => {
                             }}
                             title="Просмотр"
                           >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                              <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-                              <path d="M22 12C22 12 19 18 12 18C5 18 2 12 2 12C2 12 5 6 12 6C19 6 22 12 22 12Z" stroke="currentColor" strokeWidth="2" />
-                            </svg>
+                            <Icon name="view"/>
                           </button>
 
                           {!request.archived && request.status !== 'published' && (
@@ -243,10 +241,7 @@ export const AdminPage = () => {
                               onClick={() => handleArchiveRequest(request.id)}
                               title="В архив"
                             >
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" strokeWidth="2" />
-                                <path d="M8 6H16" stroke="currentColor" strokeWidth="2" />
-                              </svg>
+                              <Icon name="archive"/>
                             </button>
                           ) : (
                             <button
@@ -254,11 +249,7 @@ export const AdminPage = () => {
                               onClick={() => handleUnarchiveRequest(request.id)}
                               title="Восстановить"
                             >
-                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 3L3 8L12 13L21 8L12 3Z" stroke="currentColor" strokeWidth="2" />
-                                <path d="M3 16L12 21L21 16" stroke="currentColor" strokeWidth="2" />
-                                <path d="M3 11L12 16L21 11" stroke="currentColor" strokeWidth="2" />
-                              </svg>
+                              <Icon name="recover"/>
                             </button>
                           )}
 
@@ -267,9 +258,7 @@ export const AdminPage = () => {
                             onClick={() => handleDeleteRequest(request.id)}
                             title="Удалить"
                           >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" />
-                            </svg>
+                            <Icon name="delete"/>
                           </button>
                         </div>
                       </td>
@@ -331,19 +320,14 @@ export const AdminPage = () => {
                             onClick={() => navigate(`/admin/offer/${offer.id}`)}
                             title="Просмотр"
                           >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                              <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-                              <path d="M22 12C22 12 19 18 12 18C5 18 2 12 2 12C2 12 5 6 12 6C19 6 22 12 22 12Z" stroke="currentColor" strokeWidth="2" />
-                            </svg>
+                            <Icon name="view"/>
                           </button>
                           <button
                             className={`${styles.actionButton} ${styles.deleteButton}`}
                             onClick={() => handleDeleteOffer(offer.id)}
                             title="Удалить"
                           >
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" strokeWidth="2" />
-                            </svg>
+                            <Icon name="delete"/>
                           </button>
                         </div>
                       </td>

@@ -38,20 +38,7 @@ export default function Header() {
       <div className={styles.container}>
         <div className={styles.headerContent}>
           <div className={styles.logo} onClick={() => navigate('/')}>
-            {/* <svg className={styles.logoIcon} viewBox="0 0 40 40" fill="none">
-              <path d="M20 4L6 28H34L20 4Z" fill="url(#gradient1)" />
-              <path d="M20 4L34 28H20V4Z" fill="url(#gradient2)" opacity="0.7" />
-              <defs>
-                <linearGradient id="gradient1" x1="6" y1="16" x2="34" y2="16">
-                  <stop stopColor="#10B981" />
-                  <stop offset="1" stopColor="#4A85F6" />
-                </linearGradient>
-                <linearGradient id="gradient2" x1="20" y1="4" x2="34" y2="28">
-                  <stop stopColor="#4A85F6" />
-                  <stop offset="1" stopColor="#3A6BC9" />
-                </linearGradient>
-              </defs>
-            </svg> */}
+            
             <img
               src={Logo}
               alt="КликПроект"
