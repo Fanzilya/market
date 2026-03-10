@@ -13,11 +13,9 @@ export default defineConfig(function (_a) {
       tailwindcss(),
     ],
     preview: {
-      host: true,
+      allowedHosts: ['market.gsurso.ru'],
       port: 5013,
-      allowedHosts: [
-        "market.gsurso.ru"
-      ]
+      host: true,
     },
     resolve: {
       alias: {
