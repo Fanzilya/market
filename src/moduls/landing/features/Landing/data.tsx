@@ -1,17 +1,15 @@
+import aco from "@/moduls/shop/assets/images/aco-logo.svg";
+import smk from "@/moduls/shop/assets/images/cmk-logo.png";
+import compozit from "@/moduls/shop/assets/images/compozit-logo.png";
+import toros from "@/moduls/shop/assets/images/toros-logo.svg";
+import ascent from "@/moduls/shop/assets/images/ascent-logo.png";
 
 export const partners = [
-    { id: 1, name: 'Грундфос', logo: '🌊', category: 'Насосное оборудование', products: 234, country: 'Дания', slug: 'grundfos' },
-    { id: 2, name: 'WILO', logo: '⚙️', category: 'Насосы и системы', products: 189, country: 'Германия', slug: 'wilo' },
-    { id: 3, name: 'Pedrollo', logo: '🔧', category: 'Насосное оборудование', products: 156, country: 'Италия', slug: 'pedrollo' },
-    { id: 4, name: 'КИТ', logo: '🏭', category: 'Промышленное оборудование', products: 98, country: 'Россия', slug: 'kit' },
-    { id: 5, name: 'Ebara', logo: '💧', category: 'Насосные станции', products: 145, country: 'Япония', slug: 'ebara' },
-    { id: 6, name: 'Calpeda', logo: '🔩', category: 'Насосное оборудование', products: 112, country: 'Италия', slug: 'calpeda' },
-    { id: 7, name: 'Джилекс', logo: '🇷🇺', category: 'Насосы для воды', products: 167, country: 'Россия', slug: 'jileks' },
-    { id: 8, name: 'Вихрь', logo: '🌀', category: 'Насосное оборудование', products: 89, country: 'Россия', slug: 'vihr' },
-    { id: 9, name: 'DAB', logo: '⚡', category: 'Насосное оборудование', products: 134, country: 'Италия', slug: 'dab' },
-    { id: 10, name: 'Lowara', logo: '🌍', category: 'Насосные системы', products: 121, country: 'Италия', slug: 'lowara' },
-    { id: 11, name: 'Speroni', logo: '🔨', category: 'Насосное оборудование', products: 76, country: 'Италия', slug: 'speroni' },
-    { id: 12, name: 'Zenit', logo: '💪', category: 'Промышленные насосы', products: 103, country: 'Италия', slug: 'zenit' },
+    { id: 1, name: 'СМК-Гидрикс', logo: smk,   slug: 'gidrig' },
+    { id: 2, name: 'ТОРОС', logo: toros,  slug: 'toros' },
+    { id: 3, name: 'Волжский композит', logo: compozit, slug: 'compozit' },
+    { id: 4, name: 'Эколайн', logo: aco,  slug: 'ecolain' },
+    { id: 5, name: 'Акцент-Саба', logo: ascent,   slug: 'acsent' },
 ]
 
 export const features = [

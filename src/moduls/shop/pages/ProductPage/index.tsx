@@ -121,7 +121,7 @@ export const ProductPage = () => {
                   className={styles.productBrand}
                   onClick={handleBrandClick}
                 >
-                  <span className={styles.brandLogo}>{brand.logo}</span>
+                   <img src={brand.logo} className="container w-full h-full"/>
                   <span>{brand.name}</span>
                 </div>
               )}

@@ -35,7 +35,7 @@ export const LandingPage = () => {
       setCurrentPartnerSlide((prev) =>
         prev === Math.ceil(partners.length / 4) - 1 ? 0 : prev + 1
       )
-    }, 4000)
+    }, 14000)
 
     // Добавляем слушатель скролла
     window.addEventListener('scroll', handleScroll)
@@ -176,17 +176,18 @@ export const LandingPage = () => {
 
             <div className={styles.carouselTrack}>
               <div className={styles.carouselSlides} style={{ transform: `translateX(-${currentPartnerSlide * 100}%)` }}>
-                {Array.from({ length: Math.ceil(partners.length / 4) }).map((_, slideIndex) => (
+                {Array.from({ length: Math.ceil(partners.length / 3) }).map((_, slideIndex) => (
                   <div key={slideIndex} className={styles.carouselSlide}>
-                    {partners.slice(slideIndex * 4, slideIndex * 4 + 4).map((partner) => (
+                    {partners.slice(slideIndex * 3, slideIndex * 3 + 3).map((partner) => (
                       <Link to={`/brands/${partner.slug}`} key={partner.id} className={styles.partnerCard} >
-                        <div className={styles.partnerLogo}>{partner.logo}</div>
+                        <div className={styles.partnerLogo}><img src={partner.logo} className="container w-full h-full"/></div>
+                        {/* <div className={styles.partnerLogo}>{partner.logo}</div> */}
                         <h3 className={styles.partnerName}>{partner.name}</h3>
-                        <p className={styles.partnerCategory}>{partner.category}</p>
+                        {/* <p className={styles.partnerCategory}>{partner.category}</p>
                         <div className={styles.partnerStats}>
                           <span className={styles.partnerProducts}>{partner.products} товаров</span>
                           <span className={styles.partnerCountry}>{partner.country}</span>
-                        </div>
+                        </div> */}
                         <button className={styles.partnerButton}>
                           Перейти в каталог
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">

@@ -447,15 +447,8 @@
   opacity: 1;
 }
 
-.partnerLogo {
-  font-size: 32px;
-  filter: grayscale(100%);
-  transition: filter 0.3s ease;
-}
 
-.partnerItem:hover .partnerLogo {
-  filter: grayscale(0%);
-}
+
 
 .partnerName {
   font-size: 14px;
@@ -1354,23 +1347,12 @@
 }
 
 .partnerCard:hover {
-  transform: translateY(-8px);
+
   border-color: #4A85F6;
   box-shadow: 0 20px 40px rgba(74, 133, 246, 0.15);
 }
 
-.partnerLogo {
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
-  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 20px rgba(74, 133, 246, 0.2);
-}
+
 
 .partnerName {
   font-size: 18px;
@@ -1609,23 +1591,6 @@
   box-shadow: 0 20px 40px rgba(74, 133, 246, 0.15);
 }
 
-.partnerLogo {
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
-  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 40px;
-  margin-bottom: 20px;
-  transition: all 0.3s ease;
-  box-shadow: 0 10px 20px rgba(74, 133, 246, 0.2);
-}
-
-.partnerCard:hover .partnerLogo {
-  transform: scale(1.1) rotate(360deg);
-}
 
 .partnerName {
   font-size: 18px;
@@ -2818,19 +2783,16 @@
   width: 80px;
   height: 80px;
   border-radius: 40px;
-  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 40px;
   margin-bottom: 20px;
-  box-shadow: 0 10px 20px rgba(74, 133, 246, 0.2);
+
   transition: all 0.3s ease;
 }
 
-.partnerCard:hover .partnerLogo {
-  transform: scale(1.1) rotate(360deg);
-}
 
 .partnerName {
   font-size: 18px;
