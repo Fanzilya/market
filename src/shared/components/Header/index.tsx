@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { useAuth } from '@/features/user/context/context'
 import styles from './Header.module.css'
 import { Role } from '@/entities/user/role'
+import Logo from "../../../../public/logo.png"
 
 export default function Header() {
   const { user, signOut } = useAuth()
@@ -51,11 +52,11 @@ export default function Header() {
                 </linearGradient>
               </defs>
             </svg> */}
-            <img 
-    src="/public/logo.svg" 
-    alt="КликПроект" 
-    className={styles.logoImage}
-  />
+            <img
+              src={Logo}
+              alt="КликПроект"
+              className={styles.logoImage}
+            />
             <span className={styles.logoText}>КликПроект</span>
           </div>
 
