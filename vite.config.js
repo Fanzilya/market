@@ -14,7 +14,7 @@ export default defineConfig(function (_a) {
     ],
     preview: {
       host: true,
-      port: env.VITE_APP_PORT,
+      port: 5013,
       allowedHosts: [
         "market.gsurso.ru"
       ]
