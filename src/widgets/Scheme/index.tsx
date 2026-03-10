@@ -2,7 +2,7 @@ import { useKNSSchema } from "./src/hook/use-scheme-model";
 import { ZoomableContainer } from "./src/components/zoomable-container";
 import { EquipmentData } from "./src/data/teeska";
 import { observer } from "mobx-react-lite";
-import styles from "./Scheme.module.css";
+import styles from "./scheme.module.css";
 
 interface Props {
     models: EquipmentData[]

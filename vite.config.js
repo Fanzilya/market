@@ -9,6 +9,14 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
+  server: {
+    allowedHosts: true
+  },
+  preview: {
+    allowedHosts: ['market.gsurso.ru'],
+    port: 5013,
+    host: true,
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
@@ -22,4 +30,3 @@ export default defineConfig({
     },
   },
 })
-
