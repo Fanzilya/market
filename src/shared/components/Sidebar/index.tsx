@@ -30,7 +30,7 @@ export const Sidebar = observer(() => {
       <div className={styles.logo}>
         <div className={styles.logoIcon}>
           <img
-            src="/public/logo.svg"
+            src={Logo}
             alt="КликПроект"
             className={styles.logoImage}
           />

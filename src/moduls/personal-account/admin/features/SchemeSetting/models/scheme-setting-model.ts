@@ -43,7 +43,7 @@ class SchemeSettingModel {
         try {
             const dataToSave = JSON.stringify(this.models);
             localStorage.setItem(STORAGE_KEY_SCHEME_SETTINGS, dataToSave);
-            alert('Данные успешно сохранены в localStorage');
+            console.log('Данные успешно сохранены в localStorage');
             return true;
         } catch (error) {
             console.error('Ошибка при сохранении данных в localStorage:', error);
