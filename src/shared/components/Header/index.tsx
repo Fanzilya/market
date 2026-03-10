@@ -52,7 +52,7 @@ export default function Header() {
               </defs>
             </svg> */}
             <img 
-    src="/public/logo.png" 
+    src="/public/logo.svg" 
     alt="КликПроект" 
     className={styles.logoImage}
   />

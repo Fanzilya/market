@@ -28,14 +28,14 @@ export const Sidebar = observer(() => {
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
       <div className={styles.logo}>
         <div className={styles.logoIcon}>
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
-            <rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" strokeWidth="2" />
-            <path d="M8 8H16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <path d="M8 12H14" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-            <path d="M8 16H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+          <img 
+              src="/public/logo.svg" 
+              alt="КликПроект" 
+              className={styles.logoImage}
+            />
+                      
         </div>
-        <h2>КликПроект</h2>
+        <h2 className={styles.logoText}>КликПроект</h2> 
         <button
           className={styles.collapseButton}
           onClick={() => setIsCollapsed(!isCollapsed)}

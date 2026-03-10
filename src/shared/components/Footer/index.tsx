@@ -13,7 +13,7 @@ export default function Footer() {
           <div className={styles.footerColumn}>
             <div className={styles.logo} onClick={() => navigate('/')}>
               <img 
-                  src="/public/logo.png" 
+                  src="/public/logo.svg" 
                   alt="КликПроект" 
                   className={styles.logoImage}
                 />
