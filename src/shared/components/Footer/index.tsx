@@ -1,6 +1,7 @@
 // src/components/Footer.tsx
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Footer.module.css'
+import Logo from "../../../../public/logo.png"
 
 export default function Footer() {
   const navigate = useNavigate()
@@ -12,11 +13,11 @@ export default function Footer() {
         <div className={styles.footerContent}>
           <div className={styles.footerColumn}>
             <div className={styles.logo} onClick={() => navigate('/')}>
-              <img 
-                  src="/public/logo.png" 
-                  alt="КликПроект" 
-                  className={styles.logoImage}
-                />
+              <img
+                src={Logo}
+                alt="КликПроект"
+                className={styles.logoImage}
+              />
               <span className={styles.logoText}>КликПроект</span>
             </div>
             <p className={styles.footerDescription}>
