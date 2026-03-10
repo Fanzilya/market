@@ -1,7 +1,7 @@
 // src/components/Footer.tsx
 import { Link, useNavigate } from 'react-router-dom'
 import styles from './Footer.module.css'
-import Logo from "../../../../public/logo.png"
+import Logo from "../../../../public/logo.svg"
 
 export default function Footer() {
   const navigate = useNavigate()

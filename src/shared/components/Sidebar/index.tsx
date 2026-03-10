@@ -6,6 +6,7 @@ import { useAuth } from '@/features/user/context/context'
 import { Role } from '@/entities/user/role'
 import { getSadbarData } from './data'
 import { observer } from 'mobx-react-lite'
+import Logo from "../../../../public/logo.svg"
 
 export const Sidebar = observer(() => {
   const { user, signOut } = useAuth()
@@ -28,14 +29,13 @@ export const Sidebar = observer(() => {
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
       <div className={styles.logo}>
         <div className={styles.logoIcon}>
-          <img 
-              src="/public/logo.svg" 
-              alt="КликПроект" 
-              className={styles.logoImage}
-            />
-                      
+          <img
+            src="/public/logo.svg"
+            alt="КликПроект"
+            className={styles.logoImage}
+          />
         </div>
-        <h2 className={styles.logoText}>КликПроект</h2> 
+        <h2 className={styles.logoText}>КликПроект</h2>
         <button
           className={styles.collapseButton}
           onClick={() => setIsCollapsed(!isCollapsed)}
