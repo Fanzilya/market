@@ -12,6 +12,9 @@ export default defineConfig(function (_a) {
       react(),
       tailwindcss(),
     ],
+    server: {
+      allowedHosts: true
+    },
     preview: {
       allowedHosts: ['market.gsurso.ru'],
       port: 5013,
