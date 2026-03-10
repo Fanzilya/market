@@ -69,6 +69,45 @@ export const LandingPage = () => {
     })
   }
 
+  const onTest = async () => {
+    try {
+      const response = await fetch('YOUR_API_ENDPOINT_HERE', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      localStorage.setItem('accessToken', data.accessToken);
+      localStorage.setItem('refreshToken', data.refreshToken);
+
+      // Можно сохранить информацию о пользователе
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      console.log('Успешный вход:', {
+        user: data.user.fullName,
+        role: data.user.role,
+        expiresAt: data.expiresAt
+      });
+
+      return data;
+
+    } catch (error) {
+      console.error('Ошибка при запросе:', error);
+      // Обработка ошибки
+      throw error;
+    }
+  }
+
+
   return (
     <>
 
@@ -180,7 +219,7 @@ export const LandingPage = () => {
                   <div key={slideIndex} className={styles.carouselSlide}>
                     {partners.slice(slideIndex * 3, slideIndex * 3 + 3).map((partner) => (
                       <Link to={`/brands/${partner.slug}`} key={partner.id} className={styles.partnerCard} >
-                        <div className={styles.partnerLogo}><img src={partner.logo} className="container w-full h-full"/></div>
+                        <div className={styles.partnerLogo}><img src={partner.logo} className="container w-full h-full" /></div>
                         {/* <div className={styles.partnerLogo}>{partner.logo}</div> */}
                         <h3 className={styles.partnerName}>{partner.name}</h3>
                         {/* <p className={styles.partnerCategory}>{partner.category}</p>
