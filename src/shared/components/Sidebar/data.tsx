@@ -70,7 +70,7 @@ export function getSadbarData() {
             ? "/admin/dashboard"
             : "/supplier/dashboard",
       icon: (
-         <Icon name="main"/>
+        <Icon name="main" />
       ),
       label: "Главная",
     },
@@ -81,7 +81,7 @@ export function getSadbarData() {
     {
       path: getRequestsPath(),
       icon: (
-        <Icon name="requests"/>
+        <Icon name="requests" />
       ),
       label: "Заявки",
     },
@@ -92,21 +92,21 @@ export function getSadbarData() {
     {
       path: getRequestsPath(),
       icon: (
-        <Icon name="requests"/>
+        <Icon name="requests" />
       ),
       label: "Заявки",
     },
     {
       path: "/supplier/materials",
       icon: (
-        <Icon name="materials"/>
+        <Icon name="materials" />
       ),
       label: "Подбор материалов",
     },
     {
       path: "/supplier/balance",
       icon: (
-        <Icon name="balance"/>
+        <Icon name="balance" />
       ),
       label: "Баланс",
     },
@@ -117,14 +117,14 @@ export function getSadbarData() {
     {
       path: "/admin",
       icon: (
-        <Icon name="dashboard"/>
+        <Icon name="dashboard" />
       ),
       label: "Дашборд",
     },
     {
       path: "/admin/requests",
       icon: (
-        <Icon name="requests"/>
+        <Icon name="requests" />
       ),
       label: "Заявки",
       badge: "3", // Количество заявок на модерацию
@@ -132,7 +132,7 @@ export function getSadbarData() {
     {
       path: "/admin/offers",
       icon: (
-        <Icon name="offers"/>
+        <Icon name="offers" />
       ),
       label: "Предложения",
       badge: "5", // Количество предложений на модерацию
@@ -140,28 +140,22 @@ export function getSadbarData() {
     {
       path: "/admin/users",
       icon: (
-        <Icon name="users"/>
+        <Icon name="users" />
       ),
       label: "Пользователи",
     },
     {
       path: "/admin/companies",
       icon: (
-        <Icon name="companies"/>
+        <Icon name="companies" />
       ),
       label: "Компании",
     },
-    {
-      path: "/admin/settings",
-      icon: (
-        <Icon name="settings"/>
-      ),
-      label: "Настройки",
-    },
+    
     {
       path: "/admin/scheme-setting",
       icon: (
-        <Icon name="scheme"/>
+        <Icon name="scheme" />
       ),
       label: "Cхема",
     },
@@ -177,7 +171,7 @@ export function getSadbarData() {
             ? "/admin/notifications"
             : "/supplier/notifications",
       icon: (
-        <Icon name="notifications"/>
+        <Icon name="notifications" />
       ),
       label: "Уведомления",
       badge: unreadNotifications > 0 ? unreadNotifications : null,
@@ -190,7 +184,7 @@ export function getSadbarData() {
             ? "/admin/profile"
             : "/supplier/profile",
       icon: (
-        <Icon name="profile"/>
+        <Icon name="profile" />
       ),
       label: "Профиль",
     },
@@ -202,7 +196,7 @@ export function getSadbarData() {
             ? "/admin/settings"
             : "/supplier/settings",
       icon: (
-        <Icon name="settings"/>
+        <Icon name="settings" />
       ),
       label: "Настройки",
     },

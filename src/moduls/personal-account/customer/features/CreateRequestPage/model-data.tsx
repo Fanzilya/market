@@ -9,7 +9,7 @@ export function CreateRequestDataModel(requestId: string | undefined, user: User
 
     const navigate = useNavigate()
 
-    const [activeStep, setActiveStep] = useState(2)
+    const [activeStep, setActiveStep] = useState(1)
     const [isSubmitting, setIsSubmitting] = useState(false)
     const [error, setError] = useState('')
     const isEditMode = !!requestId

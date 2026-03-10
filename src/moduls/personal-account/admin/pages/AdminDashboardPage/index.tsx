@@ -6,6 +6,7 @@ import { listAllOffers } from '@/shared/data/offers'
 import styles from './AdminDashboardPage.module.css'
 import { cardsActions } from '../../features/AdminDashboardPage/data'
 import { IconAdminDashboard } from '../../features/AdminDashboardPage/components'
+import Icon from '@/shared/ui-kits/Icon'
 
 export const AdminDashboardPage = () => {
 
@@ -99,7 +100,7 @@ export const AdminDashboardPage = () => {
         <div className={styles.actionsGrid}>
           {cardsActions.map((link, key) => (
             <Link to={link.link} className={styles.actionCard}>
-              {IconAdminDashboard(link.iconName)}
+              <Icon name={link.iconName} />
               <span>{link.name}</span>
             </Link>
           ))}

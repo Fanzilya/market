@@ -7,14 +7,14 @@ export default function useProfileData(user, isSupplier) {
   const userTiles = useMemo(() =>
     getUserTiles(user).map(tile => ({
       ...tile,
-      icon: Icons[tile.icon] || Icons.user
+      icon: tile.icon
     }))
     , [user])
 
   const companyTiles = useMemo(() =>
     isSupplier ? getCompanyTiles(user.company).map(tile => ({
       ...tile,
-      icon: Icons[tile.icon] || Icons.building
+      icon: tile.icon
     })) : []
     , [isSupplier, user.company])
 

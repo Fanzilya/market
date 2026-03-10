@@ -143,7 +143,7 @@ export const AppRouter = createBrowserRouter([
     path: '/admin',
     element: <ProtectedRoute allowedRoles={[Role.Admin]} />,
     async lazy() {
-      const { Layout } = await import('@admin/layout/layout');
+      const { Layout } = await import('@/moduls/personal-account/_layout/layout');
       return { Component: Layout };
     },
     children: [
@@ -184,7 +184,7 @@ export const AppRouter = createBrowserRouter([
     path: '/customer',
     element: <ProtectedRoute allowedRoles={[Role.Customer]} />,
     async lazy() {
-      const { Layout } = await import('@customer/layout/layout');
+      const { Layout } = await import('@/moduls/personal-account/_layout/layout');
       return { Component: Layout };
     },
     children: [
@@ -250,7 +250,7 @@ export const AppRouter = createBrowserRouter([
     element: <ProtectedRoute allowedRoles={[Role.Supplier]} />,
 
     async lazy() {
-      const { Layout } = await import('@supplier/layout/layout');
+      const { Layout } = await import('@/moduls/personal-account/_layout/layout');
       return { Component: Layout };
     },
     children: [

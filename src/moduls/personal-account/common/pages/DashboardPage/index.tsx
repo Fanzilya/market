@@ -6,6 +6,7 @@ import styles from './DashboardPage.module.css'
 import { useAuth } from '@/features/user/context/context'
 import { getIcon } from '../../features/DashboardPage/components'
 import { getDashboardData } from '../../features/DashboardPage/model-data'
+import Icon from '@/shared/ui-kits/Icon'
 
 
 
@@ -165,7 +166,7 @@ export const DashboardPage = () => {
                     {activity.map((item, index) => (
                         <div key={index} className={styles.activityCard}>
                             <div className={styles.activityIcon} style={{ background: item.color }}>
-                                {getIcon(item.icon)}
+                                <Icon name={item.icon} color='white' width={20} height={20} />
                             </div>
                             <div className={styles.activityContent}>
                                 <span className={styles.activityTitle}>{item.title}</span>

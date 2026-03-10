@@ -1,6 +1,8 @@
 // src/pages/ProfilePage/components/PageHeader.tsx
 import { Link } from 'react-router-dom'
 import styles from './WidgetsProfilePage.module.css'
+import Icon from '@/shared/ui-kits/Icon'
+import { getRequestsPath } from '@/utils/get-requests-path'
 
 export default function PageHeader({ onNavigate }) {
   return (
@@ -15,24 +17,14 @@ export default function PageHeader({ onNavigate }) {
       </div>
 
       <div className={styles.headerActions}>
-        <button
+        <Link
           className={styles.actionButton}
-          onClick={() => onNavigate('/settings')}
+          to={getRequestsPath() + '/settings'}
         >
-          <SettingsIcon />
+          <Icon name='settings' />
           Настройки
-        </button>
+        </Link>
       </div>
     </div>
   )
 }
-
-const SettingsIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-    <path d="M19.4 15C19.4 15 20 13.5 20 12C20 10.5 19.4 9 19.4 9" stroke="currentColor" strokeWidth="2" />
-    <path d="M4.6 9C4.6 9 4 10.5 4 12C4 13.5 4.6 15 4.6 15" stroke="currentColor" strokeWidth="2" />
-    <path d="M15 19.4C15 19.4 13.5 20 12 20C10.5 20 9 19.4 9 19.4" stroke="currentColor" strokeWidth="2" />
-    <path d="M9 4.6C9 4.6 10.5 4 12 4C13.5 4 15 4.6 15 4.6" stroke="currentColor" strokeWidth="2" />
-  </svg>
-)

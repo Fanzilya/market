@@ -1,4 +1,5 @@
 // src/pages/ProfilePage/components/ProfileTile.jsx
+import Icon from '@/shared/ui-kits/Icon'
 import styles from './WidgetsProfilePage.module.css'
 
 export default function ProfileTile({ icon, title, value, empty, hovered, onHover, onLeave }) {
@@ -10,7 +11,7 @@ export default function ProfileTile({ icon, title, value, empty, hovered, onHove
         >
             <div className={styles.tileTitle}>
                 <span className={styles.tileIcon}>
-                    {icon}
+                    <Icon name={icon} width={20} height={20} />
                 </span>
                 {title}
             </div>

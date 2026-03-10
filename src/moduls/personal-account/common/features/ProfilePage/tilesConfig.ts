@@ -21,13 +21,6 @@ export const getUserTiles = (user) => [
     value: user.phone || '—',
     empty: !user.phone
   },
-  {
-    id: 'role',
-    icon: 'role',
-    label: 'Роль',
-    value: user.roleLabel,
-    empty: !user.roleLabel
-  }
 ]
 
 export const getCompanyTiles = (company) => [

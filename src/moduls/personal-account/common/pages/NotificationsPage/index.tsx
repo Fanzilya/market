@@ -6,6 +6,7 @@ import { useAuth } from '@/features/user/context/context'
 import { Role } from '@/entities/user/role'
 import { getNotidicationsData } from '../../features/NotidicationsPage/model-data'
 import { getIcon } from '../../features/DashboardPage/components'
+import Icon from '@/shared/ui-kits/Icon'
 
 export const NotificationsPage = () => {
   const { user } = useAuth()
@@ -23,16 +24,12 @@ export const NotificationsPage = () => {
     unreadCount,
     importantCount,
     formatDate,
-    notifications,  
+    notifications,
     filter, setFilter } = getNotidicationsData()
-
-  const [darkMode, setDarkMode] = useState(false)
 
   useEffect(() => {
     loadNotifications()
   }, [])
-
-
 
   return (
     <>
@@ -68,24 +65,20 @@ export const NotificationsPage = () => {
       {/* Фильтры и действия */}
       <div className={styles.filtersBar}>
         <div className={styles.filterTabs}>
-          <button
-            className={`${styles.filterTab} ${filter === 'all' ? styles.active : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            Все
-          </button>
-          <button
-            className={`${styles.filterTab} ${filter === 'unread' ? styles.active : ''}`}
-            onClick={() => setFilter('unread')}
-          >
-            Непрочитанные
-          </button>
-          <button
-            className={`${styles.filterTab} ${filter === 'important' ? styles.active : ''}`}
-            onClick={() => setFilter('important')}
-          >
-            Важные
-          </button>
+
+          {[
+            { value: "all", name: "Все" },
+            { value: "unread", name: "Непрочитанные" },
+            { value: "important", name: "Важные" },
+          ].map((item, key) => (
+            <button
+              key={key}
+              className={`${styles.filterTab} ${filter === item.value ? styles.active : ''}`}
+              onClick={() => setFilter(item.value)}
+            >
+              {item.name}
+            </button>
+          ))}
         </div>
 
         <div className={styles.actions}>
@@ -94,11 +87,7 @@ export const NotificationsPage = () => {
             onClick={markAllAsRead}
             disabled={unreadCount === 0}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M1 12L5 16L9 12" stroke="currentColor" strokeWidth="2" />
-              <path d="M15 12L19 16L23 12" stroke="currentColor" strokeWidth="2" />
-              <path d="M8 7L12 11L16 7" stroke="currentColor" strokeWidth="2" />
-            </svg>
+            <Icon name='check-double' />
             Прочитать все
           </button>
           <button
@@ -106,10 +95,7 @@ export const NotificationsPage = () => {
             onClick={deleteAllRead}
             disabled={notifications.filter(n => n.read).length === 0}
           >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M3 6H5H21" stroke="currentColor" strokeWidth="2" />
-              <path d="M8 6V4C8 3.46957 8.21071 2.96086 8.58579 2.58579C8.96086 2.21071 9.46957 2 10 2H14C14.5304 2 15.0391 2.21071 15.4142 2.58579C15.7893 2.96086 16 3.46957 16 4V6" stroke="currentColor" strokeWidth="2" />
-            </svg>
+            <Icon name='delete' />
             Удалить прочитанные
           </button>
         </div>
@@ -119,10 +105,7 @@ export const NotificationsPage = () => {
       <div className={styles.notificationsList}>
         {filteredNotifications.length === 0 ? (
           <div className={styles.emptyState}>
-            <svg width="80" height="80" viewBox="0 0 24 24" fill="none">
-              <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth="2" />
-              <path d="M12 8V12M12 16H12.01" stroke="#CBD5E1" strokeWidth="2" strokeLinecap="round" />
-            </svg>
+            <Icon name='info' width={80} height={80} color='#CBD5E1' />
             <h3>Нет уведомлений</h3>
             <p>Здесь будут отображаться ваши уведомления</p>
           </div>

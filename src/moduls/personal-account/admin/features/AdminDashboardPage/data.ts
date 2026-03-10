@@ -1,27 +1,29 @@
+import { IconName } from "@/shared/ui-kits/Icon/src/type";
+
 export const cardsActions: {
     name: string,
     link: string,
-    iconName: string,
+    iconName: IconName,
 }[] = [
         {
             name: 'Управление заявками',
             link: '/admin/requests',
-            iconName: 'applicationManagement',
+            iconName: 'requests',
         },
         {
             name: 'Управление предложениями',
             link: '/admin/offers',
-            iconName: 'offerManagement',
+            iconName: 'offers',
         },
         {
             name: 'Управление пользователями',
             link: '/admin/users',
-            iconName: 'userManagement',
+            iconName: 'users',
         },
         {
             name: 'Управление компаниями',
             link: '/admin/companies',
-            iconName: 'companyManagement',
+            iconName: 'companies',
         },
     ]
 

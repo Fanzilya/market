@@ -1,12 +1,13 @@
 import { Role } from "@/entities/user/role"
 import { useAuth } from "@/features/user/context/context"
 import { listAllRequests, listRequestsForCustomerEmail } from "@/shared/data/requests"
+import { IconName } from "@/shared/ui-kits/Icon/src/type";
 import { useMemo } from "react"
 
 
 export interface DashboardData {
     activity: Array<{
-        icon: string;
+        icon: IconName;
         color: string;
         title: string;
         time: string;
@@ -186,7 +187,7 @@ export const getDashboardData = (): DashboardData => {
             time: `${supplierOffers.length} отправлено`
         },
         {
-            icon: 'login',
+            icon: 'logout',
             color: '#F59E0B',
             title: 'Последний вход',
             time: 'Только что'

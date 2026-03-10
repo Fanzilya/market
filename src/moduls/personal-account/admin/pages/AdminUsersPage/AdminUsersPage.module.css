@@ -1,668 +1,658 @@
 /* src/pages/AdminUsersPage.module.css */
 .page {
-    display: flex;
-    min-height: 100vh;
-    background: #F8FAFC;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  min-height: 100vh;
+  background: #F8FAFC;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.main {
+  flex: 1;
+  margin-left: 280px;
+  padding: 32px;
+  transition: margin-left 0.3s ease;
+}
+
+.container {
+  margin: 0 auto;
+}
+
+/* Шапка страницы */
+.header {
+  margin-bottom: 24px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.3px;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748B;
+  flex-wrap: wrap;
+}
+
+.breadcrumb {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.breadcrumb:hover {
+  color: #4A85F6;
+}
+
+.separator {
+  color: #CBD5E1;
+  font-size: 16px;
+}
+
+.current {
+  color: #4A85F6;
+  font-weight: 500;
+}
+
+/* Панель действий */
+.actionBar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.searchBox {
+  flex: 1;
+  min-width: 300px;
+  position: relative;
+}
+
+.searchInput {
+  width: 100%;
+  padding: 14px 16px 14px 48px;
+  border: 2px solid #E2E8F0;
+  border-radius: 14px;
+  font-size: 15px;
+  color: #1E293B;
+  background: white;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.searchInput:focus {
+  outline: none;
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 4px rgba(74, 133, 246, 0.1);
+}
+
+.filterSelect {
+  padding: 10px 20px;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  font-size: 15px;
+  color: #1E293B;
+  background: white;
+  cursor: pointer;
+  min-width: 180px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 16px center;
+  background-size: 16px;
+  padding-right: 40px;
+  transition: all 0.2s ease;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 4px rgba(74, 133, 246, 0.1);
+}
+
+/* Статистика */
+.statsBar {
+  display: flex;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding: 20px 24px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  flex-wrap: wrap;
+  animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
-  
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.statIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(74, 133, 246, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.statInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.statValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1E293B;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 12px;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Таблица */
+.tableContainer {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #E2E8F0;
+  overflow-x: auto;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.table th {
+  text-align: left;
+  padding: 18px 20px;
+  background: #F8FAFC;
+  color: #1E293B;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #E2E8F0;
+}
+
+.table td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #E2E8F0;
+  color: #334155;
+  transition: background-color 0.2s;
+}
+
+.table tbody tr {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.table tbody tr:hover {
+  background: #F8FAFC;
+}
+
+.table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Ячейка пользователя */
+.userCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.userAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  box-shadow: 0 4px 8px rgba(74, 133, 246, 0.3);
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 2px;
+}
+
+.userEmail {
+  font-size: 12px;
+  color: #64748B;
+}
+
+/* Бейджи ролей */
+.roleBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.roleAdmin {
+  background: rgba(239, 68, 68, 0.1);
+  color: #EF4444;
+}
+
+.roleCustomer {
+  background: rgba(74, 133, 246, 0.1);
+  color: #4A85F6;
+}
+
+.roleSupplier {
+  background: rgba(16, 185, 129, 0.1);
+  color: #10B981;
+}
+
+/* Контактная информация */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.contactPhone {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #334155;
+  font-size: 13px;
+}
+
+.contactPhone::before {
+  content: '📞';
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* Компания */
+.companyCell {
+  max-width: 200px;
+}
+
+.companyName {
+  font-weight: 500;
+  color: #1E293B;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.companyInn {
+  font-size: 12px;
+  color: #64748B;
+  font-family: monospace;
+}
+
+.companyInn::before {
+  content: 'ИНН ';
+  opacity: 0.7;
+}
+
+/* Пустое состояние */
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+  text-align: center;
+  background: #F8FAFC;
+  border-radius: 16px;
+  border: 2px dashed #E2E8F0;
+  margin: 20px;
+}
+
+.emptyState svg {
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 8px 0;
+}
+
+.emptyState p {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0;
+}
+
+/* Страница ошибки */
+.errorContainer {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #F8FAFC;
+}
+
+.errorCard {
+  background: white;
+  border-radius: 24px;
+  padding: 48px;
+  max-width: 420px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E2E8F0;
+  animation: scaleIn 0.3s ease;
+}
+
+.errorIcon {
+  font-size: 64px;
+  margin-bottom: 24px;
+}
+
+.errorCard h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0 0 12px 0;
+}
+
+.errorCard p {
+  font-size: 15px;
+  color: #64748B;
+  margin: 0 0 32px 0;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+}
+
+.primaryButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(74, 133, 246, 0.4);
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Адаптивность */
+@media (max-width: 1024px) {
   .main {
-    flex: 1;
-    margin-left: 280px;
-    padding: 32px;
-    transition: margin-left 0.3s ease;
+    margin-left: 0;
+    padding: 24px;
   }
-  
-  .container {
-    margin: 0 auto;
+
+  .table th:nth-child(4),
+  .table td:nth-child(4) {
+    display: none;
   }
-  
-  /* Шапка страницы */
-  .header {
-    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 20px;
   }
-  
+
   .title {
-    font-size: 28px;
-    font-weight: 600;
-    color: #1E293B;
-    margin: 0 0 4px 0;
-    letter-spacing: -0.3px;
-  }
-  
-  .breadcrumbs {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    color: #64748B;
-    flex-wrap: wrap;
-  }
-  
-  .breadcrumb {
-    cursor: pointer;
-    transition: color 0.2s;
-  }
-  
-  .breadcrumb:hover {
-    color: #4A85F6;
-  }
-  
-  .separator {
-    color: #CBD5E1;
-    font-size: 16px;
-  }
-  
-  .current {
-    color: #4A85F6;
-    font-weight: 500;
-  }
-  
-  /* Панель действий */
-  .actionBar {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 24px;
-    flex-wrap: wrap;
-  }
-  
-  .searchBox {
-    flex: 1;
-    min-width: 300px;
-    position: relative;
-  }
-  
-  .searchBox::before {
-    content: '🔍';
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 16px;
-    opacity: 0.5;
-    z-index: 1;
-  }
-  
-  .searchInput {
-    width: 100%;
-    padding: 14px 16px 14px 48px;
-    border: 2px solid #E2E8F0;
-    border-radius: 14px;
-    font-size: 15px;
-    color: #1E293B;
-    background: white;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
-  }
-  
-  .searchInput:focus {
-    outline: none;
-    border-color: #4A85F6;
-    box-shadow: 0 0 0 4px rgba(74, 133, 246, 0.1);
-  }
-  
-  .filterSelect {
-    padding: 14px 20px;
-    border: 2px solid #E2E8F0;
-    border-radius: 14px;
-    font-size: 15px;
-    color: #1E293B;
-    background: white;
-    cursor: pointer;
-    min-width: 180px;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
-    background-size: 16px;
-    padding-right: 40px;
-    transition: all 0.2s ease;
-  }
-  
-  .filterSelect:focus {
-    outline: none;
-    border-color: #4A85F6;
-    box-shadow: 0 0 0 4px rgba(74, 133, 246, 0.1);
-  }
-  
-  /* Статистика */
-  .statsBar {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 24px;
-    padding: 20px 24px;
-    background: white;
-    border-radius: 16px;
-    border: 1px solid #E2E8F0;
-    flex-wrap: wrap;
-    animation: slideDown 0.3s ease;
-  }
-  
-  @keyframes slideDown {
-    from {
-      opacity: 0;
-      transform: translateY(-10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .stat {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .statIcon {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: rgba(74, 133, 246, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 20px;
-  }
-  
-  .statInfo {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .statValue {
-    font-size: 20px;
-    font-weight: 700;
-    color: #1E293B;
-    line-height: 1.2;
-  }
-  
-  .statLabel {
-    font-size: 12px;
-    color: #64748B;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-  
-  /* Таблица */
-  .tableContainer {
-    background: white;
-    border-radius: 20px;
-    border: 1px solid #E2E8F0;
-    overflow-x: auto;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
-    animation: fadeIn 0.4s ease;
-  }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
-  
-  .table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-  }
-  
-  .table th {
-    text-align: left;
-    padding: 18px 20px;
-    background: #F8FAFC;
-    color: #1E293B;
-    font-weight: 600;
-    font-size: 13px;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    border-bottom: 2px solid #E2E8F0;
-  }
-  
-  .table td {
-    padding: 16px 20px;
-    border-bottom: 1px solid #E2E8F0;
-    color: #334155;
-    transition: background-color 0.2s;
-  }
-  
-  .table tbody tr {
-    transition: all 0.2s ease;
-    cursor: pointer;
-  }
-  
-  .table tbody tr:hover {
-    background: #F8FAFC;
-    transform: scale(1.01);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-  
-  .table tbody tr:last-child td {
-    border-bottom: none;
-  }
-  
-  /* Ячейка пользователя */
-  .userCell {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  .userAvatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    font-weight: 600;
-    box-shadow: 0 4px 8px rgba(74, 133, 246, 0.3);
-  }
-  
-  .userInfo {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .userName {
-    font-weight: 600;
-    color: #1E293B;
-    margin-bottom: 2px;
-  }
-  
-  .userEmail {
-    font-size: 12px;
-    color: #64748B;
-  }
-  
-  /* Бейджи ролей */
-  .roleBadge {
-    display: inline-flex;
-    align-items: center;
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 600;
-    white-space: nowrap;
-  }
-  
-  .roleAdmin {
-    background: rgba(239, 68, 68, 0.1);
-    color: #EF4444;
-  }
-  
-  .roleCustomer {
-    background: rgba(74, 133, 246, 0.1);
-    color: #4A85F6;
-  }
-  
-  .roleSupplier {
-    background: rgba(16, 185, 129, 0.1);
-    color: #10B981;
-  }
-  
-  /* Контактная информация */
-  .contactInfo {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  
-  .contactPhone {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #334155;
-    font-size: 13px;
-  }
-  
-  .contactPhone::before {
-    content: '📞';
-    font-size: 12px;
-    opacity: 0.7;
-  }
-  
-  /* Компания */
-  .companyCell {
-    max-width: 200px;
-  }
-  
-  .companyName {
-    font-weight: 500;
-    color: #1E293B;
-    margin-bottom: 4px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .companyInn {
-    font-size: 12px;
-    color: #64748B;
-    font-family: monospace;
-  }
-  
-  .companyInn::before {
-    content: 'ИНН ';
-    opacity: 0.7;
-  }
-  
-  /* Пустое состояние */
-  .emptyState {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 60px 20px;
-    text-align: center;
-    background: #F8FAFC;
-    border-radius: 16px;
-    border: 2px dashed #E2E8F0;
-    margin: 20px;
-  }
-  
-  .emptyState svg {
-    margin-bottom: 20px;
-    opacity: 0.5;
-  }
-  
-  .emptyState h3 {
-    font-size: 18px;
-    font-weight: 600;
-    color: #1E293B;
-    margin: 0 0 8px 0;
-  }
-  
-  .emptyState p {
-    font-size: 14px;
-    color: #64748B;
-    margin: 0;
-  }
-  
-  /* Страница ошибки */
-  .errorContainer {
-    display: flex;
-    min-height: 100vh;
-    align-items: center;
-    justify-content: center;
-    background: #F8FAFC;
-  }
-  
-  .errorCard {
-    background: white;
-    border-radius: 24px;
-    padding: 48px;
-    max-width: 420px;
-    text-align: center;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
-    border: 1px solid #E2E8F0;
-    animation: scaleIn 0.3s ease;
-  }
-  
-  .errorIcon {
-    font-size: 64px;
-    margin-bottom: 24px;
-  }
-  
-  .errorCard h2 {
     font-size: 24px;
-    font-weight: 700;
-    color: #1E293B;
-    margin: 0 0 12px 0;
   }
-  
-  .errorCard p {
-    font-size: 15px;
-    color: #64748B;
-    margin: 0 0 32px 0;
+
+  .actionBar {
+    flex-direction: column;
+    align-items: stretch;
   }
-  
-  .primaryButton {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 14px 32px;
-    background: linear-gradient(135deg, #4A85F6, #3A6BC9);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+
+  .searchBox {
+    min-width: auto;
   }
-  
-  .primaryButton:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(74, 133, 246, 0.4);
+
+  .filterSelect {
+    width: 100%;
   }
-  
-  @keyframes scaleIn {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
+
+  .statsBar {
+    flex-direction: column;
+    gap: 16px;
   }
-  
-  /* Адаптивность */
-  @media (max-width: 1024px) {
-    .main {
-      margin-left: 0;
-      padding: 24px;
-    }
-  
-    .table th:nth-child(4),
-    .table td:nth-child(4) {
-      display: none;
-    }
+
+  .stat {
+    width: 100%;
   }
-  
-  @media (max-width: 768px) {
-    .main {
-      padding: 20px;
-    }
-  
-    .title {
-      font-size: 24px;
-    }
-  
-    .actionBar {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  
-    .searchBox {
-      min-width: auto;
-    }
-  
-    .filterSelect {
-      width: 100%;
-    }
-  
-    .statsBar {
-      flex-direction: column;
-      gap: 16px;
-    }
-  
-    .stat {
-      width: 100%;
-    }
-  
-    .table th:nth-child(3),
-    .table td:nth-child(3),
-    .table th:nth-child(5),
-    .table td:nth-child(5) {
-      display: none;
-    }
-  
-    .userCell {
-      min-width: 150px;
-    }
+
+  .table th:nth-child(3),
+  .table td:nth-child(3),
+  .table th:nth-child(5),
+  .table td:nth-child(5) {
+    display: none;
   }
-  
-  @media (max-width: 480px) {
-    .main {
-      padding: 16px;
-    }
-  
-    .title {
-      font-size: 22px;
-    }
-  
-    .breadcrumbs {
-      font-size: 12px;
-    }
-  
-    .table td {
-      padding: 12px;
-    }
-  
-    .userAvatar {
-      width: 32px;
-      height: 32px;
-      font-size: 12px;
-    }
-  
-    .roleBadge {
-      padding: 4px 8px;
-      font-size: 11px;
-    }
-  
-    .errorCard {
-      padding: 32px 24px;
-      margin: 0 16px;
-    }
+
+  .userCell {
+    min-width: 150px;
   }
-  
-  /* Темная тема */
-  :global(.dark-mode) .page {
-    background: #0F172A;
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 16px;
   }
-  
-  :global(.dark-mode) .title {
-    color: #F1F5F9;
+
+  .title {
+    font-size: 22px;
   }
-  
-  :global(.dark-mode) .searchInput {
-    background: #1E293B;
-    border-color: #334155;
-    color: #F1F5F9;
+
+  .breadcrumbs {
+    font-size: 12px;
   }
-  
-  :global(.dark-mode) .searchInput:focus {
-    border-color: #4A85F6;
-    box-shadow: 0 0 0 4px rgba(74, 133, 246, 0.2);
+
+  .table td {
+    padding: 12px;
   }
-  
-  :global(.dark-mode) .filterSelect {
-    background: #1E293B;
-    border-color: #334155;
-    color: #F1F5F9;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+
+  .userAvatar {
+    width: 32px;
+    height: 32px;
+    font-size: 12px;
   }
-  
-  :global(.dark-mode) .filterSelect:focus {
-    border-color: #4A85F6;
+
+  .roleBadge {
+    padding: 4px 8px;
+    font-size: 11px;
   }
-  
-  :global(.dark-mode) .statsBar {
-    background: #1E293B;
-    border-color: #334155;
+
+  .errorCard {
+    padding: 32px 24px;
+    margin: 0 16px;
   }
-  
-  :global(.dark-mode) .statValue {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .tableContainer {
-    background: #1E293B;
-    border-color: #334155;
-  }
-  
-  :global(.dark-mode) .table th {
-    background: #2D3A4F;
-    color: #F1F5F9;
-    border-bottom-color: #475569;
-  }
-  
-  :global(.dark-mode) .table td {
-    color: #CBD5E1;
-    border-bottom-color: #334155;
-  }
-  
-  :global(.dark-mode) .table tbody tr:hover {
-    background: #2D3A4F;
-  }
-  
-  :global(.dark-mode) .userName {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .userEmail {
-    color: #94A3B8;
-  }
-  
-  :global(.dark-mode) .contactPhone {
-    color: #CBD5E1;
-  }
-  
-  :global(.dark-mode) .companyName {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .companyInn {
-    color: #94A3B8;
-  }
-  
-  :global(.dark-mode) .emptyState {
-    background: #2D3A4F;
-    border-color: #475569;
-  }
-  
-  :global(.dark-mode) .emptyState h3 {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .emptyState p {
-    color: #94A3B8;
-  }
-  
-  :global(.dark-mode) .errorCard {
-    background: #1E293B;
-    border-color: #334155;
-  }
-  
-  :global(.dark-mode) .errorCard h2 {
-    color: #F1F5F9;
-  }
-  
-  :global(.dark-mode) .errorCard p {
-    color: #94A3B8;
-  }
-  
-  :global(.dark-mode) .roleAdmin {
-    background: rgba(239, 68, 68, 0.2);
-    color: #F87171;
-  }
-  
-  :global(.dark-mode) .roleCustomer {
-    background: rgba(74, 133, 246, 0.2);
-    color: #60A5FA;
-  }
-  
-  :global(.dark-mode) .roleSupplier {
-    background: rgba(16, 185, 129, 0.2);
-    color: #34D399;
-  }
+}
+
+/* Темная тема */
+:global(.dark-mode) .page {
+  background: #0F172A;
+}
+
+:global(.dark-mode) .title {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .searchInput {
+  background: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .searchInput:focus {
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 4px rgba(74, 133, 246, 0.2);
+}
+
+:global(.dark-mode) .filterSelect {
+  background: #1E293B;
+  border-color: #334155;
+  color: #F1F5F9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394A3B8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+}
+
+:global(.dark-mode) .filterSelect:focus {
+  border-color: #4A85F6;
+}
+
+:global(.dark-mode) .statsBar {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .statValue {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .tableContainer {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .table th {
+  background: #2D3A4F;
+  color: #F1F5F9;
+  border-bottom-color: #475569;
+}
+
+:global(.dark-mode) .table td {
+  color: #CBD5E1;
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .table tbody tr:hover {
+  background: #2D3A4F;
+}
+
+:global(.dark-mode) .userName {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .userEmail {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .contactPhone {
+  color: #CBD5E1;
+}
+
+:global(.dark-mode) .companyName {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .companyInn {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .emptyState {
+  background: #2D3A4F;
+  border-color: #475569;
+}
+
+:global(.dark-mode) .emptyState h3 {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .emptyState p {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .errorCard {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .errorCard h2 {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .errorCard p {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .roleAdmin {
+  background: rgba(239, 68, 68, 0.2);
+  color: #F87171;
+}
+
+:global(.dark-mode) .roleCustomer {
+  background: rgba(74, 133, 246, 0.2);
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .roleSupplier {
+  background: rgba(16, 185, 129, 0.2);
+  color: #34D399;
+}

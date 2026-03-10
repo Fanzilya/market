@@ -2,8 +2,10 @@
 import { useAuth } from '@/features/user/context/context'
 import { getUserSettings, updateUserSettings } from '@/shared/data/settings'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import styles from "./SettingsPage.module.css"
+import Icon from '@/shared/ui-kits/Icon'
+import { Role } from '@/entities/user/role'
 
 export const SettingsPage = () => {
     const { user, signOut, changePassword } = useAuth()
@@ -109,21 +111,6 @@ export const SettingsPage = () => {
 
     const requirements = getPasswordRequirements()
 
-    if (!user) {
-        return (
-            <div className={styles.errorContainer}>
-                <div className={styles.errorCard}>
-                    <div className={styles.errorIcon}>⚠️</div>
-                    <h2>Сессия не найдена</h2>
-                    <p>Пожалуйста, войдите в систему для продолжения.</p>
-                    <button onClick={() => navigate('/login')} className={styles.primaryButton}>
-                        Перейти к входу
-                    </button>
-                </div>
-            </div>
-        )
-    }
-
     return (
         <>
             {/* Шапка страницы */}
@@ -148,31 +135,22 @@ export const SettingsPage = () => {
                         className={`${styles.tab} ${activeTab === 'account' ? styles.active : ''}`}
                         onClick={() => setActiveTab('account')}
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21" stroke="currentColor" strokeWidth="2" />
-                            <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" />
-                        </svg>
+                        <Icon name='profile' />
                         Аккаунт
                     </button>
                     <button
                         className={`${styles.tab} ${activeTab === 'security' ? styles.active : ''}`}
                         onClick={() => setActiveTab('security')}
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2" />
-                            <path d="M12 6V12L16 14" stroke="currentColor" strokeWidth="2" />
-                        </svg>
+                        <Icon name='shield' width={23} />
                         Безопасность
                     </button>
                     <button
                         className={`${styles.tab} ${activeTab === 'notification' ? styles.active : ''}`}
                         onClick={() => setActiveTab('notification')}
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                            <path d="M18 8C19.6569 8 21 9.34315 21 11C21 12.6569 19.6569 14 18 14C16.3431 14 15 12.6569 15 11C15 9.34315 16.3431 8 18 8Z" stroke="currentColor" strokeWidth="2" />
-                            <path d="M6 15C7.65685 15 9 16.3431 9 18C9 19.6569 7.65685 21 6 21C4.34315 21 3 19.6569 3 18C3 16.3431 4.34315 15 6 15Z" stroke="currentColor" strokeWidth="2" />
-                            <path d="M2 2L22 22" stroke="currentColor" strokeWidth="2" />
-                        </svg>
+                        <Icon name='notifications' />
+
                         Уведомления
                     </button>
                 </div>
@@ -259,13 +237,10 @@ export const SettingsPage = () => {
                         )}
 
                         <div className={styles.formActions}>
-                            <button className={styles.primaryButton} onClick={() => navigate('/profile')}>
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                    <path d="M20 21V19C20 16.7909 18.2091 15 16 15H8C5.79086 15 4 16.7909 4 19V21" stroke="currentColor" strokeWidth="2" />
-                                    <circle cx="12" cy="7" r="4" stroke="currentColor" strokeWidth="2" />
-                                </svg>
+                            <Link className={styles.primaryButton} to={user?.role == Role.Admin ? "/admin/profile" : (user?.role == Role.Customer ? "/customer/profile" : "/supplier/profile")}>
+                                <Icon name='profile' />
                                 Редактировать в профиле
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 )}
@@ -389,36 +364,16 @@ export const SettingsPage = () => {
 
                             <div className={styles.passwordRequirements}>
                                 <div className={`${styles.requirementItem} ${requirements.hasMinLength ? styles.requirementMet : ''}`}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                                        {requirements.hasMinLength ? (
-                                            <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" />
-                                        ) : (
-                                            <path d="M12 8V12L15 15" stroke="currentColor" strokeWidth="2" />
-                                        )}
-                                    </svg>
+                                    <Icon name="info" width={18} />
                                     Минимум 8 символов
                                 </div>
                                 <div className={`${styles.requirementItem} ${requirements.hasMixedCase ? styles.requirementMet : ''}`}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                                        {requirements.hasMixedCase ? (
-                                            <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" />
-                                        ) : (
-                                            <path d="M12 8V12L15 15" stroke="currentColor" strokeWidth="2" />
-                                        )}
-                                    </svg>
+                                    <Icon name="info" width={18} />
                                     Заглавные и строчные буквы
                                 </div>
                                 <div className={`${styles.requirementItem} ${requirements.hasSpecialChar ? styles.requirementMet : ''}`}>
-                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                                        <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" />
-                                        {requirements.hasSpecialChar ? (
-                                            <path d="M8 12L11 15L16 9" stroke="currentColor" strokeWidth="2" />
-                                        ) : (
-                                            <path d="M12 8V12L15 15" stroke="currentColor" strokeWidth="2" />
-                                        )}
-                                    </svg>
+                                    <Icon name="info" width={18} />
+
                                     Специальные символы (!@#$%)
                                 </div>
                             </div>
@@ -432,11 +387,8 @@ export const SettingsPage = () => {
                                         </>
                                     ) : (
                                         <>
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                                <path d="M20 14.66V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V4C4 2.9 4.9 2 6 2H14L20 8V14.66Z" stroke="currentColor" strokeWidth="2" />
-                                                <path d="M14 2V8H20" stroke="currentColor" strokeWidth="2" />
-                                                <path d="M12 22V16" stroke="currentColor" strokeWidth="2" />
-                                            </svg>
+                                            <Icon name="edit" height={15} width={15} />
+
                                             Изменить пароль
                                         </>
                                     )}
@@ -482,10 +434,7 @@ export const SettingsPage = () => {
                             >
                                 <div className={styles.notificationInfo}>
                                     <div className={styles.notificationIcon}>
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                            <path d="M4 4H20C21.1 4 22 4.9 22 6V18C22 19.1 21.1 20 20 20H4C2.9 20 2 19.1 2 18V6C2 4.9 2.9 4 4 4Z" stroke="currentColor" strokeWidth="2" />
-                                            <path d="M22 6L12 13L2 6" stroke="currentColor" strokeWidth="2" />
-                                        </svg>
+                                        <Icon name='email' />
                                     </div>
                                     <div className={styles.notificationText}>
                                         <div className={styles.notificationTitle}>Email-уведомления</div>
@@ -507,9 +456,7 @@ export const SettingsPage = () => {
                             >
                                 <div className={styles.notificationInfo}>
                                     <div className={styles.notificationIcon}>
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                            <path d="M22 16.92V19.92C22 20.48 21.56 20.93 21 20.99C20.83 21 20.67 21 20.5 21C10.62 21 2.5 12.88 2.5 3C2.5 2.83 2.5 2.67 2.51 2.5C2.57 1.94 3.02 1.5 3.58 1.5H6.58C7.17 1.5 7.68 1.91 7.78 2.49L8.28 5.36C8.38 5.92 8.14 6.49 7.67 6.81L5.94 8.01C7.34 10.79 9.64 13.09 12.42 14.49L13.62 12.76C13.94 12.29 14.51 12.05 15.07 12.15L17.94 12.65C18.52 12.75 18.93 13.26 18.93 13.85V16.92Z" stroke="currentColor" strokeWidth="2" />
-                                        </svg>
+                                        <Icon name='phone' />
                                     </div>
                                     <div className={styles.notificationText}>
                                         <div className={styles.notificationTitle}>SMS-уведомления</div>
@@ -531,11 +478,7 @@ export const SettingsPage = () => {
                             >
                                 <div className={styles.notificationInfo}>
                                     <div className={styles.notificationIcon}>
-                                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                            <path d="M18 8C19.6569 8 21 9.34315 21 11C21 12.6569 19.6569 14 18 14C16.3431 14 15 12.6569 15 11C15 9.34315 16.3431 8 18 8Z" stroke="currentColor" strokeWidth="2" />
-                                            <path d="M6 15C7.65685 15 9 16.3431 9 18C9 19.6569 7.65685 21 6 21C4.34315 21 3 19.6569 3 18C3 16.3431 4.34315 15 6 15Z" stroke="currentColor" strokeWidth="2" />
-                                            <path d="M2 2L22 22" stroke="currentColor" strokeWidth="2" />
-                                        </svg>
+                                        <Icon name='notifications' />
                                     </div>
                                     <div className={styles.notificationText}>
                                         <div className={styles.notificationTitle}>Уведомления в системе</div>
@@ -560,10 +503,7 @@ export const SettingsPage = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                            <path d="M19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H16L21 8V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21Z" stroke="currentColor" strokeWidth="2" />
-                                            <path d="M16 21V14H8V21" stroke="currentColor" strokeWidth="2" />
-                                        </svg>
+                                        <Icon name="edit" height={15} width={15} />
                                         Сохранить настройки
                                     </>
                                 )}

@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'
 import styles from './AdminUsersPage.module.css'
 import { useAuth } from '@/features/user/context/context'
 import { Role } from '@/entities/user/role'
+import { Search } from '@/shared/ui-kits/Input/input-search'
 
 export const AdminUsersPage = () => {
   const { user, getAllUsers } = useAuth()
@@ -64,13 +65,9 @@ export const AdminUsersPage = () => {
 
       <div className={styles.actionBar}>
         <div className={styles.searchBox}>
-          <input
-            type="text"
-            placeholder="Поиск по имени или email..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className={styles.searchInput}
-          />
+
+          <Search value={searchTerm} onChange={setSearchTerm} placeholder='Поиск по имени или email...' />
+
         </div>
 
         <select
