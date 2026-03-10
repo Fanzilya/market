@@ -22,6 +22,7 @@ export const SchemeSetting = observer(() => {
 
 
     useEffect(() => {
+        addModel([])
         if (models.length === 0) {
             savedData()
             const data = JSON.parse(localStorage.getItem(STORAGE_KEY_SCHEME_SETTINGS) || "")
