@@ -4,22 +4,34 @@ import react from '@vitejs/plugin-react'
 import path from 'path'
 
 // https://vite.dev/config/
-export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss(),
-  ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
-      '@landing': path.resolve(__dirname, './src/moduls/landing'),
-      '@shop': path.resolve(__dirname, './src/moduls/shop'),
-      '@admin': path.resolve(__dirname, './src/moduls/personal-account/admin'),
-      '@customer': path.resolve(__dirname, './src/moduls/personal-account/customer'),
-      '@supplier': path.resolve(__dirname, './src/moduls/personal-account/supplier'),
-      '@general': path.resolve(__dirname, './src/moduls/personal-account/general'),
-      '@common': path.resolve(__dirname, './src/moduls/personal-account/common'),
+export default defineConfig(function (_a) {
+  var env = loadEnv(mode, process.cwd(), '');
+
+  return {
+    plugins: [
+      react(),
+      tailwindcss(),
+    ],
+    preview: {
+      host: true,
+      port: env.VITE_APP_PORT,
+      allowedHosts: [
+        env.VITE_REACT_APP_HOST
+      ]
     },
-  },
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
+        '@landing': path.resolve(__dirname, './src/moduls/landing'),
+        '@shop': path.resolve(__dirname, './src/moduls/shop'),
+        '@admin': path.resolve(__dirname, './src/moduls/personal-account/admin'),
+        '@customer': path.resolve(__dirname, './src/moduls/personal-account/customer'),
+        '@supplier': path.resolve(__dirname, './src/moduls/personal-account/supplier'),
+        '@general': path.resolve(__dirname, './src/moduls/personal-account/general'),
+        '@common': path.resolve(__dirname, './src/moduls/personal-account/common'),
+      },
+    },
+  }
+
 })
 
