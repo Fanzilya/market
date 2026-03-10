@@ -5,7 +5,7 @@ import { useAuth } from '@/features/user/context/context'
 import { CreateRequestDataModel } from '../../features/CreateRequestPage/model-data'
 import { directionOptions, motorStartOptions } from '../../features/CreateRequestPage/data'
 import styles from './CreateRequestPage.module.css'
-import { TechnicalParametersStep } from '@customer/widgets/CreateRequestPage/technical-parameters-step'
+import { TechnicalParametersStep } from '@/moduls/personal-account/customer/widgets/technical-parameters-step'
 import { getRequestById } from '@/shared/data/requests'
 import { observer } from 'mobx-react-lite'
 import { requestModel } from '../../features/CreateRequestPage/request-model'
@@ -33,10 +33,7 @@ export const CreateRequestPage = observer(() => {
     getStepStatus,
   } = CreateRequestDataModel(requestId, user!)
 
-
-  const { elements, initData, activeElements, setElementChecked
-  } = requestModel
-
+  const { elements, initData, activeElements, setElementChecked } = requestModel
 
   useEffect(() => {
     if (elements.length === 0) {
