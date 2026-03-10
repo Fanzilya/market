@@ -1,6 +1,9 @@
 import { KNSSchema } from '@/widgets/Scheme';
 import { schemeActionsModel } from '@/widgets/Scheme/src/models/scheme-actions-model';
 import { observer } from 'mobx-react-lite';
+import { cabinetLocationOptions, directionOptions, mediumOptions } from './src/data';
+
+
 interface Props {
     knsData: any,
     styles: any,
@@ -16,34 +19,6 @@ interface Props {
 }
 
 export const TechnicalParametersStep = observer(({ knsData, styles, formData, focusedInput, motorStartOptions, setKnsData, knsExtras, setKnsExtras, elements, activeElements, setElementChecked }: Props) => {
-
-    // Опции для выпадающих списков
-    const mediumOptions = [
-        'Хоз-бытовые сточные воды',
-        'Ливневые сточные воды',
-        'Промышленные стоки',
-        'Другое'
-    ]
-
-    const cabinetLocationOptions = [
-        { value: 'УХЛ1', label: 'УХЛ1' },
-        { value: 'УХЛ4', label: 'УХЛ4' }
-    ]
-
-    const directionOptions = [
-        { value: '12', label: '12 часов (вверх)' },
-        { value: '1', label: '1 час (30°)' },
-        { value: '2', label: '2 часа (60°)' },
-        { value: '3', label: '3 часа (вправо)' },
-        { value: '4', label: '4 часа (120°)' },
-        { value: '5', label: '5 часов (150°)' },
-        { value: '6', label: '6 часов (вниз)' },
-        { value: '7', label: '7 часов (210°)' },
-        { value: '8', label: '8 часов (240°)' },
-        { value: '9', label: '9 часов (влево)' },
-        { value: '10', label: '10 часов (300°)' },
-        { value: '11', label: '11 часов (330°)' },
-    ]
 
     return (
         <div className={styles.stepContent}>
@@ -375,6 +350,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                                     <input
                                         type="checkbox"
                                         checked={item.checked}
+                                        disabled={item.disabled}
                                         onChange={(e) => { setElementChecked(item.id, e.target.checked) }}
                                     />
                                     <span className={styles.checkboxLabel}>{item.name}</span>

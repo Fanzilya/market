@@ -98,6 +98,7 @@ export interface EquipmentData extends SchemeObject {
 
 export interface EquipmentDataCheckbox extends EquipmentData {
     checked: boolean,
+    disabled: boolean,
 }
 
 export interface SchemeObjectCheckBox extends SchemeObject {
@@ -204,3 +205,7 @@ export const checkBox: SchemeObjectCheckBox[] = [
         checked: true,
     }
 ]
+
+
+
+

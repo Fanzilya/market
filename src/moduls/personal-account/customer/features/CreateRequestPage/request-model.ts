@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import { savedData } from "./data";
 import { STORAGE_KEY_SCHEME_SETTINGS } from "@/entities/scheme/config";
 import { EquipmentDataCheckbox } from "@/widgets/Scheme/src/data/teeska";
+import { ruleSchemeObjectModel } from "./rule-scheme-object-model";
 
 class RequestModel {
 
@@ -131,7 +132,8 @@ class RequestModel {
         data.forEach(element => {
             this.elements.push({
                 ...element,
-                checked: element.isActive
+                checked: element.isActive,
+                disabled: false,
             })
         });
     }
@@ -141,6 +143,9 @@ class RequestModel {
     }
 
     setElementChecked(id: number, checked: boolean) {
+
+        ruleSchemeObjectModel.checkForDisable(this.elements, id, checked)
+
         this.elements = this.elements.map(element => {
             if (element.id === id) {
                 return {
