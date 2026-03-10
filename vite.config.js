@@ -16,7 +16,7 @@ export default defineConfig(function (_a) {
       host: true,
       port: env.VITE_APP_PORT,
       allowedHosts: [
-        env.VITE_REACT_APP_HOST
+        "market.gsurso.ru"
       ]
     },
     resolve: {
