@@ -95,7 +95,7 @@ export const BrandsPage = () => {
               onMouseLeave={() => setHoveredCard(null)}
               onClick={() => handleBrandClick(brand.slug)}
             >
-              <div className={styles.brandLogo}>{brand.logo}</div>
+              <div className={styles.brandLogo}><img src={brand.logo} className="container w-full h-full"/></div>
               <div className={styles.brandInfo}>
                 <h3 className={styles.brandName}>{brand.name}</h3>
                 <p className={styles.brandFullName}>{brand.fullName}</p>
@@ -103,8 +103,8 @@ export const BrandsPage = () => {
               </div>
               <div className={styles.brandStats}>
                 <div className={styles.brandStat}>
-                  <span className={styles.brandStatLabel}>Страна</span>
-                  <span className={styles.brandStatValue}>{brand.country}</span>
+                  <span className={styles.brandStatLabel}>Город</span>
+                  <span className={styles.brandStatValue}>{brand.city}</span>
                 </div>
                 <div className={styles.brandStat}>
                   <span className={styles.brandStatLabel}>Основан</span>
