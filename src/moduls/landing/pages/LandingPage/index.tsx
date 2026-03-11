@@ -215,9 +215,9 @@ export const LandingPage = () => {
 
             <div className={styles.carouselTrack}>
               <div className={styles.carouselSlides} style={{ transform: `translateX(-${currentPartnerSlide * 100}%)` }}>
-                {Array.from({ length: Math.ceil(partners.length / 3) }).map((_, slideIndex) => (
+                {Array.from({ length: Math.ceil(partners.length / 4) }).map((_, slideIndex) => (
                   <div key={slideIndex} className={styles.carouselSlide}>
-                    {partners.slice(slideIndex * 3, slideIndex * 3 + 3).map((partner) => (
+                    {partners.slice(slideIndex * 4, slideIndex * 4 + 4).map((partner) => (
                       <Link to={`/brands/${partner.slug}`} key={partner.id} className={styles.partnerCard} >
                         <div className={styles.partnerLogo}><img src={partner.logo} className="container w-full h-full" /></div>
                         {/* <div className={styles.partnerLogo}>{partner.logo}</div> */}
