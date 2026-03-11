@@ -14,6 +14,8 @@ export type IconName =
     | 'settings'
     | 'scheme'
     | 'shield'
+    | 'build'
+    | 'analysis'
 
     // Действия
     | 'edit'

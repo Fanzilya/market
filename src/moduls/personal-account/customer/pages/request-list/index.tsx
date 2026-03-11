@@ -5,185 +5,60 @@ import { archiveRequest, deleteRequest, getRequestStatusDisplay, listRequestsFor
 import { useMemo, useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from "./CustomerPage.module.css"
+import Icon from '@/shared/ui-kits/Icon'
+import { requestListModel } from '../../features/request-list/request-list-model'
+import { CustomerData } from '../../features/request-list/model-data'
 
 export const CustomerPage = () => {
-  const { user, signOut } = useAuth()
   const navigate = useNavigate()
-  const [refreshKey, setRefreshKey] = useState(0)
   const [hoveredRow, setHoveredRow] = useState(null)
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedStatus, setSelectedStatus] = useState('all')
-  const [currentPage, setCurrentPage] = useState(1)
-  const [showArchiveConfirm, setShowArchiveConfirm] = useState(false)
-  const [selectedRequestForArchive, setSelectedRequestForArchive] = useState(null)
-  const itemsPerPage = 10
 
-  const requests = !user?.email ? [] : listRequestsForCustomerEmail(user.email)
 
-  // Подсчет статистики по статусам
-  const stats = useMemo(() => {
-    let moderation = 0
-    let revision = 0
-    let rejected = 0
-    let published = 0
-    let withOffers = 0
-    let archived = 0
+  const {
+    itemsPerPage,
+    showLogoutConfirm,
+    setShowLogoutConfirm,
+    showArchiveConfirm,
+    setShowArchiveConfirm,
+    currentPage,
+    setCurrentPage,
+    selectedStatus,
+    setSelectedStatus,
+    searchQuery,
+    setSearchQuery,
+    requests,
+    stats,
+    filteredRequests,
+    paginatedRequests,
+    totalPages,
+    confirmLogout,
+    goToOffers,
+    goToEditRequest,
+    openArchiveConfirm,
+    handleArchiveRequest,
+    handleDeleteRequest,
+    handleResubmit,
+    getStatusClass,
+    getStatusText,
+    goToCreateRequest
+  } = CustomerData(styles)
 
-    requests.forEach(r => {
-      if (r.archived) {
-        archived++
-      } else {
-        switch (r.status) {
-          case 'moderation':
-            moderation++
-            break
-          case 'revision':
-            revision++
-            break
-          case 'rejected':
-            rejected++
-            break
-          case 'published':
-            published++
-            if (countOffersByRequestId(r.id) > 0) withOffers++
-            break
-        }
-      }
-    })
 
-    return {
-      total: requests.length,
-      moderation,
-      revision,
-      rejected,
-      published,
-      withOffers,
-      noOffers: published - withOffers,
-      archived
-    }
-  }, [requests])
+  const {
+    model,
+    isLoader,
+    init,
+  } = requestListModel
 
-  const filteredRequests = useMemo(() => {
-    return requests.filter(r => {
-      const matchesSearch = r.objectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        r.id.toLowerCase().includes(searchQuery.toLowerCase())
+  useEffect(() => {
+    init()
+  }, [])
 
-      const offerCount = countOffersByRequestId(r.id)
-
-      // Фильтр по статусам
-      if (selectedStatus === 'all') return matchesSearch
-      if (selectedStatus === 'moderation') return matchesSearch && r.status === 'moderation' && !r.archived
-      if (selectedStatus === 'revision') return matchesSearch && r.status === 'revision' && !r.archived
-      if (selectedStatus === 'rejected') return matchesSearch && r.status === 'rejected' && !r.archived
-      if (selectedStatus === 'published') return matchesSearch && r.status === 'published' && !r.archived
-      if (selectedStatus === 'with-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount > 0
-      if (selectedStatus === 'no-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount === 0
-      if (selectedStatus === 'archived') return matchesSearch && r.archived === true
-
-      return matchesSearch
-    })
-  }, [requests, searchQuery, selectedStatus])
-
-  const paginatedRequests = useMemo(() => {
-    const start = (currentPage - 1) * itemsPerPage
-    const end = start + itemsPerPage
-    return filteredRequests.slice(start, end)
-  }, [filteredRequests, currentPage])
-
-  const totalPages = Math.ceil(filteredRequests.length / itemsPerPage)
-
-  const confirmLogout = () => {
-    signOut()
-    navigate('/', { replace: true })
-  }
-
-  // Функция для перехода на страницу создания заявки
-  const goToCreateRequest = () => {
-    navigate('/customer/request/new')
-  }
-
-  // Функция для перехода на страницу просмотра КП
-  const goToOffers = (requestId) => {
-    navigate(`/customer/request/${requestId}/offers`)
-  }
-
-  // Функция для перехода на страницу редактирования заявки
-  const goToEditRequest = (requestId, e) => {
-    e.stopPropagation()
-    navigate(`/customer/request/${requestId}/edit`)
-  }
-
-  // Функция для открытия модального окна архивации
-  const openArchiveConfirm = (requestId, e) => {
-    e.stopPropagation()
-    setSelectedRequestForArchive(requestId)
-    setShowArchiveConfirm(true)
-  }
-
-  // Функция для архивации заявки
-  const handleArchiveRequest = () => {
-    if (selectedRequestForArchive) {
-      const result = archiveRequest(selectedRequestForArchive)
-      if (result) {
-        setRefreshKey(prev => prev + 1)
-        setShowArchiveConfirm(false)
-        setSelectedRequestForArchive(null)
-      }
-    }
-  }
-
-  // Функция для удаления заявки
-  const handleDeleteRequest = (requestId, e) => {
-    e.stopPropagation()
-    if (window.confirm('Вы уверены, что хотите удалить эту заявку? Это действие нельзя отменить.')) {
-      const result = deleteRequest(requestId)
-      if (result) {
-        setRefreshKey(prev => prev + 1)
-      }
-    }
-  }
-
-  // Функция для повторной отправки на модерацию (после доработки)
-  const handleResubmit = (requestId, e) => {
-    e.stopPropagation()
-    // Здесь будет логика повторной отправки
-    console.log('Повторная отправка:', requestId)
-    // После реализации функции в requests.js:
-    // resubmitRequest(requestId)
-    // setRefreshKey(prev => prev + 1)
-  }
-
-  // Получить класс статуса для отображения
-  const getStatusClass = (request) => {
-    if (request.archived) return styles.statusArchived
-
-    switch (request.status) {
-      case 'moderation':
-        return styles.statusModeration
-      case 'revision':
-        return styles.statusRevision
-      case 'rejected':
-        return styles.statusRejected
-      case 'published':
-        return countOffersByRequestId(request.id) > 0 ? styles.statusSuccess : styles.statusPublished
-      default:
-        return styles.statusDraft
-    }
-  }
-
-  // Получить текст статуса
-  const getStatusText = (request) => {
-    if (request.archived) return 'В архиве'
-
-    const display = getRequestStatusDisplay(request, 'customer')
-    return display.text
-  }
 
   return (
 
     <>
-      {/* Шапка страницы */}
+
       <div className={styles.header}>
         <div>
           <h1 className={styles.title}>Мои заявки</h1>
@@ -338,9 +213,7 @@ export const CustomerPage = () => {
                               goToOffers(r.id)
                             }}
                           >
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                              <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" />
-                            </svg>
+                            <Icon name='check' width={12} />
                             {offerCount}
                           </span>
                         )}
@@ -559,6 +432,7 @@ export const CustomerPage = () => {
           </div>
         )}
       </div>
+
       {/* Модальное окно подтверждения архивации */}
       {showArchiveConfirm && (
         <div className={styles.modalOverlay} onClick={() => setShowArchiveConfirm(false)}>

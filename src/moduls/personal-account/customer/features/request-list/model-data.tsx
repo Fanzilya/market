@@ -174,6 +174,13 @@ export function CustomerData(styles: any) {
         const display = getRequestStatusDisplay(request, Role.Customer)
         return display.text
     }
+
+
+    const goToCreateRequest = () => {
+        navigate('/customer/request/new')
+    }
+
+
     return ({
         itemsPerPage,
         refreshKey,
@@ -205,5 +212,6 @@ export function CustomerData(styles: any) {
         handleResubmit,
         getStatusClass,
         getStatusText,
+        goToCreateRequest
     })
 }

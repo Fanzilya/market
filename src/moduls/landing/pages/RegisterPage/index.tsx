@@ -1,120 +1,37 @@
 // src/pages/RegisterPage.tsx
 import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import styles from './RegisterPage.module.css'
 import { useAuth } from '@/features/user/context/context'
+import { registerModel } from '../../features/RegisterPage/register-model'
+import { Role } from '@/entities/user/role'
+import { observer } from 'mobx-react-lite'
+import styles from './RegisterPage.module.css'
 
-export const RegisterPage = () => {
+export const RegisterPage = observer(() => {
 
   const { user } = useAuth()
 
   const navigate = useNavigate()
   const [isMounted, setIsMounted] = useState(false)
-  const [formData, setFormData] = useState({
-    // Общие поля
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: 'supplier', // supplier или customer
 
-    // Для поставщика (ИНН, компания)
-    inn: '',
-    companyName: '',
-
-    // Для заказчика (ФИО)
-    fullName: ''
-  })
-  const [focusedInput, setFocusedInput] = useState(null)
-  const [error, setError] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
+  const [focusedInput, setFocusedInput] = useState<string>('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
+  const {
+    formData,
+    error,
+    setFormData,
+    isLoading,
+    handleSubmit
+  } = registerModel
+
   useEffect(() => {
     setIsMounted(true)
+  }, [])
 
-    // Если пользователь уже авторизован, редирект на дашборд
-    if (user) {
-      navigate('/dashboard', { replace: true })
-    }
-  }, [navigate])
-
-  const validateForm = () => {
-    // Общие проверки
-    if (!formData.email.trim()) {
-      setError('Укажите email')
-      return false
-    }
-    if (!formData.email.includes('@')) {
-      setError('Введите корректный email адрес')
-      return false
-    }
-    if (!formData.password) {
-      setError('Введите пароль')
-      return false
-    }
-    if (formData.password.length < 6) {
-      setError('Пароль должен содержать минимум 6 символов')
-      return false
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setError('Пароли не совпадают')
-      return false
-    }
-
-    // Проверки в зависимости от роли
-    if (formData.role === 'supplier') {
-      if (!formData.inn.trim()) {
-        setError('Укажите ИНН компании')
-        return false
-      }
-      if (formData.inn.length !== 10 && formData.inn.length !== 12) {
-        setError('ИНН должен содержать 10 или 12 цифр')
-        return false
-      }
-      if (!formData.companyName.trim()) {
-        setError('Укажите название компании')
-        return false
-      }
-    } else {
-      if (!formData.fullName.trim()) {
-        setError('Укажите ваше ФИО')
-        return false
-      }
-    }
-
-    return true
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    setError('')
-
-    if (!validateForm()) return
-
-    setIsLoading(true)
-
-    // Имитация регистрации
-    setTimeout(() => {
-      console.log('Регистрация:', formData)
-      navigate('/login', {
-        state: {
-          message: 'Регистрация успешна! Теперь вы можете войти в систему.'
-        }
-      })
-      setIsLoading(false)
-    }, 1000)
-  }
-
-  const handleRoleChange = (role) => {
-    setFormData({
-      ...formData,
-      role,
-      // Очищаем поля при смене роли
-      inn: '',
-      companyName: '',
-      fullName: ''
-    })
+  const onSubmit = () => {
+    handleSubmit(navigate)
   }
 
   return (
@@ -132,15 +49,15 @@ export const RegisterPage = () => {
             <div className={styles.roleSelector}>
               <button
                 type="button"
-                className={`${styles.roleButton} ${formData.role === 'supplier' ? styles.roleButtonActive : ''}`}
-                onClick={() => handleRoleChange('supplier')}
+                className={`${styles.roleButton} ${formData.roleName === Role.Supplier ? styles.roleButtonActive : ''}`}
+                onClick={() => setFormData('roleName', Role.Supplier)}
               >
                 Исполнитель (поставщик)
               </button>
               <button
                 type="button"
-                className={`${styles.roleButton} ${formData.role === 'customer' ? styles.roleButtonActive : ''}`}
-                onClick={() => handleRoleChange('customer')}
+                className={`${styles.roleButton} ${formData.roleName === Role.Customer ? styles.roleButtonActive : ''}`}
+                onClick={() => setFormData('roleName', Role.Customer)}
               >
                 Заказчик (проектировщик)
               </button>
@@ -157,57 +74,21 @@ export const RegisterPage = () => {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className={styles.form}>
+            <div className={styles.form}>
               {/* Поля для поставщика */}
-              {formData.role === 'supplier' && (
-                <>
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>ИНН *</label>
-                    <input
-                      type="text"
-                      value={formData.inn}
-                      onChange={(e) => setFormData({ ...formData, inn: e.target.value })}
-                      onFocus={() => setFocusedInput('inn')}
-                      onBlur={() => setFocusedInput(null)}
-                      placeholder="1234567890"
-                      className={`${styles.input} ${focusedInput === 'inn' ? styles.inputFocused : ''}`}
-                      disabled={isLoading}
-                      maxLength="12"
-                    />
-                  </div>
-
-                  <div className={styles.inputGroup}>
-                    <label className={styles.label}>Название компании *</label>
-                    <input
-                      type="text"
-                      value={formData.companyName}
-                      onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
-                      onFocus={() => setFocusedInput('companyName')}
-                      onBlur={() => setFocusedInput(null)}
-                      placeholder="ООО «Компания»"
-                      className={`${styles.input} ${focusedInput === 'companyName' ? styles.inputFocused : ''}`}
-                      disabled={isLoading}
-                    />
-                  </div>
-                </>
-              )}
-
-              {/* Поля для заказчика */}
-              {formData.role === 'customer' && (
-                <div className={styles.inputGroup}>
-                  <label className={styles.label}>ФИО *</label>
-                  <input
-                    type="text"
-                    value={formData.fullName}
-                    onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                    onFocus={() => setFocusedInput('fullName')}
-                    onBlur={() => setFocusedInput(null)}
-                    placeholder="Иванов Иван Иванович"
-                    className={`${styles.input} ${focusedInput === 'fullName' ? styles.inputFocused : ''}`}
-                    disabled={isLoading}
-                  />
-                </div>
-              )}
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>ФИО *</label>
+                <input
+                  type="text"
+                  value={formData.fullName}
+                  onChange={(e) => setFormData("fullName", e.target.value)}
+                  onFocus={() => setFocusedInput('fullName')}
+                  onBlur={() => setFocusedInput('')}
+                  placeholder="Иванов Иван Иванович"
+                  className={`${styles.input} ${focusedInput === 'fullName' ? styles.inputFocused : ''}`}
+                  disabled={isLoading}
+                />
+              </div>
 
               {/* Общие поля для всех */}
               <div className={styles.inputGroup}>
@@ -215,11 +96,26 @@ export const RegisterPage = () => {
                 <input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) => setFormData("email", e.target.value)}
                   onFocus={() => setFocusedInput('email')}
-                  onBlur={() => setFocusedInput(null)}
+                  onBlur={() => setFocusedInput('')}
                   placeholder="company@example.com"
                   className={`${styles.input} ${focusedInput === 'email' ? styles.inputFocused : ''}`}
+                  disabled={isLoading}
+                />
+              </div>
+
+              {/* Общие поля для всех */}
+              <div className={styles.inputGroup}>
+                <label className={styles.label}>Номер телефона *</label>
+                <input
+                  type="phone"
+                  value={formData.phoneNumber}
+                  onChange={(e) => setFormData("phoneNumber", e.target.value)}
+                  onFocus={() => setFocusedInput('phoneNumber')}
+                  onBlur={() => setFocusedInput('')}
+                  placeholder="+79963363058"
+                  className={`${styles.input} ${focusedInput === 'phoneNumber' ? styles.inputFocused : ''}`}
                   disabled={isLoading}
                 />
               </div>
@@ -230,9 +126,9 @@ export const RegisterPage = () => {
                   <input
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) => setFormData('password', e.target.value)}
                     onFocus={() => setFocusedInput('password')}
-                    onBlur={() => setFocusedInput(null)}
+                    onBlur={() => setFocusedInput('')}
                     placeholder="Минимум 6 символов"
                     className={`${styles.input} ${styles.inputPassword} ${focusedInput === 'password' ? styles.inputFocused : ''}`}
                     disabled={isLoading}
@@ -263,9 +159,9 @@ export const RegisterPage = () => {
                   <input
                     type={showConfirmPassword ? 'text' : 'password'}
                     value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    onChange={(e) => setFormData('confirmPassword', e.target.value)}
                     onFocus={() => setFocusedInput('confirmPassword')}
-                    onBlur={() => setFocusedInput(null)}
+                    onBlur={() => setFocusedInput('')}
                     placeholder="Повторите пароль"
                     className={`${styles.input} ${styles.inputPassword} ${focusedInput === 'confirmPassword' ? styles.inputFocused : ''}`}
                     disabled={isLoading}
@@ -291,7 +187,7 @@ export const RegisterPage = () => {
               </div>
 
               <button
-                type="submit"
+                onClick={onSubmit}
                 className={styles.submitButton}
                 disabled={isLoading}
               >
@@ -308,7 +204,7 @@ export const RegisterPage = () => {
               <div className={styles.loginLink}>
                 Уже есть аккаунт? <Link to="/login" className={styles.link}>Войти</Link>
               </div>
-            </form>
+            </div>
           </div>
         </div>
 
@@ -341,4 +237,4 @@ export const RegisterPage = () => {
       </div>
     </div>
   )
-}
+})

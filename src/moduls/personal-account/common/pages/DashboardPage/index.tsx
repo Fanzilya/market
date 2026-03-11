@@ -16,7 +16,17 @@ export const DashboardPage = () => {
     const navigate = useNavigate()
     const { user } = useAuth()
 
-    const { activity, countOffersForRequest, customerRequests, isCustomer, isSupplier, services, supplierOffers, supplierRequests } = getDashboardData()
+    const { activity,
+        countOffersForRequest,
+        customerRequests,
+        isCustomer,
+        isSupplier,
+        services,
+        supplierOffers,
+        supplierRequests
+    } = getDashboardData()
+
+    
 
 
     return (
@@ -82,7 +92,7 @@ export const DashboardPage = () => {
                         <span className={styles.infoBannerTitle}>У вас 5 бесплатных просмотров</span>
                         <span className={styles.infoBannerText}>После использования каждый просмотр заявки будет стоить 100 ₽</span>
                     </div>
-                    <button className={styles.infoBannerButton} onClick={() => navigate('/billing')}>
+                    <button className={styles.infoBannerButton} onClick={() => navigate('/supplier/balance')}>
                         Пополнить счет
                     </button>
                 </div>
@@ -99,7 +109,7 @@ export const DashboardPage = () => {
                         <div className={styles.cardHeader}>
                             <div className={styles.cardCategory}>{service.category}</div>
                             <div className={styles.cardIcon} style={{ color: service.color }}>
-                                {getIcon(service.icon)}
+                                <Icon name={service.icon} width={40} height={40} />
                             </div>
                         </div>
 

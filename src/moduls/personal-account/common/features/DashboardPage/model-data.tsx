@@ -2,6 +2,7 @@ import { Role } from "@/entities/user/role"
 import { useAuth } from "@/features/user/context/context"
 import { listAllRequests, listRequestsForCustomerEmail } from "@/shared/data/requests"
 import { IconName } from "@/shared/ui-kits/Icon/src/type";
+import { getRequestsPath } from "@/utils/get-requests-path";
 import { useMemo } from "react"
 
 
@@ -47,7 +48,7 @@ export const getDashboardData = (): DashboardData => {
             icon: 'requests',
             color: '#1877F2',
             actions: [
-                { label: 'Перейти к заявкам', type: 'primary', link: '/customer' },
+                { label: 'Перейти к заявкам', type: 'primary', link: '/customer/request' },
                 { label: 'Создать заявку', type: 'secondary', link: '/customer/request/new' }
             ],
             stats: {
@@ -73,7 +74,7 @@ export const getDashboardData = (): DashboardData => {
             category: 'Сервисы',
             title: 'Каталог оборудования',
             description: 'Просматривайте каталог производителей, техническую информацию и актуальные цены.',
-            icon: 'catalog',
+            icon: 'materials',
             color: '#F59E0B',
             actions: [
                 { label: 'Открыть каталог', type: 'secondary', link: '/catalog' }
@@ -120,7 +121,7 @@ export const getDashboardData = (): DashboardData => {
             category: 'Инструменты',
             title: 'Подбор оборудования',
             description: 'Используйте сервисы для подбора материалов и комплектации инженерного оборудования.',
-            icon: 'tools',
+            icon: 'build',
             color: '#F59E0B',
             actions: [
                 { label: 'Подобрать материалы', type: 'secondary', link: '/supplier/materials' }

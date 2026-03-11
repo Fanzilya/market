@@ -69,45 +69,6 @@ export const LandingPage = () => {
     })
   }
 
-  const onTest = async () => {
-    try {
-      const response = await fetch('YOUR_API_ENDPOINT_HERE', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      localStorage.setItem('accessToken', data.accessToken);
-      localStorage.setItem('refreshToken', data.refreshToken);
-
-      // Можно сохранить информацию о пользователе
-      localStorage.setItem('user', JSON.stringify(data.user));
-
-      console.log('Успешный вход:', {
-        user: data.user.fullName,
-        role: data.user.role,
-        expiresAt: data.expiresAt
-      });
-
-      return data;
-
-    } catch (error) {
-      console.error('Ошибка при запросе:', error);
-      // Обработка ошибки
-      throw error;
-    }
-  }
-
-
   return (
     <>
 

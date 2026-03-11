@@ -1,3 +1,4 @@
+import { getCurrentUserApi, loginApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
 import { useAuth } from "@/features/user/context/context";
 import { makeAutoObservable } from "mobx";
@@ -29,7 +30,7 @@ class LoginModel {
         this.email = value;
     }
 
-    onSubmit(signIn: any) {
+    async onSubmit(signIn: any) {
         this.error = ""
 
         if (!this.email || !this.password) {
@@ -43,17 +44,17 @@ class LoginModel {
 
         this.isLoading = true
 
-
         try {
+            const res = await loginApi({
+                email: this.email,
+                password: this.password,
+                twoFactorCode: "string",
+                twoFactorRecoveryCode: "string"
+            })
 
-            const user = signIn(this.email, this.password)
+            signIn(res.data)
 
-            if (!user) {
-                this.error = "Неверная почта или пароль"
-                return
-            }
-
-            switch (user.role) {
+            switch (res.data.user.role) {
                 case Role.Customer:
                     window.location.href = '/customer/dashboard'
                     break

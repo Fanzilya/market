@@ -6,6 +6,7 @@ import { useMemo, useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import * as XLSX from 'xlsx'
 import styles from "./OffersPage.module.css"
+import Icon from '@/shared/ui-kits/Icon'
 
 export const OffersPage = () => {
   const { requestId } = useParams()
@@ -358,10 +359,7 @@ export const OffersPage = () => {
       {/* Таблица или карточки */}
       {filteredOffers.length === 0 ? (
         <div className={styles.emptyState}>
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-            <circle cx="12" cy="12" r="10" stroke="#CBD5E1" strokeWidth="2" />
-            <path d="M12 8V12M12 16H12.01" stroke="#CBD5E1" strokeWidth="2" />
-          </svg>
+          <Icon name='info' width={64} height={64} color='#CBD5E1' />
           <h3>Коммерческие предложения отсутствуют</h3>
           <p>На данную заявку пока нет предложений от поставщиков</p>
         </div>

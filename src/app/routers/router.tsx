@@ -1,4 +1,5 @@
 import { Role } from '@/entities/user/role';
+import NotFoundPage from '@/moduls/errors/404';
 import { ProtectedRoute } from '@/shared/components/ProtectedRoute';
 import { ScrollToTop } from '@/shared/components/ScrollToTop';
 import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
@@ -201,7 +202,7 @@ export const AppRouter = createBrowserRouter([
           {
             index: true,
             async lazy() {
-              const { CustomerPage } = await import('@customer/pages/CustomerPage');
+              const { CustomerPage } = await import('@customer/pages/request-list');
               return { Component: CustomerPage };
             },
           },
@@ -305,6 +306,7 @@ export const AppRouter = createBrowserRouter([
   },
   {
     path: '*',
-    element: <Navigate to="/" replace />,
+    // element: <Navigate to="/" replace />,
+    element: <NotFoundPage />,
   },
 ]);

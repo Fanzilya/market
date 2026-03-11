@@ -1,7 +1,7 @@
 import { listOffersByRequestId } from "@/shared/data/offers"
 import { getRequestById } from "@/shared/data/requests"
 
-export function RequestDetailData(requestId) {
+export function RequestDetailData(requestId: string, navigate: any) {
     const request = requestId ? getRequestById(requestId) : null
 
     const offers = !requestId ? [] : listOffersByRequestId(requestId)

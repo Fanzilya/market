@@ -6,6 +6,7 @@ import pumps_pressure from "../../../../.././widgets/Scheme/src/data/svg/pumps_p
 import shredder from "../../../../.././widgets/Scheme/src/data/svg/shredder.svg"
 import pavilion_above from "../../../../.././widgets/Scheme/src/data/svg/pavilion_above.svg"
 
+
 import { STORAGE_KEY_SCHEME_SETTINGS } from "@/entities/scheme/config"
 
 // Опции для выпадающих списков
@@ -78,7 +79,7 @@ export const savedData = () => localStorage.setItem(STORAGE_KEY_SCHEME_SETTINGS,
     },
     {
         "id": 5,
-        "name": "Павильон",
+        "name": "Наземный павильон",
         "value": 10,
         "checked": true,
         "image": pavilion,
@@ -129,7 +130,6 @@ export const savedData = () => localStorage.setItem(STORAGE_KEY_SCHEME_SETTINGS,
     }
 ]))
 
-
 //   1	Канальный измельчитель в КНС (сверху)
 //=  2	Канальный измельчитель в КНС (разрез)
 //   3	Канальный измельчитель перед КНС (сверху)
@@ -147,7 +147,7 @@ export const savedData = () => localStorage.setItem(STORAGE_KEY_SCHEME_SETTINGS,
 //   15	Расходомер на напорном трубопроводе (сверху)
 //   16	Расходомер на напорном трубопроводе (разрез)
 //   17	Газоанализатор
-//   18	Поплавковые датчики уровня 
+//   18	Поплавковые датчики уровня
 //   19	Гидростатический датчик уровня
 //=  20	Корпус КНС (разрез)
 //=  21	Корпус КНС (сверху)

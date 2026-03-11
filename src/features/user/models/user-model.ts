@@ -1,5 +1,5 @@
-import { STORAGE_KEY } from "@/entities/user/config";
-import { DemoUser, PasswordChangeResult, PasswordOverrides, User } from "@/entities/user/type";
+import { ACCESS_TOKEN, REFRESH_TOKEN, USER_STORAGE_KEY } from "@/entities/user/config";
+import { DemoUser, PasswordChangeResult, PasswordOverrides, RegisterResult, User } from "@/entities/user/type";
 import { DEMO_USERS } from "../data";
 import { makeAutoObservable } from "mobx";
 
@@ -35,34 +35,25 @@ export class UserModel {
         this._user = data
     }
 
-    signIn(email: string, password: string): User | null {
-
-        const normalizedEmail = email.trim().toLowerCase();
-        const rawPassword = String(password || '');
-
-        const baseUser = DEMO_USERS.find((u: DemoUser) => u.email.toLowerCase() === normalizedEmail);
-
-        if (!baseUser) return null;
-
-        if (rawPassword !== baseUser.password) return null;
-
+    signIn(data: RegisterResult): void {
         const sessionUser: User = {
-            role: baseUser.role,
-            roleLabel: baseUser.roleLabel,
-            fullName: baseUser.fullName,
-            email: baseUser.email,
-            phone: baseUser.phone ?? '',
-            company: baseUser.company ?? undefined,
+            id: data.user.id,
+            email: data.user.email,
+            fullName: data.user.fullName,
+            phoneNumber: data.user.phoneNumber ?? '',
+            role: data.user.role,
+            company: data.user.company ?? undefined,
         };
 
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(sessionUser));
+        localStorage.setItem(USER_STORAGE_KEY, JSON.stringify(sessionUser));
+        localStorage.setItem(REFRESH_TOKEN, JSON.stringify(sessionUser));
+        localStorage.setItem(ACCESS_TOKEN, JSON.stringify(sessionUser));
         this.setUser(sessionUser);
-        return sessionUser;
     }
 
 
     signOut(): void {
-        localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(USER_STORAGE_KEY);
         this.setUser(null);
         window.location.href = '/';
     }

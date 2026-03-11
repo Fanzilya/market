@@ -1,7 +1,7 @@
 // src/pages/supplier/SupplierPreviewPage/hooks/useFreeClicks.ts
 import { useState, useEffect } from 'react'
 
-const STORAGE_KEY = 'freeClicks'
+const USER_STORAGE_KEY = 'freeClicks'
 const INITIAL_CLICKS = 5
 
 export default function useFreeClicks() {
@@ -9,14 +9,14 @@ export default function useFreeClicks() {
 
   useEffect(() => {
     // Загружаем количество бесплатных кликов из localStorage
-    const savedClicks = localStorage.getItem(STORAGE_KEY)
+    const savedClicks = localStorage.getItem(USER_STORAGE_KEY)
     if (savedClicks) {
       setFreeClicksLeft(parseInt(savedClicks))
     }
   }, [])
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, freeClicksLeft.toString())
+    localStorage.setItem(USER_STORAGE_KEY, freeClicksLeft.toString())
   }, [freeClicksLeft])
 
   const decrementClicks = () => {

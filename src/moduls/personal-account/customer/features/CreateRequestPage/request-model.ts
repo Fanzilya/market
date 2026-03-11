@@ -1,66 +1,82 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import { savedData } from "./data";
 import { STORAGE_KEY_SCHEME_SETTINGS } from "@/entities/scheme/config";
-import { EquipmentDataCheckbox } from "@/widgets/Scheme/src/data/teeska";
+import { checkBox, EquipmentDataCheckbox } from "@/widgets/Scheme/src/data/teeska";
 import { ruleSchemeObjectModel } from "./rule-scheme-object-model";
+import { BaseInfo, KnsData } from "@/entities/request/type";
+import { REQUESTS_KEY } from "@/entities/request/config";
+import { requestRevision, updateRequest } from "@/shared/data/requests";
+import { createRequestApi, equipmentsApi } from "@/entities/request/api";
+import { User } from "@/entities/user/type";
 
 class RequestModel {
 
     activeStep: number = 1;
     isSubmitting: boolean = false
     error: string = ('')
-    formData = {
-        objectName: '',
-        govCustomerName: '',
-        configType: 'КНС',
-        contactPerson: '',
-        contactPhone: '',
-        contactEmail: '',
-    }
 
-    knsData = {
-        // Основные параметры
-        capacity: '',
-        head: '',
-        workingPumps: '',
-        reservePumps: '',
-        stockPumps: '',
-        medium: 'Хоз-бытовые сточные воды',
-        temperature: '',
-        explosionProof: false,
+    model: { formData: BaseInfo, knsData: KnsData, } = {
+        formData: {
+            objectName: '1',
+            govCustomerName: '1',
+            locationRegion: '1',
+            configType: "019cdcd9-1892-7f3a-955c-3503ede15a6d",
+            contactPerson: '1',
+            contactPhone: '1',
+            contactEmail: '1',
+        },
 
-        // Параметры трубопроводов
-        inletDepth: '',
-        inletDiameter: '',
-        inletMaterial: '',
-        inletDirection: '12',
+        knsData: {
+            // Основные параметры
+            capacity: '1',
+            head: '1',
+            workingPumps: '1',
+            reservePumps: '1',
+            stockPumps: '1',
+            medium: '1',
+            temperature: '1',
+            explosionProof: false,
 
-        outletDepth: '',
-        outletDiameter: '',
-        outletMaterial: '',
-        outletDirection: '3',
-        outletCount: '1',
+            // Параметры трубопроводов
+            inletDepth: '1',
+            inletDiameter: '1',
+            inletMaterial: '1',
+            inletDirection: '12',
 
-        // Параметры станции
-        stationDiameter: '',
-        stationHeight: '',
-        insulation: '',
+            outletDepth: '1',
+            outletDiameter: '1',
+            outletMaterial: '1',
+            outletDirection: '3',
+            outletCount: '1',
 
-        // Электрические параметры
-        motorStartMethod: 'direct',
-        powerInputs: '1',
-        cabinetLocation: 'УХЛ1',
+            // Параметры станции
+            stationDiameter: '1',
+            stationHeight: '1',
+            insulation: '1',
 
-        // Дополнительные элементы конструктора схемы
-        element1Name: '',
-        element1Value: '',
-        element2Param: '',
+            // Электрические параметры
+            motorStartMethod: '1',
+            powerInputs: '1',
+            cabinetLocation: '1',
+
+            // Дополнительные элементы конструктора схемы
+            element1Name: '1',
+            element1Value: '1',
+            element2Param: '1',
+        }
     }
 
     elements: EquipmentDataCheckbox[] = []
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+    }
+
+    get formData() {
+        return this.model.formData
+    }
+    get knsData() {
+        return this.model.knsData
     }
 
     setActiveStep(value: number) {
@@ -75,22 +91,22 @@ class RequestModel {
         this.error = value;
     }
 
-    setFormData<K extends keyof typeof this.formData>(name: K, value: typeof this.formData[K]) {
+    setFormData<K extends keyof typeof this.model.formData>(name: K, value: typeof this.model.formData[K]) {
         runInAction(() => {
-            this.formData[name] = value;
+            this.model.formData[name] = value;
         });
     }
 
-    setKnsData<K extends keyof typeof this.knsData>(name: K, value: typeof this.knsData[K]) {
-        this.knsData[name] = value;
+    setKnsData<K extends keyof typeof this.model.knsData>(name: K, value: typeof this.model.knsData[K]) {
+        this.model.knsData[name] = value;
     }
 
     validateStep1() {
-        if (!this.formData.objectName.trim()) {
+        if (!this.model.formData.objectName.trim()) {
             this.setError('Укажите название объекта')
             return false
         }
-        if (!this.formData.govCustomerName.trim()) {
+        if (!this.model.formData.govCustomerName.trim()) {
             this.setError('Укажите наименование гос. заказчика')
             return false
         }
@@ -98,12 +114,12 @@ class RequestModel {
     }
 
     validateStep2() {
-        if (this.formData.configType === 'КНС') {
-            if (!this.knsData.capacity.trim()) {
+        if (this.model.formData.configType === 'КНС') {
+            if (!this.model.knsData.capacity.trim()) {
                 this.setError('Укажите производительность')
                 return false
             }
-            if (!this.knsData.head.trim()) {
+            if (!this.model.knsData.head.trim()) {
                 this.setError('Укажите требуемый напор')
                 return false
             }
@@ -125,17 +141,23 @@ class RequestModel {
         this.setActiveStep(prev => prev - 1)
     }
 
-    initData() {
-        savedData()
-        const data = JSON.parse(localStorage.getItem(STORAGE_KEY_SCHEME_SETTINGS) || "")
+    isInit: boolean = false
 
-        data.forEach(element => {
-            this.elements.push({
+    async initData() {
+        if (this.isInit) return
+        this.isInit = true
+        const res = await equipmentsApi()
+
+        let resData: any = [];
+
+        res.data.forEach(element => {
+            resData.push({
                 ...element,
-                checked: element.isActive,
-                disabled: false,
+                checked: false,
             })
         });
+
+        this.elements = resData
     }
 
     get activeElements() {
@@ -144,7 +166,8 @@ class RequestModel {
 
     setElementChecked(id: number, checked: boolean) {
 
-        ruleSchemeObjectModel.checkForDisable(this.elements, id, checked)
+        // ruleSchemeObjectModel.checkForDisable(this.elements, id, checked)
+
 
         this.elements = this.elements.map(element => {
             if (element.id === id) {
@@ -155,6 +178,116 @@ class RequestModel {
             }
             return element
         })
+
+        console.log(this.elements)
+    }
+
+    preparationData() {
+        this.error = ''
+        this.isSubmitting = true
+
+        const ids = this.elements
+            .filter(item => item.checked)
+            .map(item => item.id?.toString())
+            .filter(Boolean);
+
+        return ids.length > 0 ? ids : []
+    }
+
+    async create(navigate: any, user: User) {
+
+        if (!user) return
+
+        try {
+            const activeCheckElems: string[] = this.preparationData()
+
+            const res = await createRequestApi({
+                nameByProjectDocs: this.model.formData.objectName,
+                objectName: this.model.formData.objectName,
+                locationRegion: this.model.formData.locationRegion,
+                customerName: user.fullName,
+                contactName: this.model.formData.govCustomerName,
+                phoneNumber: this.model.formData.contactPhone,
+                userId: user.id?.toString() || "",
+                configTypeId: this.model.formData.configType,
+
+                // Данные из knsData
+                perfomance: Number(this.model.knsData.capacity),
+                units: Number(this.model.knsData.medium),  // medium вместо units
+                requiredPumpPressure: Number(this.model.knsData.head),
+                activePumpsCount: Number(this.model.knsData.workingPumps),
+                reservePumpsCount: Number(this.model.knsData.reservePumps),
+                pumpsToWarehouseCount: Number(this.model.knsData.stockPumps),
+                pType: Number(this.model.knsData.medium),  // тоже medium (тип среды)
+                environmentTemperature: Number(this.model.knsData.temperature),
+                explosionProtection: this.model.knsData.explosionProof,
+
+                // Параметры входящего трубопровода
+                supplyPipelineDepth: Number(this.model.knsData.inletDepth),
+                supplyPipelineDiameter: Number(this.model.knsData.inletDiameter),
+                supplyPipelineMaterial: Number(this.model.knsData.inletMaterial),
+                supplyPipelineDirectionInHours: Number(this.model.knsData.inletDirection),
+
+                // Параметры напорного трубопровода
+                pressurePipelineDepth: Number(this.model.knsData.outletDepth),
+                pressurePipelineDiameter: Number(this.model.knsData.outletDiameter),
+                pressurePipelineMaterial: Number(this.model.knsData.outletMaterial),
+                pressurePipelineDirectionInHours: Number(this.model.knsData.outletDirection),
+                hasManyExitPressurePipelines: !!this.model.knsData.outletCount,
+
+                // Параметры станции
+                expectedDiameterOfPumpStation: Number(this.model.knsData.stationDiameter),
+                expectedHeightOfPumpStation: Number(this.model.knsData.stationHeight),
+                insulatedHousingDepth: Number(this.model.knsData.insulation),
+
+                // Электрические параметры
+                startupMethod: Number(this.model.knsData.motorStartMethod),
+                powerContactsToController: Number(this.model.knsData.powerInputs),
+                place: Number(this.model.knsData.cabinetLocation),
+
+                // Дополнительные элементы (если нужны)
+                equipmentGuidList: activeCheckElems, // или другое поле
+            })
+
+            console.log(res)
+
+
+            navigate('/customer/request', {
+                state: {
+                    message: 'Заявка успешно создана',
+                    type: 'success'
+                }
+            })
+        } catch (err) {
+            console.error('Ошибка при сохранении заявки:', err)
+            this.error = ('Ошибка при создании заявки')
+            this.isSubmitting = (false)
+        }
+    }
+
+    async update(navigate: any, requestId: null | number | string) {
+        try {
+            this.preparationData()
+
+            const data = {
+                formData: { ...this.model.formData },
+                knsData: { ...this.model.knsData, equipment: this.elements }
+            }
+
+            const updated = updateRequest(requestId, data)
+
+            navigate(`/customer/request/${requestId}`, {
+                state: {
+                    message: 'Заявка успешно обновлена',
+                    type: 'success'
+                }
+            })
+
+        } catch (err) {
+            console.error('Ошибка при сохранении заявки:', err)
+            this.error = ('Ошибка при обновлении заявки')
+            this.isSubmitting = (false)
+        }
     }
 }
 

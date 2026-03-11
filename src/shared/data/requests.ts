@@ -1,8 +1,7 @@
 // src/data/requests.ts
 
+import { REQUESTS_KEY } from "@/entities/request/config"
 import { Role } from "@/entities/user/role"
-
-const REQUESTS_KEY = 'marketplays_requests_v1'
 
 // Вспомогательные функции
 function safeParse(raw, fallback) {
@@ -201,8 +200,8 @@ export function listRequestsForCustomerEmail(email) {
     .trim()
     .toLowerCase()
   return loadAll()
-    .filter((r) => String(r.customerEmail || '').toLowerCase() === normalized)
     .sort((a, b) => (b.createdAt || '').localeCompare(a.createdAt || ''))
+  // .filter((r) => String(r.customerEmail || '').toLowerCase() === normalized)
 }
 
 // Получить заявки для поставщиков (только опубликованные)
@@ -250,7 +249,7 @@ export function createRequest(request) {
 }
 
 // Обновить существующую заявку
-export function updateRequest(id, updatedData) {
+export function updateRequest(id: string | number, updatedData: any) {
   const all = loadAll()
   const index = all.findIndex(r => r.id === id)
 
@@ -259,15 +258,7 @@ export function updateRequest(id, updatedData) {
     const original = all[index]
 
     // Обновляем заявку, сохраняя важные поля
-    all[index] = {
-      ...original,
-      ...updatedData,
-      id: original.id, // ID не меняем
-      customerEmail: original.customerEmail, // Email заказчика не меняем
-      customerFullName: original.customerFullName, // Имя заказчика не меняем
-      createdAt: original.createdAt, // Дата создания не меняется
-      updatedAt: new Date().toISOString(), // Добавляем дату обновления
-    }
+    all[index] = updatedData
 
     saveAll(all)
     return all[index]
@@ -459,5 +450,5 @@ export function getRequestStatusDisplay(request: any, userRole: Role | null = nu
     return { text: 'Новая', color: 'blue' }
   }
 
-  return { text: 'Недоступна', color: 'gray' }
+  return { text: 'В архиве', color: 'gray' }
 }

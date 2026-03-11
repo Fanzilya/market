@@ -6,18 +6,13 @@ import { useNavigate } from "react-router-dom"
 
 
 export function CreateRequestDataModel(requestId: string | undefined, user: User) {
-
-    const navigate = useNavigate()
-
     const [activeStep, setActiveStep] = useState(1)
-    const [isSubmitting, setIsSubmitting] = useState(false)
     const [error, setError] = useState('')
-    const isEditMode = !!requestId
 
     // Основные поля
     const [formData, setFormData] = useState({
-        objectName: '',
-        govCustomerName: '',
+        objectName: '123',
+        govCustomerName: '123',
         configType: 'КНС',
         contactPerson: user?.fullName || '',
         contactPhone: user?.phone || '',
@@ -27,31 +22,31 @@ export function CreateRequestDataModel(requestId: string | undefined, user: User
     // Расширенные поля для КНС
     const [knsData, setKnsData] = useState({
         // Основные параметры
-        capacity: '',
-        head: '',
-        workingPumps: '',
-        reservePumps: '',
-        stockPumps: '',
+        capacity: '123',
+        head: '123',
+        workingPumps: '123',
+        reservePumps: '123',
+        stockPumps: '123',
         medium: 'Хоз-бытовые сточные воды',
-        temperature: '',
+        temperature: '123',
         explosionProof: false,
 
         // Параметры трубопроводов
-        inletDepth: '',
-        inletDiameter: '',
-        inletMaterial: '',
+        inletDepth: '123',
+        inletDiameter: '123',
+        inletMaterial: '123',
         inletDirection: '12',
 
-        outletDepth: '',
-        outletDiameter: '',
-        outletMaterial: '',
+        outletDepth: '123',
+        outletDiameter: '123',
+        outletMaterial: '123',
         outletDirection: '3',
         outletCount: '1',
 
         // Параметры станции
-        stationDiameter: '',
-        stationHeight: '',
-        insulation: '',
+        stationDiameter: '123',
+        stationHeight: '123',
+        insulation: '123',
 
         // Электрические параметры
         motorStartMethod: 'direct',
@@ -117,114 +112,6 @@ export function CreateRequestDataModel(requestId: string | undefined, user: User
         setActiveStep(prev => prev - 1)
     }
 
-    const handleSubmit = () => {
-        setError('')
-        setIsSubmitting(true)
-
-        // Собираем все данные для сохранения
-        const requestData = {
-            // Основная информация
-            objectName: formData.objectName,
-            govCustomerName: formData.govCustomerName,
-            configType: formData.configType,
-            contactPerson: formData.contactPerson,
-            contactPhone: formData.contactPhone,
-            contactEmail: formData.contactEmail,
-
-            // Данные КНС (только если выбран тип КНС)
-            kns: formData.configType === 'КНС' ? {
-                // Основные параметры
-                capacity: knsData.capacity,
-                head: knsData.head,
-                workingPumps: knsData.workingPumps,
-                reservePumps: knsData.reservePumps,
-                stockPumps: knsData.stockPumps,
-                medium: knsData.medium,
-                temperature: knsData.temperature,
-                explosionProof: knsData.explosionProof,
-
-                // Параметры трубопроводов
-                inletDepth: knsData.inletDepth,
-                inletDiameter: knsData.inletDiameter,
-                inletMaterial: knsData.inletMaterial,
-                inletDirection: knsData.inletDirection,
-
-                outletDepth: knsData.outletDepth,
-                outletDiameter: knsData.outletDiameter,
-                outletMaterial: knsData.outletMaterial,
-                outletDirection: knsData.outletDirection,
-                outletCount: knsData.outletCount,
-
-                // Параметры станции
-                stationDiameter: knsData.stationDiameter,
-                stationHeight: knsData.stationHeight,
-                insulation: knsData.insulation,
-
-                // Электрические параметры
-                motorStartMethod: knsData.motorStartMethod,
-                powerInputs: knsData.powerInputs,
-                cabinetLocation: knsData.cabinetLocation,
-
-                // Дополнительные элементы конструктора схемы
-                element1Name: knsData.element1Name,
-                element1Value: knsData.element1Value,
-                element2Param: knsData.element2Param,
-            } : null,
-
-            // Дополнительная комплектация
-            knsExtras: formData.configType === 'КНС' ? knsExtras : null,
-        }
-
-        // Имитация отправки на сервер
-        setTimeout(() => {
-            try {
-                if (isEditMode) {
-                    // Обновление существующей заявки
-                    const updated = updateRequest(requestId, requestData)
-
-                    if (updated) {
-                        // Перенаправляем на страницу просмотра заявки с сообщением об успехе
-                        navigate(`/customer/request/${requestId}`, {
-                            state: {
-                                message: 'Заявка успешно обновлена',
-                                type: 'success'
-                            }
-                        })
-                    } else {
-                        setError('Не удалось обновить заявку')
-                        setIsSubmitting(false)
-                    }
-                } else {
-                    // Создание новой заявки
-                    const id = `REQ-${Date.now().toString(36).toUpperCase()}`
-                    const newRequest = createRequest({
-                        id,
-                        createdAt: new Date().toISOString(),
-                        customerEmail: user.email,
-                        customerFullName: user.fullName,
-                        ...requestData
-                    })
-
-                    if (newRequest) {
-                        navigate('/customer', {
-                            state: {
-                                message: 'Заявка успешно создана',
-                                type: 'success'
-                            }
-                        })
-                    } else {
-                        setError('Не удалось создать заявку')
-                        setIsSubmitting(false)
-                    }
-                }
-            } catch (err) {
-                console.error('Ошибка при сохранении заявки:', err)
-                setError(isEditMode ? 'Ошибка при обновлении заявки' : 'Ошибка при создании заявки')
-                setIsSubmitting(false)
-            }
-        }, 800)
-    }
-
     const getStepStatus = (step) => {
         if (step < activeStep) return 'completed'
         if (step === activeStep) return 'active'
@@ -233,9 +120,7 @@ export function CreateRequestDataModel(requestId: string | undefined, user: User
 
     return ({
         activeStep,
-        isSubmitting,
         error,
-        isEditMode,
         formData,
         setFormData,
         knsData,
@@ -246,7 +131,6 @@ export function CreateRequestDataModel(requestId: string | undefined, user: User
         validateStep2,
         handleNext,
         handleBack,
-        handleSubmit,
         getStepStatus,
     })
 }

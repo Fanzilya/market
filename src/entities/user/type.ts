@@ -8,7 +8,7 @@ export interface AuthProviderProps {
 
 export interface AuthContextType {
     user: User | null;
-    signIn: (email: string, password: string) => User | null;
+    signIn: (data: RegisterResult) => void;
     setUser: (data: User | null) => void;
     signOut: () => void;
     changePassword: (email: string, currentPassword: string, newPassword: string) => void,
@@ -17,12 +17,19 @@ export interface AuthContextType {
 
 
 export interface User {
-    role: Role;
-    roleLabel: string;
-    fullName: string;
+    id?: number;
     email: string;
-    phone: string;
+    fullName: string;
+    phoneNumber: string;
+    role: Role;
     company?: Company;
+}
+
+export interface RegisterResult {
+    accessToken: string,
+    refreshToken: string,
+    expiresAt: string,
+    user: User,
 }
 
 export interface DemoUser extends User {
@@ -37,3 +44,40 @@ export interface PasswordChangeResult {
 export interface PasswordOverrides {
     [email: string]: string;
 }
+
+export interface RegisterRequestDTO {
+    fullName: string,
+    email: string,
+    phoneNumber: string,
+    password: string,
+    confirmPassword: string,
+    roleName: string,
+}
+
+export interface LoginRequest {
+    email: string | null
+    password: string | null
+    twoFactorCode?: string,
+    twoFactorRecoveryCode?: string,
+}
+
+export interface RefreshTokenRequestDTO {
+    accessToken?: string | null
+    refreshToken?: string | null
+}
+
+export interface AuthResponseDTO {
+    accessToken?: string | null
+    refreshToken?: string | null
+    user?: UserInfoDTO
+}
+
+export interface UserInfoDTO {
+    id?: string
+    email?: string | null
+    firstName?: string | null
+    lastName?: string | null
+    middleName?: string | null
+    roles?: string[] | null
+}
+

@@ -161,13 +161,13 @@ export const LoginPage = observer(() => {
                 </button>
                 <button
                   className={styles.demoButton}
-                  onClick={() => handleDemoLogin('customer@marketplays.ru', 'Customer123')}
+                  onClick={() => handleDemoLogin('test_user@mail.ru', '123123')}
                 >
                   Заказчик
                 </button>
                 <button
                   className={styles.demoButton}
-                  onClick={() => handleDemoLogin('admin@marketplays.ru', 'Admin123')}
+                  onClick={() => handleDemoLogin('user@example.com', 'qwerty')}
                 >
                   Админ
                 </button>
