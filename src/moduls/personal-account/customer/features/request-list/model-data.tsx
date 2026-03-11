@@ -18,47 +18,6 @@ export function CustomerData(styles: any) {
     const { user, signOut } = useAuth()
     const requests = !user?.email ? [] : listRequestsForCustomerEmail(user.email)
 
-    const stats = useMemo(() => {
-        let moderation = 0
-        let revision = 0
-        let rejected = 0
-        let published = 0
-        let withOffers = 0
-        let archived = 0
-
-        requests.forEach(r => {
-            if (r.archived) {
-                archived++
-            } else {
-                switch (r.status) {
-                    case 'moderation':
-                        moderation++
-                        break
-                    case 'revision':
-                        revision++
-                        break
-                    case 'rejected':
-                        rejected++
-                        break
-                    case 'published':
-                        published++
-                        if (countOffersByRequestId(r.id) > 0) withOffers++
-                        break
-                }
-            }
-        })
-
-        return {
-            total: requests.length,
-            moderation,
-            revision,
-            rejected,
-            published,
-            withOffers,
-            noOffers: published - withOffers,
-            archived
-        }
-    }, [requests])
 
     const filteredRequests = useMemo(() => {
         return requests.filter(r => {
@@ -150,22 +109,6 @@ export function CustomerData(styles: any) {
     }
 
     // Получить класс статуса для отображения
-    const getStatusClass = (request) => {
-        if (request.archived) return styles.statusArchived
-
-        switch (request.status) {
-            case 'moderation':
-                return styles.statusModeration
-            case 'revision':
-                return styles.statusRevision
-            case 'rejected':
-                return styles.statusRejected
-            case 'published':
-                return countOffersByRequestId(request.id) > 0 ? styles.statusSuccess : styles.statusPublished
-            default:
-                return styles.statusDraft
-        }
-    }
 
     // Получить текст статуса
     const getStatusText = (request) => {
@@ -198,7 +141,6 @@ export function CustomerData(styles: any) {
         searchQuery,
         setSearchQuery,
         requests,
-        stats,
         filteredRequests,
         paginatedRequests,
         totalPages,
@@ -210,7 +152,6 @@ export function CustomerData(styles: any) {
         handleArchiveRequest,
         handleDeleteRequest,
         handleResubmit,
-        getStatusClass,
         getStatusText,
         goToCreateRequest
     })

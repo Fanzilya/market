@@ -1,4 +1,5 @@
 import { EquipmentDataCheckbox } from "@/widgets/Scheme/src/data/teeska";
+import { RequestStatus } from "./config";
 
 export interface BaseInfo {
     objectName: string,
@@ -51,9 +52,6 @@ export interface KnsData {
 }
 
 
-
-
-
 export interface CreateRequest {
     nameByProjectDocs: string,
     objectName: string,
@@ -90,7 +88,31 @@ export interface CreateRequest {
     equipmentGuidList: string[]
 }
 
-
-export interface IRequest extends CreateRequest {
+export interface IRequest {
+    nameByProjectDocs: number,
+    objectName: number,
+    locationRegion: number,
+    customerName: 'string',
+    contactName: number,
+    phoneNumber: number,
+    createdAt: Date,
+    status: Number,
+    isArchived: boolean,
+    userId: string,
+    // user: string,
+    configTypeId: string,
+    // requestConfigType: string,
+    // knsConfigs: string,
+    // equipRequest: string,
+    // favoriteRequests: string,
     id: string
+}
+
+
+export interface IRequestId {
+    id: string
+}
+
+export interface IUserId {
+    userId: string
 }

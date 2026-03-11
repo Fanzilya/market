@@ -12,3 +12,11 @@ export const KnsRequest = {
     create: "/KnsRequest/create/new",
     equipments: "/KnsRequest/knsConfig/equipments",
 }
+
+
+export const RequestRouter = {
+    single: "/Request/single",
+    allByUser: "/Request/user/requests/all"
+}
+
+

@@ -17,7 +17,7 @@ export interface AuthContextType {
 
 
 export interface User {
-    id?: number;
+    id?: number | string;
     email: string;
     fullName: string;
     phoneNumber: string;
@@ -80,4 +80,3 @@ export interface UserInfoDTO {
     middleName?: string | null
     roles?: string[] | null
 }
-
