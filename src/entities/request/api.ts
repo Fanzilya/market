@@ -11,10 +11,10 @@ export const createRequestApi = (params: CreateRequest) => {
     return instance.post(KnsRequest.create, params)
 }
 
-export const requestSingleApi = (params: IRequestId) => {
-    return instance.get(RequestRouter.single, { params })
-}
-
 export const allByUserApi = (params: IUserId) => {
     return instance.get(RequestRouter.allByUser, { params })
+}
+
+export const requestSingleApi = (params: IRequestId) => {
+    return instance.get(RequestRouter.single, { params })
 }

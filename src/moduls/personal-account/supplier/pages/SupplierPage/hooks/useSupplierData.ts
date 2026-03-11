@@ -112,7 +112,7 @@ export default function useSupplierData({ user, freeClicksLeft, setFreeClicksLef
     const hasOffer = myOffers.some(o => o.requestId === request.id)
 
     if (hasOffer) {
-      navigate(`/supplier/request/${request.id}/full`)
+      navigate(`/supplier/request/${request.id}`)
     } else {
       if (freeClicksLeft > 0) {
         setFreeClicksLeft(prev => prev - 1)

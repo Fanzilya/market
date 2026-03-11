@@ -15,6 +15,7 @@ import { Search } from '@/shared/ui-kits/Input/input-search'
 import { ArchiveConfirmModal } from '../../widgets/request-list/archive-confirm-modal'
 import { LogoutConfirmModal } from '../../widgets/request-list/logout-confirm-modal'
 import { RequestTableRow } from '../../widgets/request-list/request-table-row'
+import { Role } from '@/entities/user/role'
 
 export const CustomerPage = observer(() => {
   const { user } = useAuth()
@@ -72,7 +73,9 @@ export const CustomerPage = observer(() => {
           <div className={styles.breadcrumbs}>
             <span className={styles.breadcrumb} onClick={() => navigate('/dashboard')}>Главная</span>
             <span className={styles.separator}>/</span>
-            <span className={styles.current}>Заявки</span>
+            <span className={styles.current}>
+              {user.role == Role.Customer ? 'Мои заявки' : 'Заявки'}
+            </span>
           </div>
         </div>
       </div>

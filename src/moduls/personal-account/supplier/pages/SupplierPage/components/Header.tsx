@@ -1,5 +1,7 @@
 // src/pages/SupplierPage/components/Header.tsx
+import { useAuth } from '@/features/user/context/context'
 import styles from '../SupplierPage.module.css'
+import { Role } from '@/entities/user/role'
 
 export default function Header({ user, freeClicksLeft, onNavigate }) {
   return (
@@ -11,7 +13,9 @@ export default function Header({ user, freeClicksLeft, onNavigate }) {
             Главная
           </span>
           <span className={styles.separator}>›</span>
-          <span className={styles.breadcrumbActive}>Заявки</span>
+          <span className={styles.breadcrumbActive}>
+            {user.role == Role.Supplier ? 'Заявки' : 'Мои заявки'}
+          </span>
         </div>
       </div>
 

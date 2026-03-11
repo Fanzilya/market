@@ -53,7 +53,7 @@ export const CreateOfferPage = () => {
     onSubmit: async (data) => {
       setShowSuccess(true)
       setTimeout(() => {
-        navigate(`/supplier/request/${request.id}/full`, {
+        navigate(`/supplier/request/${request.id}`, {
           state: {
             message: 'Коммерческое предложение успешно отправлено!',
             refresh: true,
