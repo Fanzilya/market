@@ -149,180 +149,180 @@ export const RequestDetailPage = observer(() => {
         </div>
       </div>
 
-      {/* Схема КНС (только для типа КНС) */}
-      {/* {model.configTypeId === 'КНС' && model.kns && ( */}
-      <div className={styles.schemaSection}>
-        <h3 className={styles.sectionTitle}>Схема КНС</h3>
-        <div className={styles.schemaWrapper}>
-          <KNSSchemaTesting isActive={true} />
-        </div>
-      </div>
-      {/* )} */}
 
-      {/* Конфигурация КНС */}
-      {/* {model.configType === 'КНС' && model.kns && (
+      <div className='flex w-full gap-4'>
+        <div className='w-[100%]'>
+          {/* Конфигурация КНС */}
+          {/* {model.configType === 'КНС' && model.kns && (
         <> */}
-      <h3 className={styles.sectionTitle}>Конфигурация КНС</h3>
+          <h3 className={"text-[18px] font-semibold text-[#1e293b] mb-[20px]"}>Конфигурация КНС</h3>
 
-      {/* Основные параметры */}
-      <div className={styles.paramsSection}>
-        <h4 className={styles.subsectionTitle}>Основные параметры</h4>
-        <div className={styles.paramsGrid}>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Производительность:</span>
-            {/* <span className={styles.paramValue}>{model.perfomance || '—'} м³/ч</span> */}
+          {/* Основные параметры */}
+          <div className={styles.paramsSection}>
+            <h4 className={styles.subsectionTitle}>Основные параметры</h4>
+            <div className="flex flex-col gap-4">
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Производительность:</span>
+                {/* <span className={styles.paramValue}>{model.perfomance || '—'} м³/ч</span> */}
+              </div>
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Требуемый напор:</span>
+                {/* <span className={styles.paramValue}>{model.kns.head || '—'} м</span> */}
+              </div>
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Рабочих насосов:</span>
+                {/* <span className={styles.paramValue}>{model.kns.workingPumps || '0'}</span> */}
+              </div>
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Резервных насосов:</span>
+                {/* <span className={styles.paramValue}>{model.kns.reservePumps || '0'}</span> */}
+              </div>
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Насосов на склад:</span>
+                {/* <span className={styles.paramValue}>{model.kns.stockPumps || '0'}</span> */}
+              </div>
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Перекачиваемая среда:</span>
+                {/* <span className={styles.paramValue}>{model.kns.medium || '—'}</span> */}
+              </div>
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Температура среды:</span>
+                {/* <span className={styles.paramValue}>{model.kns.temperature || '—'} °C</span> */}
+              </div>
+              <div className={styles.paramItem}>
+                <span className={styles.paramLabel}>Взрывозащищенность:</span>
+                {/* <span className={styles.paramValue}>{model.kns.explosionProof ? 'Да' : 'Нет'}</span> */}
+              </div>
+            </div>
           </div>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Требуемый напор:</span>
-            {/* <span className={styles.paramValue}>{model.kns.head || '—'} м</span> */}
+
+          {/* Габаритные размеры трубопроводов и корпуса */}
+          <div className={styles.paramsSection}>
+            <h4 className={styles.subsectionTitle}>Габаритные размеры трубопроводов и корпуса</h4>
+
+            {false &&
+              <div className="flex flex-col gap-4">
+                {model.kns.inletDepth && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Глубина подводящего A:</span>
+                    <span className={styles.paramValue}>{model.kns.inletDepth} м</span>
+                  </div>
+                )}
+                {model.kns.inletDiameter && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Диаметр подводящего B:</span>
+                    <span className={styles.paramValue}>
+                      {model.kns.inletDiameter} мм {model.kns.inletMaterial ? `(${model.kns.inletMaterial})` : ''}
+                    </span>
+                  </div>
+                )}
+                {model.kns.inletDirection && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Направление подводящего:</span>
+                    <span className={styles.paramValue}>
+                      {directionLabels[model.kns.inletDirection] || model.kns.inletDirection}
+                    </span>
+                  </div>
+                )}
+                {model.kns.outletDepth && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Глубина напорного D:</span>
+                    <span className={styles.paramValue}>{model.kns.outletDepth} м</span>
+                  </div>
+                )}
+                {model.kns.outletDiameter && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Диаметр напорного C:</span>
+                    <span className={styles.paramValue}>
+                      {model.kns.outletDiameter} мм {model.kns.outletMaterial ? `(${model.kns.outletMaterial})` : ''}
+                    </span>
+                  </div>
+                )}
+                {model.kns.outletDirection && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Направление напорного:</span>
+                    <span className={styles.paramValue}>
+                      {directionLabels[model.kns.outletDirection] || model.kns.outletDirection}
+                    </span>
+                  </div>
+                )}
+                {model.kns.outletCount && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Количество напорных:</span>
+                    <span className={styles.paramValue}>{model.kns.outletCount}</span>
+                  </div>
+                )}
+                {model.kns.stationDiameter && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Диаметр станции:</span>
+                    <span className={styles.paramValue}>{model.kns.stationDiameter} м</span>
+                  </div>
+                )}
+                {model.kns.stationHeight && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Высота станции:</span>
+                    <span className={styles.paramValue}>{model.kns.stationHeight} м</span>
+                  </div>
+                )}
+                {model.kns.insulation && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Утепление корпуса:</span>
+                    <span className={styles.paramValue}>{model.kns.insulation} м</span>
+                  </div>
+                )}
+              </div>
+            }
           </div>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Рабочих насосов:</span>
-            {/* <span className={styles.paramValue}>{model.kns.workingPumps || '0'}</span> */}
-          </div>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Резервных насосов:</span>
-            {/* <span className={styles.paramValue}>{model.kns.reservePumps || '0'}</span> */}
-          </div>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Насосов на склад:</span>
-            {/* <span className={styles.paramValue}>{model.kns.stockPumps || '0'}</span> */}
-          </div>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Перекачиваемая среда:</span>
-            {/* <span className={styles.paramValue}>{model.kns.medium || '—'}</span> */}
-          </div>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Температура среды:</span>
-            {/* <span className={styles.paramValue}>{model.kns.temperature || '—'} °C</span> */}
-          </div>
-          <div className={styles.paramItem}>
-            <span className={styles.paramLabel}>Взрывозащищенность:</span>
-            {/* <span className={styles.paramValue}>{model.kns.explosionProof ? 'Да' : 'Нет'}</span> */}
-          </div>
+
+          {/* Электрические параметры */}
+          {false && (model.kns.motorStartMethod || model.kns.powerInputs || model.kns.cabinetLocation) && (
+            <div className={styles.paramsSection}>
+              <h4 className={styles.subsectionTitle}>Электрические параметры</h4>
+              <div className="flex flex-col gap-4">
+                {model.kns.motorStartMethod && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Метод пуска:</span>
+                    <span className={styles.paramValue}>
+                      {motorStartOptions[model.kns.motorStartMethod] || model.kns.motorStartMethod}
+                    </span>
+                  </div>
+                )}
+                {model.kns.powerInputs && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Вводов питания:</span>
+                    <span className={styles.paramValue}>{model.kns.powerInputs}</span>
+                  </div>
+                )}
+                {model.kns.cabinetLocation && (
+                  <div className={styles.paramItem}>
+                    <span className={styles.paramLabel}>Место установки шкафа:</span>
+                    <span className={styles.paramValue}>{model.kns.cabinetLocation}</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+
+          {/* Дополнительная комплектация */}
+          {false && model.knsExtras && Object.values(model.knsExtras).some(v => v) && (
+            <div className={styles.extrasSection}>
+              <h4 className={styles.subsectionTitle}>Дополнительная комплектация</h4>
+              <div className={styles.extrasList}>
+                {Object.entries(model.knsExtras)
+                  .filter(([_, value]) => value)
+                  .map(([key]) => (
+                    <span key={key} className={styles.extraBadge}>{key}</span>
+                  ))}
+              </div>
+            </div>
+          )}
         </div>
+        {/* Схема КНС (только для типа КНС) */}
+        {/* {model.configTypeId === 'КНС' && model.kns && ( */}
+        <KNSSchemaTesting isActive={true} />
+        {/* )} */}
       </div>
 
-      {/* Габаритные размеры трубопроводов и корпуса */}
-      <div className={styles.paramsSection}>
-        <h4 className={styles.subsectionTitle}>Габаритные размеры трубопроводов и корпуса</h4>
-
-        {false &&
-          <div className={styles.paramsGrid}>
-            {model.kns.inletDepth && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Глубина подводящего A:</span>
-                <span className={styles.paramValue}>{model.kns.inletDepth} м</span>
-              </div>
-            )}
-            {model.kns.inletDiameter && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Диаметр подводящего B:</span>
-                <span className={styles.paramValue}>
-                  {model.kns.inletDiameter} мм {model.kns.inletMaterial ? `(${model.kns.inletMaterial})` : ''}
-                </span>
-              </div>
-            )}
-            {model.kns.inletDirection && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Направление подводящего:</span>
-                <span className={styles.paramValue}>
-                  {directionLabels[model.kns.inletDirection] || model.kns.inletDirection}
-                </span>
-              </div>
-            )}
-            {model.kns.outletDepth && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Глубина напорного D:</span>
-                <span className={styles.paramValue}>{model.kns.outletDepth} м</span>
-              </div>
-            )}
-            {model.kns.outletDiameter && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Диаметр напорного C:</span>
-                <span className={styles.paramValue}>
-                  {model.kns.outletDiameter} мм {model.kns.outletMaterial ? `(${model.kns.outletMaterial})` : ''}
-                </span>
-              </div>
-            )}
-            {model.kns.outletDirection && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Направление напорного:</span>
-                <span className={styles.paramValue}>
-                  {directionLabels[model.kns.outletDirection] || model.kns.outletDirection}
-                </span>
-              </div>
-            )}
-            {model.kns.outletCount && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Количество напорных:</span>
-                <span className={styles.paramValue}>{model.kns.outletCount}</span>
-              </div>
-            )}
-            {model.kns.stationDiameter && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Диаметр станции:</span>
-                <span className={styles.paramValue}>{model.kns.stationDiameter} м</span>
-              </div>
-            )}
-            {model.kns.stationHeight && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Высота станции:</span>
-                <span className={styles.paramValue}>{model.kns.stationHeight} м</span>
-              </div>
-            )}
-            {model.kns.insulation && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Утепление корпуса:</span>
-                <span className={styles.paramValue}>{model.kns.insulation} м</span>
-              </div>
-            )}
-          </div>
-        }
-      </div>
-
-      {/* Электрические параметры */}
-      {false && (model.kns.motorStartMethod || model.kns.powerInputs || model.kns.cabinetLocation) && (
-        <div className={styles.paramsSection}>
-          <h4 className={styles.subsectionTitle}>Электрические параметры</h4>
-          <div className={styles.paramsGrid}>
-            {model.kns.motorStartMethod && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Метод пуска:</span>
-                <span className={styles.paramValue}>
-                  {motorStartOptions[model.kns.motorStartMethod] || model.kns.motorStartMethod}
-                </span>
-              </div>
-            )}
-            {model.kns.powerInputs && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Вводов питания:</span>
-                <span className={styles.paramValue}>{model.kns.powerInputs}</span>
-              </div>
-            )}
-            {model.kns.cabinetLocation && (
-              <div className={styles.paramItem}>
-                <span className={styles.paramLabel}>Место установки шкафа:</span>
-                <span className={styles.paramValue}>{model.kns.cabinetLocation}</span>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Дополнительная комплектация */}
-      {false && model.knsExtras && Object.values(model.knsExtras).some(v => v) && (
-        <div className={styles.extrasSection}>
-          <h4 className={styles.subsectionTitle}>Дополнительная комплектация</h4>
-          <div className={styles.extrasList}>
-            {Object.entries(model.knsExtras)
-              .filter(([_, value]) => value)
-              .map(([key]) => (
-                <span key={key} className={styles.extraBadge}>{key}</span>
-              ))}
-          </div>
-        </div>
-      )}
 
 
       {/* </>
@@ -332,7 +332,7 @@ export const RequestDetailPage = observer(() => {
       {offers.length > 0 && (
         <div className={styles.offersSection}>
           <div className={styles.offersHeader}>
-            <h3 className={styles.sectionTitle}>
+            <h3 className={"text-[18px] font-semibold text-[#1e293b] mb-[20px]"}>
               Коммерческие предложения ({offers.length})
             </h3>
             <button
