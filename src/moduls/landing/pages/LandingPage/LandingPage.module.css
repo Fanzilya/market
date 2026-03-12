@@ -4141,3 +4141,519 @@
 .statCard:nth-child(2) { animation-delay: 0.2s; }
 .statCard:nth-child(3) { animation-delay: 0.3s; }
 .statCard:nth-child(4) { animation-delay: 0.4s; }
+
+
+/* src/pages/LandingPage.mobile.css */
+
+/* ===== АДАПТАЦИЯ ДЛЯ ТЕЛЕФОНОВ ===== */
+
+/* Для экранов до 1024px (планшеты и маленькие ноутбуки) */
+@media (max-width: 1024px) {
+  /* Навигация */
+  .navLinks {
+    display: none;
+  }
+  
+  .mobileToggle {
+    display: block;
+  }
+  
+  .mobileMenu {
+    display: block;
+  }
+  
+  /* Hero секция */
+  .heroContent {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .heroLeft {
+    max-width: 100%;
+  }
+  
+  .heroButtons {
+    justify-content: center;
+  }
+  
+  .heroStats {
+    justify-content: center;
+  }
+  
+  /* Блок производителей */
+  .manufacturerPromoContent {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .manufacturerPromoFeatures {
+    grid-template-columns: 1fr;
+  }
+  
+  /* Секция КНС */
+  .knsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .knsFeatures {
+    grid-template-columns: 1fr;
+  }
+  
+  .knsModel {
+    height: 350px;
+    margin-top: 30px;
+  }
+  
+  /* Карусель партнеров */
+  .carouselSlide {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .partnerCard {
+    padding: 20px;
+  }
+  
+  .partnerLogo {
+    width: 60px;
+    height: 60px;
+    font-size: 30px;
+  }
+  
+  /* Статистика */
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  
+  /* Заголовки */
+  .heroTitle {
+    font-size: 40px;
+  }
+  
+  .knsTitle {
+    font-size: 36px;
+  }
+  
+  .sectionTitle {
+    font-size: 32px;
+  }
+  
+  .ctaTitle {
+    font-size: 36px;
+  }
+  
+  .manufacturerPromoTitle {
+    font-size: 30px;
+  }
+}
+
+/* Для экранов до 768px (планшеты вертикально и большие телефоны) */
+@media (max-width: 768px) {
+  /* Навигация */
+  .navRight {
+    display: none;
+  }
+  
+  /* Блок производителей */
+  .manufacturerPromo {
+    padding: 60px 16px;
+  }
+  
+  .manufacturerPromoTitle {
+    font-size: 26px;
+  }
+  
+  .manufacturerPromoActions {
+    flex-direction: column;
+  }
+  
+  .manufacturerPromoButton,
+  .manufacturerPromoButtonOutline {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Карусель партнеров */
+  .carouselSlide {
+    grid-template-columns: 1fr;
+  }
+  
+  .carouselArrowLeft,
+  .carouselArrowRight {
+    display: none;
+  }
+  
+  .partnersCarousel {
+    margin: 20px 0;
+  }
+  
+  .partnerStats {
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+  }
+  
+  /* Секция КНС */
+  .knsModel {
+    height: 300px;
+  }
+  
+  .sketchfabCredit {
+    font-size: 10px;
+    padding: 6px 12px;
+  }
+  
+  /* Footer */
+  .footerContainer {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  
+  .footerLogo {
+    justify-content: center;
+  }
+  
+  .footerBottom {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .footerLinks {
+    justify-content: center;
+  }
+  
+  /* Другие секции */
+  .partnersContainer {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .rolesTabs {
+    flex-direction: column;
+  }
+  
+  .ctaButtons {
+    flex-direction: column;
+  }
+  
+  /* Статистика */
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  
+  .statCard {
+    padding: 24px 16px;
+  }
+  
+  .statValue {
+    font-size: 36px;
+  }
+  
+  .statLabel {
+    font-size: 14px;
+  }
+}
+
+/* Для экранов до 480px (телефоны) */
+@media (max-width: 480px) {
+  /* Hero секция */
+  .heroButtons {
+    flex-direction: column;
+  }
+  
+  .heroButton,
+  .heroButtonOutline {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .heroStats {
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .heroStatDivider {
+    display: none;
+  }
+  
+  .heroTitle {
+    font-size: 32px;
+  }
+  
+  .heroSubtitle {
+    font-size: 16px;
+  }
+  
+  /* Блок производителей */
+  .manufacturerPromoTitle {
+    font-size: 24px;
+  }
+  
+  /* Секция КНС */
+  .knsTitle {
+    font-size: 28px;
+  }
+  
+  .knsModel {
+    height: 250px;
+  }
+  
+  .knsDescription {
+    font-size: 14px;
+  }
+  
+  /* Партнеры */
+  .partnersContainer {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .partnerName {
+    font-size: 16px;
+  }
+  
+  .partnerCategory {
+    font-size: 12px;
+  }
+  
+  /* Testimonials */
+  .testimonialCard {
+    padding: 24px;
+  }
+  
+  .testimonialAuthor {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .testimonialText {
+    font-size: 16px;
+  }
+  
+  /* Статистика */
+  .statsGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .statCard {
+    padding: 20px;
+  }
+  
+  .statValue {
+    font-size: 32px;
+  }
+  
+  .statLabel {
+    font-size: 14px;
+  }
+  
+  /* CTA секция */
+  .ctaTitle {
+    font-size: 28px;
+  }
+  
+  .ctaSubtitle {
+    font-size: 16px;
+  }
+  
+  .ctaButton,
+  .ctaButtonOutline {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Features */
+  .featureCard {
+    padding: 24px;
+  }
+  
+  .featureTitle {
+    font-size: 18px;
+  }
+  
+  .featureDescription {
+    font-size: 14px;
+  }
+  
+  /* Roles */
+  .roleCard {
+    padding: 20px;
+  }
+  
+  .roleText {
+    font-size: 14px;
+  }
+  
+  .rolesTab {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Footer */
+  .footer {
+    padding: 40px 16px 30px;
+  }
+  
+  .footerTitle {
+    font-size: 16px;
+  }
+  
+  .footerLink {
+    font-size: 14px;
+  }
+  
+  .footerText {
+    font-size: 12px;
+  }
+  
+  .footerLinks {
+    gap: 16px;
+  }
+}
+
+/* Для очень маленьких экранов (до 360px) */
+@media (max-width: 360px) {
+  .heroTitle {
+    font-size: 28px;
+  }
+  
+  .heroStatValue {
+    font-size: 24px;
+  }
+  
+  .knsTitle {
+    font-size: 24px;
+  }
+  
+  .manufacturerPromoTitle {
+    font-size: 22px;
+  }
+  
+  .partnerCard {
+    padding: 16px;
+  }
+  
+  .partnerLogo {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+  
+  .partnerName {
+    font-size: 14px;
+  }
+  
+  .statValue {
+    font-size: 28px;
+  }
+  
+  .badge {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+}
+
+/* ===== СПЕЦИАЛЬНЫЕ ПРАВКИ ДЛЯ TOUCH-УСТРОЙСТВ ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* Увеличиваем области касания */
+  .navLink,
+  .mobileLink,
+  .footerLink,
+  .partnerButton,
+  .heroButton,
+  .heroButtonOutline,
+  .ctaButton,
+  .ctaButtonOutline,
+  .authButton,
+  .authButtonFilled,
+  .viewAllButton,
+  .manufacturerPromoButton,
+  .manufacturerPromoButtonOutline {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Убираем hover-эффекты на touch-устройствах */
+  .partnerCard:hover,
+  .featureCard:hover,
+  .roleCard:hover,
+  .statCard:hover,
+  .knsFeature:hover {
+    transform: none;
+  }
+  
+  /* Оставляем только active состояния */
+  .partnerCard:active,
+  .featureCard:active,
+  .roleCard:active,
+  .statCard:active {
+    transform: scale(0.98);
+  }
+}
+
+/* ===== ГОРИЗОНТАЛЬНАЯ ОРИЕНТАЦИЯ НА ТЕЛЕФОНАХ ===== */
+@media (max-height: 500px) and (orientation: landscape) {
+  .hero {
+    min-height: auto;
+    padding: 100px 24px 60px;
+  }
+  
+  .heroContent {
+    gap: 30px;
+  }
+  
+  .heroTitle {
+    font-size: 32px;
+    margin-bottom: 16px;
+  }
+  
+  .heroSubtitle {
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .heroButtons {
+    margin-bottom: 30px;
+  }
+  
+  .kns {
+    padding: 60px 24px;
+  }
+  
+  .knsModel {
+    height: 250px;
+  }
+  
+  .features,
+  .roles,
+  .testimonials {
+    padding: 60px 24px;
+  }
+}
+
+/* ===== АНИМАЦИИ ДЛЯ МОБИЛЬНЫХ (ОПТИМИЗИРОВАННЫЕ) ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== FIX ДЛЯ SAFARI НА IOS ===== */
+@supports (-webkit-touch-callout: none) {
+  .navbar {
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.95);
+  }
+  
+  .mobileMenu {
+    backdrop-filter: none;
+    background: rgba(255, 255, 255, 0.98);
+  }
+  
+  .heroGradient1,
+  .heroGradient2 {
+    filter: blur(40px);
+  }
+}
