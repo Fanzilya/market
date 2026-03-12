@@ -1,7 +1,7 @@
 import aco from "@/moduls/shop/assets/images/aco-logo.svg";
 import smk from "@/moduls/shop/assets/images/cmk-logo.png";
 import compozit from "@/moduls/shop/assets/images/compozit-logo.png";
-import toros from "@/moduls/shop/assets/images/toros-logo.svg";
+import npp from "@/moduls/shop/assets/images/npp.png";
 import ascent from "@/moduls/shop/assets/images/ascent-logo.png";
 
 
@@ -29,31 +29,23 @@ const brands = [
   },
   {
      id: 2,
-  slug: 'toros',
-  name: 'ТОРОС',
-  fullName: 'ООО «ТОРОС ГК»',
-  logo: toros,
+  slug: 'npp',
+  name: 'НПП Гидрикс',
+  fullName: 'ООО «НПП «Гидрикс»',
+  logo: npp,
   category: 'Инжиниринг и оборудование для очистки сточных вод',
   description: 'Ведущая инновационная инжиниринговая компания с 25-летним опытом работы по очистке сточных вод предприятий и других объектов. Предлагает комплекс инжиниринговых решений, начиная от разработки технологических и инженерных схем, заканчивая пусконаладкой оборудования и его обслуживанием.',
   longDescription: 'При помощи таких сооружений производится качественная очистка сточных вод более чем на 200 объектах: как в Казани, так и на всей территории Республики Татарстан и за ее пределами. Наша команда состоит из квалифицированных специалистов, инженеров, проектировщиков, технологов, которые совместно разрабатывают технологии очистки сточных вод.',
   country: 'Россия',
-  region: 'Республика Татарстан',
-  city: 'Казань',
-  address: '420061, Республика Татарстан, г. Казань, ул. Н. Ершова, д. 35-А, комн. 51',
-  founded: 1999, // 25 лет опыта (2024-25 = 1999)
-  inn: '1660288531',
-  website: 'www.torosltd.ru',
+  region: '',
+  city: 'Москва',
+  address: '117638, Москва, Одесская ул., 2, БЦ Лотос, Башня А, этаж 5, офис 4. м. Нахимовский проспект',
+  founded: 2010, 
+  inn: '7727749349',
+  website: 'www.hydrig.ru',
   specialization: 'Очистка сточных вод, инжиниринг',
   products: null,
   
-  stats: {
-    founded: 1999,
-    experienceYears: 25,
-    projectsCompleted: 200,
-    objectsInKazan: true,
-    objectsInTatarstan: true,
-    objectsOutsideTatarstan: true
-  },
   
 },
   {

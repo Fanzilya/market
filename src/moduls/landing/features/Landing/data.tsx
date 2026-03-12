@@ -1,13 +1,13 @@
 import aco from "@/moduls/shop/assets/images/aco-logo.svg";
 import smk from "@/moduls/shop/assets/images/cmk-logo.png";
 import compozit from "@/moduls/shop/assets/images/compozit-logo.png";
-import toros from "@/moduls/shop/assets/images/toros-logo.svg";
+import npp from "@/moduls/shop/assets/images/npp.png";
 import ascent from "@/moduls/shop/assets/images/ascent-logo.png";
 import Icon from "@/shared/ui-kits/Icon";
 
 export const partners = [
     { id: 1, name: 'СМК-Гидрикс', logo: smk,   slug: 'gidrig' },
-    { id: 2, name: 'ТОРОС', logo: toros,  slug: 'toros' },
+    { id: 2, name: 'НПП Гидрикс', logo: npp,  slug: 'npp' },
     { id: 3, name: 'Волжский композит', logo: compozit, slug: 'compozit' },
     { id: 4, name: 'Эколайн', logo: aco,  slug: 'ecolain' },
     { id: 5, name: 'Акцент-Саба', logo: ascent,   slug: 'acsent' },
