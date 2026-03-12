@@ -2,13 +2,15 @@
 import React from 'react'
 import styles from '../SupplierPage.module.css'
 import { getLimitedTechSpecs, formatDate } from '../utils/formatters'
+import { Link } from 'react-router-dom'
+import { IRequest } from '@/entities/request/type'
 
-export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite, onViewRequest }) => [
+export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite }) => [
   {
     key: 'favorite',
     header: '',
     width: '40px',
-    render: (row) => {
+    render: (row: IRequest) => {
       const isFavorite = favoriteRequests.includes(row.id)
       return (
         <button
@@ -23,37 +25,43 @@ export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite, on
   },
   {
     key: 'id',
-    header: 'Номер заявки',
+    header: 'Наименование',
     sortable: true,
     width: '130px',
-    render: (row) => (
-      <span className={styles.idBadge}>{row.id}</span>
-    )
+    render: (row: IRequest) => {
+      return (
+        <span className={styles.idBadge}>{row.contactName}</span>
+      )
+    }
   },
   {
     key: 'configType',
     header: 'Тип',
     width: '100px',
-    render: (row) => (
-      <span className={styles.typeBadge}>{row.configType || 'КНС'}</span>
+    render: () => (
+      <span className={styles.typeBadge}>{'КНС'}</span>
     )
   },
   {
     key: 'region',
     header: 'Регион',
     width: '120px',
-    render: (row) => (
-      <span className={styles.regionBadge}>{row.region || 'Не указан'}</span>
+    render: (row: IRequest) => (
+      <span className={styles.regionBadge}>{row.locationRegion || 'Не указан'}</span>
     )
   },
   {
     key: 'techSpecs',
     header: 'Технические характеристики',
-    render: (row) => {
+    render: (row: IRequest) => {
       const specs = getLimitedTechSpecs(row)
+
       return (
         <div className={styles.techSpecsList}>
-          {specs.length > 0 ? (
+
+          {/* {row.} */}
+
+          {/* {specs.length > 0 ? (
             <>
               {specs.slice(0, 3).map((spec, idx) => (
                 <div key={idx} className={styles.techSpecItem}>
@@ -67,7 +75,7 @@ export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite, on
             </>
           ) : (
             <span className={styles.noSpecs}>Нет данных</span>
-          )}
+          )} */}
         </div>
       )
     }
@@ -77,7 +85,7 @@ export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite, on
     header: 'Дата публикации',
     sortable: true,
     width: '120px',
-    render: (row) => (
+    render: (row: IRequest) => (
       <span className={styles.date}>
         {formatDate(row.publishedAt || row.createdAt)}
       </span>
@@ -87,7 +95,7 @@ export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite, on
     key: 'status',
     header: 'Статус',
     width: '100px',
-    render: (row) => {
+    render: (row: IRequest) => {
       const hasOffer = myOffers.some(o => o.requestId === row.id)
       return (
         <span className={`${styles.statusBadge} ${hasOffer ? styles.responded : styles.new}`}>
@@ -100,12 +108,12 @@ export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite, on
     key: 'action',
     header: '',
     width: '120px',
-    render: (row) => {
+    render: (row: IRequest) => {
       const hasOffer = myOffers.some(o => o.requestId === row.id)
       return (
-        <button
+        <Link
           className={`${styles.actionButton} ${hasOffer ? styles.viewButton : styles.respondButton}`}
-          onClick={() => onViewRequest(row)}
+          to={"/supplier/request/" + row.id}
         >
           {hasOffer ? (
             <>
@@ -118,16 +126,32 @@ export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite, on
               Предпросмотр
             </>
           )}
-        </button>
+
+
+          {/* if (freeClicksLeft > 0) {
+        setFreeClicksLeft(prev => prev - 1)
+        navigate(`/supplier/request/${request.id}/preview`, {
+          state: { request }
+        })
+      } else {
+        navigate('/supplier/balance', {
+          state: {
+            message: 'Бесплатные клики закончились. Для просмотра заявок необходимо пополнить счет.'
+          }
+        })
+      } */}
+
+
+        </Link>
       )
     }
   }
 ]
 
 // Иконки
-const FavoriteIcon = ({ isActive }) => (
+export const FavoriteIcon = ({ isActive }) => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path 
+    <path
       d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
       stroke="currentColor"
       strokeWidth="2"
@@ -136,14 +160,14 @@ const FavoriteIcon = ({ isActive }) => (
   </svg>
 )
 
-const ViewIcon = () => (
+export const ViewIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
     <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
   </svg>
 )
 
-const PlusIcon = () => (
+export const PlusIcon = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
     <path d="M5 12H19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
     <path d="M12 5L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />

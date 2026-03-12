@@ -2,7 +2,7 @@
 import React from 'react'
 import styles from '../../CreateOfferPage.module.css'
 
-export default function MainInfoTab({ formData, errors, onChange, isSubmitting }) {
+export default function MainInfoTab({ model, errors, onChange, isSubmitting }) {
   return (
     <div className={styles.tabContent}>
       <h3 className={styles.sectionTitle}>Основная информация</h3>
@@ -19,7 +19,7 @@ export default function MainInfoTab({ formData, errors, onChange, isSubmitting }
           disabled={isSubmitting}
         />
 
-        <FormGroup
+        {/* <FormGroup
           label="Дата КП"
           name="offerDate"
           type="date"
@@ -28,10 +28,10 @@ export default function MainInfoTab({ formData, errors, onChange, isSubmitting }
           error={errors.offerDate}
           required
           disabled={isSubmitting}
-        />
+        /> */}
       </div>
 
-      <div className={styles.formGrid}>
+      {/* <div className={styles.formGrid}>
         <FormGroup
           label="Стоимость"
           name="price"
@@ -63,7 +63,7 @@ export default function MainInfoTab({ formData, errors, onChange, isSubmitting }
         onChange={onChange}
         placeholder="Дополнительная информация по предложению"
         disabled={isSubmitting}
-      />
+      /> */}
     </div>
   )
 }

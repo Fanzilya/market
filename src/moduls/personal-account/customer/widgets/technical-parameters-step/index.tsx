@@ -2,6 +2,8 @@ import { schemeActionsModel } from '@/widgets/Scheme/src/models/scheme-actions-m
 import { observer } from 'mobx-react-lite';
 import { cabinetLocationOptions, directionOptions, mediumOptions } from './src/data';
 import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing';
+import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
+import Icon from '@/shared/ui-kits/Icon';
 
 
 interface Props {
@@ -102,9 +104,14 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                                 onChange={(e) => setKnsData("medium", e.target.value)}
                                 className={styles.select}
                             >
-                                {mediumOptions.map(option => (
-                                    <option key={option} value={option}>{option}</option>
-                                ))}
+                                {Object.values(PumpEnvironment)
+                                    .filter(value => typeof value === 'number')
+                                    .map(value => (
+                                        <option key={value} value={value}>
+                                            {PumpEnvironmentTranslations[value as PumpEnvironment]}
+                                        </option>
+                                    ))
+                                }
                             </select>
                         </div>
 
@@ -141,9 +148,14 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                                 onChange={(e) => setKnsData("motorStartMethod", e.target.value)}
                                 className={styles.select}
                             >
-                                {motorStartOptions.map(option => (
-                                    <option key={option.value} value={option.value}>{option.label}</option>
-                                ))}
+                                {Object.values(PumpsStartupMethod)
+                                    .filter(value => typeof value === 'number')
+                                    .map(value => (
+                                        <option key={value} value={value}>
+                                            {PumpsStartupMethodTranslations[value as PumpsStartupMethod]}
+                                        </option>
+                                    ))
+                                }
                             </select>
                         </div>
 
@@ -166,9 +178,14 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                                 onChange={(e) => setKnsData("cabinetLocation", e.target.value)}
                                 className={styles.select}
                             >
-                                {cabinetLocationOptions.map(option => (
-                                    <option key={option.value} value={option.value}>{option.label}</option>
-                                ))}
+                                {Object.values(ControllerInstalationPlace)
+                                    .filter(value => typeof value === 'number')
+                                    .map(value => (
+                                        <option key={value} value={value}>
+                                            {ControllerInstalationPlaceTranslations[value as ControllerInstalationPlace]}
+                                        </option>
+                                    ))
+                                }
                             </select>
                         </div>
                     </div>
@@ -221,8 +238,8 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                                         onChange={(e) => setKnsData("inletDirection", e.target.value)}
                                         className={styles.select}
                                     >
-                                        {directionOptions.map(opt => (
-                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                        {Object.entries(directionLabels).map(([value, label]) => (
+                                            <option key={value} value={value}>{label}</option>
                                         ))}
                                     </select>
                                 </div>
@@ -362,11 +379,8 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
 
             {formData.configType !== 'КНС' && (
                 <div className={styles.infoMessage}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2" />
-                        <path d="M12 16V12" stroke="#4A85F6" strokeWidth="2" />
-                        <circle cx="12" cy="8" r="1" fill="#4A85F6" />
-                    </svg>
+                    <Icon name='info' color='#4A85F6' width={24} />
+
                     <p>
                         Для выбранного типа конфигурации дополнительные параметры будут доступны позже.
                         Пожалуйста, продолжите создание заявки с основной информацией.

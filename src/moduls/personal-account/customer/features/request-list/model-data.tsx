@@ -57,11 +57,6 @@ export function CustomerData(styles: any) {
         navigate('/', { replace: true })
     }
 
-    // Функция для перехода на страницу просмотра КП
-    const goToOffers = (requestId) => {
-        navigate(`/customer/request/${requestId}/offers`)
-    }
-
     // Функция для перехода на страницу редактирования заявки
     const goToEditRequest = (requestId, e) => {
         e.stopPropagation()
@@ -146,7 +141,6 @@ export function CustomerData(styles: any) {
         totalPages,
         onLogout,
         confirmLogout,
-        goToOffers,
         goToEditRequest,
         openArchiveConfirm,
         handleArchiveRequest,

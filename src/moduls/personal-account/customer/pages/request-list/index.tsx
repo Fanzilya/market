@@ -39,7 +39,6 @@ export const CustomerPage = observer(() => {
     paginatedRequests,
     totalPages,
     confirmLogout,
-    goToOffers,
     goToEditRequest,
     openArchiveConfirm,
     handleArchiveRequest,
@@ -133,34 +132,24 @@ export const CustomerPage = observer(() => {
                   </div>
                 </div>
               ) : (
-                <table className={styles.table}>
-                  <thead>
-                    <tr>
-                      <th className={styles.th}>ID</th>
-                      <th className={styles.th}>Объект</th>
-                      <th className={styles.th}>Заказчик</th>
-                      <th className={styles.th}>Тип</th>
-                      <th className={styles.th}>КП</th>
-                      <th className={styles.th}>Дата</th>
-                      <th className={styles.th}>Статус</th>
-                      <th className={styles.th}>Действия</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {model.map((item, key) => (
-                      <RequestTableRow
-                        number={++key}
-                        styles={styles}
-                        item={item}
-                        goToOffers={goToOffers}
-                        openArchiveConfirm={openArchiveConfirm}
-                        goToEditRequest={goToEditRequest}
-                        handleDeleteRequest={handleDeleteRequest}
-                        handleResubmit={handleResubmit}
-                      />
-                    ))}
-                  </tbody>
-                </table>
+                <div className="text-[14px]">
+                  <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'>
+                    {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => <div key={key} className={`${styles.th} text-center`}>{item}</div>)}
+                  </div>
+
+                  {model.map((item, key) => (
+                    <RequestTableRow
+                      gridClass={"grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]"}
+                      number={++key}
+                      styles={styles}
+                      item={item}
+                      openArchiveConfirm={openArchiveConfirm}
+                      goToEditRequest={goToEditRequest}
+                      handleDeleteRequest={handleDeleteRequest}
+                      handleResubmit={handleResubmit}
+                    />
+                  ))}
+                </div>
               )}
             </div>
 

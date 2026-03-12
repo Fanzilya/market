@@ -108,27 +108,6 @@ export default function useSupplierData({ user, freeClicksLeft, setFreeClicksLef
     return sortedRequests.slice(start, end)
   }, [sortedRequests, pagination])
 
-  const handleViewRequest = useCallback((request) => {
-    const hasOffer = myOffers.some(o => o.requestId === request.id)
-
-    if (hasOffer) {
-      navigate(`/supplier/request/${request.id}`)
-    } else {
-      if (freeClicksLeft > 0) {
-        setFreeClicksLeft(prev => prev - 1)
-        navigate(`/supplier/request/${request.id}/preview`, {
-          state: { request }
-        })
-      } else {
-        navigate('/supplier/balance', {
-          state: {
-            message: 'Бесплатные клики закончились. Для просмотра заявок необходимо пополнить счет.'
-          }
-        })
-      }
-    }
-  }, [myOffers, freeClicksLeft, setFreeClicksLeft, navigate])
-
   return {
     requests,
     myOffers,
@@ -143,7 +122,6 @@ export default function useSupplierData({ user, freeClicksLeft, setFreeClicksLef
     paginatedRequests,
     stats,
     totalPages,
-    refreshData,
-    handleViewRequest
+    refreshData
   }
 }

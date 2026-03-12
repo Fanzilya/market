@@ -12,6 +12,10 @@ import useSupplierData from './hooks/useSupplierData'
 import useFavorites from './hooks/useFavorites'
 import { useAuth } from '@/features/user/context/context'
 import styles from './SupplierPage.module.css'
+import { createColumns } from './config/tableColumns'
+import { requestListModel } from '../../features/supplier-request-list/request-list-model'
+import Loader from '@/shared/ui-kits/loader/loader'
+import { RequestTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-table-row'
 
 export const SupplierPage = () => {
   const { user } = useAuth()
@@ -20,26 +24,20 @@ export const SupplierPage = () => {
   const [freeClicksLeft, setFreeClicksLeft] = useState(5)
 
   const {
-    requests,
-    myOffers,
     filters,
     setFilters,
-    pagination,
-    setPagination,
-    sortConfig,
-    setSortConfig,
-    filteredRequests,
-    sortedRequests,
     paginatedRequests,
     stats,
     refreshData,
-    handleViewRequest
   } = useSupplierData({ user, freeClicksLeft, setFreeClicksLeft, navigate })
 
-  const {
-    favoriteRequests,
-    handleToggleFavorite
-  } = useFavorites({ user })
+  const { favoriteRequests, handleToggleFavorite } = useFavorites({ user })
+  const { model, isLoader, init } = requestListModel
+
+  useEffect(() => {
+    init()
+  }, [])
+
 
   useEffect(() => {
     const handleFavoritesUpdate = () => refreshData()
@@ -47,11 +45,6 @@ export const SupplierPage = () => {
     return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate)
   }, [refreshData])
 
-
-  const confirmLogout = () => {
-    // signOut() - импортировать из auth
-    navigate('/', { replace: true })
-  }
 
   return (
     <div className={styles.mainContent}>
@@ -69,22 +62,31 @@ export const SupplierPage = () => {
       />
 
       <StatsBar stats={stats} freeClicksLeft={freeClicksLeft} />
+      {/* <EmptyState /> */}
 
-      <div className={styles.tableContainer}>
-        {paginatedRequests.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <RequestsTable
-            requests={paginatedRequests}
-            myOffers={myOffers}
-            favoriteRequests={favoriteRequests}
-            sortConfig={sortConfig}
-            onSort={setSortConfig}
-            onToggleFavorite={handleToggleFavorite}
-            onViewRequest={handleViewRequest}
-          />
-        )}
-      </div>
+      {isLoader ? <Loader /> :
+        <>
+          <div className={styles.tableContainer}>
+
+            <div className={styles.table}>
+              <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
+                {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>)}
+              </div>
+
+              <div>
+                {model.map((item, key) => (
+                  <RequestTableRow
+                    gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+                    number={++key}
+                    styles={styles}
+                    item={item}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </>
+      }
 
       {paginatedRequests.length > 0 && (
         <div className={styles.footer}>
@@ -97,11 +99,6 @@ export const SupplierPage = () => {
             /> */}
         </div>
       )}
-      <LogoutConfirmModal
-        isOpen={showLogoutConfirm}
-        onClose={() => setShowLogoutConfirm(false)}
-        onConfirm={confirmLogout}
-      />
     </div>
   )
 }

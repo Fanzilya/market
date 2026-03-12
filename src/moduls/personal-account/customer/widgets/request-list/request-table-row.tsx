@@ -1,43 +1,51 @@
 import { RequestStatus } from "@/entities/request/config";
 import { getStatusClass, getStatusText } from "@/entities/request/functions";
 import { IRequest } from "@/entities/request/type";
+import { Role } from "@/entities/user/role";
+import { useAuth } from "@/features/user/context/context";
+import { PlusIcon, ViewIcon } from "@/moduls/personal-account/supplier/pages/SupplierPage/config/tableColumns";
 import Icon from "@/shared/ui-kits/Icon";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 interface Props {
     number: number,
     styles: any,
     item: IRequest,
-    goToOffers: any,
-    openArchiveConfirm: any,
-    goToEditRequest: any,
-    handleDeleteRequest: any,
-    handleResubmit: any
+    openArchiveConfirm?: any,
+    goToEditRequest?: any,
+    handleDeleteRequest?: any,
+    handleResubmit?: any,
+    gridClass?: any
 }
 
 
-export const RequestTableRow = ({ styles, item, goToOffers, openArchiveConfirm, goToEditRequest, handleDeleteRequest, handleResubmit, number }: Props) => {
+export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequest, handleDeleteRequest, handleResubmit, number, gridClass }: Props) => {
 
-    const navigate = useNavigate()
+
+    const { user } = useAuth()
 
     return (
-        <tr
+        <div
             key={number}
-            className={`${styles.tr} hover:bg-[rgba(74,_133,_246,_0.05)]  ${item.isArchived ? styles.trArchived : ''}`}
-            onClick={() => navigate(`/customer/request/${item.id}`)}>
-            <td className={styles.td}>
+            className={`${styles.tr} py-5 px-3 items-center text-center hover:bg-[rgba(74,_133,_246,_0.05)] border-b border-gray-300 ${gridClass}  ${item.isArchived ? styles.trArchived : ''}`}
+        >
+            <div className={styles.div}>
                 <span className={styles.idBadge}>{number}</span>
-            </td>
-            <td className={styles.td}>
+            </div>
+
+            <div className={styles.div}>
                 <span className={styles.requestLink}>
                     {item.objectName}
                 </span>
-            </td>
-            <td className={styles.td}>{item.customerName}</td>
-            <td className={styles.td}>
+            </div>
+
+            <div className={styles.div}>{item.customerName}</div>
+
+            <div className={styles.div}>
                 <span className={styles.typeBadge}>КНС</span>
-            </td>
-            <td className={styles.td}>
+            </div>
+
+            <div className={styles.div}>
                 <span
                     className={styles.offerBadge}
                     onClick={(e) => {
@@ -50,51 +58,71 @@ export const RequestTableRow = ({ styles, item, goToOffers, openArchiveConfirm, 
                     {/* {offerCount} */}
                     <span className={styles.noOffers}>—</span>
                 </span>
-            </td>
-            <td className={styles.td}>
-                <span className={styles.date}>
+            </div>
+
+            <div className={`${styles.div} `}>
+                <span className={styles.date + " block w-full text-center"}>
                     {new Date(item.createdAt).toLocaleDateString('ru-RU')}
                 </span>
-            </td>
-            <td className={styles.td}>
+            </div>
+            <div className={`${styles.div} flex justify-center items-center`}>
                 <span className={`${styles.statusBadge} ${getStatusClass(item)}`}>
                     {getStatusText(item)}
                 </span>
-            </td>
-            <td className={styles.td}>
-                <div className={styles.actions}>
-                    {/* Кнопка просмотра - доступна всегда */}
-                    <button
-                        className={styles.actionButton}
-                        onClick={(e) => {
-                            e.stopPropagation()
-                            navigate(`/customer/request/${item.id}`)
-                        }}
-                        title="Просмотр"
-                    >
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
-                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-                        </svg>
-                    </button>
+            </div>
+            <div className={styles.div}>
+                <div className={styles.actions + " flex justify-center"}>
+                    {
+                        user?.role == Role.Customer ?
+                            <Link className={styles.actionButton} to={`/customer/request/${item.id}`}>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                                    <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
+                                    <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                                </svg>
+                            </Link>
+                            :
+                            <Link className={`${styles.actionButton} ${styles.respondButton}`} to={`/supplier/request/${item.id}/preview`} >
+                                {true ? (
+                                    <>
+                                        <ViewIcon />
+                                        Просмотр
+                                    </>
+                                ) : (
+                                    <>
+                                        <PlusIcon />
+                                        Предпросмотр
+                                    </>
+                                )}
 
-                    {!item.isArchived && (
+
+                                {/* if (freeClicksLeft > 0) {
+        setFreeClicksLeft(prev => prev - 1)
+        navigate(`/supplier/request/${request.id}/preview`, {
+          state: { request }
+        })
+      } else {
+        navigate('/supplier/balance', {
+          state: {
+            message: 'Бесплатные клики закончились. Для просмотра заявок необходимо пополнить счет.'
+          }
+        })
+      } */}
+
+
+                            </Link>
+                    }
+
+
+                    {user?.role == Role.Customer && !item.isArchived && (
                         <>
                             {/* Для опубликованных: просмотр КП и архив */}
                             {item.status === RequestStatus.Published && (
                                 <>
-                                    <button
-                                        className={styles.actionButton}
-                                        onClick={(e) => {
-                                            e.stopPropagation()
-                                            goToOffers(item.id)
-                                        }}
-                                        title="Просмотр КП"
-                                    >
+                                    <Link className={styles.actionButton} to={`/customer/request/${item.id}/offers`}>
                                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                                             <path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z" stroke="currentColor" strokeWidth="2" />
                                         </svg>
-                                    </button>
+                                    </Link>
 
                                     <button
                                         className={`${styles.actionButton} ${styles.actionArchive}`}
@@ -206,7 +234,7 @@ export const RequestTableRow = ({ styles, item, goToOffers, openArchiveConfirm, 
                         </>
                     )}
                 </div>
-            </td>
-        </tr >
+            </div>
+        </div >
     );
 }

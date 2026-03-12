@@ -1,62 +1,38 @@
 // src/pages/supplier/SupplierPreviewPage/index.tsx
 import { useState, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import AccessDenied from './components/AccessDenied'
 import PageHeader from './components/PageHeader'
 import InfoBanner from './components/InfoBanner'
 import ContactInfo from './components/ContactInfo'
-import TechSpecs from './components/TechSpecs'
 import ExtrasSection from './components/ExtrasSection'
 import ClicksInfo from './components/ClicksInfo'
 import RespondButton from './components/RespondButton'
 import OfferButton from './components/OfferButton'
-import usePreviewData from './hooks/usePreviewData'
 import useFreeClicks from './hooks/useFreeClicks'
 import useFavorites from './hooks/useFavorites'
 import { useAuth } from '@/features/user/context/context'
 import FreeClicksModal from '@/shared/components/FreeClicksModal'
 import styles from "./SupplierPreviewPage.module.css"
+import { supplierPreviewModel } from '../../features/supplier-preview/supplier-preview-model'
+import Loader from '@/shared/ui-kits/loader/loader'
+import { observer } from 'mobx-react-lite'
+import { directionLabels, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config'
+import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing'
 
-export const SupplierPreviewPage = () => {
+export const SupplierPreviewPage = observer(() => {
   const { requestId } = useParams()
-  const location = useLocation()
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
   const [showFreeClicksModal, setShowFreeClicksModal] = useState(false)
 
-  const {
-    request,
-    hasResponded,
-    setHasResponded,
-    isLoading,
-    error
-  } = usePreviewData({ requestId, initialState: location.state?.request })
+  const { request, isLoader, init, hasResponded, setHasResponded, currentModel, equipmentCurrentModel, schemeIsActive } = supplierPreviewModel
 
-  const {
-    freeClicksLeft,
-    decrementClicks,
-    isClicksAvailable
-  } = useFreeClicks()
+  useEffect(() => { init(requestId!) }, [])
 
-  const {
-    isFavorite,
-    handleToggleFavorite
-  } = useFavorites({ user, requestId })
+  const { freeClicksLeft, decrementClicks, isClicksAvailable } = useFreeClicks()
+  const { isFavorite, handleToggleFavorite } = useFavorites({ user, requestId })
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme')
-    setDarkMode(savedTheme === 'dark')
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light')
-    document.body.classList.toggle('dark-mode', darkMode)
-  }, [darkMode])
-
-  const handleRespond = () => {
-    setShowFreeClicksModal(true)
-  }
+  const handleRespond = () => { setShowFreeClicksModal(true) }
 
   const handleConfirmFreeClick = () => {
     decrementClicks()
@@ -79,30 +55,7 @@ export const SupplierPreviewPage = () => {
     })
   }
 
-  const handleCreateOffer = () => {
-    navigate(`/supplier/request/${request.id}/offer/new`, {
-      state: { request, freeClicksLeft }
-    })
-  }
-
-  if (!user) {
-    return <AccessDenied type="session" onNavigate={navigate} />
-  }
-
-  if (isLoading) {
-    return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.loadingSpinner} />
-        <p>Загрузка заявки...</p>
-      </div>
-    )
-  }
-
-  if (error || !request) {
-    return <AccessDenied type="notFound" onNavigate={navigate} />
-  }
-
-  return (
+  return isLoader ? <Loader /> : (
     <>
       <div className={styles.container}>
         <PageHeader
@@ -118,27 +71,73 @@ export const SupplierPreviewPage = () => {
         <div className={styles.requestCard}>
           <div className={styles.requestHeader}>
             <h2 className={styles.requestTitle}>{request.objectName}</h2>
-            <span className={styles.requestId}>{request.id}</span>
+            <div></div>
+            {/* <span className={styles.requestId}>{request.id}</span> */}
           </div>
 
           {hasResponded && (
             <ContactInfo
-              govCustomerName={request.govCustomerName}
-              contactPerson={request.contactPerson}
-              contactPhone={request.contactPhone}
-              contactEmail={request.contactEmail}
+              govCustomerName={request.customerName}
+              contactPerson={request.contactName}
+              contactPhone={request.phoneNumber}
+            // contactEmail={request.contactEmail}
             />
           )}
 
-          <RequestMetaInfo
-            configType={request.configType}
-            createdAt={request.createdAt}
-            region={request.region}
-          />
+          <div className={styles.infoGrid}>
+            <InfoItem label="Тип конфигурации" value={'КНС'} />
+            <InfoItem label="Дата создания" value={new Date(request.createdAt).toLocaleDateString('ru-RU')} />
+            {request.locationRegion && <InfoItem label="Регион" value={request.locationRegion} />}
+          </div>
 
-          <TechSpecs kns={request.kns} />
+          <div className='flex gap-10'>
+            <div className='w-full'>
+              <h3 className={styles.sectionTitle}>Технические характеристики</h3>
+              <div className={styles.specsGrid}>
+                <SpecItem label={"Производительность:"} value={(currentModel.perfomance || '—') + " м³/ч"} />
+                <SpecItem label={"Требуемый напор:"} value={(currentModel.requiredPumpPressure || '—') + "  м"} />
+                <SpecItem label={"Рабочих насосов:"} value={currentModel.activePumpsCount || '0'} />
+                <SpecItem label={"Резервных насосов:"} value={currentModel.reservePumpsCount || '0'} />
+                <SpecItem label={"Насосов на склад:"} value={currentModel.pumpsToWarehouseCount || '0'} />
+                <SpecItem label={"Перекачиваемая среда:"} value={currentModel.pType || '—'} />
+                <SpecItem label={"Температура среды:"} value={(currentModel.environmentTemperature || '—') + "  °C"} />
+                <SpecItem label={"Взрывозащищенность:"} value={currentModel.explosionProtection ? 'Да' : 'Нет'} />
+              </div>
 
-          <ExtrasSection knsExtras={request.knsExtras} />
+              <h3 className={styles.sectionTitle}>Габаритные размеры трубопроводов и корпуса</h3>
+              <div className={styles.specsGrid}>
+                <SpecItem label={"Глубина подводящего A:"} value={(currentModel.supplyPipelineDepth) + " м"} />
+                <SpecItem label={"Диаметр подводящего B:"} value={`${currentModel.supplyPipelineDiameter} мм ${currentModel.supplyPipelineMaterial ? `(${currentModel.supplyPipelineMaterial})` : ''}`} />
+                <SpecItem label={"Направление подводящего:"} value={directionLabels[currentModel.supplyPipelineDirectionInHours] || currentModel.supplyPipelineDirectionInHours} />
+                <SpecItem label={"Глубина напорного D:"} value={currentModel.pressurePipelineDepth + " м"} />
+                <SpecItem label={"Диаметр напорного C:"} value={`${currentModel.pressurePipelineDiameter} мм ${currentModel.pressurePipelineMaterial ? PipelineMaterialTranslations[currentModel.pressurePipelineMaterial] : ''}`} />
+                <SpecItem label={"Направление напорного:"} value={directionLabels[currentModel.pressurePipelineDirectionInHours] || currentModel.pressurePipelineDirectionInHours} />
+                <SpecItem label={"Количество напорных:"} value={currentModel.hasManyExitPressurePipelines} />
+                <SpecItem label={"Диаметр станции:"} value={(currentModel.expectedDiameterOfPumpStation + " м")} />
+                <SpecItem label={"Высота станции:"} value={currentModel.expectedHeightOfPumpStation} />
+                <SpecItem label={"Утепление корпуса:"} value={currentModel.insulatedHousingDepth + " м"} />
+              </div>
+
+              <h3 className={styles.sectionTitle}>Габаритные размеры трубопроводов и корпуса</h3>
+              <div className={styles.specsGrid}>
+                <SpecItem label={"Метод пуска:"} value={PumpsStartupMethodTranslations[currentModel.startupMethod] || currentModel.startupMethod} />
+                <SpecItem label={"Вводов питания:"} value={currentModel.powerContactsToController} />
+                <SpecItem label={"Место установки шкафа:"} value={currentModel.place} />
+              </div>
+
+
+              <h3 className={styles.sectionTitle}>Дополнительная комплектация</h3>
+              {equipmentCurrentModel.length > 0 && Object.values(equipmentCurrentModel).some(v => v) && (
+                <div className={styles.extrasList}>
+                  {equipmentCurrentModel.map((item, key) => (
+                    <span key={key} className={styles.extraBadge}>{item.name}</span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            <KNSSchemaTesting isActive={schemeIsActive} />
+          </div>
 
           {!hasResponded && (
             <ClicksInfo freeClicksLeft={freeClicksLeft} />
@@ -152,7 +151,7 @@ export const SupplierPreviewPage = () => {
             />
           ) : (
             <OfferButton
-              onCreateOffer={handleCreateOffer}
+              onCreateOffer={`/supplier/request/${request?.id}/offer/new`}
             />
           )}
         </div>
@@ -168,20 +167,19 @@ export const SupplierPreviewPage = () => {
       )}
     </>
   )
-}
-
-// Вспомогательный компонент для мета-информации
-const RequestMetaInfo = ({ configType, createdAt, region }) => (
-  <div className={styles.infoGrid}>
-    <InfoItem label="Тип конфигурации" value={configType || 'КНС'} />
-    <InfoItem label="Дата создания" value={new Date(createdAt).toLocaleDateString('ru-RU')} />
-    {region && <InfoItem label="Регион" value={region} />}
-  </div>
-)
+})
 
 const InfoItem = ({ label, value }) => (
   <div className={styles.infoItem}>
     <span className={styles.infoLabel}>{label}</span>
     <span className={styles.infoValue}>{value}</span>
+  </div>
+)
+
+
+const SpecItem = ({ label, value }) => (
+  <div className={styles.specItem}>
+    <span className={styles.specLabel}>{label}</span>
+    <span className={styles.specValue}>{value}</span>
   </div>
 )

@@ -1,5 +1,5 @@
 import { countOffersByRequestId } from "@/shared/data/offers"
-import { RequestStatus } from "./config"
+import { RequestStatus, RequestStatusTranslations } from "./config"
 import { IRequest } from "./type"
 
 // Получить класс статуса для отображения
@@ -26,16 +26,5 @@ export function getStatusText(request: IRequest) {
         return 'В архиве'
     }
 
-    switch (request.status) {
-        case RequestStatus.Moderation:
-            return 'На модерации'
-        case RequestStatus.New:
-            return 'Новое'
-        case RequestStatus.Rejected:
-            return 'Отклонена'
-        case RequestStatus.Published:
-            return 'Опубликована'
-        default:
-            return 'Черновик'
-    }
+    return RequestStatusTranslations[request.status]
 }

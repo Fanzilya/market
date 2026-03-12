@@ -1,7 +1,6 @@
 // src/pages/supplier/CreateOfferPage/index.tsx
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import AccessDenied from './components/AccessDenied'
 import PageHeader from './components/PageHeader'
 import RequestInfoCard from './components/RequestInfoCard'
 import ClicksInfo from './components/ClicksInfo'
@@ -17,6 +16,10 @@ import useRequestData from './hooks/useRequestData'
 import useOfferForm from './hooks/useOfferForm'
 import styles from './CreateOfferPage.module.css'
 import { useAuth } from '@/features/user/context/context'
+import { createOfferModel } from '../../features/create-offer/create-offer-model'
+import Loader from '@/shared/ui-kits/loader/loader'
+import { observer } from 'mobx-react-lite'
+import { Input } from '@/shared/ui-kits/Input'
 
 const TABS = [
   { id: 'main', label: 'Основная информация', component: MainInfoTab },
@@ -26,30 +29,27 @@ const TABS = [
   { id: 'docs', label: 'Документы', component: DocumentsTab }
 ]
 
-export const CreateOfferPage = () => {
+export const CreateOfferPage = observer(() => {
   const { requestId } = useParams()
   const location = useLocation()
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
   const [activeTab, setActiveTab] = useState('main')
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const { request, isLoading: isLoadingRequest } = useRequestData({
-    requestId,
-    initialState: location.state?.request
-  })
+  const { request, isLoader, init, setModel, model, create } = createOfferModel
 
-  const {
-    formData,
-    errors,
-    isSubmitting,
-    handleChange,
-    handleSubmit,
-    updateFormData
-  } = useOfferForm({
-    request,
-    user,
+  useEffect(() => {
+    init(requestId!)
+  }, [])
+
+  const onSubmit = () => {
+    create(user?.fullName, navigate)
+  }
+
+
+  const { formData, errors, isSubmitting, handleChange, handleSubmit, updateFormData } = useOfferForm({
+    request, user,
     onSubmit: async (data) => {
       setShowSuccess(true)
       setTimeout(() => {
@@ -64,36 +64,12 @@ export const CreateOfferPage = () => {
     }
   })
 
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme')
-    setDarkMode(savedTheme === 'dark')
-  }, [])
 
-  useEffect(() => {
-    localStorage.setItem('theme', darkMode ? 'dark' : 'light')
-    document.body.classList.toggle('dark-mode', darkMode)
-  }, [darkMode])
+  // const CurrentTabComponent = TABS.find(tab => tab.id === activeTab)?.component
 
-  if (!user) {
-    return <AccessDenied type="session" onNavigate={navigate} />
-  }
 
-  if (isLoadingRequest) {
-    return (
-      <div className={styles.loadingContainer}>
-        <div className={styles.loadingSpinner} />
-        <p>Загрузка данных заявки...</p>
-      </div>
-    )
-  }
 
-  if (!request) {
-    return <AccessDenied type="notFound" onNavigate={navigate} />
-  }
-
-  const CurrentTabComponent = TABS.find(tab => tab.id === activeTab)?.component
-
-  return (
+  return isLoader ? <Loader /> : (
     <div className={styles.container}>
       <PageHeader
         requestId={request.id}
@@ -106,24 +82,62 @@ export const CreateOfferPage = () => {
 
       <ClicksInfo />
 
-      <FormTabs
+      {/* <FormTabs
         tabs={TABS}
         activeTab={activeTab}
         onTabChange={setActiveTab}
-      />
+      /> */}
 
       <ErrorBox error={errors.form} />
 
-      <form onSubmit={handleSubmit} className={styles.form}>
-        {CurrentTabComponent && (
-          <CurrentTabComponent
-            formData={formData}
-            errors={errors}
-            onChange={handleChange}
-            updateFormData={updateFormData}
-            isSubmitting={showSuccess}
-          />
-        )}
+      <div className={styles.form}>
+        {/* {CurrentTabComponent && ( */}
+        {/* <MainInfoTab
+          model={model}
+          errors={errors}
+          onChange={setModel}
+          // updateFormData={updateFormData}
+          isSubmitting={showSuccess}
+        /> */}
+        {/* // )} */}
+
+
+        <div className='bg-white rounded-2xl border-[1px_solid_#E2E8F0] p-[24px] mb-[24px]'>
+          <h3 className={styles.sectionTitle}>Основная информация</h3>
+          <div className='grid grid-cols-2 gap-[16px]'>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Местоположение склада</label>
+              <Input placeholder='Местоположение склада' value={model.warehouseLocation} onChange={(e) => setModel("warehouseLocation", e.toString())} />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Список поставщиков</label>
+              <Input placeholder='Список поставщиков' value={model.supplierSiteURL} onChange={(e) => setModel("supplierSiteURL", e.toString())} />
+            </div>
+
+            <label className={styles.formGroup}>
+              <div className={styles.label}>Дата оформления сопроводительного документа</div>
+              <Input placeholder='Дата оформления сопроводительного документа' type='date' value={model.supportingDocumentDate} onChange={(e) => setModel("supportingDocumentDate", e)} />
+            </label>
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Страна производитель</label>
+              <Input placeholder='Страна производитель' value={model.manufacturerCountry} onChange={(e) => setModel("manufacturerCountry", e.toString())} />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Цена без НДС, ₽</label>
+              <Input placeholder='Цена без НДС' value={model.currentPriceNoNDS || ""} type='number' onChange={(e) => setModel("currentPriceNoNDS", e.toString())} />
+            </div>
+
+            <div className={styles.formGroup}>
+              <label className={styles.label}>Цена с НДС, ₽</label>
+              <Input placeholder='Цена с НДС' disabled value={(model.currentPriceNDS) || ""} type='number' onChange={(e) => setModel("currentPriceNDS", Number(e))} />
+            </div>
+
+          </div>
+        </div>
+
 
         {!showSuccess && (
           <div className={styles.formActions}>
@@ -135,9 +149,8 @@ export const CreateOfferPage = () => {
               Отмена
             </button>
             <button
-              type="submit"
               className={styles.submitButton}
-              disabled={isSubmitting}
+              onClick={onSubmit}
             >
               {isSubmitting ? (
                 <>
@@ -153,11 +166,11 @@ export const CreateOfferPage = () => {
             </button>
           </div>
         )}
-      </form>
+      </div>
     </div>
 
   )
-}
+})
 
 const SendIcon = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">

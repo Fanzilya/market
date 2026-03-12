@@ -67,7 +67,7 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                         onChange={(e) => setFormData("configType", e.target.value)}
                         className={styles.select}
                     >
-                        <option value="КНС">КНС (Канализационная насосная станция)</option>
+                        <option value='019cdcd9-1892-7f3a-955c-3503ede15a6d'>КНС (Канализационная насосная станция)</option>
                         {/* <option value="ЛОС">ЛОС (Локальные очистные сооружения)</option>
                     <option value="Насосная группа">Насосная группа</option>
                     <option value="Другое">Другое</option> */}
@@ -99,7 +99,7 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                     />
                 </div>
 
-                <div className={styles.formGroup}>
+                {/* <div className={styles.formGroup}>
                     <label className={styles.label}>Email</label>
                     <input
                         type="email"
@@ -107,7 +107,7 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                         onChange={(e) => setFormData("contactEmail", e.target.value)}
                         className={`${styles.input}`}
                     />
-                </div>
+                </div> */}
             </div>
         </div>
     );

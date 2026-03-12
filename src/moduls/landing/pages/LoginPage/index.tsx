@@ -161,7 +161,7 @@ export const LoginPage = observer(() => {
                 </button>
                 <button
                   className={styles.demoButton}
-                  onClick={() => handleDemoLogin('test_user@mail.ru', '123123')}
+                  onClick={() => handleDemoLogin('test_user@main.ru', '123123')}
                 >
                   Заказчик
                 </button>

@@ -1,13 +1,14 @@
 // src/pages/supplier/SupplierPreviewPage/components/OfferButton.tsx
+import { Link } from 'react-router-dom'
 import styles from '../SupplierPreviewPage.module.css'
 
-export default function OfferButton({ onCreateOffer }) {
+export default function OfferButton({ onCreateOffer }: { onCreateOffer: string }) {
   return (
     <div className={styles.offerSection}>
-      <button className={styles.offerButton} onClick={onCreateOffer}>
+      <Link className={styles.offerButton} to={onCreateOffer} >
         <StarIcon />
         Создать коммерческое предложение
-      </button>
+      </Link>
       <p className={styles.offerHint}>
         После создания КП заказчик сможет увидеть ваше предложение
       </p>

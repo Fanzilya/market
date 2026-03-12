@@ -1,13 +1,7 @@
 // src/pages/supplier/SupplierPreviewPage/components/PageHeader.tsx
 import styles from '../SupplierPreviewPage.module.css'
 
-export default function PageHeader({
-  requestId,
-  hasResponded,
-  isFavorite,
-  onToggleFavorite,
-  onNavigate
-}) {
+export default function PageHeader({ requestId, hasResponded, isFavorite, onToggleFavorite, onNavigate }) {
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>

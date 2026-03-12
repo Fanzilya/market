@@ -9,14 +9,25 @@ export const Auth = {
 
 
 export const KnsRequest = {
-    create: "/KnsRequest/create/new",
     equipments: "/KnsRequest/knsConfig/equipments",
+    current: '/KnsRequest/knsConfig/current',
+    equipmentCurrent: '/KnsRequest/knsConfig/equipment/current',
+    create: "/KnsRequest/create/new",
 }
 
 
 export const RequestRouter = {
+    allPublic: "/Request/actual/published/all",
     single: "/Request/single",
     allByUser: "/Request/user/requests/all"
+}
+
+
+export const OfferRouter = {
+    create: "/Offers/create",
+    offersByUser: "/Offers/users/offers",
+    businessacc: "/Offers/businessacc/offers",
+    offersByRequests: "/Offers/requests/offers",
 }
 
 

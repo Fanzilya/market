@@ -516,33 +516,33 @@
     margin-left: 0;
     width: 100%;
   }
-  
+
   .header {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .filtersSection {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .searchWrapper {
     min-width: auto;
   }
-  
+
   .filterGroup {
     justify-content: space-between;
   }
-  
+
   .filterSelect {
     flex: 1;
   }
-  
+
   .tableContainer {
     overflow-x: auto;
   }
-  
+
   .table {
     min-width: 1000px;
   }
@@ -552,17 +552,17 @@
   .mainContent {
     padding: 16px;
   }
-  
+
   .statsBar {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .stat {
     width: 100%;
     justify-content: space-between;
   }
-  
+
   .headerRight {
     width: 100%;
     justify-content: space-between;
@@ -573,189 +573,77 @@
   .filterGroup {
     flex-direction: column;
   }
-  
+
   .filterSelect {
     width: 100%;
   }
-  
+
   .techSpecsList {
     max-width: 200px;
   }
-  
+
   .techSpecItem {
     flex-direction: column;
     gap: 2px;
   }
-  
+
   .actionButton {
     padding: 6px 12px;
     font-size: 12px;
   }
 }
 
-/* Темная тема */
-:global(.dark-mode) .page {
-  background: #0F172A;
+/* components/DataTable.module.css */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
 }
 
-:global(.dark-mode) .mainContent {
-  background: #0F172A;
+.th {
+  text-align: left;
+  padding: 16px 20px;
+  background: #f8fafc;
+  color: #64748b;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
 }
 
-:global(.dark-mode) .pageTitle {
-  color: #F1F5F9;
+.th.sortable {
+  cursor: pointer;
+  user-select: none;
 }
 
-:global(.dark-mode) .clicksCounter {
-  background: #1E2A3A;
-  border-color: #4A85F6;
-  color: #F1F5F9;
+.th.sortable:hover {
+  background: #f1f5f9;
 }
 
-:global(.dark-mode) .companyInfo {
-  background: #1E293B;
-  border-color: #334155;
+.thContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-:global(.dark-mode) .companyLabel {
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .companyName {
-  color: #F1F5F9;
-}
-
-:global(.dark-mode) .statsBar {
-  background: #1E293B;
-  border-color: #334155;
-}
-
-:global(.dark-mode) .stat {
-  background: #2D3A4F;
-}
-
-:global(.dark-mode) .statLabel {
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .statValue {
+.sortIcon {
   color: #4A85F6;
+  font-size: 14px;
 }
 
-:global(.dark-mode) .tableContainer {
-  background: #1E293B;
-  border-color: #334155;
+.tr {
+  border-bottom: 1px solid #f1f5f9;
+  transition: background 0.2s;
 }
 
-:global(.dark-mode) .table th {
-  background: #2D3A4F;
-  color: #94A3B8;
-  border-bottom-color: #475569;
+.tr:hover {
+  background: #f8fafc;
 }
 
-:global(.dark-mode) .table td {
-  color: #F1F5F9;
-  border-bottom-color: #334155;
-}
-
-:global(.dark-mode) .table tr:hover {
-  background: #2D3A4F;
-}
-
-:global(.dark-mode) .idBadge {
-  background: #334155;
-  color: #60A5FA;
-}
-
-:global(.dark-mode) .objectName {
-  color: #F1F5F9;
-}
-
-:global(.dark-mode) .customerName {
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .regionBadge,
-:global(.dark-mode) .typeBadge {
-  background: #334155;
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .date {
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .statusBadge.new {
-  background: #1E2A3A;
-  color: #60A5FA;
-}
-
-:global(.dark-mode) .statusBadge.responded {
-  background: #1A2E2A;
-  color: #34D399;
-}
-
-:global(.dark-mode) .favoriteButton {
-  border-color: #475569;
-  color: #64748B;
-}
-
-:global(.dark-mode) .favoriteButton:hover {
-  border-color: #F59E0B;
-  color: #F59E0B;
-  background: #422006;
-}
-
-:global(.dark-mode) .favoriteActive {
-  color: #F59E0B;
-  border-color: #F59E0B;
-  background: #422006;
-}
-
-:global(.dark-mode) .filterSelect {
-  background: #1E293B;
-  border-color: #334155;
-  color: #F1F5F9;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
-}
-
-:global(.dark-mode) .techSpecLabel {
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .techSpecValue {
-  color: #F1F5F9;
-}
-
-:global(.dark-mode) .techSpecItem {
-  border-bottom-color: #334155;
-}
-
-:global(.dark-mode) .viewButton {
-  background: #334155;
-  border-color: #475569;
-  color: #94A3B8;
-}
-
-:global(.dark-mode) .viewButton:hover {
-  background: #3D4A5C;
-  color: #F1F5F9;
-}
-
-:global(.dark-mode) .emptyState {
-  background: #1E293B;
-  border-color: #334155;
-}
-
-:global(.dark-mode) .emptyState h3 {
-  color: #F1F5F9;
-}
-
-:global(.dark-mode) .errorCard {
-  background: #1E293B;
-  border-color: #334155;
-}
-
-:global(.dark-mode) .errorCard h2 {
-  color: #F1F5F9;
+.td {
+  padding: 16px 20px;
+  color: #1e293b;
+  vertical-align: middle;
 }

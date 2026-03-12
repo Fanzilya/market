@@ -5,7 +5,8 @@ interface Props {
     onChange: (value: string | number) => void;
     label?: string;
     placeholder: string;
-    type?: "text" | "number";
+    type?: "text" | "number" | "date";
+    disabled?: boolean,
     classNames?: {
         input?: string;
         label?: string;
@@ -13,7 +14,7 @@ interface Props {
     }
 }
 
-export const Input = ({ value, onChange, label, placeholder, classNames, type = "text" }: Props) => {
+export const Input = ({ value, onChange, label, placeholder, classNames, type = "text", disabled = false }: Props) => {
 
     const [isFocused, setIsFocused] = useState(false);
 
@@ -34,6 +35,7 @@ export const Input = ({ value, onChange, label, placeholder, classNames, type = 
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
+                disabled={disabled}
                 onFocus={(e) => {
                     setIsFocused(true);
                 }}

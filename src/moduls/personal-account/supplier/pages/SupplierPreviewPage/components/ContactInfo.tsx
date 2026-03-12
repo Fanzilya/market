@@ -5,7 +5,7 @@ export default function ContactInfo({
   govCustomerName,
   contactPerson,
   contactPhone,
-  contactEmail
+  // contactEmail
 }) {
   return (
     <div className={styles.contactSection}>
@@ -14,7 +14,7 @@ export default function ContactInfo({
         <ContactItem label="Заказчик:" value={govCustomerName} />
         <ContactItem label="Контактное лицо:" value={contactPerson} />
         <ContactItem label="Телефон:" value={contactPhone || '—'} />
-        <ContactItem label="Email:" value={contactEmail} />
+        {/* <ContactItem label="Email:" value={contactEmail} /> */}
       </div>
     </div>
   )

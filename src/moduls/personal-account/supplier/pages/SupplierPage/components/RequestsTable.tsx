@@ -12,12 +12,7 @@ export default function RequestsTable({
   onToggleFavorite,
   onViewRequest
 }) {
-  const columns = createColumns({
-    myOffers,
-    favoriteRequests,
-    onToggleFavorite,
-    onViewRequest
-  })
+
 
   return (
     <DataTable
