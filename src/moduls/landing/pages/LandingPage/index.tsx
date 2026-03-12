@@ -187,7 +187,7 @@ export const LandingPage = () => {
                         <div className={styles.partnerStats}>
                           <span className={styles.partnerProducts}>{partner.products} товаров</span>
                           <span className={styles.partnerCountry}>{partner.country}</span>
-                        </div> */}
+                        </div> */} 
                         <button className={styles.partnerButton}>
                           Перейти в каталог
                           <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
