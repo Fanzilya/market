@@ -922,3 +922,1274 @@
   :global(.dark-mode) .errorCard p {
     color: #94A3B8;
   }
+
+
+  /* src/pages/OfferDetailPage.module.css */
+
+/* ===== ОСНОВНЫЕ СТИЛИ ===== */
+.page {
+  display: flex;
+  min-height: 100vh;
+  background: #F8FAFC;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.main {
+  flex: 1;
+  margin-left: 280px;
+  padding: 32px;
+  transition: margin-left 0.3s ease;
+}
+
+.container {
+  margin: 0 auto;
+  max-width: 1400px;
+  width: 100%;
+}
+
+/* ===== ШАПКА СТРАНИЦЫ ===== */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.3px;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748B;
+  flex-wrap: wrap;
+}
+
+.breadcrumb {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.breadcrumb:hover {
+  color: #4A85F6;
+}
+
+.separator {
+  color: #CBD5E1;
+  font-size: 16px;
+}
+
+.current {
+  color: #4A85F6;
+  font-weight: 500;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.backButton:hover {
+  border-color: #4A85F6;
+  color: #4A85F6;
+  background: #F8FAFC;
+}
+
+/* ===== КАРТОЧКА ПРЕДЛОЖЕНИЯ ===== */
+.offerCard {
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #E2E8F0;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+  animation: fadeIn 0.3s ease;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Заголовок карточки */
+.offerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.offerHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.offerIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 600;
+  box-shadow: 0 8px 20px rgba(74, 133, 246, 0.3);
+  flex-shrink: 0;
+}
+
+.offerCompanyInfo {
+  flex: 1;
+}
+
+.offerCompany {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0 0 8px 0;
+}
+
+.offerMeta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.offerNumber {
+  display: inline-block;
+  padding: 4px 12px;
+  background: rgba(74, 133, 246, 0.1);
+  border-radius: 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #4A85F6;
+}
+
+.offerDate {
+  font-size: 14px;
+  color: #64748B;
+}
+
+.offerPrice {
+  font-size: 32px;
+  font-weight: 700;
+  color: #10B981;
+  white-space: nowrap;
+}
+
+/* ===== ТАБЫ ===== */
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid #E2E8F0;
+  padding-bottom: 8px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tabs::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  color: #4A85F6;
+  background: #F8FAFC;
+}
+
+.tabActive {
+  color: #4A85F6;
+  background: rgba(74, 133, 246, 0.1);
+  font-weight: 600;
+  position: relative;
+}
+
+.tabActive::after {
+  content: '';
+  position: absolute;
+  bottom: -9px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #4A85F6;
+}
+
+/* Контент табов */
+.tabContent {
+  min-height: 400px;
+  padding: 24px 0;
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.subsectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 24px 0 16px 0;
+}
+
+/* Сетка информации */
+.infoGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  background: #F8FAFC;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  transition: all 0.2s;
+}
+
+.infoItem:hover {
+  border-color: #4A85F6;
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.infoLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.infoValue {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1E293B;
+  word-break: break-word;
+}
+
+/* Комментарий */
+.commentSection {
+  margin-top: 24px;
+  padding: 20px;
+  background: #F8FAFC;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+}
+
+.commentTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 12px 0;
+}
+
+.commentText {
+  margin: 0;
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.7;
+  white-space: pre-wrap;
+}
+
+.descriptionText {
+  margin: 8px 0 0 0;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
+  padding: 12px 16px;
+  background: #F8FAFC;
+  border-radius: 8px;
+}
+
+/* Секции */
+.commissioningSection,
+.additionalSection {
+  margin-top: 24px;
+}
+
+/* Таблица материалов */
+.materialsSection {
+  width: 100%;
+}
+
+.materialsTableContainer {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+  -webkit-overflow-scrolling: touch;
+}
+
+.materialsTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  min-width: 600px;
+}
+
+.materialsTable th {
+  text-align: left;
+  padding: 16px;
+  background: #F8FAFC;
+  color: #1E293B;
+  font-weight: 600;
+  font-size: 13px;
+  border-bottom: 2px solid #E2E8F0;
+}
+
+.materialsTable td {
+  padding: 16px;
+  border-bottom: 1px solid #E2E8F0;
+  color: #475569;
+}
+
+.materialsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.materialName {
+  font-weight: 500;
+  color: #1E293B;
+}
+
+.materialTotal {
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.materialsTable tfoot tr {
+  background: #F8FAFC;
+  border-top: 2px solid #E2E8F0;
+}
+
+.materialsTable tfoot td {
+  padding: 16px;
+  font-weight: 600;
+}
+
+.totalLabel {
+  text-align: right;
+  color: #1E293B;
+}
+
+.totalValue {
+  color: #4A85F6;
+  font-size: 16px;
+}
+
+/* Документы */
+.documentsSection {
+  min-height: 300px;
+}
+
+.documentsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 16px;
+}
+
+.documentCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 12px;
+  transition: all 0.2s;
+}
+
+.documentCard:hover {
+  border-color: #4A85F6;
+  background: white;
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.1);
+  transform: translateX(4px);
+}
+
+.documentIcon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(74, 133, 246, 0.1);
+  border-radius: 10px;
+}
+
+.documentIcon svg {
+  color: #4A85F6;
+}
+
+.documentInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.documentType {
+  font-size: 11px;
+  font-weight: 600;
+  color: #4A85F6;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.documentName {
+  font-size: 14px;
+  font-weight: 500;
+  color: #1E293B;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.documentSize {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.downloadButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: #4A85F6;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.downloadButton:hover {
+  background: #3A6BC9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+}
+
+.downloadButton svg {
+  color: white;
+}
+
+.noDocuments,
+.noData {
+  text-align: center;
+  padding: 60px 20px;
+  color: #94A3B8;
+  font-size: 15px;
+  background: #F8FAFC;
+  border-radius: 12px;
+  border: 1px dashed #E2E8F0;
+}
+
+/* Футер карточки */
+.offerFooter {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #F1F5F9;
+  text-align: center;
+}
+
+.backToListButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  color: #4A85F6;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backToListButton:hover {
+  background: #4A85F6;
+  border-color: #4A85F6;
+  color: white;
+}
+
+.backToListButton svg {
+  transition: transform 0.2s;
+}
+
+.backToListButton:hover svg {
+  transform: translateX(-4px);
+}
+
+/* ===== СТРАНИЦА ОШИБКИ ===== */
+.errorContainer {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #F8FAFC;
+  padding: 20px;
+}
+
+.errorCard {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E2E8F0;
+  animation: scaleIn 0.3s ease;
+}
+
+.errorIcon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.errorCard h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0 0 12px 0;
+}
+
+.errorCard p {
+  font-size: 15px;
+  color: #64748B;
+  margin: 0 0 24px 0;
+  line-height: 1.6;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #4A85F6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.primaryButton:hover {
+  background: #3A6BC9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+}
+
+/* ===== АДАПТАЦИЯ ДЛЯ ПЛАНШЕТОВ И ТЕЛЕФОНОВ ===== */
+
+/* Планшеты (до 1024px) */
+@media (max-width: 1024px) {
+  .main {
+    margin-left: 0;
+    padding: 24px;
+    padding-bottom: 80px; /* Отступ для нижней навигации */
+  }
+  
+  .offerHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .offerPrice {
+    align-self: flex-start;
+  }
+  
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .documentsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+/* Планшеты вертикально и большие телефоны (до 768px) */
+@media (max-width: 768px) {
+  .main {
+    padding: 20px;
+    padding-bottom: 70px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .backButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .offerHeaderLeft {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  
+  .offerIcon {
+    width: 56px;
+    height: 56px;
+    font-size: 24px;
+  }
+  
+  .offerCompany {
+    font-size: 20px;
+  }
+  
+  .offerMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  
+  .tabs {
+    flex-wrap: nowrap;
+    padding-bottom: 12px;
+    margin: 0 -20px 24px -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .tab {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+  
+  .documentsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .documentCard {
+    flex-wrap: wrap;
+  }
+  
+  .downloadButton {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+  }
+  
+  .offerCard {
+    padding: 24px;
+  }
+  
+  .materialsTable {
+    font-size: 12px;
+  }
+  
+  .materialsTable th,
+  .materialsTable td {
+    padding: 12px 8px;
+  }
+  
+  .sectionTitle {
+    font-size: 16px;
+  }
+  
+  .subsectionTitle {
+    font-size: 15px;
+  }
+  
+  .infoItem {
+    padding: 14px;
+  }
+  
+  .infoValue {
+    font-size: 15px;
+  }
+  
+  .commentSection {
+    padding: 16px;
+  }
+  
+  .commentText {
+    font-size: 14px;
+  }
+  
+  .offerFooter {
+    margin-top: 24px;
+    padding-top: 20px;
+  }
+  
+  .backToListButton {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Телефоны (до 480px) */
+@media (max-width: 480px) {
+  .main {
+    padding: 16px;
+    padding-bottom: 65px;
+  }
+  
+  .title {
+    font-size: 24px;
+  }
+  
+  .breadcrumbs {
+    font-size: 12px;
+  }
+  
+  .offerPrice {
+    font-size: 24px;
+  }
+  
+  .offerCard {
+    padding: 20px;
+  }
+  
+  .offerCompany {
+    font-size: 18px;
+  }
+  
+  .offerNumber {
+    font-size: 12px;
+    padding: 3px 10px;
+  }
+  
+  .offerDate {
+    font-size: 12px;
+  }
+  
+  .tab {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .infoGrid {
+    gap: 12px;
+  }
+  
+  .infoItem {
+    padding: 12px;
+  }
+  
+  .infoLabel {
+    font-size: 10px;
+  }
+  
+  .infoValue {
+    font-size: 14px;
+  }
+  
+  .sectionTitle {
+    font-size: 15px;
+    margin-bottom: 16px;
+  }
+  
+  .subsectionTitle {
+    font-size: 14px;
+    margin: 20px 0 12px 0;
+  }
+  
+  .materialsTable th,
+  .materialsTable td {
+    padding: 10px 6px;
+    font-size: 11px;
+  }
+  
+  .documentCard {
+    padding: 14px;
+    gap: 12px;
+  }
+  
+  .documentIcon {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .documentName {
+    font-size: 13px;
+  }
+  
+  .documentSize {
+    font-size: 11px;
+  }
+  
+  .downloadButton {
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+  
+  .noDocuments,
+  .noData {
+    padding: 40px 16px;
+    font-size: 14px;
+  }
+  
+  .errorCard {
+    padding: 30px 20px;
+    margin: 0 16px;
+  }
+  
+  .errorCard h2 {
+    font-size: 22px;
+  }
+  
+  .errorCard p {
+    font-size: 14px;
+  }
+  
+  .primaryButton {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+  }
+}
+
+/* Очень маленькие телефоны (до 360px) */
+@media (max-width: 360px) {
+  .main {
+    padding: 12px;
+    padding-bottom: 60px;
+  }
+  
+  .title {
+    font-size: 22px;
+  }
+  
+  .offerCard {
+    padding: 16px;
+  }
+  
+  .offerIcon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .offerCompany {
+    font-size: 16px;
+  }
+  
+  .offerPrice {
+    font-size: 20px;
+  }
+  
+  .tabs {
+    margin: 0 -12px 20px -12px;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  
+  .tab {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+  
+  .infoItem {
+    padding: 10px;
+  }
+  
+  .infoValue {
+    font-size: 13px;
+  }
+  
+  .commentText {
+    font-size: 13px;
+  }
+  
+  .materialsTable th,
+  .materialsTable td {
+    padding: 8px 4px;
+    font-size: 10px;
+  }
+  
+  .documentCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .documentIcon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .documentInfo {
+    width: 100%;
+  }
+  
+  .documentName {
+    font-size: 12px;
+  }
+  
+  .errorCard {
+    padding: 24px 16px;
+  }
+  
+  .errorCard h2 {
+    font-size: 20px;
+  }
+}
+
+/* Горизонтальная ориентация на телефонах */
+@media (max-height: 600px) and (orientation: landscape) {
+  .main {
+    padding-bottom: 60px;
+  }
+  
+  .offerCard {
+    padding: 24px;
+  }
+  
+  .offerHeader {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  
+  .offerHeaderLeft {
+    flex-direction: row;
+  }
+  
+  .offerIcon {
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .offerCompany {
+    font-size: 18px;
+  }
+  
+  .infoGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .documentsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .tabs {
+    overflow-x: visible;
+    flex-wrap: wrap;
+  }
+}
+
+/* Touch-устройства */
+@media (hover: none) and (pointer: coarse) {
+  .backButton:hover,
+  .tab:hover,
+  .infoItem:hover,
+  .documentCard:hover,
+  .downloadButton:hover,
+  .backToListButton:hover,
+  .primaryButton:hover {
+    transform: none;
+    box-shadow: none;
+  }
+  
+  .backButton:active {
+    background: #F8FAFC;
+    border-color: #4A85F6;
+    color: #4A85F6;
+  }
+  
+  .tab:active {
+    background: rgba(74, 133, 246, 0.1);
+    color: #4A85F6;
+  }
+  
+  .infoItem:active {
+    transform: scale(0.98);
+    border-color: #4A85F6;
+  }
+  
+  .documentCard:active {
+    background: #F8FAFC;
+    border-color: #4A85F6;
+    transform: none;
+  }
+  
+  .downloadButton:active,
+  .backToListButton:active,
+  .primaryButton:active {
+    transform: scale(0.98);
+    opacity: 0.9;
+  }
+  
+  /* Увеличиваем области касания */
+  .tab,
+  .backButton,
+  .downloadButton,
+  .backToListButton,
+  .primaryButton {
+    min-height: 44px;
+  }
+  
+  .documentCard {
+    cursor: pointer;
+  }
+}
+
+/* ===== АНИМАЦИИ ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ===== ТЕМНАЯ ТЕМА ДЛЯ МОБИЛЬНЫХ ===== */
+:global(.dark-mode) .page {
+  background: #0F172A;
+}
+
+:global(.dark-mode) .main {
+  background: #0F172A;
+}
+
+:global(.dark-mode) .title {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .offerCard {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .offerHeader {
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .offerCompany {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .offerNumber {
+  background: rgba(74, 133, 246, 0.2);
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .offerDate {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .backButton {
+  background: #1E293B;
+  border-color: #334155;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .backButton:active {
+  background: #2D3A4F;
+  border-color: #4A85F6;
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .tab {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .tab:active {
+  color: #4A85F6;
+  background: rgba(74, 133, 246, 0.2);
+}
+
+:global(.dark-mode) .tabActive {
+  color: #4A85F6;
+  background: rgba(74, 133, 246, 0.2);
+}
+
+:global(.dark-mode) .sectionTitle {
+  color: #F1F5F9;
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .subsectionTitle {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .infoItem {
+  background: #2D3A4F;
+  border-color: #475569;
+}
+
+:global(.dark-mode) .infoItem:active {
+  border-color: #4A85F6;
+}
+
+:global(.dark-mode) .infoLabel {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .infoValue {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .commentSection {
+  background: #2D3A4F;
+  border-color: #475569;
+}
+
+:global(.dark-mode) .commentTitle {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .commentText,
+:global(.dark-mode) .descriptionText {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .descriptionText {
+  background: #2D3A4F;
+}
+
+:global(.dark-mode) .materialsTable th {
+  background: #2D3A4F;
+  color: #F1F5F9;
+  border-bottom-color: #475569;
+}
+
+:global(.dark-mode) .materialsTable td {
+  color: #94A3B8;
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .materialName {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .materialsTable tfoot tr {
+  background: #2D3A4F;
+  border-top-color: #475569;
+}
+
+:global(.dark-mode) .totalLabel {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .documentCard {
+  background: #2D3A4F;
+  border-color: #475569;
+}
+
+:global(.dark-mode) .documentCard:active {
+  border-color: #4A85F6;
+  background: #334155;
+}
+
+:global(.dark-mode) .documentIcon {
+  background: rgba(74, 133, 246, 0.15);
+}
+
+:global(.dark-mode) .documentName {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .documentType {
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .noDocuments,
+:global(.dark-mode) .noData {
+  background: #2D3A4F;
+  border-color: #475569;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .backToListButton {
+  background: #2D3A4F;
+  border-color: #475569;
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .backToListButton:active {
+  background: #4A85F6;
+  border-color: #4A85F6;
+  color: white;
+}
+
+:global(.dark-mode) .errorCard {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .errorCard h2 {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .errorCard p {
+  color: #94A3B8;
+}

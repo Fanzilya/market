@@ -503,3 +503,957 @@
 :global(.dark-mode) .logo:hover {
   background-color: rgba(74, 133, 246, 0.15);
 }
+
+/* components/Sidebar.module.css */
+
+/* ===== ОСНОВНЫЕ СТИЛИ (для десктопа) ===== */
+.sidebar {
+  width: 280px;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  transition: transform 0.3s ease, width 0.3s ease;
+}
+
+.sidebar.collapsed {
+  width: 80px;
+}
+
+/* ===== ЛОГО ===== */
+.logo {
+  padding: 20px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logo:hover {
+  background-color: rgba(74, 133, 246, 0.05);
+}
+
+.logoImage {
+  width: 50px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.logoText {
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4A85F6, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  letter-spacing: -0.3px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== КНОПКА СВОРАЧИВАНИЯ ===== */
+.collapseButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.collapseButton:hover {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+
+/* ===== ПОЛЬЗОВАТЕЛЬ ===== */
+.userBadge {
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.userAvatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.userInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.userName {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1e293b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.userRole {
+  display: block;
+  font-size: 12px;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== НАВИГАЦИЯ ===== */
+.section {
+  padding: 16px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.sectionTitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0 16px;
+  margin: 0 0 12px 0;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  color: #64748b;
+  text-decoration: none;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+  margin: 0 8px;
+  border-radius: 8px;
+  position: relative;
+}
+
+.navItem:hover {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+.navItem.active {
+  background: #f0f9ff;
+  color: #4A85F6;
+  border-left-color: #4A85F6;
+}
+
+.navIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.navLabel {
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.navBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  margin-left: auto;
+  background: #EF4444;
+  border-radius: 10px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ===== ИНСТРУМЕНТЫ ===== */
+.tools {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.toolItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: none;
+  border: none;
+  width: calc(100% - 16px);
+  text-align: left;
+  cursor: pointer;
+  color: #64748b;
+  transition: all 0.2s;
+  margin: 0 8px;
+  border-radius: 8px;
+  text-decoration: none;
+  position: relative;
+}
+
+.toolItem:hover {
+  background: #f8fafc;
+  color: #1e293b;
+}
+
+.toolIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  flex-shrink: 0;
+}
+
+.toolLabel {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.toolBadge {
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+  margin-top: auto;
+  padding: 16px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 8px;
+  width: 100%;
+  color: #ef4444;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutButton:hover {
+  background: #fee2e2;
+  border-color: #fecaca;
+}
+
+.logoutButton span {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.version {
+  margin-top: 12px;
+  text-align: center;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+/* ===== COLLAPSED STATE ===== */
+.sidebar.collapsed .logo h2,
+.sidebar.collapsed .logoText,
+.sidebar.collapsed .userInfo,
+.sidebar.collapsed .sectionTitle,
+.sidebar.collapsed .navLabel,
+.sidebar.collapsed .toolLabel,
+.sidebar.collapsed .logoutButton span,
+.sidebar.collapsed .version {
+  display: none;
+}
+
+.sidebar.collapsed .logoImage {
+  width: 50px;
+  height: 30px;
+}
+
+.sidebar.collapsed .userBadge {
+  justify-content: center;
+  padding: 16px 0;
+}
+
+.sidebar.collapsed .navItem,
+.sidebar.collapsed .toolItem {
+  justify-content: center;
+  padding: 12px;
+  margin: 0 4px;
+}
+
+.sidebar.collapsed .logoutButton {
+  justify-content: center;
+  padding: 12px;
+}
+
+.sidebar.collapsed .logoutButton svg {
+  margin: 0;
+}
+
+.sidebar.collapsed .toolBadge {
+  top: 0;
+  right: 4px;
+  min-width: 14px;
+  height: 14px;
+  font-size: 8px;
+  border-radius: 7px;
+}
+
+/* ===== МОБИЛЬНАЯ НИЖНЯЯ НАВИГАЦИЯ ===== */
+
+/* Скрываем десктопный сайдбар на мобильных */
+@media (max-width: 1024px) {
+  .sidebar {
+    display: none;
+  }
+}
+
+/* Нижняя навигация для мобильных */
+.mobileBottomNav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: white;
+  border-top: 1px solid #e2e8f0;
+  padding: 8px 4px;
+  z-index: 1000;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 1024px) {
+  .mobileBottomNav {
+    display: block;
+  }
+}
+
+.mobileNavItems {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.mobileNavItem {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: all 0.2s;
+  position: relative;
+  min-height: 56px;
+}
+
+.mobileNavItem.active {
+  color: #4A85F6;
+  background: rgba(74, 133, 246, 0.05);
+}
+
+.mobileNavIcon {
+  font-size: 22px;
+  margin-bottom: 4px;
+  position: relative;
+}
+
+.mobileNavLabel {
+  font-size: 11px;
+  font-weight: 500;
+  text-align: center;
+}
+
+/* Бейджи для мобильной навигации */
+.mobileNavBadge {
+  position: absolute;
+  top: -4px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  background: #ef4444;
+  color: white;
+  font-size: 10px;
+  font-weight: 600;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+/* Кнопка меню для открытия полного сайдбара */
+.mobileMenuButton {
+  display: none;
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(74, 133, 246, 0.3);
+  z-index: 999;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+  .mobileMenuButton {
+    display: flex;
+  }
+}
+
+.mobileMenuButton:hover {
+  transform: scale(1.1);
+  box-shadow: 0 8px 25px rgba(74, 133, 246, 0.4);
+}
+
+/* Мобильный сайдбар (выезжающий) */
+.mobileSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: white;
+  z-index: 2000;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
+  width: 100%;
+  max-width: 320px;
+  box-shadow: 2px 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.mobileSidebar.open {
+  transform: translateX(0);
+}
+
+.mobileSidebarOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+.mobileSidebarOverlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileSidebarHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 16px;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mobileSidebarLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobileSidebarLogo img {
+  width: 50px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.mobileSidebarLogo span {
+  font-size: 18px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #4A85F6, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.mobileSidebarClose {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  color: #64748b;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.mobileSidebarContent {
+  padding: 16px;
+}
+
+.mobileSidebarSection {
+  margin-bottom: 24px;
+}
+
+.mobileSidebarSectionTitle {
+  font-size: 12px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 0 8px;
+  margin-bottom: 12px;
+}
+
+.mobileSidebarNavItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 12px;
+  color: #64748b;
+  text-decoration: none;
+  border-radius: 10px;
+  margin-bottom: 2px;
+  transition: all 0.2s;
+}
+
+.mobileSidebarNavItem:active {
+  background: #f0f9ff;
+  color: #4A85F6;
+}
+
+.mobileSidebarNavItem.active {
+  background: #f0f9ff;
+  color: #4A85F6;
+}
+
+.mobileSidebarNavIcon {
+  width: 24px;
+  font-size: 18px;
+}
+
+.mobileSidebarNavLabel {
+  font-size: 15px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.mobileSidebarBadge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  background: #ef4444;
+  border-radius: 11px;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobileSidebarUser {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 12px;
+  margin-top: 16px;
+}
+
+.mobileSidebarUserAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.mobileSidebarUserInfo {
+  flex: 1;
+}
+
+.mobileSidebarUserName {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 2px;
+}
+
+.mobileSidebarUserRole {
+  display: block;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.mobileSidebarLogout {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  background: #fef2f2;
+  border: 1px solid #fee2e2;
+  border-radius: 10px;
+  color: #ef4444;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 16px;
+}
+
+/* ===== АДАПТАЦИЯ ДЛЯ РАЗНЫХ ЭКРАНОВ ===== */
+
+/* Планшеты */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .mobileBottomNav {
+    padding: 4px 8px;
+  }
+  
+  .mobileNavItem {
+    min-height: 64px;
+  }
+  
+  .mobileNavIcon {
+    font-size: 24px;
+  }
+  
+  .mobileNavLabel {
+    font-size: 12px;
+  }
+  
+  .mobileMenuButton {
+    bottom: 90px;
+    width: 60px;
+    height: 60px;
+    font-size: 26px;
+  }
+}
+
+/* Телефоны */
+@media (max-width: 768px) {
+  .mobileBottomNav {
+    padding: 4px;
+  }
+  
+  .mobileNavItem {
+    min-height: 56px;
+    padding: 6px 2px;
+  }
+  
+  .mobileNavIcon {
+    font-size: 22px;
+  }
+  
+  .mobileNavLabel {
+    font-size: 11px;
+  }
+  
+  .mobileMenuButton {
+    bottom: 70px;
+    right: 16px;
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
+  
+  .mobileSidebar {
+    max-width: 280px;
+  }
+}
+
+/* Маленькие телефоны */
+@media (max-width: 480px) {
+  .mobileBottomNav {
+    padding: 2px;
+  }
+  
+  .mobileNavItem {
+    min-height: 48px;
+    padding: 4px 2px;
+  }
+  
+  .mobileNavIcon {
+    font-size: 20px;
+    margin-bottom: 2px;
+  }
+  
+  .mobileNavLabel {
+    font-size: 10px;
+  }
+  
+  .mobileNavBadge {
+    min-width: 16px;
+    height: 16px;
+    font-size: 9px;
+    top: -6px;
+    right: -6px;
+  }
+  
+  .mobileMenuButton {
+    bottom: 65px;
+    right: 12px;
+    width: 48px;
+    height: 48px;
+    font-size: 20px;
+  }
+  
+  .mobileSidebar {
+    max-width: 260px;
+  }
+  
+  .mobileSidebarHeader {
+    padding: 16px;
+  }
+  
+  .mobileSidebarLogo img {
+    width: 40px;
+    height: 24px;
+  }
+  
+  .mobileSidebarLogo span {
+    font-size: 16px;
+  }
+  
+  .mobileSidebarNavItem {
+    padding: 12px;
+  }
+  
+  .mobileSidebarUserAvatar {
+    width: 40px;
+    height: 40px;
+    font-size: 14px;
+  }
+}
+
+/* Очень маленькие телефоны */
+@media (max-width: 360px) {
+  .mobileNavIcon {
+    font-size: 18px;
+  }
+  
+  .mobileNavLabel {
+    font-size: 9px;
+  }
+  
+  .mobileMenuButton {
+    bottom: 60px;
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+}
+
+/* Горизонтальная ориентация */
+@media (max-height: 500px) and (orientation: landscape) {
+  .mobileBottomNav {
+    padding: 2px 4px;
+  }
+  
+  .mobileNavItem {
+    min-height: 44px;
+    flex-direction: row;
+    gap: 4px;
+  }
+  
+  .mobileNavIcon {
+    font-size: 18px;
+    margin-bottom: 0;
+  }
+  
+  .mobileNavLabel {
+    font-size: 11px;
+  }
+  
+  .mobileMenuButton {
+    bottom: 60px;
+    right: 16px;
+  }
+}
+
+/* ===== Touch-устройства ===== */
+@media (hover: none) and (pointer: coarse) {
+  .mobileNavItem:active {
+    background: rgba(74, 133, 246, 0.1);
+  }
+  
+  .mobileSidebarNavItem:active {
+    background: #f0f9ff;
+  }
+  
+  .mobileMenuButton:active {
+    transform: scale(0.95);
+  }
+}
+
+/* ===== Темная тема ===== */
+:global(.dark-mode) .sidebar {
+  background: #1e293b;
+  border-right-color: #334155;
+}
+
+:global(.dark-mode) .logo h2 {
+  color: #f1f5f9;
+}
+
+:global(.dark-mode) .mobileBottomNav {
+  background: #1e293b;
+  border-top-color: #334155;
+}
+
+:global(.dark-mode) .mobileNavItem {
+  color: #94a3b8;
+}
+
+:global(.dark-mode) .mobileNavItem.active {
+  color: #4A85F6;
+  background: rgba(74, 133, 246, 0.15);
+}
+
+:global(.dark-mode) .mobileNavBadge {
+  background: #ef4444;
+  border-color: #1e293b;
+}
+
+:global(.dark-mode) .mobileMenuButton {
+  background: linear-gradient(135deg, #3A6BC9, #2D4A8A);
+}
+
+:global(.dark-mode) .mobileSidebar {
+  background: #1e293b;
+}
+
+:global(.dark-mode) .mobileSidebarHeader {
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .mobileSidebarLogo span {
+  background: linear-gradient(135deg, #4A85F6, #10B981);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:global(.dark-mode) .mobileSidebarClose {
+  background: #334155;
+  border-color: #475569;
+  color: #94a3b8;
+}
+
+:global(.dark-mode) .mobileSidebarSectionTitle {
+  color: #64748b;
+}
+
+:global(.dark-mode) .mobileSidebarNavItem {
+  color: #94a3b8;
+}
+
+:global(.dark-mode) .mobileSidebarNavItem.active,
+:global(.dark-mode) .mobileSidebarNavItem:active {
+  background: #2d3a4f;
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .mobileSidebarUser {
+  background: #334155;
+}
+
+:global(.dark-mode) .mobileSidebarUserName {
+  color: #f1f5f9;
+}
+
+:global(.dark-mode) .mobileSidebarUserRole {
+  color: #94a3b8;
+}
