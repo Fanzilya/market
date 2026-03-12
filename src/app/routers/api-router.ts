@@ -28,6 +28,7 @@ export const OfferRouter = {
     offersByUser: "/Offers/users/offers",
     businessacc: "/Offers/businessacc/offers",
     offersByRequests: "/Offers/requests/offers",
+    single: "/Offers/single/offer/fullinfo",
 }
 
 

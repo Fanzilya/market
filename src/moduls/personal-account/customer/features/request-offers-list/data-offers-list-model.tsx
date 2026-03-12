@@ -75,16 +75,6 @@ export function DataOffersListModel(requestId: string) {
         )
     }, [sortedOffers, filterCompany])
 
-    const stats = useMemo(() => {
-        const prices = offers.map(o => parseFloat(o.price) || 0).filter(p => p > 0)
-        return {
-            total: offers.length,
-            minPrice: prices.length ? Math.min(...prices) : 0,
-            maxPrice: prices.length ? Math.max(...prices) : 0,
-            avgPrice: prices.length ? (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(2) : 0,
-        }
-    }, [offers])
-
     const exportToExcel = async () => {
         const offersToExport = selectedOffers.length > 0
             ? filteredOffers.filter(o => selectedOffers.includes(o.id))
@@ -198,7 +188,7 @@ export function DataOffersListModel(requestId: string) {
         sortedOffers,
         companies,
         filteredOffers,
-        stats,
+        
         exportToExcel,
         handleSelectAll,
         handleSelectOffer,

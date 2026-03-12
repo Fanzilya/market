@@ -112,7 +112,7 @@ export const CreateOfferPage = observer(() => {
             </div>
 
             <div className={styles.formGroup}>
-              <label className={styles.label}>Список поставщиков</label>
+              <label className={styles.label}>Cайта поставщика</label>
               <Input placeholder='Список поставщиков' value={model.supplierSiteURL} onChange={(e) => setModel("supplierSiteURL", e.toString())} />
             </div>
 

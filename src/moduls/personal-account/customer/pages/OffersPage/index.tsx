@@ -9,8 +9,9 @@ import styles from "./OffersPage.module.css"
 import Icon from '@/shared/ui-kits/Icon'
 import { DataOffersListModel } from '../../features/request-offers-list/data-offers-list-model'
 import { offersListModel } from '../../features/request-offers-list/offers-list-model'
+import { observer } from 'mobx-react-lite'
 
-export const OffersPage = () => {
+export const OffersPage = observer(() => {
   const { requestId } = useParams()
 
   const {
@@ -25,20 +26,19 @@ export const OffersPage = () => {
     selectAll,
     viewMode,
     setViewMode,
-    request,
-    offers,
     companies,
     filteredOffers,
-    stats,
     exportToExcel,
     handleSelectAll,
     handleSelectOffer,
     handleViewOffer,
   } = DataOffersListModel(requestId!)
 
+  const { request, init, offers, stats } = offersListModel
 
-
-  const { } = offersListModel
+  useEffect(() => {
+    init(requestId)
+  }, [])
 
 
   return (
@@ -51,7 +51,7 @@ export const OffersPage = () => {
             <span className={styles.separator}>›</span>
             <span className={styles.breadcrumb} onClick={() => navigate('/customer')}>Заявки</span>
             <span className={styles.separator}>›</span>
-            <span className={styles.current}>{request.id}</span>
+            <span className={styles.current}>{request.nameByProjectDocs}</span>
           </div>
         </div>
 
@@ -89,16 +89,16 @@ export const OffersPage = () => {
       <div className={styles.requestInfoCard}>
         <div className={styles.requestHeader}>
           <h2 className={styles.requestTitle}>{request.objectName}</h2>
-          <span className={styles.requestId}>{request.id}</span>
+          {/* <span className={styles.requestId}>{request.id}</span> */}
         </div>
         <div className={styles.requestDetails}>
           <div className={styles.detailItem}>
             <span className={styles.detailLabel}>Заказчик:</span>
-            <span className={styles.detailValue}>{request.govCustomerName}</span>
+            <span className={styles.detailValue}>{request.customerName}</span>
           </div>
           <div className={styles.detailItem}>
             <span className={styles.detailLabel}>Тип:</span>
-            <span className={styles.detailValue}>{request.configType}</span>
+            <span className={styles.detailValue}>КНС</span>
           </div>
           <div className={styles.detailItem}>
             <span className={styles.detailLabel}>Дата:</span>
@@ -212,175 +212,166 @@ export const OffersPage = () => {
       </div> */}
 
       {/* Таблица или карточки */}
-      {filteredOffers.length === 0 ? (
-        <div className={styles.emptyState}>
-          <Icon name='info' width={64} height={64} color='#CBD5E1' />
-          <h3>Коммерческие предложения отсутствуют</h3>
-          <p>На данную заявку пока нет предложений от поставщиков</p>
-        </div>
-      ) : viewMode === 'table' ? (
-        <div className={styles.tableContainer}>
-          <table className={styles.table}>
-            <thead>
-              <tr>
-                <th className={styles.th} style={{ width: '40px' }}>
-                  <input
-                    type="checkbox"
-                    checked={selectAll}
-                    onChange={handleSelectAll}
-                    className={styles.checkbox}
-                  />
-                </th>
-                <th className={styles.th}>Компания</th>
-                <th className={styles.th}>Цена</th>
-                <th className={styles.th}>Дата</th>
-                <th className={styles.th}>ИНН</th>
-                <th className={styles.th}>КПП</th>
-                <th className={styles.th}>Статус</th>
-                <th className={styles.th}>Действия</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredOffers.map((offer) => (
-                <tr
-                  key={offer.id}
-                  className={styles.tr}
-                  onClick={() => handleViewOffer(offer.id)} // ← переход по клику на строку
-                >
-                  <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+      {
+        // filteredOffers.length === 0 ? (
+        //   <div className={styles.emptyState}>
+        //     <Icon name='info' width={64} height={64} color='#CBD5E1' />
+        //     <h3>Коммерческие предложения отсутствуют</h3>
+        //     <p>На данную заявку пока нет предложений от поставщиков</p>
+        //   </div>
+        // ) : 
+
+        (viewMode === 'table' ? (
+          <div className={styles.tableContainer}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th className={styles.th} style={{ width: '40px' }}>
+                    <input
+                      type="checkbox"
+                      checked={selectAll}
+                      onChange={handleSelectAll}
+                      className={styles.checkbox}
+                    />
+                  </th>
+                  <th className={styles.th}>Местоположение склада</th>
+                  <th className={styles.th}>Cайта поставщика</th>
+                  <th className={styles.th}>Дата оформления сопроводительного документа</th>
+                  <th className={styles.th}>Страна производитель</th>
+                  <th className={styles.th}>Цена без НДС, ₽</th>
+                  <th className={styles.th}>Цена с НДС, ₽</th>
+                  <th className={styles.th}></th>
+                </tr>
+              </thead>
+              <tbody>
+                {
+                  // filteredOffers.map((offer) => (
+                  offers.map((offer) => (
+                    <tr key={offer.id} className={styles.tr} onClick={() => handleViewOffer(offer.id)}>
+                      <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+                        <input
+                          type="checkbox"
+                          checked={selectedOffers.includes(offer.id)}
+                          onChange={() => handleSelectOffer(offer.id)}
+                          className={styles.checkbox}
+                        />
+                      </td>
+                      <td className={styles.td}>
+                        <span className={styles.dateCell}>{offer.warehouseLocation}</span>
+                      </td>
+                      <td className={styles.td}>
+                        <span className={styles.dataCell}>{offer.supplierSiteURL}</span>
+                      </td>
+                      <td className={styles.td}>
+                        <span className={styles.dateCell}>{new Date(offer.supportingDocumentDate).toLocaleDateString('ru-RU')}</span>
+                      </td>
+                      <td className={styles.td}>
+                        <span className={styles.dateCell}>{offer.manufacturerCountry}</span>
+                      </td>
+                      <td className={styles.td}>
+                        <span className={styles.priceCell}>{offer.currentPriceNoNDS} ₽</span>
+                      </td>
+                      <td className={styles.td}>
+                        <span className={styles.priceCell}>{offer.currentPriceNDS} ₽</span>
+                      </td>
+
+                      <td className={styles.td} onClick={(e) => e.stopPropagation()}>
+                        <button
+                          className={styles.viewOfferButton}
+                          onClick={() => handleViewOffer(offer.id)} // ← переход по кнопке
+                        >
+                          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                            <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
+                            <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                          </svg>
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div className={styles.cardsGrid}>
+            {filteredOffers.map((offer) => (
+              <div
+                key={offer.id}
+                className={`${styles.offerCard} ${selectedOffers.includes(offer.id) ? styles.offerCardSelected : ''}`}
+                onClick={() => handleViewOffer(offer.id)} // ← переход по клику на карточку
+              >
+                <div className={styles.cardHeader}>
+                  <div className={styles.cardHeaderLeft}>
                     <input
                       type="checkbox"
                       checked={selectedOffers.includes(offer.id)}
-                      onChange={() => handleSelectOffer(offer.id)}
-                      className={styles.checkbox}
+                      onChange={(e) => {
+                        e.stopPropagation()
+                        handleSelectOffer(offer.id)
+                      }}
+                      className={styles.cardCheckbox}
                     />
-                  </td>
-                  <td className={styles.td}>
-                    <div className={styles.companyCell}>
-                      <div className={styles.companyAvatar}>
-                        {offer.supplierCompany?.charAt(0) || offer.supplierFullName?.charAt(0)}
-                      </div>
-                      <div>
-                        <div className={styles.companyName}>{offer.supplierCompany || offer.supplierFullName}</div>
-                        <div className={styles.companyContact}>{offer.contactEmail || '—'}</div>
-                      </div>
+                    <div className={styles.cardAvatar}>
+                      {offer.supplierCompany?.charAt(0) || offer.supplierFullName?.charAt(0)}
                     </div>
-                  </td>
-                  <td className={styles.td}>
-                    <span className={styles.priceCell}>{offer.price} ₽</span>
-                  </td>
-                  <td className={styles.td}>
-                    <span className={styles.dateCell}>
-                      {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
-                    </span>
-                  </td>
-                  <td className={styles.td}>
-                    <span className={styles.innCell}>{offer.analysisData.inn}</span>
-                  </td>
-                  <td className={styles.td}>
-                    <span className={styles.kppCell}>{offer.analysisData.kpp}</span>
-                  </td>
-                  <td className={styles.td}>
-                    <span className={`${styles.statusCell} ${offer.analysisData.status === '1' ? styles.manufacturer : styles.supplier}`}>
+                    <div>
+                      <h3 className={styles.cardCompany}>{offer.supplierCompany || offer.supplierFullName}</h3>
+                      <span className={styles.cardDate}>
+                        {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
+                      </span>
+                    </div>
+                  </div>
+                  <div className={styles.cardPrice}>
+                    {offer.price} ₽
+                  </div>
+                </div>
+
+                <div className={styles.cardBody}>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>ИНН:</span>
+                    <span className={styles.cardValue}>{offer.analysisData.inn}</span>
+                  </div>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>КПП:</span>
+                    <span className={styles.cardValue}>{offer.analysisData.kpp}</span>
+                  </div>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>Страна:</span>
+                    <span className={styles.cardValue}>{offer.analysisData.country}</span>
+                  </div>
+                  <div className={styles.cardRow}>
+                    <span className={styles.cardLabel}>Статус:</span>
+                    <span className={`${styles.cardStatus} ${offer.analysisData.status === '1' ? styles.cardManufacturer : styles.cardSupplier}`}>
                       {offer.analysisData.status === '1' ? 'Производитель' : 'Поставщик'}
                     </span>
-                  </td>
-                  <td className={styles.td} onClick={(e) => e.stopPropagation()}>
-                    <button
-                      className={styles.viewOfferButton}
-                      onClick={() => handleViewOffer(offer.id)} // ← переход по кнопке
-                    >
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                        <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
-                        <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-                      </svg>
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      ) : (
-        <div className={styles.cardsGrid}>
-          {filteredOffers.map((offer) => (
-            <div
-              key={offer.id}
-              className={`${styles.offerCard} ${selectedOffers.includes(offer.id) ? styles.offerCardSelected : ''}`}
-              onClick={() => handleViewOffer(offer.id)} // ← переход по клику на карточку
-            >
-              <div className={styles.cardHeader}>
-                <div className={styles.cardHeaderLeft}>
-                  <input
-                    type="checkbox"
-                    checked={selectedOffers.includes(offer.id)}
-                    onChange={(e) => {
+                  </div>
+                </div>
+
+                {offer.comment && (
+                  <div className={styles.cardComment}>
+                    <p>{offer.comment}</p>
+                  </div>
+                )}
+
+                <div className={styles.cardFooter}>
+                  <button
+                    className={styles.cardButton}
+                    onClick={(e) => {
                       e.stopPropagation()
-                      handleSelectOffer(offer.id)
+                      handleViewOffer(offer.id) // ← переход по кнопке "Подробнее"
                     }}
-                    className={styles.cardCheckbox}
-                  />
-                  <div className={styles.cardAvatar}>
-                    {offer.supplierCompany?.charAt(0) || offer.supplierFullName?.charAt(0)}
-                  </div>
-                  <div>
-                    <h3 className={styles.cardCompany}>{offer.supplierCompany || offer.supplierFullName}</h3>
-                    <span className={styles.cardDate}>
-                      {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
-                    </span>
-                  </div>
-                </div>
-                <div className={styles.cardPrice}>
-                  {offer.price} ₽
+                  >
+                    Подробнее
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                      <path d="M5 12H19" stroke="currentColor" strokeWidth="2" />
+                      <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" />
+                    </svg>
+                  </button>
                 </div>
               </div>
-
-              <div className={styles.cardBody}>
-                <div className={styles.cardRow}>
-                  <span className={styles.cardLabel}>ИНН:</span>
-                  <span className={styles.cardValue}>{offer.analysisData.inn}</span>
-                </div>
-                <div className={styles.cardRow}>
-                  <span className={styles.cardLabel}>КПП:</span>
-                  <span className={styles.cardValue}>{offer.analysisData.kpp}</span>
-                </div>
-                <div className={styles.cardRow}>
-                  <span className={styles.cardLabel}>Страна:</span>
-                  <span className={styles.cardValue}>{offer.analysisData.country}</span>
-                </div>
-                <div className={styles.cardRow}>
-                  <span className={styles.cardLabel}>Статус:</span>
-                  <span className={`${styles.cardStatus} ${offer.analysisData.status === '1' ? styles.cardManufacturer : styles.cardSupplier}`}>
-                    {offer.analysisData.status === '1' ? 'Производитель' : 'Поставщик'}
-                  </span>
-                </div>
-              </div>
-
-              {offer.comment && (
-                <div className={styles.cardComment}>
-                  <p>{offer.comment}</p>
-                </div>
-              )}
-
-              <div className={styles.cardFooter}>
-                <button
-                  className={styles.cardButton}
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    handleViewOffer(offer.id) // ← переход по кнопке "Подробнее"
-                  }}
-                >
-                  Подробнее
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M5 12H19" stroke="currentColor" strokeWidth="2" />
-                    <path d="M12 5L19 12L12 19" stroke="currentColor" strokeWidth="2" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )
+        )}
     </>
   )
-}
+})

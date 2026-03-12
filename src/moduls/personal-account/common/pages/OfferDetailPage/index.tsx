@@ -7,136 +7,40 @@ import { getRequestById } from '@/shared/data/requests'
 import { getBrandBySlug } from '@/shared/data/brands'
 import { Sidebar } from '@/shared/components/Sidebar'
 import styles from './OfferDetailPage.module.css'
+import { DataOfferModel } from '../../features/OfferDetailPage/data-offer-model'
+import { offerDetailModel } from '../../features/OfferDetailPage/offer-detail-model'
+import Loader from '@/shared/ui-kits/loader/loader'
+import { observer } from 'mobx-react-lite'
 
-export const OfferDetailPage = () => {
+export const OfferDetailPage = observer(() => {
   const { offerId } = useParams()
-  const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState('details')
+
+  const {
+    navigate,
+    activeTab,
+    setActiveTab,
+    request,
+    formatPrice,
+    getDocumentType,
+    getDocumentTypeName,
+    getDocumentIcon,
+    getDocumentName,
+    getDocumentSize,
+  } = DataOfferModel(offerId)
 
 
-  const offer = getOfferById(offerId || "")
-  const request = offer ? getRequestById(offer.requestId) : null
+  const { offer, isLoader, init } = offerDetailModel
 
-  // Функция для форматирования цены
-  const formatPrice = (price) => {
-    if (!price && price !== 0) return '—'
-    return new Intl.NumberFormat('ru-RU').format(price) + ' ₽'
-  }
+  useEffect(() => {
+    init(offerId!)
+  }, [])
 
-  // Функция для получения типа документа
-  const getDocumentType = (doc) => {
-    if (typeof doc === 'string') {
-      // Определяем тип по расширению файла
-      const extension = doc.split('.').pop()?.toLowerCase() || ""
-      if (['jpg', 'jpeg', 'png', 'gif'].includes(extension)) return 'image'
-      if (['pdf'].includes(extension)) return 'pdf'
-      if (['doc', 'docx'].includes(extension)) return 'word'
-      if (['xls', 'xlsx'].includes(extension)) return 'excel'
-      if (['dwg', 'dxf', 'cdw'].includes(extension)) return 'drawing'
-      return 'document'
-    }
-    return doc?.type || 'document'
-  }
 
-  // Функция для получения названия типа документа
-  const getDocumentTypeName = (doc) => {
-    if (typeof doc === 'string') {
-      const type = getDocumentType(doc)
-      const typeNames = {
-        image: 'Изображение',
-        pdf: 'PDF документ',
-        word: 'Word документ',
-        excel: 'Excel документ',
-        drawing: 'Чертеж',
-        document: 'Документ'
-      }
-      return typeNames[type] || 'Документ'
-    }
-    return doc?.typeName ||
-      (doc?.type === 'passport' ? 'Паспорт' :
-        doc?.type === 'certificate' ? 'Сертификат' :
-          doc?.type === 'drawing' ? 'Чертеж' :
-            doc?.type === 'offer' ? 'КП' : 'Документ')
-  }
 
-  // Функция для получения иконки документа по типу
-  const getDocumentIcon = (doc) => {
-    const type = typeof doc === 'string' ? getDocumentType(doc) : doc?.type
 
-    switch (type) {
-      case 'passport':
-        return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" />
-            <path d="M16 17H8M16 13H8M10 9H8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        )
-      case 'certificate':
-        return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" strokeWidth="2" />
-            <path d="M2 17L12 22L22 17" stroke="currentColor" strokeWidth="2" />
-            <path d="M2 12L12 17L22 12" stroke="currentColor" strokeWidth="2" />
-          </svg>
-        )
-      case 'drawing':
-        return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M4 4H20V20H4V4Z" stroke="currentColor" strokeWidth="2" />
-            <path d="M8 8H16V16H8V8Z" stroke="currentColor" strokeWidth="2" />
-            <path d="M12 8V16" stroke="currentColor" strokeWidth="2" />
-            <path d="M8 12H16" stroke="currentColor" strokeWidth="2" />
-          </svg>
-        )
-      case 'offer':
-        return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M4 4H20V8L12 16L4 8V4Z" stroke="currentColor" strokeWidth="2" />
-            <path d="M4 8H20" stroke="currentColor" strokeWidth="2" />
-            <path d="M8 12L12 16L16 12" stroke="currentColor" strokeWidth="2" />
-          </svg>
-        )
-      case 'pdf':
-        return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M20 7L14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V7Z" stroke="currentColor" strokeWidth="2" />
-            <path d="M8 12H16M8 16H12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-          </svg>
-        )
-      case 'image':
-        return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" strokeWidth="2" />
-            <circle cx="8" cy="8" r="2" stroke="currentColor" strokeWidth="2" />
-            <path d="M22 16L18 12L14 16L10 12L2 20" stroke="currentColor" strokeWidth="2" />
-          </svg>
-        )
-      default:
-        return (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M14 2H6C5.46957 2 4.96086 2.21071 4.58579 2.58579C4.21071 2.96086 4 3.46957 4 4V20C4 20.5304 4.21071 21.0391 4.58579 21.4142C4.96086 21.7893 5.46957 22 6 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V8L14 2Z" stroke="currentColor" strokeWidth="2" />
-          </svg>
-        )
-    }
-  }
 
-  // Функция для получения имени документа
-  const getDocumentName = (doc) => {
-    if (typeof doc === 'string') {
-      return doc.split('/').pop() || doc
-    }
-    return doc?.file?.name || doc?.name || 'Документ'
-  }
 
-  // Функция для получения размера документа
-  const getDocumentSize = (doc) => {
-    if (typeof doc === 'object' && doc?.file?.size) {
-      return (doc.file.size / 1024).toFixed(1) + ' КБ'
-    }
-    return null
-  }
-
-  return (
+  return isLoader ? <Loader /> : (
     <div className={styles.container}>
       {/* Шапка страницы */}
       <div className={styles.header}>
@@ -159,7 +63,7 @@ export const OfferDetailPage = () => {
               Предложения
             </span>
             <span className={styles.separator}>›</span>
-            <span className={styles.current}>КП №{offer.offerNumber || offer.id}</span>
+            <span className={styles.current}>КП №{offer.offersNumber || offer.id}</span>
           </div>
         </div>
         <button
@@ -179,25 +83,25 @@ export const OfferDetailPage = () => {
         <div className={styles.offerHeader}>
           <div className={styles.offerHeaderLeft}>
             <div className={styles.offerIcon}>
-              {offer.supplierCompany?.charAt(0) || offer.supplierFullName?.charAt(0) || 'К'}
+              {offer.nameBySupplier?.charAt(0) || offer.supplierFullName?.charAt(0) || 'К'}
             </div>
             <div className={styles.offerCompanyInfo}>
-              <h2 className={styles.offerCompany}>{offer.supplierCompany || offer.supplierFullName || 'Компания'}</h2>
+              <h2 className={styles.offerCompany}>{offer.fullCompanyName}</h2>
               <div className={styles.offerMeta}>
-                <span className={styles.offerNumber}>КП №{offer.offerNumber || offer.id}</span>
+                <span className={styles.offerNumber}>КП №{offer.offersNumber || offer.id}</span>
                 <span className={styles.offerDate}>
-                  от {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
+                  от {new Date(offer.supportingDocumentDate).toLocaleDateString('ru-RU')}
                 </span>
               </div>
             </div>
           </div>
           <div className={styles.offerPrice}>
-            {formatPrice(offer.price)}
+            {formatPrice(offer.currentPriceNDS)}
           </div>
         </div>
 
         {/* Табы */}
-        <div className={styles.tabs}>
+        {/* <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${activeTab === 'details' ? styles.tabActive : ''}`}
             onClick={() => setActiveTab('details')}
@@ -228,7 +132,7 @@ export const OfferDetailPage = () => {
           >
             Документы
           </button>
-        </div>
+        </div> */}
 
         {/* Контент табов */}
         <div className={styles.tabContent}>
@@ -236,24 +140,63 @@ export const OfferDetailPage = () => {
             <div className={styles.detailsSection}>
               <h3 className={styles.sectionTitle}>Основная информация</h3>
               <div className={styles.infoGrid}>
-                <div className={styles.infoItem}>
-                  <span className={styles.infoLabel}>Номер КП</span>
-                  <span className={styles.infoValue}>{offer.offerNumber || offer.id}</span>
-                </div>
-                <div className={styles.infoItem}>
-                  <span className={styles.infoLabel}>Дата КП</span>
-                  <span className={styles.infoValue}>
-                    {new Date(offer.createdAt).toLocaleDateString('ru-RU')}
-                  </span>
-                </div>
-                <div className={styles.infoItem}>
-                  <span className={styles.infoLabel}>Стоимость</span>
-                  <span className={styles.infoValue}>{formatPrice(offer.price)}</span>
-                </div>
-                <div className={styles.infoItem}>
-                  <span className={styles.infoLabel}>Город склада</span>
-                  <span className={styles.infoValue}>{offer.city || '—'}</span>
-                </div>
+
+
+                {
+                  [
+                    {
+                      name: "Наименование компании",
+                      value: offer.fullCompanyName
+                    },
+                    {
+                      name: "ИНН",
+                      value: offer.inn
+                    },
+                    {
+                      name: "КПП",
+                      value: offer.kpp
+                    },
+                    {
+                      name: "Местоположение склада",
+                      value: offer.warehouseLocation
+                    },
+                    {
+                      name: "Список поставщиков",
+                      value: offer.supplierSiteURL
+                    },
+                    {
+                      name: "Дата оформления сопроводительного документа",
+                      value: offer.supportingDocumentDate,
+                      type: "date"
+                    },
+                    {
+                      name: "Страна производитель",
+                      value: offer.manufacturerCountry
+                    },
+                    {
+                      name: "Цена без НДС",
+                      value: offer.currentPriceNoNDS
+                    },
+                    {
+                      name: "Цена с НДС",
+                      value: offer.currentPriceNDS
+                    },
+                  ].map((item, key) => (
+                    <div className={styles.infoItem}>
+                      <span className={styles.infoLabel}>{item.name}</span>
+                      <span className={styles.infoValue}>{
+
+                        item?.type === "date" ?
+                          new Date(item.value).toLocaleDateString('ru-RU')
+                          :
+                          item.value
+
+                      }</span>
+                    </div>
+                  ))
+                }
+
+
               </div>
 
               {offer.comment && (
@@ -271,11 +214,11 @@ export const OfferDetailPage = () => {
               <div className={styles.infoGrid}>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Полное наименование</span>
-                  <span className={styles.infoValue}>{offer.fullName || offer.supplierCompany || '—'}</span>
+                  <span className={styles.infoValue}>{offer.fullName || offer.nameBySupplier || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Краткое наименование</span>
-                  <span className={styles.infoValue}>{offer.shortName || offer.supplierCompany || '—'}</span>
+                  <span className={styles.infoValue}>{offer.shortName || offer.nameBySupplier || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>ИНН</span>
@@ -469,4 +412,4 @@ export const OfferDetailPage = () => {
       </div>
     </div>
   )
-}
+})

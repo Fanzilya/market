@@ -1,6 +1,6 @@
 import { instance } from "@/app/api/instances"
 import { OfferRouter } from "@/app/routers/api-router"
-import { IACC, IOfferCreate, IRequestId, IUserId } from "./type"
+import { IACC, IOfferCreate, IOfferId, IRequestId, IUserId } from "./type"
 
 export const createRequestApi = (params: IOfferCreate) => {
     return instance.post(OfferRouter.create, params)
@@ -13,4 +13,7 @@ export const businessaccApi = (params: IACC) => {
 }
 export const offersByRequestsApi = (params: IRequestId) => {
     return instance.get(OfferRouter.offersByRequests, { params })
+}
+export const offersSingleApi = (params: IOfferId) => {
+    return instance.get(OfferRouter.single, { params })
 }
