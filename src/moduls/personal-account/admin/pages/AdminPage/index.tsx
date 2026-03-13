@@ -163,7 +163,7 @@ export const AdminPage = () => {
                         className={styles.checkbox}
                       />
                     </th>
-                    <th className={styles.th}>ID</th>
+                    <th className={styles.th}>№</th>
                     <th className={styles.th}>Объект</th>
                     <th className={styles.th}>Заказчик</th>
                     <th className={styles.th}>Email</th>
@@ -267,7 +267,7 @@ export const AdminPage = () => {
                         className={styles.checkbox}
                       />
                     </th>
-                    <th className={styles.th}>ID</th>
+                    <th className={styles.th}>№</th>
                     <th className={styles.th}>Поставщик</th>
                     <th className={styles.th}>Заявка</th>
                     <th className={styles.th}>Стоимость</th>
@@ -381,7 +381,7 @@ export const AdminPage = () => {
               <div className={styles.modalBody}>
                 <div className={styles.detailsGrid}>
                   <div className={styles.detailItem}>
-                    <span className={styles.detailLabel}>ID заявки</span>
+                    <span className={styles.detailLabel}>№ заявки</span>
                     <span className={styles.detailValue}>{currentRequest.id}</span>
                   </div>
                   <div className={styles.detailItem}>
