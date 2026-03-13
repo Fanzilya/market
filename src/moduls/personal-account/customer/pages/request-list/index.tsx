@@ -30,12 +30,10 @@ export const CustomerPage = observer(() => {
     setShowArchiveConfirm,
     currentPage,
     setCurrentPage,
-    selectedStatus,
     setSelectedStatus,
     searchQuery,
     setSearchQuery,
     requests,
-    filteredRequests,
     paginatedRequests,
     totalPages,
     confirmLogout,
@@ -51,7 +49,9 @@ export const CustomerPage = observer(() => {
 
 
   const {
-    model,
+    filterModel: model,
+    filteredRequests,
+    selectedStatus,
     isLoader,
     init,
     stats,
@@ -104,7 +104,7 @@ export const CustomerPage = observer(() => {
             <button
               key={key}
               className={`${styles.tab} ${selectedStatus === item.value ? styles.active : ''}`}
-              onClick={() => setSelectedStatus(item.value)}
+              onClick={() => filteredRequests(item.value)}
             >
               {item.name} <span className={styles.tabCount}>{stats[item.value]}</span>
             </button>
@@ -114,7 +114,7 @@ export const CustomerPage = observer(() => {
         {isLoader ? <Loader /> :
           <>
             <div className={styles.tableContainer}>
-              {filteredRequests.length === 0 ? (
+              {model.length === 0 ? (
                 <div className={styles.emptyState}>
                   <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                     <rect x="3" y="3" width="18" height="18" rx="3" stroke="#CBD5E1" strokeWidth="2" />
