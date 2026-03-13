@@ -105,7 +105,7 @@ export const RequestDetailPage = observer(() => {
     <div className={styles.requestCard}>
       <div className={styles.requestHeader}>
         <h2 className={styles.requestTitle}>{requestModel.objectName}</h2>
-        <span className={styles.requestId}>{requestModel.id}</span>
+        {requestModel.innerId && <span className={styles.requestId}>{requestModel.innerId}</span>}
         {requestModel.isArchived && (
           <span className={styles.archiveChip}>Архивная заявка</span>
         )}
