@@ -234,10 +234,8 @@ export default function NotificationBell({ user }) {
               </div>
             ) : (
               notifications.map(notification => (
-                <div
-                  key={notification.id}
-                  className={`${styles.notificationItem} ${!notification.read ? styles.unread : ''} ${notification.important ? styles.important : ''}`}
-                  onClick={() => handleNotificationClick(notification)}
+                <div key={notification.id} className={`${styles.notificationItem} ${!notification.read ? styles.unread : ''} ${notification.important ? styles.important : ''}`}
+                // onClick={() => handleNotificationClick(notification)}
                 >
                   <div className={styles.notificationIcon}>
                     {notification.type === 'new_offer' && (

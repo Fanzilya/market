@@ -133,14 +133,14 @@ export const NotificationsPage = () => {
                   {notification.requestId && (
                     <button
                       className={styles.viewButton}
-                      onClick={() => {
-                        markAsRead(notification.id)
-                        if (user?.role === Role.Customer) {
-                          navigate(`/customer/request/${notification.requestId}`)
-                        } else {
-                          navigate(`/supplier/request/${notification.requestId}`)
-                        }
-                      }}
+                      // onClick={() => {
+                      //   markAsRead(notification.id)
+                      //   if (user?.role === Role.Customer) {
+                      //     navigate(`/customer/request/${notification.requestId}`)
+                      //   } else {
+                      //     navigate(`/supplier/request/${notification.requestId}`)
+                      //   }
+                      // }}
                     >
                       <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
                         <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
@@ -164,7 +164,7 @@ export const NotificationsPage = () => {
                     )}
                     <button
                       className={`${styles.notificationAction} ${styles.deleteAction}`}
-                      onClick={() => deleteNotification(notification.id)}
+                      // onClick={() => deleteNotification(notification.id)}
                       title="Удалить"
                     >
                       <svg width="16" height="16" viewBox="0 0 24 24" fill="none">

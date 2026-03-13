@@ -9,32 +9,32 @@ interface Props {
 export const RequestOffersTableRow = ({ item }: Props) => {
     return item.offers && item.offers.length > 0 ?
         (item.offers.map((offer: any) => (
-            <Link to={`/customer/offer/${offer.id}`} key={offer.id} className="py-1 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 grid grid-cols-6 justify-items-center ">
+            <Link to={`/customer/offer/${offer.id}`} key={offer.id} className="py-3  px-6 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 grid grid-cols-6 items-center justify-items-center ">
                 {/* Данные */}
-                <div className="py-3 px-4">
-                    <span className="py-3 px-4 text-left text-sm font-medium text-gray-600">{offer.warehouseLocation}</span>
+                <div className="">
+                    <span className=" text-left text-sm font-medium text-gray-600">{offer.warehouseLocation}</span>
                 </div>
 
-                <div className="py-3 px-4">
-                    <span className="py-3 px-4 text-left text-sm font-medium text-gray-600">{offer.supplierSiteURL}</span>
+                <div className="">
+                    <span className=" text-left text-sm font-medium text-gray-600">{offer.supplierSiteURL}</span>
                 </div>
 
-                <div className="py-3 px-4">
-                    <span className="py-3 px-4 text-left text-sm font-medium text-gray-600">
+                <div className="">
+                    <span className=" text-left text-sm font-medium text-gray-600">
                         {new Date(offer.supportingDocumentDate).toLocaleDateString('ru-RU')}
                     </span>
                 </div>
 
-                <div className="py-3 px-4">
-                    <span className="py-3 px-4 text-left text-sm font-medium text-gray-600">{offer.manufacturerCountry}</span>
+                <div className="">
+                    <span className=" text-left text-sm font-medium text-gray-600">{offer.manufacturerCountry}</span>
                 </div>
 
-                <div className="py-3 px-4">
-                    <span className="py-3 px-4 text-left text-sm font-medium text-gray-600">{offer.currentPriceNoNDS} ₽</span>
+                <div className="">
+                    <span className=" text-left text-sm font-medium text-gray-600">{offer.currentPriceNoNDS} ₽</span>
                 </div>
 
-                <div className="py-3 px-4">
-                    <span className="py-3 px-4 text-left text-sm font-medium text-gray-600">{offer.currentPriceNDS} ₽</span>
+                <div className="">
+                    <span className=" text-left text-sm font-medium text-gray-600">{offer.currentPriceNDS} ₽</span>
                 </div>
             </Link>
         ))
