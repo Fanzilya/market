@@ -1,5 +1,7 @@
+import Icon from '@/shared/ui-kits/Icon';
 import { Input } from '@/shared/ui-kits/Input';
 import { observer } from 'mobx-react-lite';
+import { InfoLabel } from './info-label';
 
 
 interface Porps {
@@ -45,9 +47,8 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>
-                        Заказчик <span className={styles.required}>*</span>
-                    </label>
+                    <InfoLabel />
+                    
                     <Input
                         type="text"
                         value={formData.govCustomerName}
@@ -61,7 +62,7 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
 
                 <div className={styles.formGroup}>
                     <label className={styles.label}>
-                        Проектировщик <span className={styles.required}>*</span>
+                        Проектная организация <span className={styles.required}>*</span>
                     </label>
                     <Input
                         type="text"

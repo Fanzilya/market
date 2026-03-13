@@ -73,7 +73,7 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
                     </span>
                 </div>
 
-                <div className={styles.div}>{item.data.projectOrganizationName || item.data.customerName}</div>
+                <div className={styles.div}>{item.data.customerName}</div>
 
                 <div className={styles.div}>
                     <span className={styles.typeBadge}>КНС</span>
