@@ -49,7 +49,8 @@ export const CustomerPage = observer(() => {
 
 
   const {
-    filterModel: model,
+    filterModel,
+    model,
     filteredRequests,
     selectedStatus,
     isLoader,
@@ -122,13 +123,7 @@ export const CustomerPage = observer(() => {
                     <path d="M12 9V15" stroke="#CBD5E1" strokeWidth="2" />
                   </svg>
                   <div className={styles.emptyText}>
-                    {requests.length === 0 ? (
-                      <>
-                        Заявок пока нет. <button className={styles.emptyLink} onClick={goToCreateRequest}>Создать заявку</button>
-                      </>
-                    ) : (
-                      'По вашему запросу ничего не найдено'
-                    )}
+                    По вашему запросу ничего не найдено
                   </div>
                 </div>
               ) : (

@@ -22,7 +22,7 @@ class RequestListModel {
     }
 
 
-    filteredRequests(selectedStatus: 'all' | 'news' | 'moderation' | 'rejected' | 'published' | 'archived') { // добавил тип
+    filteredRequests(selectedStatus: 'all' | 'news' | 'moderation' | 'rejected' | 'published' | 'archived') {
         this.selectedStatus = selectedStatus
 
         this.filterModel = this.model.filter(r => {
@@ -34,23 +34,10 @@ class RequestListModel {
             } else if (selectedStatus === 'archived') {
                 statusMatch = r.data.archived === true;
             } else {
-                statusMatch = r.data.status === this.selectedStatus && !r.data.archived;
+                statusMatch = r.data.status === this.selectedStatus;
             }
 
-            // 2. Фильтр по поиску (если есть запрос)
-            let searchMatch = true;
-            if (searchQuery && searchQuery.trim() !== '') {
-                const query = searchQuery.toLowerCase().trim();
-                // здесь укажите поля, по которым искать
-                searchMatch =
-                    r.data.name?.toLowerCase().includes(query) ||
-                    r.data.description?.toLowerCase().includes(query) ||
-                    r.data.id?.toString().includes(query);
-                // добавьте другие поля по необходимости
-            }
-
-            // Запись проходит, если совпадает и по статусу, и по поиску
-            return statusMatch && searchMatch;
+            return statusMatch;
         });
     }
 
@@ -79,7 +66,7 @@ class RequestListModel {
             const results = await Promise.all(promises);
             this.model = results.filter(result => result !== null) as typeof this.model;
             this.sortStats()
-
+            this.filteredRequests("all")
 
         } catch (error) {
             console.error('Ошибка при получении списка запросов:', error);
