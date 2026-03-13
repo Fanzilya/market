@@ -188,7 +188,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                     <div className={styles.formGridTech}>
                         <div className={styles.dimensionsContainer}>
                             <div className={styles.formGroup}>
-                                <div className={styles.label}>Глубина залегания подводящего трубопровода, A (м)</div>
+                                <div className={styles.label}>Глубина залегания подводящего трубопровода, A (мм)</div>
                                 <div className={styles.dimensionValue}>
                                     <Input
                                         type="text"
@@ -249,7 +249,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
 
                             {/* Глубина напорного трубопровода */}
                             <div className={styles.formGroup}>
-                                <div className={styles.label}>Глубина залегания напорного трубопровода, D (м)</div>
+                                <div className={styles.label}>Глубина залегания напорного трубопровода, D (мм)</div>
                                 <div className={styles.dimensionValue}>
                                     <Input
                                         type="number"
@@ -324,7 +324,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
 
                             {/* Диаметр станции */}
                             <div className={styles.formGroup}>
-                                <div className={styles.label}>Предполагаемый диаметр насосной станции (м)</div>
+                                <div className={styles.label}>Предполагаемый диаметр насосной станции (мм)</div>
                                 <div className={styles.dimensionValue}>
                                     <Input
                                         type="number"
@@ -338,7 +338,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
 
                             {/* Высота станции */}
                             <div className={styles.formGroup}>
-                                <div className={styles.label}>Предполагаемая высота насосной станции (м)</div>
+                                <div className={styles.label}>Предполагаемая высота насосной станции (мм)</div>
                                 <div className={styles.dimensionValue}>
                                     <Input
                                         type="number"
@@ -352,7 +352,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
 
                             {/* Утепление */}
                             <div className={styles.formGroup}>
-                                <div className={styles.label}>Наличие утепления корпуса (указать глубину, м)</div>
+                                <div className={styles.label}>Наличие утепления корпуса (указать глубину, мм)</div>
                                 <div className={styles.dimensionValue}>
                                     <Input
                                         type="number"
