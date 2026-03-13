@@ -40,7 +40,7 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                         classNames={{
                             input: styles.input
                         }}
-                        placeholder="Например: КНС №1, ЖК «Северный»"
+                        placeholder="Регион"
                     />
                 </div>
 

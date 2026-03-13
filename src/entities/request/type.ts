@@ -63,6 +63,7 @@ export interface CreateRequest {
     phoneNumber: string,
     userId: string,
     configTypeId: string,
+    projectOrganizationName: string,
     perfomance: number,
     units: number,
     requiredPumpPressure: number,

@@ -211,6 +211,7 @@ class RequestModel {
                 phoneNumber: this.model.formData.contactPhone,
                 userId: user.id?.toString() || "",
                 configTypeId: this.model.formData.configType,
+                projectOrganizationName: this.model.formData.projectOrganizationName,
 
                 // Данные из knsData
                 perfomance: Number(this.model.knsData.capacity),
