@@ -246,7 +246,13 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
         {!isCollapsed && (
           <div className={styles.userInfo}>
             <span className={styles.userName}>{user?.fullName || 'Пользователь'}</span>
-            <span className={styles.userRole}>{user?.roleLabel || 'Исполнитель'}</span>
+            <span className={styles.mobileSidebarUserRole}>
+      {(() => {
+        if (user?.role === Role.Supplier) return 'Исполнитель'
+        if (user?.role === Role.Customer) return 'Заказчик'
+        return user?.roleLabel || 'Исполнитель'
+      })()}
+    </span>
           </div>
         )}
       </div>
