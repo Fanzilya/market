@@ -53,7 +53,7 @@ export const RegisterPage = observer(() => {
                 styles={styles}
                 onClick={() => setFormData('roleName', Role.Supplier)}
                 isActive={formData.roleName === Role.Supplier}
-                description="ljkdjfklsjdlkfj"
+                description="Поставщик или Производитель"
               />
 
               <RegistrRoleButton
@@ -61,7 +61,7 @@ export const RegisterPage = observer(() => {
                 styles={styles}
                 onClick={() => setFormData('roleName', Role.Customer)}
                 isActive={formData.roleName === Role.Customer}
-                description="ljkdjfklsjdlkfj"
+                description="Проектная или Подрядная организация"
               />
 
             </div>
