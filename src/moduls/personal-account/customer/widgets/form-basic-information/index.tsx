@@ -1,3 +1,4 @@
+import { Input } from '@/shared/ui-kits/Input';
 import { observer } from 'mobx-react-lite';
 
 
@@ -20,27 +21,25 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                     <label className={styles.label}>
                         Название объекта <span className={styles.required}>*</span>
                     </label>
-                    <input
+                    <Input
                         type="text"
                         value={formData.objectName}
-                        onChange={(e) => setFormData("objectName", e.target.value)}
-                        onFocus={() => setFocusedInput('objectName')}
-                        onBlur={() => setFocusedInput(null)}
-                        className={`${styles.input} ${focusedInput === 'objectName' ? styles.inputFocused : ''}`}
+                        onChange={(e) => setFormData("objectName", e)}
+                        classNames={{
+                            input: styles.input
+                        }}
                         placeholder="Например: КНС №1, ЖК «Северный»"
                     />
                 </div>
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>
-                        Регион <span className={styles.required}>*</span>
-                    </label>
-                    <input
+                    <label className={styles.label}>Регион <span className={styles.required}>*</span></label>
+                    <Input
                         type="text"
                         value={formData.locationRegion}
-                        onChange={(e) => setFormData("locationRegion", e.target.value)}
-                        onFocus={() => setFocusedInput('locationRegion')}
-                        onBlur={() => setFocusedInput(null)}
-                        className={`${styles.input} ${focusedInput === 'locationRegion' ? styles.inputFocused : ''}`}
+                        onChange={(e) => setFormData("locationRegion", e)}
+                        classNames={{
+                            input: styles.input
+                        }}
                         placeholder="Например: КНС №1, ЖК «Северный»"
                     />
                 </div>
@@ -49,13 +48,13 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                     <label className={styles.label}>
                         Гос. заказчик <span className={styles.required}>*</span>
                     </label>
-                    <input
+                    <Input
                         type="text"
                         value={formData.govCustomerName}
-                        onChange={(e) => setFormData("govCustomerName", e.target.value)}
-                        onFocus={() => setFocusedInput('govCustomer')}
-                        onBlur={() => setFocusedInput(null)}
-                        className={`${styles.input} ${focusedInput === 'govCustomer' ? styles.inputFocused : ''}`}
+                        onChange={(e) => setFormData("govCustomerName", e)}
+                        classNames={{
+                            input: styles.input
+                        }}
                         placeholder="Например: ГКУ «Управление строительства»"
                     />
                 </div>
@@ -80,21 +79,26 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
             <div className={styles.formGrid}>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Контактное лицо</label>
-                    <input
+                    <Input
                         type="text"
+                        placeholder='Контактное лицо'
                         value={formData.contactPerson}
-                        onChange={(e) => setFormData("contactPerson", e.target.value)}
-                        className={`${styles.input}`}
+                        onChange={(e) => setFormData("contactPerson", e)}
+                        classNames={{
+                            input: styles.input
+                        }}
                     />
                 </div>
 
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Телефон</label>
-                    <input
-                        type="tel"
+                    <Input
+                        type="phone"
                         value={formData.contactPhone}
-                        onChange={(e) => setFormData("contactPhone", e.target.value)}
-                        className={styles.input}
+                        onChange={(e) => setFormData("contactPhone", e)}
+                        classNames={{
+                            input: styles.input
+                        }}
                         placeholder="+7 (___) ___-__-__"
                     />
                 </div>
@@ -105,7 +109,7 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                         type="email"
                         value={formData.contactEmail}
                         onChange={(e) => setFormData("contactEmail", e.target.value)}
-                        className={`${styles.input}`}
+                        className={styles.input}
                     />
                 </div> */}
             </div>

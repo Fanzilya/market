@@ -4,6 +4,7 @@ import { cabinetLocationOptions, directionOptions, mediumOptions } from './src/d
 import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing';
 import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
 import Icon from '@/shared/ui-kits/Icon';
+import { Input } from '@/shared/ui-kits/Input';
 
 
 interface Props {
@@ -31,13 +32,11 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <label className={styles.label}>
                                 Производительность (м³/ч, л/с) <span className={styles.required}>*</span>
                             </label>
-                            <input
-                                type="text"
+                            <Input
+                                type="number"
                                 value={knsData.capacity}
-                                onChange={(e) => setKnsData("capacity", e.target.value)}
-                                onFocus={() => focusedInput('capacity')}
-                                onBlur={() => focusedInput(null)}
-                                className={`${styles.input} ${focusedInput === 'capacity' ? styles.inputFocused : ''}`}
+                                onChange={(e) => setKnsData("capacity", e)}
+                                classNames={{ input: styles.input }}
                                 placeholder="м³/ч"
                             />
                         </div>
@@ -46,50 +45,45 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <label className={styles.label}>
                                 Требуемый напор (м) <span className={styles.required}>*</span>
                             </label>
-                            <input
-                                type="text"
+                            <Input
+                                type="number"
                                 value={knsData.head}
-                                onChange={(e) => setKnsData("head", e.target.value)}
-                                onFocus={() => focusedInput('head')}
-                                onBlur={() => focusedInput(null)}
-                                className={`${styles.input} ${focusedInput === 'head' ? styles.inputFocused : ''}`}
+                                onChange={(e) => setKnsData("head", e)}
+                                classNames={{ input: styles.input }}
                                 placeholder="м"
                             />
                         </div>
 
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Кол-во рабочих насосов</label>
-                            <input
+                            <Input
                                 type="number"
                                 value={knsData.workingPumps}
-                                onChange={(e) => setKnsData("workingPumps", e.target.value)}
-                                className={styles.input}
+                                onChange={(e) => setKnsData("workingPumps", e)}
+                                classNames={{ input: styles.input }}
                                 placeholder="например: 2"
-                                min="0"
                             />
                         </div>
 
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Кол-во резервных насосов</label>
-                            <input
+                            <Input
                                 type="number"
                                 value={knsData.reservePumps}
-                                onChange={(e) => setKnsData("reservePumps", e.target.value)}
-                                className={styles.input}
+                                onChange={(e) => setKnsData("reservePumps", e)}
+                                classNames={{ input: styles.input }}
                                 placeholder="например: 1"
-                                min="0"
                             />
                         </div>
 
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Кол-во насосов на склад</label>
-                            <input
+                            <Input
                                 type="number"
                                 value={knsData.stockPumps}
-                                onChange={(e) => setKnsData("stockPumps", e.target.value)}
-                                className={styles.input}
+                                onChange={(e) => setKnsData("stockPumps", e)}
+                                classNames={{ input: styles.input }}
                                 placeholder="например: 0"
-                                min="0"
                             />
                         </div>
                     </div>
@@ -117,11 +111,11 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
 
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Температура среды (°C)</label>
-                            <input
+                            <Input
                                 type="text"
                                 value={knsData.temperature}
-                                onChange={(e) => setKnsData("temperature", e.target.value)}
-                                className={styles.input}
+                                onChange={(e) => setKnsData("temperature", e)}
+                                classNames={{ input: styles.input }}
                                 placeholder="°C"
                             />
                         </div>

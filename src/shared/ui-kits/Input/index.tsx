@@ -1,11 +1,13 @@
-import { useState } from "react";
+import { HTMLInputTypeAttribute, useState } from "react";
+import { phoneMask } from "./src/setting";
+import { IMaskInput } from "react-imask";
 
 interface Props {
     value: string | number;
     onChange: (value: string | number) => void;
     label?: string;
     placeholder: string;
-    type?: "text" | "number" | "date";
+    type?: HTMLInputTypeAttribute;
     disabled?: boolean,
     classNames?: {
         input?: string;
@@ -17,6 +19,7 @@ interface Props {
 export const Input = ({ value, onChange, label, placeholder, classNames, type = "text", disabled = false }: Props) => {
 
     const [isFocused, setIsFocused] = useState(false);
+    const InputComponent = type === "phone" ? IMaskInput : "input"
 
     const baseClasses = 'px-4 py-3 border-2 border-slate-200 rounded-[10px] text-sm transition-all duration-200 bg-white text-slate-700 w-full';
 
@@ -27,15 +30,17 @@ export const Input = ({ value, onChange, label, placeholder, classNames, type = 
     // const errorClasses = error ? 'border-red-500 focus:border-red-500 focus:shadow-[0_0_0_3px_rgba(239,68,68,0.1)]' : '';
 
 
+
     return (
         <div className={`flex flex-col gap-[8px] ${classNames?.container}`}>
             {label && <span className={`text-[14px]font-medium text-[#1e293b] ${classNames?.label}`}>{label}</span>}
-            <input
+            <InputComponent
                 type={type}
                 placeholder={placeholder}
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
+                mask={type === "phone" ? "+7 (000) 000-00-00" : ""}
                 onFocus={(e) => {
                     setIsFocused(true);
                 }}
