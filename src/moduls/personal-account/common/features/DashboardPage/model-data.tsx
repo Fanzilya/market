@@ -51,10 +51,10 @@ export const getDashboardData = (): DashboardData => {
                 { label: 'Перейти к заявкам', type: 'primary', link: '/customer/request' },
                 { label: 'Создать заявку', type: 'secondary', link: '/customer/request/new' }
             ],
-            stats: {
-                'Всего': customerRequests.length,
-                'С КП': customerRequests.filter(r => countOffersForRequest(r.id) > 0).length
-            }
+            // stats: {
+            //     'Всего': 0,
+            //     'С КП': customerRequests.filter(r => countOffersForRequest(r.id) > 0).length
+            // }
         },
         {
             category: 'Аналитика',
@@ -65,10 +65,10 @@ export const getDashboardData = (): DashboardData => {
             actions: [
                 { label: 'Перейти к анализу', type: 'secondary', link: '/customer/analysis' }
             ],
-            stats: {
-                'Предложений': '0',
-                'Анализов': '0'
-            }
+            // stats: {
+            //     'Предложений': '0',
+            //     'Анализов': '0'
+            // }
         },
         {
             category: 'Сервисы',
@@ -94,10 +94,10 @@ export const getDashboardData = (): DashboardData => {
             actions: [
                 { label: 'Перейти к заявкам', type: 'primary', link: '/supplier' }
             ],
-            stats: {
-                'Новых': supplierRequests.length,
-                'Активных': supplierRequests.length
-            },
+            // stats: {
+            //     'Новых': supplierRequests.length,
+            //     'Активных': supplierRequests.length
+            // },
             extraAction: {
                 label: 'Бесплатных кликов: 5',
                 link: '/billing'
@@ -112,10 +112,10 @@ export const getDashboardData = (): DashboardData => {
             actions: [
                 { label: 'Мои предложения', type: 'secondary', link: '/supplier/offers' }
             ],
-            stats: {
-                'Отправлено': supplierOffers.length,
-                'Просмотрено': '0'
-            }
+            // stats: {
+            //     'Отправлено': supplierOffers.length,
+            //     'Просмотрено': '0'
+            // }
         },
         {
             category: 'Инструменты',
