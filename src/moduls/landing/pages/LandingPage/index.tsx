@@ -129,7 +129,7 @@ export const LandingPage = () => {
             </div>
 
             <div className={styles.heroRight}>
-              <div className={styles.heroCard}>
+              {/* <div className={styles.heroCard}>
                 <svg viewBox="0 0 400 350" fill="none">
                   <rect x="0" y="0" width="400" height="350" fill="white" rx="24" />
                   <rect x="20" y="20" width="360" height="50" fill="#F8FAFC" rx="12" />
@@ -146,8 +146,10 @@ export const LandingPage = () => {
                   <circle cx="280" cy="280" r="40" fill="#4A85F6" opacity="0.1" />
                   <circle cx="280" cy="280" r="25" fill="#4A85F6" opacity="0.2" />
                   <circle cx="280" cy="280" r="10" fill="#4A85F6" />
-                </svg>
-              </div>
+                </svg> 
+                
+              </div> */}
+              <img src="public\фон для главной страницы.png"  />
             </div>
           </div>
         </div>
