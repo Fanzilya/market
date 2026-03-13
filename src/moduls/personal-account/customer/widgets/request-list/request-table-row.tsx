@@ -263,10 +263,7 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
                     </div>
                 </div>
             </div>
-            <div
-                id={`offers-${item.data.id}`}
-                className="hidden opacity-0 translate-y-[-10px] transition-all duration-300 ease-in-out border-b border-gray-300 rounded-b-lg overflow-hidden"
-            >
+            <div id={`offers-${item.data.id}`} className="hidden opacity-0 translate-y-[-10px] transition-all duration-300 ease-in-out border-b border-gray-300 overflow-hidden">
                 <RequestOffersTableRow item={item} />
             </div>
 
