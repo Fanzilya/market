@@ -110,7 +110,7 @@ export const LandingPage = () => {
                 </Link>
               </div>
 
-              <div className={styles.heroStats}>
+              {/* <div className={styles.heroStats}>
                 <div className={styles.heroStat}>
                   <span className={styles.heroStatValue}>500+</span>
                   <span className={styles.heroStatLabel}>компаний</span>
@@ -125,7 +125,7 @@ export const LandingPage = () => {
                   <span className={styles.heroStatValue}>98%</span>
                   <span className={styles.heroStatLabel}>довольны</span>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             <div className={styles.heroRight}>
