@@ -5,6 +5,7 @@ import styles from './LandingPage.module.css'
 import Header from '@/shared/components/Header'
 import Footer from '@/shared/components/Footer'
 import { features, partners, testimonials } from '../../features/Landing/data'
+import bannerFoto from '../../../../../public/фон для главной страницы.png'
 
 export const LandingPage = () => {
   const navigate = useNavigate()
@@ -149,7 +150,7 @@ export const LandingPage = () => {
                 </svg> 
                 
               </div> */}
-              <img src="public\фон для главной страницы.png"  />
+              <img src={bannerFoto} />
             </div>
           </div>
         </div>
