@@ -6,7 +6,7 @@ import ascent from "@/moduls/shop/assets/images/ascent-logo.png";
 import Icon from "@/shared/ui-kits/Icon";
 
 export const partners = [
-    { id: 1, name: 'СМК-Гидрикс', logo: smk,   slug: 'gidrig' },
+    // { id: 1, name: 'СМК-Гидрикс', logo: smk,   slug: 'gidrig' },
     { id: 2, name: 'НПП Гидрикс', logo: npp,  slug: 'npp' },
     { id: 3, name: 'Волжский композит', logo: compozit, slug: 'compozit' },
     { id: 4, name: 'Эколайн', logo: aco,  slug: 'ecolain' },
