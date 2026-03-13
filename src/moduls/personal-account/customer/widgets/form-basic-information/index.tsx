@@ -60,6 +60,21 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
                 </div>
 
                 <div className={styles.formGroup}>
+                    <label className={styles.label}>
+                        Проектировщик <span className={styles.required}>*</span>
+                    </label>
+                    <Input
+                        type="text"
+                        value={formData.projectOrganizationName}
+                        onChange={(e) => setFormData("projectOrganizationName", e)}
+                        classNames={{
+                            input: styles.input
+                        }}
+                        placeholder="Например: ООО «Проф проект"
+                    />
+                </div>
+
+                <div className={styles.formGroup}>
                     <label className={styles.label}>Тип конфигурации</label>
                     <select
                         value={formData.configType}

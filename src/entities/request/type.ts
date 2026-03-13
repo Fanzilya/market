@@ -10,6 +10,7 @@ export interface BaseInfo {
     contactPerson: string,
     contactPhone: string,
     contactEmail: string,
+    projectOrganizationName: string,
 }
 
 export interface KnsData {

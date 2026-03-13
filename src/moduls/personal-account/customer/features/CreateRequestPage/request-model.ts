@@ -17,52 +17,53 @@ class RequestModel {
 
     model: { formData: BaseInfo, knsData: KnsData, } = {
         formData: {
-            objectName: '1',
-            govCustomerName: '1',
-            locationRegion: '1',
+            objectName: '',
+            govCustomerName: '',
+            locationRegion: '',
             configType: "019cdcd9-1892-7f3a-955c-3503ede15a6d",
-            contactPerson: '1',
-            contactPhone: '1',
-            contactEmail: '1',
+            contactPerson: '',
+            contactPhone: '',
+            contactEmail: '',
+            projectOrganizationName: '',
         },
 
         knsData: {
             // Основные параметры
-            capacity: '1',
-            head: '1',
-            workingPumps: '1',
-            reservePumps: '1',
-            stockPumps: '1',
-            medium: '1',
-            temperature: '1',
+            capacity: '',
+            head: '',
+            workingPumps: '',
+            reservePumps: '',
+            stockPumps: '',
+            medium: '',
+            temperature: '',
             explosionProof: false,
 
             // Параметры трубопроводов
-            inletDepth: '1',
-            inletDiameter: '1',
-            inletMaterial: '1',
-            inletDirection: '12',
+            inletDepth: '',
+            inletDiameter: '',
+            inletMaterial: '',
+            inletDirection: '',
 
-            outletDepth: '1',
-            outletDiameter: '1',
-            outletMaterial: '1',
-            outletDirection: '3',
-            outletCount: '1',
+            outletDepth: '',
+            outletDiameter: '',
+            outletMaterial: '',
+            outletDirection: '',
+            outletCount: '',
 
             // Параметры станции
-            stationDiameter: '1',
-            stationHeight: '1',
-            insulation: '1',
+            stationDiameter: '',
+            stationHeight: '',
+            insulation: '',
 
             // Электрические параметры
-            motorStartMethod: '1',
-            powerInputs: '1',
-            cabinetLocation: '1',
+            motorStartMethod: '',
+            powerInputs: '',
+            cabinetLocation: '',
 
             // Дополнительные элементы конструктора схемы
-            element1Name: '1',
-            element1Value: '1',
-            element2Param: '1',
+            element1Name: '',
+            element1Value: '',
+            element2Param: '',
         }
     }
 
@@ -205,8 +206,8 @@ class RequestModel {
                 nameByProjectDocs: this.model.formData.objectName,
                 objectName: this.model.formData.objectName,
                 locationRegion: this.model.formData.locationRegion,
-                customerName: user.fullName,
-                contactName: this.model.formData.govCustomerName,
+                customerName: this.model.formData.govCustomerName,
+                contactName: this.model.formData.contactPerson,
                 phoneNumber: this.model.formData.contactPhone,
                 userId: user.id?.toString() || "",
                 configTypeId: this.model.formData.configType,
