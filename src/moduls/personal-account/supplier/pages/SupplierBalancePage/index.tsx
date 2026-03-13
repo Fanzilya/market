@@ -12,6 +12,7 @@ import useBalanceData from './hooks/useBalanceData'
 import usePackages from './hooks/usePackages'
 import { useAuth } from '@/features/user/context/context'
 import styles from "./SupplierBalancePage.module.css"
+import { balancePageModel } from '../../features/balance-page/balance-page-model'
 
 export const SupplierBalancePage = () => {
   const { user } = useAuth()
@@ -41,6 +42,15 @@ export const SupplierBalancePage = () => {
     localStorage.setItem('theme', darkMode ? 'dark' : 'light')
     document.body.classList.toggle('dark-mode', darkMode)
   }, [darkMode])
+
+
+
+  const { model, init } = balancePageModel
+
+  useEffect(() => {
+    init(user?.id)
+   }, [])
+
 
   if (!user) {
     return <AccessDenied onNavigate={navigate} />

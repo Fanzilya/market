@@ -80,3 +80,10 @@ export interface UserInfoDTO {
     middleName?: string | null
     roles?: string[] | null
 }
+
+
+
+export interface IUserId {
+    userId: string
+}
+

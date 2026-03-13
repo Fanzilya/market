@@ -5,6 +5,7 @@ export const Auth = {
     createRole: "/Auth/inner/createRole",
     logout: "/Auth/logout",
     me: "/Auth/me",
+    accountMany: "/Auth/employer/account",
 }
 
 

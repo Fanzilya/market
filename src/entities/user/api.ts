@@ -1,6 +1,6 @@
 import { instance } from "@/app/api/instances"
 import { Auth } from "@/app/routers/api-router"
-import { LoginRequest, RefreshTokenRequestDTO, RegisterRequestDTO } from "./type"
+import { IUserId, LoginRequest, RefreshTokenRequestDTO, RegisterRequestDTO } from "./type"
 
 export const registerApi = (data: RegisterRequestDTO) => {
     return instance.post(Auth.register, data)
@@ -24,4 +24,8 @@ export const logoutApi = () => {
 
 export const getCurrentUserApi = () => {
     return instance.get(Auth.me)
+}
+
+export const getAccountManyApi = (params: IUserId) => {
+    return instance.get(Auth.accountMany, { params })
 }
