@@ -14,6 +14,13 @@ interface Props {
   setIsCollapsed: (value: boolean) => void,
 }
 
+// Функция для получения отображаемой роли
+const getRoleDisplay = (role?: Role, roleLabel?: string) => {
+  if (role === Role.Supplier) return 'Исполнитель'
+  if (role === Role.Customer) return 'Заказчик'
+  return roleLabel || 'Исполнитель'
+}
+
 export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
   const { user, signOut } = useAuth()
   const location = useLocation()
@@ -115,16 +122,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
           </ul>
         </nav>
 
-        {/* Кнопка меню (дублирующая, для быстрого доступа) */}
-        <button
-          className={styles.mobileMenuButton}
-          onClick={() => setIsMobileMenuOpen(true)}
-          aria-label="Открыть меню"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M3 12h18M3 6h18M3 18h18" strokeLinecap="round"/>
-          </svg>
-        </button>
+       
 
         {/* Затемнение фона */}
         <div 
@@ -157,7 +155,9 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
               </div>
               <div className={styles.mobileSidebarUserInfo}>
                 <span className={styles.mobileSidebarUserName}>{user?.fullName || 'Пользователь'}</span>
-                <span className={styles.mobileSidebarUserRole}>{user?.roleLabel || 'Исполнитель'}</span>
+                <span className={styles.mobileSidebarUserRole}>
+                  {getRoleDisplay(user?.role, user?.roleLabel)}
+                </span>
               </div>
             </div>
 
@@ -207,9 +207,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
               <span>Выйти</span>
             </button>
 
-            <div className={styles.version}>
-              Версия 2.0.1
-            </div>
+            
           </div>
         </div>
       </>
@@ -246,13 +244,9 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
         {!isCollapsed && (
           <div className={styles.userInfo}>
             <span className={styles.userName}>{user?.fullName || 'Пользователь'}</span>
-            <span className={styles.mobileSidebarUserRole}>
-      {(() => {
-        if (user?.role === Role.Supplier) return 'Исполнитель'
-        if (user?.role === Role.Customer) return 'Заказчик'
-        return user?.roleLabel || 'Исполнитель'
-      })()}
-    </span>
+            <span className={styles.userRole}>
+              {getRoleDisplay(user?.role, user?.roleLabel)}
+            </span>
           </div>
         )}
       </div>
@@ -307,11 +301,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
           <Icon name='logout' />
           {!isCollapsed && <span>Выйти</span>}
         </button>
-        {!isCollapsed && (
-          <div className={styles.version}>
-            Версия 2.0.1
-          </div>
-        )}
+      
       </div>
     </aside>
   )
