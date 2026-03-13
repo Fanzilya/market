@@ -3,7 +3,8 @@ import { makeAutoObservable } from 'mobx';
 import { IRequestStats } from './config';
 import { countOffersByRequestId } from '@/shared/data/offers';
 import { RequestStatus } from '@/entities/request/config';
-import { allByUserApi } from '@/entities/request/api';
+import { allByUserApi, requestSingleApi } from '@/entities/request/api';
+import { offersByRequestsApi } from '@/entities/offer/api';
 
 
 class RequestListModel {
@@ -16,18 +17,57 @@ class RequestListModel {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-    async init(userId: string) {
+    // async init(userId: string) {
 
+    //     try {
+    //         const res = await allByUserApi({ userId: userId })
+    //         this.model = res.data
+    //         this.sortStats()
+    //     } catch (error) {
+    //         console.log(error)
+    //     } finally {
+    //         this.isLoader = false
+    //     }
+    // }
+
+
+    async init(userId: string) {
         try {
-            const res = await allByUserApi({ userId: userId })
-            this.model = res.data
-            this.sortStats()
+            const response = await allByUserApi({ userId: userId });
+            const requests = response.data;
+
+            const promises = requests.map(async (request) => {
+                try {
+                    const [singleData, offersData] = await Promise.all([
+                        requestSingleApi({ id: request.id }),
+                        offersByRequestsApi({ requestId: request.id })
+                    ]);
+
+                    return {
+                        data: singleData.data,
+                        offers: offersData.data
+                    };
+                } catch (error) {
+                    console.error(`Ошибка при обработке request ${request.id}:`, error);
+                    return null;
+                }
+            });
+
+            const results = await Promise.all(promises);
+            this.model = results.filter(result => result !== null) as typeof this.model;
+
         } catch (error) {
-            console.log(error)
+            console.error('Ошибка при получении списка запросов:', error);
         } finally {
-            this.isLoader = false
+            this.isLoader = false;
         }
+
+        console.log(this.model)
+
     }
+
+
+
 
     sortStats() {
         let news = 0
@@ -36,7 +76,7 @@ class RequestListModel {
         let published = 0
         let archived = 0
 
-        this.model.forEach(r => {
+        this.model.data.forEach(r => {
             if (r.isArchived) {
                 archived++
             } else {

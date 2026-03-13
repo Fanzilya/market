@@ -14,32 +14,6 @@ const protectedRoutes = [
     },
   },
   {
-    path: 'offer',
-    children: [
-      {
-        path: ':offerId',
-        children: [
-          {
-            // ============!!!!!  ЕЩЁ НЕ ИСПРАВИТЬ !!!!!=========================  
-            index: true,
-            async lazy() {
-              const { OfferDetailPage } = await import('@common/pages/OfferDetailPage');
-              return { Component: OfferDetailPage };
-            },
-            // ============!!!!!  ЕЩЁ НЕ ИСПРАВИТЬ !!!!!=========================  
-          },
-          {
-            path: 'edit',
-            async lazy() {
-              const { CreateOfferPage } = await import('@supplier/pages/CreateOfferPage');
-              return { Component: CreateOfferPage };
-            },
-          },
-        ]
-      },
-    ],
-  },
-  {
     path: 'profile',
     element: <ProtectedRoute allowedRoles={[Role.Customer, Role.Supplier]} />,
     async lazy() {
@@ -241,6 +215,34 @@ export const AppRouter = createBrowserRouter([
           },
         ]
       },
+
+      {
+        path: 'offer',
+        children: [
+          {
+            path: ':offerId',
+            children: [
+              {
+                // ============!!!!!  ЕЩЁ НЕ ИСПРАВИТЬ !!!!!=========================  
+                index: true,
+                async lazy() {
+                  const { OfferDetailPage } = await import('@common/pages/OfferDetailPage');
+                  return { Component: OfferDetailPage };
+                },
+                // ============!!!!!  ЕЩЁ НЕ ИСПРАВИТЬ !!!!!=========================  
+              },
+              {
+                path: 'edit',
+                async lazy() {
+                  const { CreateOfferPage } = await import('@supplier/pages/CreateOfferPage');
+                  return { Component: CreateOfferPage };
+                },
+              },
+            ]
+          },
+        ],
+      },
+
       ...protectedRoutes,
     ]
   },

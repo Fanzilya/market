@@ -1,3 +1,5 @@
+import { offersByRequestsApi } from '@/entities/offer/api';
+import { OfferFull } from '@/entities/offer/type';
 import { currentKnsApi, equipmentCurrentKnsApi, requestSingleApi } from '@/entities/request/api';
 import { ApiResponse, IRequest } from '@/entities/request/type';
 import { makeAutoObservable } from 'mobx';
@@ -10,6 +12,8 @@ class RequestDetailModel {
         current: null,
         equipmentCurrent: null,
     }
+
+    offers: OfferFull[] = []
 
     isLoader: boolean = true
     schemeIsActive: boolean = false
@@ -34,11 +38,11 @@ class RequestDetailModel {
         this.schemeIsActive = false
 
         try {
-
-            const [resquestRes, currentRes, equipmentCurrentRes] = await Promise.all([
+            const [resquestRes, currentRes, equipmentCurrentRes, offersRes] = await Promise.all([
                 requestSingleApi({ id: id }),
                 currentKnsApi({ requestId: id }),
-                equipmentCurrentKnsApi({ requestId: id })
+                equipmentCurrentKnsApi({ requestId: id }),
+                offersByRequestsApi({ requestId: id })
             ])
 
             this.model = {
@@ -46,6 +50,8 @@ class RequestDetailModel {
                 current: currentRes.data,
                 equipmentCurrent: equipmentCurrentRes.data,
             }
+
+            this.offers = offersRes.data
 
 
             equipmentCurrentRes.data.forEach(element => {
