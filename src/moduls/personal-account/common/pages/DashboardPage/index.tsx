@@ -27,8 +27,6 @@ export const DashboardPage = () => {
     } = getDashboardData()
 
 
-
-
     return (
         <>
             {/* Шапка */}

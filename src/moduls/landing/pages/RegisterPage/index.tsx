@@ -7,6 +7,7 @@ import { Role } from '@/entities/user/role'
 import { observer } from 'mobx-react-lite'
 import styles from './RegisterPage.module.css'
 import { RegistrRoleButton } from '../../widgets/register-role-button'
+import { Input } from '@/shared/ui-kits/Input'
 
 export const RegisterPage = observer(() => {
 
@@ -81,14 +82,12 @@ export const RegisterPage = observer(() => {
               {/* Поля для поставщика */}
               <div className={styles.inputGroup}>
                 <label className={styles.label}>ФИО *</label>
-                <input
+                <Input
                   type="text"
                   value={formData.fullName}
-                  onChange={(e) => setFormData("fullName", e.target.value)}
-                  onFocus={() => setFocusedInput('fullName')}
-                  onBlur={() => setFocusedInput('')}
+                  onChange={(e) => setFormData("fullName", e)}
                   placeholder="Иванов Иван Иванович"
-                  className={`${styles.input} ${focusedInput === 'fullName' ? styles.inputFocused : ''}`}
+                  classNames={{ input: styles.input }}
                   disabled={isLoading}
                 />
               </div>
@@ -96,14 +95,12 @@ export const RegisterPage = observer(() => {
               {/* Общие поля для всех */}
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Email *</label>
-                <input
+                <Input
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData("email", e.target.value)}
-                  onFocus={() => setFocusedInput('email')}
-                  onBlur={() => setFocusedInput('')}
+                  onChange={(e) => setFormData("email", e)}
                   placeholder="company@example.com"
-                  className={`${styles.input} ${focusedInput === 'email' ? styles.inputFocused : ''}`}
+                  classNames={{ input: styles.input }}
                   disabled={isLoading}
                 />
               </div>
@@ -111,14 +108,12 @@ export const RegisterPage = observer(() => {
               {/* Общие поля для всех */}
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Номер телефона *</label>
-                <input
+                <Input
                   type="phone"
                   value={formData.phoneNumber}
-                  onChange={(e) => setFormData("phoneNumber", e.target.value)}
-                  onFocus={() => setFocusedInput('phoneNumber')}
-                  onBlur={() => setFocusedInput('')}
+                  onChange={(e) => setFormData("phoneNumber", e)}
                   placeholder="+79963363058"
-                  className={`${styles.input} ${focusedInput === 'phoneNumber' ? styles.inputFocused : ''}`}
+                  classNames={{ input: styles.input }}
                   disabled={isLoading}
                 />
               </div>
@@ -126,14 +121,12 @@ export const RegisterPage = observer(() => {
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Пароль *</label>
                 <div className={styles.passwordWrapper}>
-                  <input
+                  <Input
                     type={showPassword ? 'text' : 'password'}
                     value={formData.password}
-                    onChange={(e) => setFormData('password', e.target.value)}
-                    onFocus={() => setFocusedInput('password')}
-                    onBlur={() => setFocusedInput('')}
+                    onChange={(e) => setFormData('password', e)}
                     placeholder="Минимум 6 символов"
-                    className={`${styles.input} ${styles.inputPassword} ${focusedInput === 'password' ? styles.inputFocused : ''}`}
+                    classNames={{ input: styles.input }}
                     disabled={isLoading}
                   />
                   <button

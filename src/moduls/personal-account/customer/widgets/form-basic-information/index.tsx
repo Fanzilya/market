@@ -46,7 +46,7 @@ export const FormBasicInformation = observer(({ styles, formData, setFormData, f
 
                 <div className={styles.formGroup}>
                     <label className={styles.label}>
-                        Гос. заказчик <span className={styles.required}>*</span>
+                        Заказчик <span className={styles.required}>*</span>
                     </label>
                     <Input
                         type="text"

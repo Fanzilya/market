@@ -59,7 +59,7 @@ export const SupplierPreviewPage = observer(() => {
     <>
       <div className={styles.container}>
         <PageHeader
-          requestId={request.id}
+          requestId={request.innerId}
           hasResponded={hasResponded}
           isFavorite={isFavorite}
           onToggleFavorite={handleToggleFavorite}

@@ -52,10 +52,6 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
     }
 
 
-
-
-
-
     const { user } = useAuth()
 
     const navigate = useNavigate()
@@ -68,7 +64,7 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
                 className={`${styles.tr} py-5 px-3 cursor-pointer items-center text-center hover:bg-[rgba(74,_133,_246,_0.05)] border-b border-gray-300 ${gridClass}  ${item.data.isArchived ? styles.trArchived : ''}`}
             >
                 <div className={styles.div}>
-                    <span className={styles.idBadge}>{number}</span>
+                    <span className={styles.idBadge}>{item.innerId || number}</span>
                 </div>
 
                 <div className={styles.div}>

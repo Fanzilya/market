@@ -51,7 +51,7 @@ export default function RequestDetailsModal({
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
         <div className={styles.header}>
-          <h2 className={styles.title}>Заявка {request.id}</h2>
+          <h2 className={styles.title}>Заявка {request?.innerId}</h2>
           <button className={styles.closeButton} onClick={onClose}>✕</button>
         </div>
 
@@ -60,7 +60,7 @@ export default function RequestDetailsModal({
           <span className={styles.separator}>›</span>
           <span className={styles.breadcrumb}>Заявки</span>
           <span className={styles.separator}>›</span>
-          <span className={styles.breadcrumbActive}>{request.id}</span>
+          <span className={styles.breadcrumbActive}>{request?.innerId}</span>
         </div>
 
         <div className={styles.content}>

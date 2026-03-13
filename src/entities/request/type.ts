@@ -129,6 +129,8 @@ export interface IUserId {
 
 export interface RequestRes {
     /** Название по проектной документации */
+    innerId?: string;
+    /** Название по проектной документации */
     nameByProjectDocs: string;
     /** Наименование объекта */
     objectName: string;

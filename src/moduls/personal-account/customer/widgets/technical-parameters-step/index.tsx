@@ -2,7 +2,7 @@ import { schemeActionsModel } from '@/widgets/Scheme/src/models/scheme-actions-m
 import { observer } from 'mobx-react-lite';
 import { cabinetLocationOptions, directionOptions, mediumOptions } from './src/data';
 import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing';
-import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
+import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PipelineMaterial, PipelineMaterialTranslations, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
 import Icon from '@/shared/ui-kits/Icon';
 import { Input } from '@/shared/ui-kits/Input';
 
@@ -112,7 +112,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Температура среды (°C)</label>
                             <Input
-                                type="text"
+                                type="number"
                                 value={knsData.temperature}
                                 onChange={(e) => setKnsData("temperature", e)}
                                 classNames={{ input: styles.input }}
@@ -190,11 +190,11 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <div className={styles.formGroup}>
                                 <div className={styles.label}>Глубина залегания подводящего трубопровода, A (м)</div>
                                 <div className={styles.dimensionValue}>
-                                    <input
+                                    <Input
                                         type="text"
                                         value={knsData.inletDepth}
-                                        onChange={(e) => setKnsData("inletDepth", e.target.value)}
-                                        className={styles.input}
+                                        onChange={(e) => setKnsData("inletDepth", e)}
+                                        classNames={{ input: styles.input }}
                                         placeholder="м"
                                     />
                                 </div>
@@ -205,20 +205,28 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                                 <div className={styles.label}>Диаметр и материал подводящего трубопровода, B</div>
                                 <div className={styles.dimensionValue}>
                                     <div className={styles.dimensionGroup}>
-                                        <input
+                                        <Input
                                             type="text"
                                             value={knsData.inletDiameter}
-                                            onChange={(e) => setKnsData("inletDiameter", e.target.value)}
-                                            className={styles.input}
+                                            onChange={(e) => setKnsData("inletDiameter", e)}
+                                            classNames={{ input: styles.input }}
                                             placeholder="мм"
                                         />
-                                        <input
-                                            type="text"
+
+                                        <select
                                             value={knsData.inletMaterial}
                                             onChange={(e) => setKnsData("inletMaterial", e.target.value)}
-                                            className={styles.input}
-                                            placeholder="материал"
-                                        />
+                                            className={styles.select}
+                                        >
+                                            {Object.values(PipelineMaterial)
+                                                .filter(value => typeof value === 'number')
+                                                .map(value => (
+                                                    <option key={value} value={value}>
+                                                        {PipelineMaterialTranslations[value]}
+                                                    </option>
+                                                ))
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -243,11 +251,11 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <div className={styles.formGroup}>
                                 <div className={styles.label}>Глубина залегания напорного трубопровода, D (м)</div>
                                 <div className={styles.dimensionValue}>
-                                    <input
-                                        type="text"
+                                    <Input
+                                        type="number"
                                         value={knsData.outletDepth}
-                                        onChange={(e) => setKnsData("outletDepth", e.target.value)}
-                                        className={styles.input}
+                                        onChange={(e) => setKnsData("outletDepth", e)}
+                                        classNames={{ input: styles.input }}
                                         placeholder="м"
                                     />
                                 </div>
@@ -258,20 +266,27 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                                 <div className={styles.label}>Диаметр и материал напорного трубопровода на выходе из насосной станции, C</div>
                                 <div className={styles.dimensionValue}>
                                     <div className={styles.dimensionGroup}>
-                                        <input
-                                            type="text"
+                                        <Input
+                                            type="number"
                                             value={knsData.outletDiameter}
-                                            onChange={(e) => setKnsData("outletDiameter", e.target.value)}
-                                            className={styles.input}
+                                            onChange={(e) => setKnsData("outletDiameter", e)}
+                                            classNames={{ input: styles.input }}
                                             placeholder="мм"
                                         />
-                                        <input
-                                            type="text"
+                                        <select
                                             value={knsData.outletMaterial}
                                             onChange={(e) => setKnsData("outletMaterial", e.target.value)}
-                                            className={styles.input}
-                                            placeholder="материал"
-                                        />
+                                            className={styles.select}
+                                        >
+                                            {Object.values(PipelineMaterial)
+                                                .filter(value => typeof value === 'number')
+                                                .map(value => (
+                                                    <option key={value} value={value}>
+                                                        {PipelineMaterialTranslations[value]}
+                                                    </option>
+                                                ))
+                                            }
+                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -311,11 +326,11 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <div className={styles.formGroup}>
                                 <div className={styles.label}>Предполагаемый диаметр насосной станции (м)</div>
                                 <div className={styles.dimensionValue}>
-                                    <input
-                                        type="text"
+                                    <Input
+                                        type="number"
                                         value={knsData.stationDiameter}
-                                        onChange={(e) => setKnsData("stationDiameter", e.target.value)}
-                                        className={styles.input}
+                                        onChange={(e) => setKnsData("stationDiameter", e)}
+                                        classNames={{ input: styles.input }}
                                         placeholder="м"
                                     />
                                 </div>
@@ -325,11 +340,11 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <div className={styles.formGroup}>
                                 <div className={styles.label}>Предполагаемая высота насосной станции (м)</div>
                                 <div className={styles.dimensionValue}>
-                                    <input
-                                        type="text"
+                                    <Input
+                                        type="number"
                                         value={knsData.stationHeight}
-                                        onChange={(e) => setKnsData("stationHeight", e.target.value)}
-                                        className={styles.input}
+                                        onChange={(e) => setKnsData("stationHeight", e)}
+                                        classNames={{ input: styles.input }}
                                         placeholder="м"
                                     />
                                 </div>
@@ -339,11 +354,11 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <div className={styles.formGroup}>
                                 <div className={styles.label}>Наличие утепления корпуса (указать глубину, м)</div>
                                 <div className={styles.dimensionValue}>
-                                    <input
-                                        type="text"
+                                    <Input
+                                        type="number"
                                         value={knsData.insulation}
-                                        onChange={(e) => setKnsData("insulation", e.target.value)}
-                                        className={styles.input}
+                                        onChange={(e) => setKnsData("insulation", e)}
+                                        classNames={{ input: styles.input }}
                                         placeholder="м"
                                     />
                                 </div>
@@ -371,7 +386,7 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
             </div>
 
 
-            {formData.configType !== 'КНС' && (
+            {false && formData.configType !== 'КНС' && (
                 <div className={styles.infoMessage}>
                     <Icon name='info' color='#4A85F6' width={24} />
 
