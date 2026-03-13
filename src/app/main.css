@@ -27,3 +27,81 @@ body {
 a {
   text-decoration: none;
 }
+
+/* Добавьте в ваш глобальный CSS файл (например, index.css) */
+
+/* Адаптация для планшетов (до 1024px) */
+@media (max-width: 1024px) {
+    .layout-content {
+        margin-left: 0 !important;
+        padding: 24px !important;
+    }
+}
+
+/* Адаптация для мобильных устройств (до 768px) */
+@media (max-width: 768px) {
+    .layout-content {
+        padding: 20px !important;
+        padding-bottom: 80px !important; /* Отступ для нижней навигации */
+    }
+}
+
+/* Адаптация для маленьких телефонов (до 480px) */
+@media (max-width: 480px) {
+    .layout-content {
+        padding: 16px !important;
+        padding-bottom: 70px !important;
+    }
+}
+
+/* Адаптация для очень маленьких телефонов (до 360px) */
+@media (max-width: 360px) {
+    .layout-content {
+        padding: 12px !important;
+        padding-bottom: 65px !important;
+    }
+}
+
+/* Горизонтальная ориентация */
+@media (max-height: 600px) and (orientation: landscape) {
+    .layout-content {
+        padding-bottom: 60px !important;
+    }
+}
+
+/* Анимации для мобильного меню */
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* Улучшения для touch-устройств */
+@media (hover: none) and (pointer: coarse) {
+    .mobile-menu-button {
+        transition: transform 0.2s;
+    }
+    
+    .mobile-menu-button:active {
+        transform: scale(0.95);
+    }
+}
+
+/* Темная тема */
+@media (prefers-color-scheme: dark) {
+    .layout-overlay {
+        background: rgba(0, 0, 0, 0.7);
+    }
+}

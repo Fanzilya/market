@@ -49,6 +49,7 @@ export const DashboardPage = () => {
                     {isCustomer && (
                         <div className={styles.headerStats}>
                             <div className={styles.headerStat}>
+                                тут нужно подредактировать всего заявок
                                 <span className={styles.headerStatValue}>{customerRequests.length}</span>
                                 <span className={styles.headerStatLabel}>Всего заявок</span>
                             </div>
