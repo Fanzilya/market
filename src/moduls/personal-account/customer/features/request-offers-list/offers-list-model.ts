@@ -50,16 +50,12 @@ class OffersListModel {
             const resOffers = await offersByRequestsApi({ requestId: requestId })
             this.offers = resOffers.data
 
-
             const prices = this.offers.map(o => parseFloat(o.currentPriceNDS) || 0).filter(p => p > 0)
 
             this.stats.total = this.offers.length
             this.stats.minPrice = prices.length ? Math.min(...prices) : 0
             this.stats.maxPrice = prices.length ? Math.max(...prices) : 0
             this.stats.avgPrice = prices.length ? (prices.reduce((a, b) => a + b, 0) / prices.length).toFixed(2) : 0
-
-
-
 
         } catch (error) {
             console.log(error)
