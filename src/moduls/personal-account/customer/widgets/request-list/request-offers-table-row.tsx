@@ -7,8 +7,8 @@ interface Props {
 
 
 export const RequestOffersTableRow = ({ item }: Props) => {
-    return item.offers && item.offers.length > 0 ? (
-        item.offers.map((offer: any) => (
+    return item.offers && item.offers.length > 0 ?
+        (item.offers.map((offer: any) => (
             <Link to={`/customer/offer/${offer.id}`} key={offer.id} className="py-1 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 grid grid-cols-6 justify-items-center ">
                 {/* Данные */}
                 <div className="py-3 px-4">
@@ -38,9 +38,9 @@ export const RequestOffersTableRow = ({ item }: Props) => {
                 </div>
             </Link>
         ))
-    ) : (
-        <div className="p-4 text-center text-gray-500">
-            Нет коммерческих предложений
-        </div>
-    )
+        ) : (
+            <div className="p-4 text-center text-gray-500">
+                Нет коммерческих предложений
+            </div>
+        )
 }
