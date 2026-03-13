@@ -7,12 +7,15 @@ import { useAuth } from '@/features/user/context/context'
 import { getIcon } from '../../features/DashboardPage/components'
 import { getDashboardData } from '../../features/DashboardPage/model-data'
 import Icon from '@/shared/ui-kits/Icon'
+import { dashboardModel } from '../../features/DashboardPage/dashboard-model'
+import { useEffect } from 'react'
+import { observer } from 'mobx-react-lite'
 
 
 
 
 
-export const DashboardPage = () => {
+export const DashboardPage = observer(() => {
     const navigate = useNavigate()
     const { user } = useAuth()
 
@@ -25,6 +28,16 @@ export const DashboardPage = () => {
         supplierOffers,
         supplierRequests
     } = getDashboardData()
+
+
+    const { init, count, isLoader } = dashboardModel
+
+    useEffect(() => {
+        if (user?.role == Role.Customer) {
+            init(user?.id)
+        }
+    }, [])
+
 
 
     return (
@@ -44,20 +57,19 @@ export const DashboardPage = () => {
                 {/* Правый блок со статистикой и уведомлениями */}
                 <div className={styles.headerRight}>
                     {/* Статистика в зависимости от роли */}
-                    {isCustomer && (
+                    {isCustomer && !isLoader && (
                         <div className={styles.headerStats}>
                             <div className={styles.headerStat}>
-                                тут нужно подредактировать всего заявок
-                                <span className={styles.headerStatValue}>{customerRequests.length}</span>
+                                <span className={styles.headerStatValue}>{count}</span>
                                 <span className={styles.headerStatLabel}>Всего заявок</span>
                             </div>
                             <div className={styles.headerStatDivider}></div>
-                            <div className={styles.headerStat}>
+                            {/* <div className={styles.headerStat}>
                                 <span className={styles.headerStatValue}>
                                     {customerRequests.filter(r => countOffersForRequest(r.id) > 0).length}
                                 </span>
                                 <span className={styles.headerStatLabel}>С КП</span>
-                            </div>
+                            </div> */}
                         </div>
                     )}
 
@@ -218,4 +230,4 @@ export const DashboardPage = () => {
             )}
         </>
     )
-}
+})
