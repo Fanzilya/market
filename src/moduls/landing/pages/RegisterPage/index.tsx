@@ -6,6 +6,7 @@ import { registerModel } from '../../features/RegisterPage/register-model'
 import { Role } from '@/entities/user/role'
 import { observer } from 'mobx-react-lite'
 import styles from './RegisterPage.module.css'
+import { RegistrRoleButton } from '../../widgets/register-role-button'
 
 export const RegisterPage = observer(() => {
 
@@ -47,20 +48,22 @@ export const RegisterPage = observer(() => {
 
             {/* Выбор роли */}
             <div className={styles.roleSelector}>
-              <button
-                type="button"
-                className={`${styles.roleButton} ${formData.roleName === Role.Supplier ? styles.roleButtonActive : ''}`}
+              <RegistrRoleButton
+                name='Исполнитель'
+                styles={styles}
                 onClick={() => setFormData('roleName', Role.Supplier)}
-              >
-                Исполнитель   
-              </button>
-              <button
-                type="button"
-                className={`${styles.roleButton} ${formData.roleName === Role.Customer ? styles.roleButtonActive : ''}`}
+                isActive={formData.roleName === Role.Supplier}
+                description="ljkdjfklsjdlkfj"
+              />
+
+              <RegistrRoleButton
+                name='Заказчик'
+                styles={styles}
                 onClick={() => setFormData('roleName', Role.Customer)}
-              >
-                Заказчик 
-              </button>
+                isActive={formData.roleName === Role.Customer}
+                description="ljkdjfklsjdlkfj"
+              />
+
             </div>
 
             {error && (
