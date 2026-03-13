@@ -6,6 +6,7 @@ import Header from './components/Header'
 import FiltersBar from './components/FiltersBar'
 import StatsBar from './components/StatsBar'
 import RequestsTable from './components/RequestsTable'
+import RequestsGrid from './components/RequestsGrid' // Новый компонент для карточек
 import LogoutConfirmModal from './components/LogoutConfirmModal'
 import EmptyState from './components/EmptyState'
 import useSupplierData from './hooks/useSupplierData'
@@ -17,11 +18,23 @@ import { requestListModel } from '../../features/supplier-request-list/request-l
 import Loader from '@/shared/ui-kits/loader/loader'
 import { RequestTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-table-row'
 
+
 export const SupplierPage = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [freeClicksLeft, setFreeClicksLeft] = useState(5)
+  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768)
+
+  // Отслеживание размера экрана
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const {
     filters,
@@ -38,13 +51,16 @@ export const SupplierPage = () => {
     init()
   }, [])
 
-
   useEffect(() => {
     const handleFavoritesUpdate = () => refreshData()
     window.addEventListener('favorites-updated', handleFavoritesUpdate)
     return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate)
   }, [refreshData])
 
+  // Функция для обработки клика по заявке
+  const handleRequestClick = (requestId: string) => {
+    navigate(`/supplier/request/${requestId}`)
+  }
 
   return (
     <div className={styles.mainContent}>
@@ -62,31 +78,53 @@ export const SupplierPage = () => {
       />
 
       <StatsBar stats={stats} freeClicksLeft={freeClicksLeft} />
-      {/* <EmptyState /> */}
 
       {isLoader ? <Loader /> :
         <>
-          <div className={styles.tableContainer}>
+          {model.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <>
+              {/* Десктопная таблица */}
+              {!isMobile && (
+                <div className={styles.tableContainer}>
+                  <div className={styles.table}>
+                    <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
+                      {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => (
+                        <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>
+                      ))}
+                    </div>
 
-            <div className={styles.table}>
-              <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
-                {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>)}
-              </div>
+                    <div>
+                      {model.map((item, key) => (
+                        <RequestTableRow
+                          key={item.id || key}
+                          gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+                          number={key + 1}
+                          styles={styles}
+                          item={item}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
 
-              <div>
-                {model.map((item, key) => (
-                  <RequestTableRow
-                    gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
-                    number={++key}
-                    styles={styles}
-                    item={item}
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
+              {/* Мобильные карточки */}
+              {isMobile && (
+                <RequestsGrid
+                  requests={model}
+                  favoriteRequests={favoriteRequests}
+                  onToggleFavorite={handleToggleFavorite}
+                  onRequestClick={handleRequestClick}
+                  freeClicksLeft={freeClicksLeft}
+                />
+              )}
+            </>
+          )}
         </>
       }
+
 
       {paginatedRequests.length > 0 && (
         <div className={styles.footer}>
