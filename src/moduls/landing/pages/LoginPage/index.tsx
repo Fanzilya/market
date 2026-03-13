@@ -150,7 +150,7 @@ export const LoginPage = observer(() => {
             </div>
 
             {/* Демо-аккаунты */}
-            {/* <div className={styles.demoAccounts}>
+            <div className={styles.demoAccounts}>
               <p className={styles.demoTitle}>Демо-аккаунты:</p>
               <div className={styles.demoButtons}>
                 <button
@@ -172,7 +172,7 @@ export const LoginPage = observer(() => {
                   Админ
                 </button>
               </div>
-            </div> */}
+            </div>
 
             <div className={styles.registerLink}>
               Нет аккаунта? <Link to="/register" className={styles.link}>Зарегистрироваться</Link>
