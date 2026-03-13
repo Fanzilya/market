@@ -9,7 +9,7 @@ import { useEffect } from 'react'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
 import { getRequestsPath } from '@/utils/get-requests-path'
-import { directionLabels, motorStartOptions, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config'
+import { directionLabels, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config'
 import { formatDate } from '@/utils/get-form-data'
 
 export const RequestDetailPage = observer(() => {
@@ -33,7 +33,7 @@ export const RequestDetailPage = observer(() => {
     {/* Шапка страницы */}
     <div className={styles.header}>
       <div>
-        <h1 className={styles.title}>Заявка {requestModel.nameByProjectDocs}</h1>
+        <h1 className={styles.title}>Заявка {requestModel?.innerId}</h1>
         <div className={styles.breadcrumbs}>
           <Link className={styles.breadcrumb} to={getRequestsPath() + '/dashboard'}>Главная</Link>
           <span className={styles.separator}>/</span>
@@ -41,7 +41,7 @@ export const RequestDetailPage = observer(() => {
             {isSupplier ? 'Заявки' : 'Мои заявки'}
           </span>
           <span className={styles.separator}>/</span>
-          <span className={styles.current}>{requestModel.nameByProjectDocs}</span>
+          <span className={styles.current}>{requestModel?.innerId}</span>
         </div>
       </div>
 
