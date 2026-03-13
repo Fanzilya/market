@@ -13,99 +13,95 @@ class RequestListModel {
     isLoader: boolean = true
     stats: IRequestStats = { all: 0, news: 0, moderation: 0, rejected: 0, published: 0, archived: 0 }
 
+    selectedStatus: 'all' | 'news' | 'moderation' | 'rejected' | 'published' | 'archived' = "all"
+
+    setSelectedStatus(value: 'all' | 'news' | 'moderation' | 'rejected' | 'published' | 'archived') {
+        this.selectedStatus = value
+    }
+
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-    // async init(userId: string) {
-
-    //     try {
-    //         const res = await allByUserApi({ userId: userId })
-    //         this.model = res.data
-    //         this.sortStats()
-    //     } catch (error) {
-    //         console.log(error)
-    //     } finally {
-    //         this.isLoader = false
-    //     }
-    // }
 
 
     async init(userId: string) {
-        try {
-            const response = await allByUserApi({ userId: userId });
-            const requests = response.data;
+            try {
+                const response = await allByUserApi({ userId: userId });
+                const requests = response.data;
 
-            const promises = requests.map(async (request) => {
-                try {
-                    const [singleData, offersData] = await Promise.all([
-                        requestSingleApi({ id: request.id }),
-                        offersByRequestsApi({ requestId: request.id })
-                    ]);
+                const promises = requests.map(async (request) => {
+                    try {
+                        const [singleData, offersData] = await Promise.all([
+                            requestSingleApi({ id: request.id }),
+                            offersByRequestsApi({ requestId: request.id })
+                        ]);
 
-                    return {
-                        data: singleData.data,
-                        offers: offersData.data
-                    };
-                } catch (error) {
-                    console.error(`Ошибка при обработке request ${request.id}:`, error);
-                    return null;
-                }
-            });
+                        return {
+                            data: singleData.data,
+                            offers: offersData.data
+                        };
+                    } catch (error) {
+                        console.error(`Ошибка при обработке request ${request.id}:`, error);
+                        return null;
+                    }
+                });
 
-            const results = await Promise.all(promises);
-            this.model = results.filter(result => result !== null) as typeof this.model;
+                const results = await Promise.all(promises);
+                this.model = results.filter(result => result !== null) as typeof this.model;
+                this.sortStats()
 
-        } catch (error) {
-            console.error('Ошибка при получении списка запросов:', error);
-        } finally {
-            this.isLoader = false;
-        }
+
+            } catch(error) {
+                console.error('Ошибка при получении списка запросов:', error);
+            } finally {
+                this.isLoader = false;
+            }
 
         console.log(this.model)
 
-    }
+        }
 
 
 
 
     sortStats() {
-        let news = 0
+            let news = 0
         let moderation = 0
         let rejected = 0
         let published = 0
         let archived = 0
 
-        this.model.data.forEach(r => {
-            if (r.isArchived) {
-                archived++
-            } else {
-                switch (r.status) {
-                    case RequestStatus.Moderation:
-                        moderation++
-                        break
-                    case RequestStatus.Rejected:
-                        rejected++
-                        break
-                    case RequestStatus.Published:
-                        published++
-                        break
-                    case RequestStatus.New:
-                        news++
-                        break
+        this.model.forEach(r => {
+                if (r.data.isArchived) {
+                    archived++
+                } else {
+                    switch (r.data.status) {
+                        case RequestStatus.Moderation:
+                            moderation++
+                            break
+                        case RequestStatus.Rejected:
+                            rejected++
+                            break
+                        case RequestStatus.Published:
+                            published++
+                            break
+                        case RequestStatus.New:
+                            news++
+                            break
+                    }
                 }
-            }
-        })
+            })
 
         this.stats = {
-            all: this.model.length,
-            moderation,
-            rejected,
-            published,
-            archived,
-            news,
+                all: this.model.length,
+                moderation,
+                rejected,
+                published,
+                archived,
+                news,
+            }
         }
-    }
 }
 
-export const requestListModel = new RequestListModel()
+    export const requestListModel = new RequestListModel()

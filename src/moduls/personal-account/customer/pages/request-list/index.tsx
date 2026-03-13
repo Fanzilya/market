@@ -134,7 +134,7 @@ export const CustomerPage = observer(() => {
               ) : (
                 <div className="text-[14px]">
                   <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'>
-                    {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => <div key={key} className={`${styles.th} text-center`}>{item}</div>)}
+                    {['№', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => <div key={key} className={`${styles.th} text-center`}>{item}</div>)}
                   </div>
 
                   {model.map((item, key) => (
