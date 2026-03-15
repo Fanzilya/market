@@ -6,8 +6,9 @@ import { registerModel } from '../../features/RegisterPage/register-model'
 import { Role } from '@/entities/user/role'
 import { observer } from 'mobx-react-lite'
 import styles from './RegisterPage.module.css'
-import { RegistrRoleButton } from '../../widgets/register-role-button'
+import { RegistrRoleButton } from '../../widgets/register-page/register-role-button'
 import { Input } from '@/shared/ui-kits/Input'
+import { RegisterCompanyForm } from '../../widgets/register-page/company-form'
 
 export const RegisterPage = observer(() => {
 
@@ -25,11 +26,16 @@ export const RegisterPage = observer(() => {
     error,
     setFormData,
     isLoading,
-    handleSubmit
+    handleSubmit,
+    setFormCompanyData,
+    companyData,
+    init,
+    types
   } = registerModel
 
   useEffect(() => {
     setIsMounted(true)
+    init()
   }, [])
 
   const onSubmit = () => {
@@ -92,7 +98,6 @@ export const RegisterPage = observer(() => {
                 />
               </div>
 
-              {/* Общие поля для всех */}
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Email *</label>
                 <Input
@@ -105,7 +110,6 @@ export const RegisterPage = observer(() => {
                 />
               </div>
 
-              {/* Общие поля для всех */}
               <div className={styles.inputGroup}>
                 <label className={styles.label}>Номер телефона *</label>
                 <Input
@@ -182,11 +186,11 @@ export const RegisterPage = observer(() => {
                 </div>
               </div>
 
-              <button
-                onClick={onSubmit}
-                className={styles.submitButton}
-                disabled={isLoading}
-              >
+
+              {formData.roleName == Role.Supplier && <RegisterCompanyForm formData={setFormCompanyData} setFormData={companyData} isLoading={isLoading} types={types} />}
+
+
+              <button onClick={onSubmit} className={styles.submitButton} disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <span className={styles.spinner} />

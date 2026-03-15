@@ -33,3 +33,8 @@ export const OfferRouter = {
 }
 
 
+export const CompanyRouter = {
+    inn: "/Companies/company/inn",
+    cerate: "/Companies/create",
+    companyTypes: "/Companies/types/all",
+}

@@ -9,6 +9,7 @@ interface Props {
     placeholder: string;
     type?: HTMLInputTypeAttribute;
     disabled?: boolean,
+    required?: boolean,
     classNames?: {
         input?: string;
         label?: string;
@@ -16,14 +17,14 @@ interface Props {
     }
 }
 
-export const Input = ({ value, onChange, label, placeholder, classNames, type = "text", disabled = false }: Props) => {
+export const Input = ({ value, onChange, label, placeholder, classNames, type = "text", disabled = false, required = false }: Props) => {
 
     const [isFocused, setIsFocused] = useState(false);
     const InputComponent = type === "phone" ? IMaskInput : "input"
 
-    const baseClasses = 'px-4 py-3 border-2 border-slate-200 rounded-[10px] text-sm transition-all duration-200 bg-white text-slate-700 w-full';
+    const baseClasses = 'px-4 py-3 border-2 rounded-[10px] text-sm transition-all duration-200 bg-white text-slate-700 w-full';
 
-    const focusClasses = isFocused ? 'border-[#4A85F6] shadow-[0_0_0_3px_rgba(74,133,246,0.1)]' : '';
+    const focusClasses = isFocused ? 'border-[#4A85F6] !shadow-[0_0_0_3px_rgba(74,133,246,0.1)]' : 'border-slate-200';
 
     // const disabledClasses = disabled ? 'bg-slate-50 text-slate-500 cursor-not-allowed' : '';
 
@@ -33,11 +34,12 @@ export const Input = ({ value, onChange, label, placeholder, classNames, type = 
 
     return (
         <div className={`flex flex-col gap-[8px] ${classNames?.container}`}>
-            {label && <span className={`text-[14px]font-medium text-[#1e293b] ${classNames?.label}`}>{label}</span>}
+            {label && <span className={`text-[14px] font-medium text-[#1e293b] ${classNames?.label}`}>{label} {required && <span className="text-red-500">*</span>}</span>}
             <InputComponent
                 type={type}
                 placeholder={placeholder}
                 value={value}
+                required={required}
                 onChange={(e) => onChange(e.target.value)}
                 disabled={disabled}
                 mask={type === "phone" ? "+7 (000) 000-00-00" : ""}

@@ -269,6 +269,12 @@ export const getIcon = (name: IconName, width: number, height: number, color: st
             </svg>
         ),
 
+        "arrowDownSelect": (
+            <svg width={width} height={height} viewBox="0 0 16 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.00065 1L7.66732 7.66667L14.334 1" stroke={color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        ),
+
         // Навигация
         "menu": (
             <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

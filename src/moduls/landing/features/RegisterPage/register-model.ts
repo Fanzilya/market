@@ -1,7 +1,10 @@
+import { getCompanyTypesApi } from "@/entities/company/api";
+import { CompanyTypes, ICreateCompany } from "@/entities/company/type";
 import { registerApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
 import { RegisterRequestDTO } from "@/entities/user/type";
-import { makeAutoObservable } from "mobx";
+import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
+import { makeAutoObservable, values } from "mobx";
 
 class RegisterModel {
 
@@ -14,8 +17,19 @@ class RegisterModel {
         roleName: Role.Customer
     };
 
+    companyData: ICreateCompany = {
+        fullCompanyName: "",
+        shortCompanyName: "",
+        inn: "",
+        kpp: "",
+        jurAdress: "",
+        companyTypeId: "",
+    };
+
     error: string = ""
     isLoading: boolean = false
+
+    types: SeletectItemInterface[] = []
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -23,6 +37,10 @@ class RegisterModel {
 
     setFormData<K extends keyof typeof this.formData>(name: K, value: typeof this.formData[K]) {
         this.formData[name] = value;
+    }
+
+    setFormCompanyData<K extends keyof typeof this.companyData>(name: K, value: typeof this.companyData[K]) {
+        this.companyData[name] = value;
     }
 
     validateForm() {
@@ -48,6 +66,22 @@ class RegisterModel {
             return false
         }
         return true
+    }
+
+    async init() {
+        try {
+            const res = await getCompanyTypesApi()
+
+            this.types = res.data.map((item: CompanyTypes) => {
+                return {
+                    value: item.id,
+                    title: item.typeName,
+                }
+            })
+
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     async handleSubmit(navigate: any) {

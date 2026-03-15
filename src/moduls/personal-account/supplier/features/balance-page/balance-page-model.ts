@@ -14,7 +14,8 @@ class BalancePageModel {
 
     async init(id: string) {
         try {
-            const res = await getAccountManyApi({ userId: id })
+            
+            const res = await getAccountManyApi({ userId: "019ce0b8-4b01-7e56-bd5e-c9ea3a5d4e0f" })
 
             console.log(res.data)
 

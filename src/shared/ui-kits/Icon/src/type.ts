@@ -39,6 +39,7 @@ export type IconName =
     | 'arrowRight'
     | 'arrowUp'
     | 'arrowDown'
+    | 'arrowDownSelect'
 
     // Навигация
     | 'menu'

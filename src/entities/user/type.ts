@@ -51,7 +51,7 @@ export interface RegisterRequestDTO {
     phoneNumber: string,
     password: string,
     confirmPassword: string,
-    roleName: string,
+    roleName: Role.Customer | Role.Supplier,
 }
 
 export interface LoginRequest {
