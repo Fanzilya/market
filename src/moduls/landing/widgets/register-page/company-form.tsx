@@ -1,6 +1,7 @@
 import { Input } from "@/shared/ui-kits/Input";
 import { Selector } from "@/shared/ui-kits/select";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
+import { observer } from "mobx-react-lite";
 
 interface Props {
     formData: any,
@@ -10,7 +11,7 @@ interface Props {
 }
 
 
-export const RegisterCompanyForm = ({ formData, setFormData, isLoading, types }: Props) => {
+export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading, types }: Props) => {
     return (
         <>
             <p className="mt-3 font-semibold">Данные об компании</p>
@@ -77,12 +78,11 @@ export const RegisterCompanyForm = ({ formData, setFormData, isLoading, types }:
 
             <Selector
                 placeholder="Тип компании"
-                onSelect={(value) => setFormData("companyTypeId", value)}
+                onSelect={(value) => setFormData("companyTypeId", value.value)}
                 items={types}
 
             />
 
-            {/* this.types */}
         </>
     );
-}
+})

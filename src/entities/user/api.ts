@@ -1,21 +1,25 @@
 import { instance } from "@/app/api/instances"
 import { Auth } from "@/app/routers/api-router"
-import { IUserId, LoginRequest, RefreshTokenRequestDTO, RegisterRequestDTO } from "./type"
+import { EmployerRegisterRequestDTO, IUserId, LoginRequest, RefreshTokenRequestDTO, RegisterRequestDTO } from "./type"
 
-export const registerApi = (data: RegisterRequestDTO) => {
-    return instance.post(Auth.register, data)
+export const registerApi = (params: RegisterRequestDTO) => {
+    return instance.post(Auth.register, params)
 }
 
-export const loginApi = (data: LoginRequest) => {
-    return instance.post(Auth.login, data)
+export const employerRegisterApi = (params: EmployerRegisterRequestDTO) => {
+    return instance.post(Auth.employeRegister, params)
 }
 
-export const refreshTokenApi = (data: RefreshTokenRequestDTO) => {
-    return instance.post(Auth.refresh, data)
+export const loginApi = (params: LoginRequest) => {
+    return instance.post(Auth.login, params)
 }
 
-export const createRoleApi = (data: any) => {
-    return instance.post(Auth.createRole, data)
+export const refreshTokenApi = (params: RefreshTokenRequestDTO) => {
+    return instance.post(Auth.refresh, params)
+}
+
+export const createRoleApi = (params: any) => {
+    return instance.post(Auth.createRole, params)
 }
 
 export const logoutApi = () => {

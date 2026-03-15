@@ -48,8 +48,8 @@ export const Selector = observer(({ placeholder, items, onSelect, classNames, de
             {label && <span className={`text-[14px] font-medium text-[#1e293b] ${classNames?.label}`}>{label} {required && <span className="text-red-500">*</span>}</span>}
 
             <div
-                style={{ borderColor: isOpen ? "var(--clr-accent)" : "var(--clr-border-gray)" }}
-                className={` px-[16px] py-[12px] border border-2 border-[#e2e8f0] rounded-[10px] text-[14px] transition-all duration-200 bg-white w-full text-[#1e293b] ${classNames?.selector}`}
+                style={{ borderColor: isOpen ? "#4A85F6" : "#e2e8f0" }}
+                className={`flex items-center justify-between px-[16px] py-[12px] border border-2 rounded-[10px] text-[14px] transition-all duration-200 bg-white w-full text-[#1e293b] ${classNames?.selector}`}
             >
                 {(() => {
                     if (value) return <p className="text-gray-900 truncate">{value}</p>;
@@ -57,19 +57,27 @@ export const Selector = observer(({ placeholder, items, onSelect, classNames, de
                     return <span className="text-gray-400">{placeholder || 'Выберите...'}</span>;
                 })()}
 
-                <Icon name="arrowDownSelect" style={{ transitionDuration: "0.3s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }} />
+
+                <div className="w-min h-min flex items-center justify-between" style={{ transitionDuration: "0.3s", transform: isOpen ? "rotate(180deg)" : "rotate(0deg)" }}>
+                    <Icon width={18} name="arrowDownSelect" color="gray" />
+                </div>
             </div>
 
             <div
-                className={`absolute left-0 top-[110%] rounded-lg flex flex-col gap-2 w-full bg-white  border 
-                 ${isOpen ? "min-w-full max-h-[160px] overflow-y-scroll z-[1] shadow-sm" : "hidden border-0 overflow-hidden"} ${classNames?.items}`}>
+                className={` 
+                    absolute left-0 top-[110%] rounded-lg flex flex-col gap-2 w-full bg-white  
+                    ${isOpen ? "min-w-full max-h-[160px] overflow-y-auto z-[1] shadow-lg" : "hidden overflow-hidden"}
+                    ${classNames?.items}
+                `}
+            >
                 {items.length === 0
                     ? <p className="text-sm font-medium text-gray-500 p-4">Список пустой</p>
                     : items.map(item => (
-                        <div className="hover:bg-[#e2e2e2] py-3 px-2" onClick={() => { onChange(item.title); onSelect && onSelect(item) }}>
+                        <div className="hover:bg-[#e9ecf5] py-3 px-2" onClick={() => { onChange(item.title); onSelect && onSelect(item) }}>
                             <span className="">{item.title}</span>
                         </div>
-                    ))}
+                    ))
+                }
             </div>
         </div>
     )

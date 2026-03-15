@@ -187,7 +187,7 @@ export const RegisterPage = observer(() => {
               </div>
 
 
-              {formData.roleName == Role.Supplier && <RegisterCompanyForm formData={setFormCompanyData} setFormData={companyData} isLoading={isLoading} types={types} />}
+              {formData.roleName == Role.Supplier && <RegisterCompanyForm formData={companyData} setFormData={setFormCompanyData} isLoading={isLoading} types={types} />}
 
 
               <button onClick={onSubmit} className={styles.submitButton} disabled={isLoading}>

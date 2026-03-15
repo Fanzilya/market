@@ -1,6 +1,6 @@
-import { getCompanyTypesApi } from "@/entities/company/api";
+import { createCompanyApi, getCompanyTypesApi } from "@/entities/company/api";
 import { CompanyTypes, ICreateCompany } from "@/entities/company/type";
-import { registerApi } from "@/entities/user/api";
+import { employerRegisterApi, registerApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
 import { RegisterRequestDTO } from "@/entities/user/type";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
@@ -88,16 +88,68 @@ class RegisterModel {
         this.error = ('')
         if (!this.validateForm()) return
 
-        const res = await registerApi(this.formData)
+        if (this.formData.roleName === Role.Supplier) {
 
-        console.log(res)
+            if (!this.validateCompanyForm()) return
+            const companyId: string = await this.createCompany()
+            const res = await employerRegisterApi({
+                fullName: this.formData.fullName,
+                email: this.formData.email,
+                phoneNumber: this.formData.phoneNumber,
+                password: this.formData.password,
+                roleId: this.formData.roleName,
+                companyId: "019cdd76-a865-737a-a415-e9256c66b9b7",
+            })
+
+
+        } else {
+            const res = await registerApi(this.formData)
+            console.log(res)
+        }
+
 
         this.isLoading = (false)
-        navigate('/login', {
-            state: {
-                message: 'Регистрация успешна! Теперь вы можете войти в систему.'
-            }
-        })
+        // navigate('/login', {
+        //     state: {
+        //         message: 'Регистрация успешна! Теперь вы можете войти в систему.'
+        //     }
+        // })
+    }
+
+
+    async validateCompanyForm() {
+        if (!this.companyData.fullCompanyName.trim()) {
+            this.error = ('Укажите полное название компании')
+            return false
+        }
+        if (!this.companyData.shortCompanyName.trim()) {
+
+            this.error = ('Укажите короткое название компании')
+            return false
+        }
+        if (!this.companyData.inn.trim()) {
+            this.error = ('Укажите ИНН')
+            return false
+        }
+        if (!this.companyData.kpp.trim()) {
+            this.error = ('Укажите КПП')
+            return false
+        }
+        if (!this.companyData.jurAdress.trim()) {
+
+            this.error = ('Укажите юридический адрес')
+            return false
+        }
+        if (!this.companyData.companyTypeId.trim()) {
+            this.error = ('Укажите тип компании')
+            return false
+        }
+        return true
+    }
+
+    async createCompany() {
+        const res = await createCompanyApi(this.companyData)
+        return res.data.companyTypeId
     }
 }
 

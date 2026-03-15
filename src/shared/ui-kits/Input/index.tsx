@@ -24,7 +24,7 @@ export const Input = ({ value, onChange, label, placeholder, classNames, type = 
 
     const baseClasses = 'px-4 py-3 border-2 rounded-[10px] text-sm transition-all duration-200 bg-white text-slate-700 w-full';
 
-    const focusClasses = isFocused ? 'border-[#4A85F6] !shadow-[0_0_0_3px_rgba(74,133,246,0.1)]' : 'border-slate-200';
+    const focusClasses = isFocused ? 'border-[#4A85F6] shadow-[0_0_0_3px_rgba(74,133,246,0.1)]' : 'border-slate-200';
 
     // const disabledClasses = disabled ? 'bg-slate-50 text-slate-500 cursor-not-allowed' : '';
 

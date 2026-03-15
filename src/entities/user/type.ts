@@ -54,6 +54,15 @@ export interface RegisterRequestDTO {
     roleName: Role.Customer | Role.Supplier,
 }
 
+export interface EmployerRegisterRequestDTO {
+    fullName: string,
+    email: string,
+    phoneNumber: string,
+    password: string,
+    roleId: Role.Customer | Role.Supplier,
+    companyId: string,
+}
+
 export interface LoginRequest {
     email: string | null
     password: string | null
