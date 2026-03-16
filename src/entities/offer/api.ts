@@ -1,6 +1,6 @@
-import { instance } from "@/app/api/instances"
+import { fileInstance, instance } from "@/app/api/instances"
 import { OfferRouter } from "@/app/routers/api-router"
-import { IACC, IOfferCreate, IOfferId, IUserId } from "./type"
+import { IACC, IOfferCreate, IOfferFileCertificate, IOfferFileOffer, IOfferFilePassport, IOfferFileScheme, IOfferId, IUserId } from "./type"
 import { IRequestId, IRequestIdFull } from "../request/type"
 
 export const createRequestApi = (params: IOfferCreate) => {
@@ -17,4 +17,18 @@ export const offersByRequestsApi = (params: IRequestIdFull) => {
 }
 export const offersSingleApi = (params: IOfferId) => {
     return instance.get(OfferRouter.single, { params })
+}
+
+
+export const offerFileUploadApi = (params: IOfferFileOffer) => {
+    return fileInstance.post(OfferRouter.offerFileUpload, params)
+}
+export const passportFileUploadApi = (params: IOfferFilePassport) => {
+    return fileInstance.post(OfferRouter.passportFileUpload, params)
+}
+export const certificateFileUploadApi = (params: IOfferFileCertificate) => {
+    return fileInstance.post(OfferRouter.certificateFileUpload, params)
+}
+export const schemeFileUploadApi = (params: IOfferFileScheme) => {
+    return fileInstance.post(OfferRouter.schemeFileUpload, params)
 }

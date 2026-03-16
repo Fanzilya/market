@@ -1,6 +1,6 @@
 // src/pages/supplier/SupplierPreviewPage/components/OfferButton.tsx
 import { Link } from 'react-router-dom'
-import styles from '../SupplierPreviewPage.module.css'
+import styles from '../RequestPreviewPage.module.css'
 
 export default function OfferButton({ onCreateOffer }: { onCreateOffer: string }) {
   return (

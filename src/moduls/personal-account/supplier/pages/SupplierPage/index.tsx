@@ -6,7 +6,7 @@ import Header from './components/Header'
 import FiltersBar from './components/FiltersBar'
 import StatsBar from './components/StatsBar'
 import RequestsTable from './components/RequestsTable'
-import RequestsGrid from './components/RequestsGrid' // Новый компонент для карточек
+import RequestsGrid from './components/RequestsGrid'
 import LogoutConfirmModal from './components/LogoutConfirmModal'
 import EmptyState from './components/EmptyState'
 import useSupplierData from './hooks/useSupplierData'
@@ -17,6 +17,8 @@ import { createColumns } from './config/tableColumns'
 import { requestListModel } from '../../features/supplier-request-list/request-list-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { RequestTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-table-row'
+import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
+import Icon from '@/shared/ui-kits/Icon'
 
 
 export const SupplierPage = () => {
@@ -28,6 +30,8 @@ export const SupplierPage = () => {
 
   // Отслеживание размера экрана
   useEffect(() => {
+    init()
+
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768)
     }
@@ -48,10 +52,6 @@ export const SupplierPage = () => {
   const { model, isLoader, init } = requestListModel
 
   useEffect(() => {
-    init()
-  }, [])
-
-  useEffect(() => {
     const handleFavoritesUpdate = () => refreshData()
     window.addEventListener('favorites-updated', handleFavoritesUpdate)
     return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate)
@@ -64,10 +64,35 @@ export const SupplierPage = () => {
 
   return (
     <div className={styles.mainContent}>
-      <Header
+      {/* <Header
         user={user}
         freeClicksLeft={freeClicksLeft}
         onNavigate={navigate}
+      /> */}
+
+
+      <AccountHeader
+        title='Доступные заявки'
+        breadcrumbs={{
+          current: "Заявки",
+          linksBack: [{ text: "Главная", link: "/dashboard" }]
+        }}
+        rightBlock={
+          <div className={styles.headerRight}>
+            <div className={styles.clicksCounter}>
+              <Icon name='clock' color='#4A85F6' />
+              <span>
+                Бесплатных кликов: <strong>{freeClicksLeft}</strong>
+              </span>
+            </div>
+            <div className={styles.companyInfo}>
+              <span className={styles.companyLabel}>Компания</span>
+              <span className={styles.companyName}>
+                {user.company?.name || 'Не указана'}
+              </span>
+            </div>
+          </div>
+        }
       />
 
       <FiltersBar

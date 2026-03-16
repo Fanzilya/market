@@ -1,5 +1,5 @@
 // src/pages/supplier/SupplierPreviewPage/components/RespondButton.tsx
-import styles from '../SupplierPreviewPage.module.css'
+import styles from '../RequestPreviewPage.module.css'
 
 export default function RespondButton({ freeClicksLeft, isClicksAvailable, onRespond }) {
   return (

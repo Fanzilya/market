@@ -1,5 +1,5 @@
 // src/pages/supplier/SupplierPreviewPage/components/AccessDenied.tsx
-import styles from '../SupplierPreviewPage.module.css'
+import styles from '../RequestPreviewPage.module.css'
 
 const messages = {
   session: {

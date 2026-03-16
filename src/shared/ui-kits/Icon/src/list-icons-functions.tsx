@@ -126,6 +126,25 @@ export const getIcon = (name: IconName, width: number, height: number, color: st
             </svg>
         ),
 
+        "clock": (
+            <svg width={width} height={height} viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g>
+                    <path d="M48 42L36 36V21M36 63C50.9117 63 63 50.9117 63 36C63 21.0883 50.9117 9 36 9C21.0883 9 9 21.0883 9 36C9 50.9117 21.0883 63 36 63Z" stroke={color} stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                </g>
+            </svg>
+        ),
+
+        "star": (
+            <svg width={width} height={height} viewBox="0 0 24 24" fill="none">
+                <path
+                    d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    fill={color}
+                />
+            </svg>
+        ),
+
         // Действия
         "edit": (
             <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

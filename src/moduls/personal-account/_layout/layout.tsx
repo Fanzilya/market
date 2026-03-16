@@ -1,38 +1,43 @@
 import { Sidebar } from "@/shared/components/Sidebar";
 import { Outlet } from "react-router-dom";
 import { ScrollToTop } from "@/shared/components/ScrollToTop";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 
-export const Layout = observer(() => {
-    const [isCollapsed, setIsCollapsed] = useState(false)
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 1024)
+const MOBILE_QUERY = "(max-width: 1024px)";
 
-    // Отслеживание размера экрана
+export const Layout = () => {
+    const [isCollapsed, setIsCollapsed] = useState(false);
+    const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_QUERY).matches);
+
     useEffect(() => {
-        const handleResize = () => {
-            setIsMobile(window.innerWidth <= 1024)
-        }
+        const media = window.matchMedia(MOBILE_QUERY);
 
-        window.addEventListener('resize', handleResize)
-        return () => window.removeEventListener('resize', handleResize)
-    }, [])
+        const handleChange = (e: MediaQueryListEvent) => {
+            setIsMobile(e.matches);
+        };
+
+        media.addEventListener("change", handleChange);
+
+        return () => media.removeEventListener("change", handleChange);
+    }, []);
+
+    const marginLeft = useMemo(() => {
+        if (isMobile) return 0;
+        return isCollapsed ? 80 : 280;
+    }, [isMobile, isCollapsed]);
+
+    const handleCollapse = useCallback((value: boolean) => {
+        setIsCollapsed(value);
+    }, []);
 
     return (
         <div className="min-h-screen bg-[#f8fafc]">
             <ScrollToTop />
-
-            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
-            
-            {/* На мобильных устройствах отступ не применяется */}
-            <div
-                className="flex-1 p-8 transition-all duration-200 max-md:p-5"
-                style={{ 
-                    marginLeft: isMobile ? 0 : (isCollapsed ? '80px' : '280px')
-                }}
-            >
+            <Sidebar isCollapsed={isCollapsed} setIsCollapsed={handleCollapse} />
+            <main className="flex-1 p-8 transition-[margin] duration-200 max-md:p-5" style={{ marginLeft }}>
                 <Outlet />
-            </div>
+            </main>
         </div>
     );
-})
+};

@@ -1,17 +1,23 @@
 // src/pages/supplier/CreateOfferPage/components/RequestInfoCard.tsx
+import { OfferFull } from '@/entities/offer/type'
 import styles from '../CreateOfferPage.module.css'
+import { getConfigTypeNameById } from '@/utils/get-config-type'
 
-export default function RequestInfoCard({ request }) {
+interface Props {
+  request: OfferFull
+}
+
+export default function RequestInfoCard({ request }: Props) {
   return (
     <div className={styles.requestInfoCard}>
       <div className={styles.requestInfoHeader}>
-        <h2 className={styles.requestInfoTitle}>Заявка {request.id}</h2>
+        <h2 className={styles.requestInfoTitle}>Заявка {request.innerId}</h2>
         <span className={styles.requestInfoBadge}>Новое КП</span>
       </div>
       <div className={styles.requestInfoGrid}>
         <InfoItem label="Объект" value={request.objectName} />
-        <InfoItem label="Заказчик" value={request.govCustomerName} />
-        <InfoItem label="Тип" value={request.configType || 'КНС'} />
+        <InfoItem label="Заказчик" value={request.customerName} />
+        <InfoItem label="Тип" value={getConfigTypeNameById(request?.configTypeId)} />
         <InfoItem
           label="Дата создания"
           value={new Date(request.createdAt).toLocaleDateString('ru-RU')}

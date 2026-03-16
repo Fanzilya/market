@@ -26,6 +26,10 @@ export interface IOfferId {
     id: string
 }
 
+export interface IOfferFullId {
+    OfferId: string
+}
+
 
 
 
@@ -52,4 +56,28 @@ export interface OfferFull {
     planFileId: null | string,
     planFile: null | string,
     id: string
+    innerId?: string
+}
+
+
+// Documents interface
+export interface IOfferDocs {
+    offer: File | null,
+    passport: File | null,
+    certificate: File | null,
+    scheme: File | null
+}
+
+
+export interface IOfferFileOffer extends IOfferFullId {
+    OfferFile: File
+}
+export interface IOfferFilePassport extends IOfferFullId {
+    PassportFile: File
+}
+export interface IOfferFileCertificate extends IOfferFullId {
+    CertificateFile: File
+}
+export interface IOfferFileScheme extends IOfferFullId {
+    PlanFile: File
 }

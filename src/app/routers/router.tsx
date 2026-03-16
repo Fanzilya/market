@@ -223,13 +223,11 @@ export const AppRouter = createBrowserRouter([
             path: ':offerId',
             children: [
               {
-                // ============!!!!!  ЕЩЁ НЕ ИСПРАВИТЬ !!!!!=========================  
                 index: true,
                 async lazy() {
                   const { OfferDetailPage } = await import('@common/pages/OfferDetailPage');
                   return { Component: OfferDetailPage };
                 },
-                // ============!!!!!  ЕЩЁ НЕ ИСПРАВИТЬ !!!!!=========================  
               },
               {
                 path: 'edit',
@@ -274,15 +272,8 @@ export const AppRouter = createBrowserRouter([
               {
                 index: true,
                 async lazy() {
-                  const { RequestDetailPage } = await import('@common/pages/RequestDetailPage');
-                  return { Component: RequestDetailPage };
-                },
-              },
-              {
-                path: 'preview',
-                async lazy() {
-                  const { SupplierPreviewPage } = await import('@supplier/pages/SupplierPreviewPage');
-                  return { Component: SupplierPreviewPage };
+                  const { RequestPreviewPage } = await import('@supplier/pages/RequestPreviewPage');
+                  return { Component: RequestPreviewPage };
                 },
               },
               {

@@ -11,12 +11,12 @@ import { observer } from 'mobx-react-lite'
 import { getRequestsPath } from '@/utils/get-requests-path'
 import { directionLabels, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config'
 import { formatDate } from '@/utils/get-form-data'
+import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 
 export const RequestDetailPage = observer(() => {
   const { requestId } = useParams()
   const { user } = useAuth()
   const navigate = useNavigate()
-
 
   const goToOffers = () => {
     navigate(`/customer/request/${requestId}/offers`)
@@ -30,53 +30,52 @@ export const RequestDetailPage = observer(() => {
   }, [requestId])
 
   return isLoader ? <Loader /> : (<>
-    {/* Шапка страницы */}
-    <div className={styles.header}>
-      <div>
-        <h1 className={styles.title}>Заявка {requestModel?.innerId}</h1>
-        <div className={styles.breadcrumbs}>
-          <Link className={styles.breadcrumb} to={getRequestsPath() + '/dashboard'}>Главная</Link>
-          <span className={styles.separator}>/</span>
-          <span className={styles.breadcrumb} onClick={() => navigate(isSupplier ? '/supplier/request' : '/customer/request')}>
-            {isSupplier ? 'Заявки' : 'Мои заявки'}
-          </span>
-          <span className={styles.separator}>/</span>
-          <span className={styles.current}>{requestModel?.innerId}</span>
-        </div>
-      </div>
 
-      <div className={styles.headerActions}>
-        {!isSupplier && (
-          <>
-            {requestModel.isArchived && (
-              <span className={styles.archiveBadge}>
+    <AccountHeader
+      title={`Заявка ${requestModel?.innerId}`}
+      breadcrumbs={{
+        current: requestModel?.innerId || "",
+        linksBack: [
+          {
+            text: isSupplier ? 'Заявки' : 'Мои заявки',
+            link: isSupplier ? '/supplier/request' : '/customer/request'
+          }
+        ]
+      }}
+
+      rightBlock={
+        <div className={styles.headerActions}>
+          {!isSupplier && (
+            <>
+              {requestModel.isArchived && (
+                <span className={styles.archiveBadge}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                    <path d="M4 8H20V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8Z" stroke="currentColor" strokeWidth="2" />
+                    <path d="M2 4H22V8H2V4Z" stroke="currentColor" strokeWidth="2" />
+                  </svg>
+                  В архиве
+                </span>
+              )}
+              <button
+                // className={`${styles.editButton} ${!canEdit ? styles.editButtonDisabled : ''}`}
+                className={`${styles.editButton} ${styles.editButtonDisabled}`}
+                onClick={() => canEdit ? navigate(`/customer/request/${requestId}/edit`) : null}
+                disabled={!canEdit}
+                // title={!canEdit ? (hasOffers ? 'Редактирование недоступно: есть коммерческие предложения' : 'Заявка в архиве') : ''}
+                title={''}
+              >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                  <path d="M4 8H20V20C20 20.5304 19.7893 21.0391 19.4142 21.4142C19.0391 21.7893 18.5304 22 18 22H6C5.46957 22 4.96086 21.7893 4.58579 21.4142C4.21071 21.0391 4 20.5304 4 20V8Z" stroke="currentColor" strokeWidth="2" />
-                  <path d="M2 4H22V8H2V4Z" stroke="currentColor" strokeWidth="2" />
+                  <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" />
+                  <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" />
                 </svg>
-                В архиве
-              </span>
-            )}
-            <button
-              // className={`${styles.editButton} ${!canEdit ? styles.editButtonDisabled : ''}`}
-              className={`${styles.editButton} ${styles.editButtonDisabled}`}
-              onClick={() => canEdit ? navigate(`/customer/request/${requestId}/edit`) : null}
-              disabled={!canEdit}
-              // title={!canEdit ? (hasOffers ? 'Редактирование недоступно: есть коммерческие предложения' : 'Заявка в архиве') : ''}
-              title={''}
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                <path d="M11 4H4C3.46957 4 2.96086 4.21071 2.58579 4.58579C2.21071 4.96086 2 5.46957 2 6V20C2 20.5304 2.21071 21.0391 2.58579 21.4142C2.96086 21.7893 3.46957 22 4 22H18C18.5304 22 19.0391 21.7893 19.4142 21.4142C19.7893 21.0391 20 20.5304 20 20V13" stroke="currentColor" strokeWidth="2" />
-                <path d="M18.5 2.5C18.8978 2.10217 19.4374 1.87868 20 1.87868C20.5626 1.87868 21.1022 2.10217 21.5 2.5C21.8978 2.89782 22.1213 3.43739 22.1213 4C22.1213 4.56261 21.8978 5.10217 21.5 5.5L12 15L8 16L9 12L18.5 2.5Z" stroke="currentColor" strokeWidth="2" />
-              </svg>
-              Редактировать
-            </button>
-          </>
-        )}
+                Редактировать
+              </button>
+            </>
+          )}
 
-        {/* Кнопка перехода к КП (показываем всегда, если есть КП) */}
-        {/* {hasOffers && ( */}
-        {/* <button
+          {/* Кнопка перехода к КП (показываем всегда, если есть КП) */}
+          {/* {hasOffers && ( */}
+          {/* <button
           className={styles.offersButton}
           onClick={goToOffers}
           title="Перейти к списку коммерческих предложений"
@@ -86,22 +85,22 @@ export const RequestDetailPage = observer(() => {
           </svg>
           КП ({offers.length})
         </button> */}
-        {/* )} */}
+          {/* )} */}
 
-        <button
-          className={styles.backButton}
-          onClick={() => navigate(isSupplier ? '/supplier' : '/customer')}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
-            <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
-          </svg>
-          Назад
-        </button>
-      </div>
-    </div>
+          <button
+            className={styles.backButton}
+            onClick={() => navigate(isSupplier ? '/supplier' : '/customer')}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
+              <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
+            </svg>
+            Назад
+          </button>
+        </div>
+      }
+    />
 
-    {/* Карточка заявки */}
     <div className={styles.requestCard}>
       <div className={styles.requestHeader}>
         <h2 className={styles.requestTitle}>{requestModel.objectName}</h2>

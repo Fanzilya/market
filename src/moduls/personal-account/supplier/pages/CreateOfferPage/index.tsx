@@ -1,78 +1,60 @@
 // src/pages/supplier/CreateOfferPage/index.tsx
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import PageHeader from './components/PageHeader'
-import RequestInfoCard from './components/RequestInfoCard'
-import ClicksInfo from './components/ClicksInfo'
-import SuccessNotification from './components/SuccessNotification'
-import FormTabs from './components/FormTabs'
-import ErrorBox from './components/ErrorBox'
-import MainInfoTab from './components/Tabs/MainInfoTab'
-import CompanyInfoTab from './components/Tabs/CompanyInfoTab'
-import DeliveryTab from './components/Tabs/DeliveryTab'
-import MaterialsTab from './components/Tabs/MaterialsTab'
-import DocumentsTab from './components/Tabs/DocumentsTab'
-import useRequestData from './hooks/useRequestData'
-import useOfferForm from './hooks/useOfferForm'
+import PageHeader from '@supplier/features/offer-create/old-src/components/PageHeader'
+import RequestInfoCard from '@supplier/features/offer-create/old-src/components/RequestInfoCard'
+import ClicksInfo from '@supplier/features/offer-create/old-src/components/ClicksInfo'
+import SuccessNotification from '@supplier/features/offer-create/old-src/components/SuccessNotification'
+import FormTabs from '@supplier/features/offer-create/old-src/components/FormTabs'
+import ErrorBox from '@supplier/features/offer-create/old-src/components/ErrorBox'
+import MainInfoTab from '@supplier/features/offer-create/old-src/components/Tabs/MainInfoTab'
+import CompanyInfoTab from '@supplier/features/offer-create/old-src/components/Tabs/CompanyInfoTab'
+import DeliveryTab from '@supplier/features/offer-create/old-src/components/Tabs/DeliveryTab'
+import MaterialsTab from '@supplier/features/offer-create/old-src/components/Tabs/MaterialsTab'
+import DocumentsTab from '@supplier/features/offer-create/old-src/components/Tabs/DocumentsTab'
+import useRequestData from '@supplier/features/offer-create/old-src/hooks/useRequestData'
+import useOfferForm from '@supplier/features/offer-create/old-src/hooks/useOfferForm'
 import styles from './CreateOfferPage.module.css'
 import { useAuth } from '@/features/user/context/context'
-import { createOfferModel } from '../../features/create-offer/create-offer-model'
+import { createOfferModel } from '../../features/offer-create/offer-create-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
 import { Input } from '@/shared/ui-kits/Input'
+import { BasicInformationForm } from './tabs/basic-information-form'
+import { DocumentsForm } from './tabs/documents-form'
+import { InformationsBox } from '@/shared/ui-kits/information-box'
+import Icon from '@/shared/ui-kits/Icon'
 
 const TABS = [
   { id: 'main', label: 'Основная информация', component: MainInfoTab },
-  { id: 'company', label: 'Информация о компании', component: CompanyInfoTab },
-  { id: 'delivery', label: 'Условия поставки', component: DeliveryTab },
-  { id: 'materials', label: 'Материалы и оборудование', component: MaterialsTab },
+  // { id: 'company', label: 'Информация о компании', component: CompanyInfoTab },
+  // { id: 'delivery', label: 'Условия поставки', component: DeliveryTab },
+  // { id: 'materials', label: 'Материалы и оборудование', component: MaterialsTab },
   { id: 'docs', label: 'Документы', component: DocumentsTab }
 ]
 
 export const CreateOfferPage = observer(() => {
   const { requestId } = useParams()
-  const location = useLocation()
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [activeTab, setActiveTab] = useState('main')
+  const [activeTab, setActiveTab] = useState<"main" | "company" | "delivery" | "materials" | "docs">('main')
   const [showSuccess, setShowSuccess] = useState(false)
 
-  const { request, isLoader, init, setModel, model, create } = createOfferModel
+  const { request, isLoader, init, setModel, model, create, docsModel, setDocsModel, isValid, isSubmitting } = createOfferModel
 
   useEffect(() => {
     init(requestId!)
-  }, [])
+  }, [requestId])
 
   const onSubmit = () => {
     create(user?.fullName, navigate)
   }
 
 
-  const { formData, errors, isSubmitting, handleChange, handleSubmit, updateFormData } = useOfferForm({
-    request, user,
-    onSubmit: async (data) => {
-      setShowSuccess(true)
-      setTimeout(() => {
-        navigate(`/supplier/request/${request.id}`, {
-          state: {
-            message: 'Коммерческое предложение успешно отправлено!',
-            refresh: true,
-            type: 'success'
-          }
-        })
-      }, 1500)
-    }
-  })
-
-
-  // const CurrentTabComponent = TABS.find(tab => tab.id === activeTab)?.component
-
-
-
   return isLoader ? <Loader /> : (
     <div className={styles.container}>
       <PageHeader
-        requestId={request.id}
+        requestId={request?.id}
         onNavigate={navigate}
       />
 
@@ -80,7 +62,12 @@ export const CreateOfferPage = observer(() => {
 
       <RequestInfoCard request={request} />
 
-      <ClicksInfo />
+      <InformationsBox
+        title='Использован 1 бесплатный отклик'
+        text='После отправки КП вам станет доступна полная информация о заказчике.'
+        type='info'
+        classNames={{ container: "mb-[20px]" }}
+      />
 
       {/* <FormTabs
         tabs={TABS}
@@ -88,81 +75,39 @@ export const CreateOfferPage = observer(() => {
         onTabChange={setActiveTab}
       /> */}
 
-      <ErrorBox error={errors.form} />
+      {/* <InformationsBox text={error} type='info' classNames={{ container: "mb-[20px]" }} /> */}
 
       <div className={styles.form}>
-        {/* {CurrentTabComponent && ( */}
-        {/* <MainInfoTab
-          model={model}
-          errors={errors}
-          onChange={setModel}
-          // updateFormData={updateFormData}
-          isSubmitting={showSuccess}
-        /> */}
-        {/* // )} */}
-
 
         <div className='bg-white rounded-2xl border-[1px_solid_#E2E8F0] p-[24px] mb-[24px]'>
-          <h3 className={styles.sectionTitle}>Основная информация</h3>
-          <div className='grid grid-cols-2 gap-[16px]'>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Местоположение склада</label>
-              <Input placeholder='Местоположение склада' value={model.warehouseLocation} onChange={(e) => setModel("warehouseLocation", e.toString())} />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Cайта поставщика</label>
-              <Input placeholder='Cайта поставщика' value={model.supplierSiteURL} onChange={(e) => setModel("supplierSiteURL", e.toString())} />
-            </div>
-
-            <label className={styles.formGroup}>
-              <div className={styles.label}>Дата оформления сопроводительного документа</div>
-              <Input placeholder='Дата оформления сопроводительного документа' type='date' value={model.supportingDocumentDate} onChange={(e) => setModel("supportingDocumentDate", e)} />
-            </label>
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Страна производитель</label>
-              <Input placeholder='Страна производитель' value={model.manufacturerCountry} onChange={(e) => setModel("manufacturerCountry", e.toString())} />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Цена без НДС, ₽</label>
-              <Input placeholder='Цена без НДС' value={model.currentPriceNoNDS || ""} type='number' onChange={(e) => setModel("currentPriceNoNDS", e.toString())} />
-            </div>
-
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Цена с НДС, ₽</label>
-              <Input placeholder='Цена с НДС' disabled value={(model.currentPriceNDS) || ""} type='number' onChange={(e) => setModel("currentPriceNDS", Number(e))} />
-            </div>
-
-          </div>
+          <BasicInformationForm model={model} setModel={setModel} />
+          <div className='h-6'></div>
+          <DocumentsForm docsModel={docsModel} setDocsModel={setDocsModel} />
+          {/* {activeTab == "main" &&
+          }
+          {activeTab == "docs" &&
+          } */}
         </div>
-
 
         {!showSuccess && (
           <div className={styles.formActions}>
             <button
               type="button"
               className={styles.cancelButton}
-              onClick={() => navigate(`/supplier/request/${request.id}/preview`)}
+              onClick={() => navigate(`/supplier/request/${request.id}`)}
             >
               Отмена
             </button>
             <button
               className={styles.submitButton}
+              disabled={isValid}
               onClick={onSubmit}
+              style={{ backgroundColor: isValid ? "black" : "" }}
             >
-              {isSubmitting ? (
-                <>
-                  <span className={styles.spinner} />
-                  Отправка...
-                </>
-              ) : (
-                <>
-                  <SendIcon />
-                  Отправить коммерческое предложение
-                </>
-              )}
+              {isSubmitting
+                ? <span className={styles.spinner}>Отправка...</span>
+                : <> <Icon name='file' width={18} />Отправить коммерческое предложение</>
+              }
             </button>
           </div>
         )}
@@ -172,9 +117,9 @@ export const CreateOfferPage = observer(() => {
   )
 })
 
-const SendIcon = () => (
-  <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-    <path d="M20 14.66V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V4C4 2.9 4.9 2 6 2H14L20 8V14.66Z" stroke="white" strokeWidth="2" />
-    <path d="M14 2V8H20" stroke="white" strokeWidth="2" />
-  </svg>
-)
+// const SendIcon = () => (
+//   <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+//     <path d="M20 14.66V20C20 21.1 19.1 22 18 22H6C4.9 22 4 21.1 4 20V4C4 2.9 4.9 2 6 2H14L20 8V14.66Z" stroke="white" strokeWidth="2" />
+//     <path d="M14 2V8H20" stroke="white" strokeWidth="2" />
+//   </svg>
+// )

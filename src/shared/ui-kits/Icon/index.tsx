@@ -6,8 +6,8 @@ import { getIcon } from './src/list-icons-functions'
 
 export interface IconProps extends React.SVGAttributes<HTMLOrSVGElement> {
   name: IconName,
-  width?: number,
-  height?: number,
+  width?: number | string,
+  height?: number | string,
   color?: string,
   className?: string,
 }

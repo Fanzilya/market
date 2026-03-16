@@ -37,11 +37,8 @@ export const OfferDetailPage = observer(() => {
 
 
 
-
-
-
   return isLoader ? <Loader /> : (
-    <div className={styles.container}>
+    <>
       {/* Шапка страницы */}
       <div className={styles.header}>
         <div>
@@ -101,7 +98,8 @@ export const OfferDetailPage = observer(() => {
         </div>
 
         {/* Табы */}
-        {/* <div className={styles.tabs}>
+
+        <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${activeTab === 'details' ? styles.tabActive : ''}`}
             onClick={() => setActiveTab('details')}
@@ -132,7 +130,8 @@ export const OfferDetailPage = observer(() => {
           >
             Документы
           </button>
-        </div> */}
+        </div>
+
 
         {/* Контент табов */}
         <div className={styles.tabContent}>
@@ -142,59 +141,33 @@ export const OfferDetailPage = observer(() => {
               <div className={styles.infoGrid}>
 
 
-                {
-                  [
-                    {
-                      name: "Наименование компании",
-                      value: offer.fullCompanyName
-                    },
-                    {
-                      name: "ИНН",
-                      value: offer.inn
-                    },
-                    {
-                      name: "КПП",
-                      value: offer.kpp
-                    },
-                    {
-                      name: "Местоположение склада",
-                      value: offer.warehouseLocation
-                    },
-                    {
-                      name: "Список поставщиков",
-                      value: offer.supplierSiteURL
-                    },
-                    {
-                      name: "Дата оформления сопроводительного документа",
-                      value: offer.supportingDocumentDate,
-                      type: "date"
-                    },
-                    {
-                      name: "Страна производитель",
-                      value: offer.manufacturerCountry
-                    },
-                    {
-                      name: "Цена без НДС",
-                      value: offer.currentPriceNoNDS
-                    },
-                    {
-                      name: "Цена с НДС",
-                      value: offer.currentPriceNDS
-                    },
-                  ].map((item, key) => (
-                    <div className={styles.infoItem}>
-                      <span className={styles.infoLabel}>{item.name}</span>
-                      <span className={styles.infoValue}>{
+                {[{ name: "Наименование компании", value: offer.fullCompanyName },
+                { name: "ИНН", value: offer.inn },
+                { name: "КПП", value: offer.kpp },
+                { name: "Местоположение склада", value: offer.warehouseLocation },
+                { name: "Список поставщиков", value: offer.supplierSiteURL },
+                { name: "Дата оформления сопроводительного документа", value: offer.supportingDocumentDate, type: "date" },
+                { name: "Страна производитель", value: offer.manufacturerCountry },
+                { name: "Цена без НДС", value: offer.currentPriceNoNDS },
+                { name: "Цена с НДС", value: offer.currentPriceNDS },
+                ].map((item, key) => (
+                  <div className={styles.infoItem}>
+                    <span className={styles.infoLabel}>{item.name}</span>
+                    <span className={styles.infoValue}>{
 
-                        item?.type === "date" ?
-                          new Date(item.value).toLocaleDateString('ru-RU')
-                          :
-                          item.value
+                      item?.type === "date" ?
+                        new Date(item.value).toLocaleDateString('ru-RU')
+                        :
+                        item.value
 
-                      }</span>
-                    </div>
-                  ))
-                }
+                    }</span>
+                  </div>
+                ))}
+
+                <div className={styles.infoItem}>
+                  <span className={styles.infoLabel}></span>
+                  <span className={styles.infoValue}></span>
+                </div>
 
 
               </div>
@@ -410,6 +383,6 @@ export const OfferDetailPage = observer(() => {
           </button>
         </div>
       </div>
-    </div>
+    </>
   )
 })

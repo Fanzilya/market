@@ -1,5 +1,5 @@
 // src/pages/supplier/SupplierPreviewPage/components/ClicksInfo.tsx
-import styles from '../SupplierPreviewPage.module.css'
+import styles from '../RequestPreviewPage.module.css'
 
 export default function ClicksInfo({ freeClicksLeft }) {
   return (

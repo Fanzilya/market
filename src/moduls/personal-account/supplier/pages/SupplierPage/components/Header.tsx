@@ -2,12 +2,13 @@
 import { useAuth } from '@/features/user/context/context'
 import styles from '../SupplierPage.module.css'
 import { Role } from '@/entities/user/role'
+import { PageTitle } from '@/shared/ui-kits/titles/h3'
 
 export default function Header({ user, freeClicksLeft, onNavigate }) {
   return (
     <div className={styles.header}>
       <div className={styles.headerLeft}>
-        <h1 className={styles.pageTitle}>Доступные заявки</h1>
+        <PageTitle text='Доступные заявки' />
         <div className={styles.breadcrumbs}>
           <span className={styles.breadcrumb} onClick={() => onNavigate('/dashboard')}>
             Главная

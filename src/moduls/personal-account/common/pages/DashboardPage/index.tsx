@@ -11,10 +11,6 @@ import { dashboardModel } from '../../features/DashboardPage/dashboard-model'
 import { useEffect } from 'react'
 import { observer } from 'mobx-react-lite'
 
-
-
-
-
 export const DashboardPage = observer(() => {
     const navigate = useNavigate()
     const { user } = useAuth()
@@ -54,7 +50,6 @@ export const DashboardPage = observer(() => {
                     </div>
                 </div>
 
-                {/* Правый блок со статистикой и уведомлениями */}
                 <div className={styles.headerRight}>
                     {/* Статистика в зависимости от роли */}
                     {isCustomer && !isLoader && (
@@ -95,10 +90,7 @@ export const DashboardPage = observer(() => {
             {/* Информационный блок для исполнителя о бесплатных кликах */}
             {isSupplier && (
                 <div className={styles.infoBanner}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <circle cx="12" cy="12" r="10" stroke="#1877F2" strokeWidth="2" />
-                        <path d="M12 6V12L16 14" stroke="#1877F2" strokeWidth="2" strokeLinecap="round" />
-                    </svg>
+                    <Icon name='clock' width={24} hanging={24} color='#1877F2' />
                     <div className={styles.infoBannerContent}>
                         <span className={styles.infoBannerTitle}>У вас 5 бесплатных просмотров</span>
                         <span className={styles.infoBannerText}>После использования каждый просмотр заявки будет стоить 100 ₽</span>
@@ -112,15 +104,13 @@ export const DashboardPage = observer(() => {
             {/* Сетка сервисов */}
             <div className={styles.servicesGrid}>
                 {services.map((service, index) => (
-                    <div
-                        key={index}
-                        className={styles.serviceCard}
-                        style={{ '--card-accent': service.color }}
-                    >
+
+                    <div key={index} className={styles.serviceCard} style={{ '--card-accent': service.color }}>
+
                         <div className={styles.cardHeader}>
                             <div className={styles.cardCategory}>{service.category}</div>
                             <div className={styles.cardIcon} style={{ color: service.color }}>
-                                <Icon name={service.icon} width={40} height={40} />
+                                <Icon name={service.icon} height="100%" width="100%" className='p-1.5 max-h-[50px] max-w-[50px]' />
                             </div>
                         </div>
 

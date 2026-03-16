@@ -130,7 +130,7 @@ export const createColumns = ({ myOffers, favoriteRequests, onToggleFavorite }) 
 
           {/* if (freeClicksLeft > 0) {
         setFreeClicksLeft(prev => prev - 1)
-        navigate(`/supplier/request/${request.id}/preview`, {
+        navigate(`/supplier/request/${request.id}`, {
           state: { request }
         })
       } else {

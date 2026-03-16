@@ -106,7 +106,7 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
                                     </svg>
                                 </Link>
                                 :
-                                <button className={`${styles.actionButton} ${styles.respondButton}`} onClick={(e) => { e.stopPropagation(); navigate(`/supplier/request/${item.data.id}/preview`) }} >
+                                <button className={`${styles.actionButton} ${styles.respondButton}`} onClick={(e) => { e.stopPropagation(); navigate(`/supplier/request/${item.data.id}`) }} >
                                     {true ? (
                                         <>
                                             <ViewIcon />
@@ -122,7 +122,7 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
 
                                     {/* if (freeClicksLeft > 0) {
         setFreeClicksLeft(prev => prev - 1)
-        navigate(`/supplier/request/${request.id}/preview`, {
+        navigate(`/supplier/request/${request.id}`, {
           state: { request }
         })
       } else {

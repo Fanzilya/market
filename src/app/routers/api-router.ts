@@ -31,6 +31,16 @@ export const OfferRouter = {
     businessacc: "/Offers/businessacc/offers",
     offersByRequests: "/Offers/requests/offers",
     single: "/Offers/single/offer/fullinfo",
+
+    offerFileUpload: "/Offers/offerFile/upload",
+    passportFileUpload: "/Offers/passportFile/upload",
+    certificateFileUpload: "/Offers/certificateFile/upload",
+    schemeFileUpload: "/Offers/schemeFile/upload",
+
+    // name: "/Offers/offerFile/download/{id}",
+    // name: "/Offe rs/equipPassport/download/{id}",
+    // name: "/Offers/equipCertificate/download/{id}",
+    // name: "/Offers/scemeFile/download/{id}",
 }
 
 

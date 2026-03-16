@@ -1,7 +1,10 @@
 // src/pages/supplier/SupplierPreviewPage/components/InfoBanner.tsx
-import styles from '../SupplierPreviewPage.module.css'
+import styles from '../RequestPreviewPage.module.css'
 
 export default function InfoBanner({ hasResponded }) {
+
+  
+
   if (!hasResponded) {
     return (
       <div className={styles.infoBanner}>

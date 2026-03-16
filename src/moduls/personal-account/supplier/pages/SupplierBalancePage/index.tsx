@@ -13,6 +13,7 @@ import usePackages from './hooks/usePackages'
 import { useAuth } from '@/features/user/context/context'
 import styles from "./SupplierBalancePage.module.css"
 import { balancePageModel } from '../../features/balance-page/balance-page-model'
+import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 
 export const SupplierBalancePage = () => {
   const { user } = useAuth()
@@ -49,7 +50,7 @@ export const SupplierBalancePage = () => {
 
   useEffect(() => {
     init(user?.id)
-   }, [])
+  }, [])
 
 
   if (!user) {
@@ -83,7 +84,13 @@ export const SupplierBalancePage = () => {
 
   return (
     <div className={styles.container}>
-      <PageHeader onNavigate={navigate} />
+      <AccountHeader
+        title='Монетный счет'
+        breadcrumbs={{
+          current: "Монетный счет",
+          linksBack: [{ text: 'Главная', link: "/dashboard" }]
+        }}
+      />
 
       <BalanceCard balanceData={balanceData} onViewHistory={() => setActiveTab('history')} />
 

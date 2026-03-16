@@ -1,4 +1,4 @@
-/* pages/SupplierPreviewPage.module.css */
+/* pages/RequestPreviewPage.module.css */
 .page {
   display: flex;
   min-height: 100vh;
@@ -595,7 +595,7 @@
   color: #F1F5F9;
 }
 
-/* Добавьте в SupplierPreviewPage.module.css */
+/* Добавьте в RequestPreviewPage.module.css */
 
 .clicksInfo {
   display: flex;
@@ -661,7 +661,7 @@
   color: #94A3B8;
 }
 
-/* Добавьте в SupplierPreviewPage.module.css */
+/* Добавьте в RequestPreviewPage.module.css */
 
 .successBanner {
   display: flex;
@@ -826,7 +826,7 @@
   color: #94A3B8;
 }
 
-/* Добавьте в SupplierPreviewPage.module.css */
+/* Добавьте в RequestPreviewPage.module.css */
 
 .header {
   display: flex;

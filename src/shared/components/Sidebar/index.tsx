@@ -104,7 +104,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
                 </button>
               </li>
             ))}
-            
+
             {/* Кнопка открытия полного меню */}
             <li key="menu-button">
               <button
@@ -113,7 +113,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
               >
                 <span className={styles.mobileNavIcon}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M3 12h18M3 6h18M3 18h18" strokeLinecap="round"/>
+                    <path d="M3 12h18M3 6h18M3 18h18" strokeLinecap="round" />
                   </svg>
                 </span>
                 <span className={styles.mobileNavLabel}>Меню</span>
@@ -122,10 +122,10 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
           </ul>
         </nav>
 
-       
+
 
         {/* Затемнение фона */}
-        <div 
+        <div
           className={`${styles.mobileSidebarOverlay} ${isMobileMenuOpen ? styles.active : ''}`}
           onClick={() => setIsMobileMenuOpen(false)}
         />
@@ -142,7 +142,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round"/>
+                <path d="M18 6L6 18M6 6l12 12" strokeLinecap="round" />
               </svg>
             </button>
           </div>
@@ -207,7 +207,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
               <span>Выйти</span>
             </button>
 
-            
+
           </div>
         </div>
       </>
@@ -280,7 +280,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
           <h3 className={styles.sectionTitle}>ИНСТРУМЕНТЫ</h3>
           <div className={styles.tools}>
             {validToolsItems.map((item) => (
-              <NavLink 
+              <NavLink
                 to={item.link}
                 key={item.link}
                 className={`${styles.toolItem} ${location.pathname === item.link ? styles.active : ''}`}
@@ -301,7 +301,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
           <Icon name='logout' />
           {!isCollapsed && <span>Выйти</span>}
         </button>
-      
+
       </div>
     </aside>
   )

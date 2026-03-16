@@ -14,7 +14,7 @@ export default function PageHeader({ requestId, onNavigate }) {
           Заявки
         </span>
         <span className={styles.separator}>›</span>
-        <span className={styles.breadcrumb} onClick={() => onNavigate(`/supplier/request/${requestId}/preview`)}>
+        <span className={styles.breadcrumb} onClick={() => onNavigate(`/supplier/request/${requestId}`)}>
           Предпросмотр
         </span>
         <span className={styles.separator}>›</span>

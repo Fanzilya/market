@@ -11,7 +11,7 @@ export default function PageHeader({ onNavigate }) {
             Главная
           </span>
           <span className={styles.separator}>›</span>
-          <span className={styles.current}>Монетный счет</span>
+          <span className={styles.current}></span>
         </div>
       </div>
     </div>

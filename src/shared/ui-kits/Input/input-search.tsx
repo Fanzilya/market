@@ -1,7 +1,4 @@
-import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
-import { PRIMARY_COLOR } from '../design-tokens';
-
 
 interface Props {
     value: string,
@@ -13,11 +10,9 @@ interface Props {
     }
 }
 
-export const Search = observer(({ value, onChange, placeholder, classNames }: Props) => {
+export const Search = ({ value, onChange, placeholder, classNames }: Props) => {
 
     const [focus, setFocus] = useState<boolean>(false)
-
-
 
     return (
         <div className={`flex-1 flex items-center gap-3 px-4 py-2.5 
@@ -42,4 +37,4 @@ export const Search = observer(({ value, onChange, placeholder, classNames }: Pr
             />
         </div>
     );
-});
+}

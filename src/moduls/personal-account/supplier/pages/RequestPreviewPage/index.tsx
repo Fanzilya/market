@@ -12,14 +12,16 @@ import useFreeClicks from './hooks/useFreeClicks'
 import useFavorites from './hooks/useFavorites'
 import { useAuth } from '@/features/user/context/context'
 import FreeClicksModal from '@/shared/components/FreeClicksModal'
-import styles from "./SupplierPreviewPage.module.css"
+import styles from "./RequestPreviewPage.module.css"
 import { supplierPreviewModel } from '../../features/supplier-preview/supplier-preview-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
 import { directionLabels, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config'
 import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing'
+import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
+import Icon from '@/shared/ui-kits/Icon'
 
-export const SupplierPreviewPage = observer(() => {
+export const RequestPreviewPage = observer(() => {
   const { requestId } = useParams()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -27,7 +29,9 @@ export const SupplierPreviewPage = observer(() => {
 
   const { request, isLoader, init, hasResponded, setHasResponded, currentModel, equipmentCurrentModel, schemeIsActive } = supplierPreviewModel
 
-  useEffect(() => { init(requestId!) }, [])
+  useEffect(() => {
+    init(requestId!)
+  }, [requestId])
 
   const { freeClicksLeft, decrementClicks, isClicksAvailable } = useFreeClicks()
   const { isFavorite, handleToggleFavorite } = useFavorites({ user, requestId })
@@ -58,13 +62,23 @@ export const SupplierPreviewPage = observer(() => {
   return isLoader ? <Loader /> : (
     <>
       <div className={styles.container}>
-        <PageHeader
-          requestId={request.innerId}
-          hasResponded={hasResponded}
-          isFavorite={isFavorite}
-          onToggleFavorite={handleToggleFavorite}
-          onNavigate={navigate}
+        <AccountHeader
+          title={hasResponded ? 'Заявка' : 'Предпросмотр заявки'}
+          breadcrumbs={{
+            current: `Заявка ${request.innerId || "-"}`
+          }}
+
+          rightBlock={
+            <button
+              className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
+              onClick={handleToggleFavorite}
+              title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+            >
+              <Icon name="star" />
+            </button>}
         />
+
+
 
         <InfoBanner hasResponded={hasResponded} />
 
@@ -85,44 +99,115 @@ export const SupplierPreviewPage = observer(() => {
           )}
 
           <div className={styles.infoGrid}>
-            <InfoItem label="Тип конфигурации" value={'КНС'} />
-            <InfoItem label="Дата создания" value={new Date(request.createdAt).toLocaleDateString('ru-RU')} />
-            {request.locationRegion && <InfoItem label="Регион" value={request.locationRegion} />}
+            <InfoItem
+              label="Тип конфигурации"
+              value={'КНС'} />
+
+            <InfoItem
+              label="Дата создания"
+              value={new Date(request.createdAt).toLocaleDateString('ru-RU')} />
+
+            {request.locationRegion &&
+              <InfoItem
+                label="Регион"
+                value={request.locationRegion} />
+            }
+
           </div>
 
           <div className='flex gap-10'>
             <div className='w-full'>
               <h3 className={styles.sectionTitle}>Технические характеристики</h3>
               <div className={styles.specsGrid}>
-                <SpecItem label={"Производительность:"} value={(currentModel.perfomance || '—') + " м³/ч"} />
-                <SpecItem label={"Требуемый напор:"} value={(currentModel.requiredPumpPressure || '—') + "  м"} />
-                <SpecItem label={"Рабочих насосов:"} value={currentModel.activePumpsCount || '0'} />
-                <SpecItem label={"Резервных насосов:"} value={currentModel.reservePumpsCount || '0'} />
-                <SpecItem label={"Насосов на склад:"} value={currentModel.pumpsToWarehouseCount || '0'} />
-                <SpecItem label={"Перекачиваемая среда:"} value={currentModel.pType || '—'} />
-                <SpecItem label={"Температура среды:"} value={(currentModel.environmentTemperature || '—') + "  °C"} />
-                <SpecItem label={"Взрывозащищенность:"} value={currentModel.explosionProtection ? 'Да' : 'Нет'} />
+                <SpecItem
+                  label={"Производительность:"}
+                  value={(currentModel.perfomance || '—') + " м³/ч"} />
+
+                <SpecItem
+                  label={"Требуемый напор:"}
+                  value={(currentModel.requiredPumpPressure || '—') + "  м"} />
+
+                <SpecItem
+                  label={"Рабочих насосов:"}
+                  value={currentModel.activePumpsCount || '0'} />
+
+                <SpecItem
+                  label={"Резервных насосов:"}
+                  value={currentModel.reservePumpsCount || '0'} />
+
+                <SpecItem
+                  label={"Насосов на склад:"}
+                  value={currentModel.pumpsToWarehouseCount || '0'} />
+
+                <SpecItem
+                  label={"Перекачиваемая среда:"}
+                  value={currentModel.pType || '—'} />
+
+                <SpecItem
+                  label={"Температура среды:"}
+                  value={(currentModel.environmentTemperature || '—') + "  °C"} />
+
+                <SpecItem
+                  label={"Взрывозащищенность:"}
+                  value={currentModel.explosionProtection ? 'Да' : 'Нет'} />
               </div>
 
               <h3 className={styles.sectionTitle}>Габаритные размеры трубопроводов и корпуса</h3>
               <div className={styles.specsGrid}>
-                <SpecItem label={"Глубина подводящего A:"} value={(currentModel.supplyPipelineDepth) + " м"} />
-                <SpecItem label={"Диаметр подводящего B:"} value={`${currentModel.supplyPipelineDiameter} мм ${currentModel.supplyPipelineMaterial ? `(${currentModel.supplyPipelineMaterial})` : ''}`} />
-                <SpecItem label={"Направление подводящего:"} value={directionLabels[currentModel.supplyPipelineDirectionInHours] || currentModel.supplyPipelineDirectionInHours} />
-                <SpecItem label={"Глубина напорного D:"} value={currentModel.pressurePipelineDepth + " м"} />
-                <SpecItem label={"Диаметр напорного C:"} value={`${currentModel.pressurePipelineDiameter} мм ${currentModel.pressurePipelineMaterial ? PipelineMaterialTranslations[currentModel.pressurePipelineMaterial] : ''}`} />
-                <SpecItem label={"Направление напорного:"} value={directionLabels[currentModel.pressurePipelineDirectionInHours] || currentModel.pressurePipelineDirectionInHours} />
-                <SpecItem label={"Количество напорных:"} value={currentModel.hasManyExitPressurePipelines} />
-                <SpecItem label={"Диаметр станции:"} value={(currentModel.expectedDiameterOfPumpStation + " м")} />
-                <SpecItem label={"Высота станции:"} value={currentModel.expectedHeightOfPumpStation} />
-                <SpecItem label={"Утепление корпуса:"} value={currentModel.insulatedHousingDepth + " м"} />
+                <SpecItem
+                  label={"Глубина подводящего A:"}
+                  value={(currentModel.supplyPipelineDepth) + " м"} />
+
+                <SpecItem
+                  label={"Диаметр подводящего B:"}
+                  value={`${currentModel.supplyPipelineDiameter} мм ${currentModel.supplyPipelineMaterial ? `(${currentModel.supplyPipelineMaterial})` : ''}`} />
+
+                <SpecItem
+                  label={"Направление подводящего:"}
+                  value={directionLabels[currentModel.supplyPipelineDirectionInHours] || currentModel.supplyPipelineDirectionInHours} />
+
+                <SpecItem
+                  label={"Глубина напорного D:"}
+                  value={currentModel.pressurePipelineDepth + " м"} />
+
+                <SpecItem
+                  label={"Диаметр напорного C:"}
+                  value={`${currentModel.pressurePipelineDiameter} мм ${currentModel.pressurePipelineMaterial ? PipelineMaterialTranslations[currentModel.pressurePipelineMaterial] : ''}`} />
+
+                <SpecItem
+                  label={"Направление напорного:"}
+                  value={directionLabels[currentModel.pressurePipelineDirectionInHours] || currentModel.pressurePipelineDirectionInHours} />
+
+                <SpecItem
+                  label={"Количество напорных:"}
+                  value={currentModel.hasManyExitPressurePipelines} />
+
+                <SpecItem
+                  label={"Диаметр станции:"}
+                  value={(currentModel.expectedDiameterOfPumpStation + " м")} />
+
+                <SpecItem
+                  label={"Высота станции:"}
+                  value={currentModel.expectedHeightOfPumpStation} />
+
+                <SpecItem
+                  label={"Утепление корпуса:"}
+                  value={currentModel.insulatedHousingDepth + " м"} />
               </div>
 
               <h3 className={styles.sectionTitle}>Габаритные размеры трубопроводов и корпуса</h3>
               <div className={styles.specsGrid}>
-                <SpecItem label={"Метод пуска:"} value={PumpsStartupMethodTranslations[currentModel.startupMethod] || currentModel.startupMethod} />
-                <SpecItem label={"Вводов питания:"} value={currentModel.powerContactsToController} />
-                <SpecItem label={"Место установки шкафа:"} value={currentModel.place} />
+                <SpecItem
+                  label={"Метод пуска:"}
+                  value={PumpsStartupMethodTranslations[currentModel.startupMethod] || currentModel.startupMethod} />
+
+                <SpecItem
+                  label={"Вводов питания:"}
+                  value={currentModel.powerContactsToController} />
+
+                <SpecItem
+                  label={"Место установки шкафа:"}
+                  value={currentModel.place} />
               </div>
 
 
