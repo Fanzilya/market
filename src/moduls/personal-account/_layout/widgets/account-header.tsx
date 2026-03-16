@@ -14,7 +14,7 @@ export const AccountHeader = ({ rightBlock, title, breadcrumbs }: Props) => {
         <div className="flex items-top mb-[24px] flex-wrap gap-4">
             <div className="flex flex-col gap-1 flex-1">
                 <PageTitle text={title} />
-                {breadcrumbs && <Breadcrumbs linksBack={breadcrumbs.linksBack} current={breadcrumbs.current} />}
+                {breadcrumbs && <Breadcrumbs linksBack={breadcrumbs.linksBack} current={breadcrumbs.current} className="mt-1" />}
             </div>
 
             {rightBlock}

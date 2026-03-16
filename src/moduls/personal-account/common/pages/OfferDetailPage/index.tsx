@@ -1,16 +1,12 @@
 // src/pages/OfferDetailPage.tsx
-import { useState, useEffect } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { useAuth } from '@/features/user/context/context'
-import { getOfferById } from '@/shared/data/offers'
-import { getRequestById } from '@/shared/data/requests'
-import { getBrandBySlug } from '@/shared/data/brands'
-import { Sidebar } from '@/shared/components/Sidebar'
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import styles from './OfferDetailPage.module.css'
 import { DataOfferModel } from '../../features/OfferDetailPage/data-offer-model'
 import { offerDetailModel } from '../../features/OfferDetailPage/offer-detail-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
+import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 
 export const OfferDetailPage = observer(() => {
   const { offerId } = useParams()
@@ -26,54 +22,40 @@ export const OfferDetailPage = observer(() => {
     getDocumentIcon,
     getDocumentName,
     getDocumentSize,
-  } = DataOfferModel(offerId)
+  } = DataOfferModel(offerId!)
 
 
   const { offer, isLoader, init } = offerDetailModel
+
 
   useEffect(() => {
     init(offerId!)
   }, [])
 
 
-
   return isLoader ? <Loader /> : (
     <>
-      {/* Шапка страницы */}
-      <div className={styles.header}>
-        <div>
-          <h1 className={styles.title}>Коммерческое предложение</h1>
-          <div className={styles.breadcrumbs}>
-            <span className={styles.breadcrumb} onClick={() => navigate('/dashboard')}>Главная</span>
-            <span className={styles.separator}>›</span>
-            <span className={styles.breadcrumb} onClick={() => navigate('/customer')}>Заявки</span>
-            <span className={styles.separator}>›</span>
-            {request && (
-              <>
-                <span className={styles.breadcrumb} onClick={() => navigate(`/customer/request/${request.id}`)}>
-                  {request.id}
-                </span>
-                <span className={styles.separator}>›</span>
-              </>
-            )}
-            <span className={styles.breadcrumb} onClick={() => navigate(`/customer/request/${offer.requestId}/offers`)}>
-              Предложения
-            </span>
-            <span className={styles.separator}>›</span>
-            <span className={styles.current}>КП №{offer.offersNumber || offer.id}</span>
-          </div>
-        </div>
-        <button
-          className={styles.backButton}
-          onClick={() => navigate(-1)}
-        >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-            <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
-            <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
-          </svg>
-          Назад
-        </button>
-      </div>
+      <AccountHeader
+        title='Коммерческое предложение'
+        breadcrumbs={{
+          current: `КП №${offer.offersNumber || offer.id}`,
+          linksBack: [
+            { text: "Главная", link: "/dashboard" },
+            { text: "Заявки", link: "/customer" },
+            // request && { text: request.id, link: `/customer/request/${request.id}` }
+          ]
+        }}
+
+        rightBlock={
+          <button className={styles.backButton} onClick={() => navigate(-1)}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+              <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
+              <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
+            </svg>
+            Назад
+          </button>
+        }
+      />
 
       {/* Информация о предложении */}
       <div className={styles.offerCard}>

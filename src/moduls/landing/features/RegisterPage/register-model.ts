@@ -100,8 +100,6 @@ class RegisterModel {
                 roleId: this.formData.roleName,
                 companyId: "019cdd76-a865-737a-a415-e9256c66b9b7",
             })
-
-
         } else {
             const res = await registerApi(this.formData)
             console.log(res)

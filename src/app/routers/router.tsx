@@ -158,90 +158,95 @@ export const AppRouter = createBrowserRouter([
   {
     path: '/customer',
     element: <ProtectedRoute allowedRoles={[Role.Customer]} />,
-    async lazy() {
-      const { Layout } = await import('@/moduls/personal-account/_layout/layout');
-      return { Component: Layout };
-    },
     children: [
       {
-        index: true,
+        path: '',
         async lazy() {
-          const { DashboardPage } = await import('@common/pages/DashboardPage');
-          return { Component: DashboardPage };
+          const { Layout } = await import('@/moduls/personal-account/_layout/layout');
+          return { Component: Layout };
         },
-      },
-      {
-        path: 'request',
         children: [
           {
             index: true,
             async lazy() {
-              const { CustomerPage } = await import('@customer/pages/request-list');
-              return { Component: CustomerPage };
+              const { DashboardPage } = await import('@common/pages/DashboardPage');
+              return { Component: DashboardPage };
             },
           },
           {
-            path: 'new',
-            async lazy() {
-              const { CreateRequestPage } = await import('@customer/pages/CreateRequestPage');
-              return { Component: CreateRequestPage };
-            },
-          },
-          {
-            path: ':requestId',
+            path: 'request',
             children: [
               {
                 index: true,
                 async lazy() {
-                  const { RequestDetailPage } = await import('@common/pages/RequestDetailPage');
-                  return { Component: RequestDetailPage };
+                  const { CustomerPage } = await import('@customer/pages/request-list');
+                  return { Component: CustomerPage };
                 },
               },
               {
-                path: 'edit',
+                path: 'new',
                 async lazy() {
                   const { CreateRequestPage } = await import('@customer/pages/CreateRequestPage');
                   return { Component: CreateRequestPage };
                 },
               },
               {
-                path: 'offers',
-                async lazy() {
-                  const { OffersPage } = await import('@customer/pages/OffersPage');
-                  return { Component: OffersPage };
-                },
-              }
+                path: ':requestId',
+                children: [
+                  {
+                    index: true,
+                    async lazy() {
+                      const { RequestDetailPage } = await import('@common/pages/RequestDetailPage');
+                      return { Component: RequestDetailPage };
+                    },
+                  },
+                  {
+                    path: 'edit',
+                    async lazy() {
+                      const { CreateRequestPage } = await import('@customer/pages/CreateRequestPage');
+                      return { Component: CreateRequestPage };
+                    },
+                  },
+                  {
+                    path: 'offers',
+                    async lazy() {
+                      const { OffersPage } = await import('@customer/pages/OffersPage');
+                      return { Component: OffersPage };
+                    },
+                  }
+                ]
+              },
             ]
           },
-        ]
-      },
 
-      {
-        path: 'offer',
-        children: [
           {
-            path: ':offerId',
+            path: 'offer',
             children: [
               {
-                index: true,
-                async lazy() {
-                  const { OfferDetailPage } = await import('@common/pages/OfferDetailPage');
-                  return { Component: OfferDetailPage };
-                },
+                path: ':offerId',
+                children: [
+                  {
+                    index: true,
+                    async lazy() {
+                      const { OfferDetailPage } = await import('@common/pages/OfferDetailPage');
+                      return { Component: OfferDetailPage };
+                    },
+                  },
+                  {
+                    path: 'edit',
+                    async lazy() {
+                      const { CreateOfferPage } = await import('@supplier/pages/CreateOfferPage');
+                      return { Component: CreateOfferPage };
+                    },
+                  },
+                ]
               },
-              {
-                path: 'edit',
-                async lazy() {
-                  const { CreateOfferPage } = await import('@supplier/pages/CreateOfferPage');
-                  return { Component: CreateOfferPage };
-                },
-              },
-            ]
+            ],
           },
-        ],
-      },
 
-      ...protectedRoutes,
+          ...protectedRoutes,
+        ]
+      }
     ]
   },
 

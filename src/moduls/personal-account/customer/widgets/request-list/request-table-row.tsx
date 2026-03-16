@@ -26,8 +26,6 @@ interface Props {
 
 
 export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequest, handleDeleteRequest, handleResubmit, number, gridClass }: Props) => {
-
-
     // Функция для переключения видимости КП
     const toggleOffers = (itemId: string) => {
         // Находим элемент с КП по id родителя
@@ -59,7 +57,7 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
 
     return (
         <div className="relative">
-            <div key={number} onClick={() => toggleOffers(item.data.id)} className={`${styles.tr} py-5 px-3 cursor-pointer items-center text-center hover:bg-[rgba(74,_133,_246,_0.05)] border-b border-gray-300 ${gridClass}  ${item.data.isArchived ? styles.trArchived : ''}`}>
+            <div key={number} onClick={() => user?.role != Role.Supplier && toggleOffers(item.data.id)} className={`${styles.tr} py-5 px-3 cursor-pointer items-center text-center hover:bg-[rgba(74,_133,_246,_0.05)] border-b border-gray-300 ${gridClass}  ${item.data.isArchived ? styles.trArchived : ''}`}>
                 <div className={styles.div}>
                     <span className={styles.idBadge}>{item.innerId || number}</span>
                 </div>
@@ -267,6 +265,6 @@ export const RequestTableRow = ({ styles, item, openArchiveConfirm, goToEditRequ
                 <RequestOffersTableRow item={item} />
             </div>
 
-        </div>
+        </div >
     );
 }
