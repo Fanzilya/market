@@ -1,3 +1,6 @@
+// Прикольная идея для стилистики
+// focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2
+
 export const styleColorEnum = {
     blue: 'bg-[rgba(74,_133,_246)] text-white hover:bg-[rgba(74,_133,_246,_0.3)]',
     red: 'bg-red-500 text-white hover:bg-red-600',

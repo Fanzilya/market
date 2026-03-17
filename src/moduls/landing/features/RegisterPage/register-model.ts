@@ -1,4 +1,4 @@
-import { createCompanyApi, getCompanyTypesApi, getFNSCompany } from "@/entities/company/api";
+import { createCompanyApi, getCompanyByInnApi, getCompanyTypesApi, getFNSCompany } from "@/entities/company/api";
 import { CompanyTypes, ICreateCompany } from "@/entities/company/type";
 import { employerRegisterApi, registerApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
@@ -54,14 +54,14 @@ class RegisterModel {
 
     async searchCompany() {
         try {
-            const res = await axios.get('/egr', {
-                params: {
-                    req: this.fnsValue,
-                    key: "67e284756d190b3b9d42e1791c5094e62e47a5be",
-                },
-            });
+            // const res = await axios.get('/egr', {
+            //     params: {
+            //         req: this.fnsValue,
+            //         key: "67e284756d190b3b9d42e1791c5094e62e47a5be",
+            //     },
+            // });
 
-            return res.data;
+            // console.log(res.data);
         } catch (error) {
             console.error('FNS error:', error);
             throw error;
@@ -113,19 +113,27 @@ class RegisterModel {
 
     async handleSubmit(navigate: any) {
         this.error = ('')
+
+        const reska = await getCompanyByInnApi({ inn: this.fnsValue })
+
+        console.log(reska)
+
+
+        return
+
         if (!this.validateForm()) return
 
         if (this.formData.roleName === Role.Supplier) {
 
             if (!this.validateCompanyForm()) return
-            const companyId: string = await this.createCompany()
+            // const companyId: string = await this.createCompany()
             const res = await employerRegisterApi({
                 fullName: this.formData.fullName,
                 email: this.formData.email,
                 phoneNumber: this.formData.phoneNumber,
                 password: this.formData.password,
-                roleId: this.formData.roleName,
-                companyId: "019cdd76-a865-737a-a415-e9256c66b9b7",
+                roleName: this.formData.roleName,
+                companyId: "019ce0b3-ccde-7207-afe5-62764ff98668",
             })
         } else {
             const res = await registerApi(this.formData)

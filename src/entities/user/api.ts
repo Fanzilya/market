@@ -1,5 +1,5 @@
 import { instance } from "@/app/api/instances"
-import { Auth } from "@/app/routers/api-router"
+import { Auth, CompanyRouter } from "@/app/routers/api-router"
 import { EmployerRegisterRequestDTO, IUserId, LoginRequest, RefreshTokenRequestDTO, RegisterRequestDTO } from "./type"
 
 export const registerApi = (params: RegisterRequestDTO) => {

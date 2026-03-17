@@ -9,7 +9,6 @@ import bannerFoto from '../../../../../public/фон для главной ст�
 
 export const LandingPage = () => {
   const navigate = useNavigate()
-  const [darkMode, setDarkMode] = useState(false)
   const [hoveredFeature, setHoveredFeature] = useState(null)
   const [knsVisible, setKnsVisible] = useState(false)
   const [activeTestimonial, setActiveTestimonial] = useState(0)
@@ -47,7 +46,6 @@ export const LandingPage = () => {
       clearInterval(partnersInterval)
     }
   }, []) // Пустой массив зависимостей - эффект выполнится один раз при монтировании
-
 
   const nextPartnerSlide = () => {
     setCurrentPartnerSlide((prev) =>

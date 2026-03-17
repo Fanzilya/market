@@ -1,4 +1,12 @@
-{
+
+
+
+
+
+
+
+
+export const dataRes = {
     "items": [
         {
             "ЮЛ": {

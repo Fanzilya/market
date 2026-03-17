@@ -59,7 +59,7 @@ export interface EmployerRegisterRequestDTO {
     email: string,
     phoneNumber: string,
     password: string,
-    roleId: Role.Customer | Role.Supplier,
+    roleName: Role.Customer | Role.Supplier,
     companyId: string,
 }
 
