@@ -114,6 +114,8 @@ export const AppRouter = createBrowserRouter([
       },
     ]
   },
+
+  // Админ
   {
     path: '/admin',
     element: <ProtectedRoute allowedRoles={[Role.Admin]} />,
@@ -150,7 +152,6 @@ export const AppRouter = createBrowserRouter([
           return { Component: SchemeSetting };
         },
       },
-      ...protectedRoutes,
     ]
   },
 

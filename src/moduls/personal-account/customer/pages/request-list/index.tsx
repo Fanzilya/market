@@ -39,11 +39,11 @@ export const CustomerPage = observer(() => {
     setShowArchiveConfirm,
     currentPage,
     setCurrentPage,
-    setSelectedStatus,
+    // setSelectedStatus,
     searchQuery,
     setSearchQuery,
-    requests,
-    paginatedRequests,
+    // requests,
+    // paginatedRequests,
     totalPages,
     confirmLogout,
     goToEditRequest,
@@ -51,7 +51,7 @@ export const CustomerPage = observer(() => {
     handleArchiveRequest,
     handleDeleteRequest,
     handleResubmit,
-    getStatusText,
+    // getStatusText,
     goToCreateRequest
   } = CustomerData(styles)
 

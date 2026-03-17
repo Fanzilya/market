@@ -82,7 +82,7 @@ export const RequestPreviewPage = observer(() => {
 
         <InfoBanner hasResponded={hasResponded} />
 
-        <div className={styles.requestCard}>
+        <div className={styles.requestCard}>  
           <div className={styles.requestHeader}>
             <h2 className={styles.requestTitle}>{request.objectName}</h2>
             <div></div>

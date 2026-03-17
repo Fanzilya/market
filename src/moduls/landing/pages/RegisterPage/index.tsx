@@ -30,7 +30,11 @@ export const RegisterPage = observer(() => {
     setFormCompanyData,
     companyData,
     init,
-    types
+    types,
+
+    setFnsValue,
+    fnsValue,
+    searchCompany,
   } = registerModel
 
   useEffect(() => {
@@ -187,7 +191,7 @@ export const RegisterPage = observer(() => {
               </div>
 
 
-              {formData.roleName == Role.Supplier && <RegisterCompanyForm formData={companyData} setFormData={setFormCompanyData} isLoading={isLoading} types={types} />}
+              {formData.roleName == Role.Supplier && <RegisterCompanyForm formData={companyData} setFormData={setFormCompanyData} isLoading={isLoading} types={types} setFnsValue={setFnsValue} fnsValue={fnsValue} searchCompany={searchCompany} />}
 
 
               <button onClick={onSubmit} className={styles.submitButton} disabled={isLoading}>

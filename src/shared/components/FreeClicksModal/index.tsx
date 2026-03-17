@@ -1,7 +1,16 @@
 // components/FreeClicksModal.tsx
 import styles from './FreeClicksModal.module.css'
 
-export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoToBilling }) {
+
+
+interface Props {
+  clicksLeft: any,
+  onConfirm: any,
+  onClose: any,
+  onGoToBilling: any,
+}
+
+export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoToBilling }: Props) {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -12,7 +21,7 @@ export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoTo
           </svg>
         </div>
 
-        <h2 className={styles.title}>Бесплатный отклик</h2>
+        <h2 className={styles.title}>Отклик на заявку</h2>
 
         <p className={styles.message}>
           У вас осталось <strong>{clicksLeft}</strong> {getClicksWord(clicksLeft)}.
@@ -47,8 +56,13 @@ export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoTo
   )
 }
 
-function getClicksWord(count) {
-  if (count % 10 === 1 && count % 100 !== 11) return 'бесплатный отклик'
-  if ([2, 3, 4].includes(count % 10) && ![12, 13, 14].includes(count % 100)) return 'бесплатных отклика'
-  return 'бесплатных откликов'
+function getClicksWord(count: number): string {
+  const lastDigit = count % 10;
+  const lastTwoDigits = count % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) return 'откликов';
+  if (lastDigit === 1) return 'отклик';
+  if (lastDigit >= 2 && lastDigit <= 4) return 'отклика';
+
+  return 'откликов';
 }

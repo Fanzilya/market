@@ -1,5 +1,5 @@
 import { instance } from "@/app/api/instances"
-import { CompanyRouter } from "@/app/routers/api-router"
+import { CompanyRouter, FSNRouter } from "@/app/routers/api-router"
 import { ICompanyInn, ICreateCompany } from "./type"
 
 
@@ -15,6 +15,3 @@ export const getCompanyByInnApi = (params: ICompanyInn) => {
 export const getCompanyTypesApi = () => {
     return instance.get(CompanyRouter.companyTypes)
 }
-
-
-

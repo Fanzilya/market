@@ -23,7 +23,6 @@ export const fileInstance = axios.create({
     },
 });
 
-
 [instance, fileInstance].forEach(inst => {
     inst.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${localStorage.getItem('access_token')}`

@@ -63,7 +63,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
   } else if (user?.role === Role.Supplier) {
     menuItems = [...menuItems, ...supplierMenuItems]
   } else if (user?.role === Role.Admin) {
-    menuItems = [...menuItems, ...adminMenuItems]
+    menuItems = adminMenuItems
   }
 
   // Фильтруем только элементы с path
@@ -183,7 +183,9 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
             </div>
 
             {/* Инструменты */}
-            {validToolsItems.length > 0 && (
+
+
+            {user?.role != Role.Admin && validToolsItems.length > 0 && (
               <div className={styles.mobileSidebarSection}>
                 <h3 className={styles.mobileSidebarSectionTitle}>Инструменты</h3>
                 {validToolsItems.map((item) => (
@@ -275,7 +277,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
         </nav>
       </div>
 
-      {validToolsItems.length > 0 && (
+      {user?.role != Role.Admin && validToolsItems.length > 0 && (
         <div className={styles.section}>
           <h3 className={styles.sectionTitle}>ИНСТРУМЕНТЫ</h3>
           <div className={styles.tools}>

@@ -7,6 +7,7 @@ import { offerDetailModel } from '../../features/OfferDetailPage/offer-detail-mo
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
 import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
+import Icon from '@/shared/ui-kits/Icon'
 
 export const OfferDetailPage = observer(() => {
   const { offerId } = useParams()
@@ -38,7 +39,7 @@ export const OfferDetailPage = observer(() => {
       <AccountHeader
         title='Коммерческое предложение'
         breadcrumbs={{
-          current: `КП №${offer.offersNumber || offer.id}`,
+          current: `КП №${offer?.offersNumber || offer?.id}`,
           linksBack: [
             { text: "Главная", link: "/dashboard" },
             { text: "Заявки", link: "/customer" },
@@ -62,20 +63,20 @@ export const OfferDetailPage = observer(() => {
         <div className={styles.offerHeader}>
           <div className={styles.offerHeaderLeft}>
             <div className={styles.offerIcon}>
-              {offer.nameBySupplier?.charAt(0) || offer.supplierFullName?.charAt(0) || 'К'}
+              {offer?.nameBySupplier?.charAt(0) || offer?.nameBySupplier?.charAt(0) || 'К'}
             </div>
             <div className={styles.offerCompanyInfo}>
-              <h2 className={styles.offerCompany}>{offer.fullCompanyName}</h2>
+              <h2 className={styles.offerCompany}>{offer?.fullCompanyName}</h2>
               <div className={styles.offerMeta}>
-                <span className={styles.offerNumber}>КП №{offer.offersNumber || offer.id}</span>
+                <span className={styles.offerNumber}>КП №{offer?.offersNumber || offer?.id}</span>
                 <span className={styles.offerDate}>
-                  от {new Date(offer.supportingDocumentDate).toLocaleDateString('ru-RU')}
+                  от {new Date(offer?.supportingDocumentDate).toLocaleDateString('ru-RU')}
                 </span>
               </div>
             </div>
           </div>
           <div className={styles.offerPrice}>
-            {formatPrice(offer.currentPriceNDS)}
+            {formatPrice(offer?.currentPriceNDS)}
           </div>
         </div>
 
@@ -123,41 +124,67 @@ export const OfferDetailPage = observer(() => {
               <div className={styles.infoGrid}>
 
 
-                {[{ name: "Наименование компании", value: offer.fullCompanyName },
-                { name: "ИНН", value: offer.inn },
-                { name: "КПП", value: offer.kpp },
-                { name: "Местоположение склада", value: offer.warehouseLocation },
-                { name: "Список поставщиков", value: offer.supplierSiteURL },
-                { name: "Дата оформления сопроводительного документа", value: offer.supportingDocumentDate, type: "date" },
-                { name: "Страна производитель", value: offer.manufacturerCountry },
-                { name: "Цена без НДС", value: offer.currentPriceNoNDS },
-                { name: "Цена с НДС", value: offer.currentPriceNDS },
+                {[{ name: "Наименование компании", value: offer?.fullCompanyName },
+                { name: "ИНН", value: offer?.inn },
+                { name: "КПП", value: offer?.kpp },
+                { name: "Местоположение склада", value: offer?.warehouseLocation },
+                { name: "Список поставщиков", value: offer?.supplierSiteURL },
+                { name: "Дата оформления сопроводительного документа", value: offer?.supportingDocumentDate, type: "date" },
+                { name: "Страна производитель", value: offer?.manufacturerCountry },
+                { name: "Цена без НДС", value: offer?.currentPriceNoNDS },
+                { name: "Цена с НДС", value: offer?.currentPriceNDS },
                 ].map((item, key) => (
                   <div className={styles.infoItem}>
                     <span className={styles.infoLabel}>{item.name}</span>
-                    <span className={styles.infoValue}>{
+                    <span className={styles.infoValue}>{item?.type === "date" ? new Date(item.value).toLocaleDateString('ru-RU') : item.value}</span>
 
-                      item?.type === "date" ?
-                        new Date(item.value).toLocaleDateString('ru-RU')
-                        :
-                        item.value
-
-                    }</span>
                   </div>
                 ))}
 
-                <div className={styles.infoItem}>
-                  <span className={styles.infoLabel}></span>
-                  <span className={styles.infoValue}></span>
-                </div>
 
-
+                {[
+                  offer.passportFileId && {
+                    name: "Паспорт оборудования",
+                    link: `https://triapi.ru/market/api/Offers/equipPassport/download/?passportId=${offer?.passportFileId}&download=true`,
+                    id: 'passport'
+                  },
+                  offer.certificateFileId && {
+                    name: "Сертификат оборудования",
+                    link: `https://triapi.ru/market/api/Offers/equipCertificate/download/?certificateId=${offer?.certificateFileId}`,
+                    id: 'certificate'
+                  },
+                  offer.planFileId && {
+                    name: "Чертеж/Схема",
+                    link: `https://triapi.ru/market/api/Offers/scemeFile/download/?shemeFileId=${offer?.planFileId}`,
+                    id: 'plan'
+                  },
+                  offer.offerFileId && {
+                    name: "КП на фирменном бланке",
+                    link: `https://triapi.ru/market/api/Offers/offerFile/download/?offerId=${offer?.offerFileId}`,
+                    id: 'offer'
+                  }
+                ]
+                  .map((item) => (
+                    <div className={styles.infoItem} key={item?.id}>
+                      <span className={styles.infoLabel}>{item?.name}</span>
+                      <a
+                        href={item?.link}
+                        className="text-[16px] font-medium text-[#1E293B] flex items-center gap-2"
+                        download
+                        target="_blank" // Добавляем для открытия в новой вкладке
+                        rel="noopener noreferrer" // Безопасность для target="_blank"
+                      >
+                        <Icon name='pdf' />
+                        Скачать
+                      </a>
+                    </div>
+                  ))}
               </div>
 
-              {offer.comment && (
+              {offer?.comment && (
                 <div className={styles.commentSection}>
                   <h4 className={styles.commentTitle}>Комментарий к предложению</h4>
-                  <p className={styles.commentText}>{offer.comment}</p>
+                  <p className={styles.commentText}>{offer?.comment}</p>
                 </div>
               )}
             </div>
@@ -169,31 +196,31 @@ export const OfferDetailPage = observer(() => {
               <div className={styles.infoGrid}>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Полное наименование</span>
-                  <span className={styles.infoValue}>{offer.fullName || offer.nameBySupplier || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.fullName || offer?.nameBySupplier || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Краткое наименование</span>
-                  <span className={styles.infoValue}>{offer.shortName || offer.nameBySupplier || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.shortName || offer?.nameBySupplier || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>ИНН</span>
-                  <span className={styles.infoValue}>{offer.inn || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.inn || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>КПП</span>
-                  <span className={styles.infoValue}>{offer.kpp || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.kpp || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Контактное лицо</span>
-                  <span className={styles.infoValue}>{offer.contactPerson || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.contactPerson || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Телефон</span>
-                  <span className={styles.infoValue}>{offer.contactPhone || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.contactPhone || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Email</span>
-                  <span className={styles.infoValue}>{offer.contactEmail || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.contactEmail || '—'}</span>
                 </div>
               </div>
             </div>
@@ -203,15 +230,15 @@ export const OfferDetailPage = observer(() => {
             <div className={styles.deliverySection}>
               <h3 className={styles.sectionTitle}>Условия поставки</h3>
 
-              {offer.hasDelivery && (
+              {offer?.hasDelivery && (
                 <div className={styles.infoGrid}>
                   <div className={styles.infoItem}>
                     <span className={styles.infoLabel}>Стоимость доставки</span>
-                    <span className={styles.infoValue}>{offer.deliveryCost ? formatPrice(offer.deliveryCost) : '—'}</span>
+                    <span className={styles.infoValue}>{offer?.deliveryCost ? formatPrice(offer?.deliveryCost) : '—'}</span>
                   </div>
                   <div className={styles.infoItem}>
                     <span className={styles.infoLabel}>Срок поставки</span>
-                    <span className={styles.infoValue}>{offer.deliveryTime || '—'}</span>
+                    <span className={styles.infoValue}>{offer?.deliveryTime || '—'}</span>
                   </div>
                 </div>
               )}
@@ -219,33 +246,33 @@ export const OfferDetailPage = observer(() => {
               <div className={styles.infoGrid}>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Условия оплаты</span>
-                  <span className={styles.infoValue}>{offer.paymentTerms || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.paymentTerms || '—'}</span>
                 </div>
                 <div className={styles.infoItem}>
                   <span className={styles.infoLabel}>Гарантийный срок</span>
-                  <span className={styles.infoValue}>{offer.warrantyPeriod || '—'}</span>
+                  <span className={styles.infoValue}>{offer?.warrantyPeriod || '—'}</span>
                 </div>
               </div>
 
-              {offer.hasCommissioning && (
+              {offer?.hasCommissioning && (
                 <div className={styles.commissioningSection}>
                   <h4 className={styles.subsectionTitle}>Пусконаладочные работы</h4>
                   <div className={styles.infoGrid}>
                     <div className={styles.infoItem}>
                       <span className={styles.infoLabel}>Стоимость ПНР</span>
-                      <span className={styles.infoValue}>{offer.commissioningCost ? formatPrice(offer.commissioningCost) : '—'}</span>
+                      <span className={styles.infoValue}>{offer?.commissioningCost ? formatPrice(offer?.commissioningCost) : '—'}</span>
                     </div>
                   </div>
-                  {offer.commissioningDescription && (
-                    <p className={styles.descriptionText}>{offer.commissioningDescription}</p>
+                  {offer?.commissioningDescription && (
+                    <p className={styles.descriptionText}>{offer?.commissioningDescription}</p>
                   )}
                 </div>
               )}
 
-              {offer.additionalServices && (
+              {offer?.additionalServices && (
                 <div className={styles.additionalSection}>
                   <h4 className={styles.subsectionTitle}>Дополнительные услуги</h4>
-                  <p className={styles.descriptionText}>{offer.additionalServices}</p>
+                  <p className={styles.descriptionText}>{offer?.additionalServices}</p>
                 </div>
               )}
             </div>
@@ -254,7 +281,7 @@ export const OfferDetailPage = observer(() => {
           {activeTab === 'materials' && (
             <div className={styles.materialsSection}>
               <h3 className={styles.sectionTitle}>Материалы и оборудование</h3>
-              {offer.materials && offer.materials.length > 0 ? (
+              {offer?.materials && offer?.materials.length > 0 ? (
                 <div className={styles.materialsTableContainer}>
                   <table className={styles.materialsTable}>
                     <thead>
@@ -267,7 +294,7 @@ export const OfferDetailPage = observer(() => {
                       </tr>
                     </thead>
                     <tbody>
-                      {offer.materials.map((material, index) => {
+                      {offer?.materials.map((material, index) => {
                         const total = (parseFloat(material.price) || 0) * (parseFloat(material.quantity) || 0)
                         return (
                           <tr key={material.id || index}>
@@ -284,7 +311,7 @@ export const OfferDetailPage = observer(() => {
                       <tr>
                         <td colSpan="4" className={styles.totalLabel}>Итого:</td>
                         <td className={styles.totalValue}>
-                          {formatPrice(offer.materials.reduce((sum, m) =>
+                          {formatPrice(offer?.materials.reduce((sum, m) =>
                             sum + ((parseFloat(m.price) || 0) * (parseFloat(m.quantity) || 0)), 0
                           ))}
                         </td>
@@ -302,9 +329,9 @@ export const OfferDetailPage = observer(() => {
             <div className={styles.documentsSection}>
               <h3 className={styles.sectionTitle}>Документы</h3>
 
-              {offer.documents && offer.documents.length > 0 ? (
+              {offer?.documents && offer?.documents.length > 0 ? (
                 <div className={styles.documentsGrid}>
-                  {offer.documents.map((doc, index) => {
+                  {offer?.documents.map((doc, index) => {
                     // Безопасная проверка документа
                     if (!doc) return null
 

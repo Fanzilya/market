@@ -5,6 +5,7 @@ import styles from './AdminPage.module.css'
 import { AdminPageDataModel } from '../../features/AdminPage/model-data'
 import Icon from '@/shared/ui-kits/Icon'
 import { Search } from '@/shared/ui-kits/Input/input-search'
+import { IRequestStats, tabsButton } from '@/moduls/personal-account/customer/features/request-list/config'
 
 export const AdminPage = () => {
   const navigate = useNavigate()
@@ -39,6 +40,9 @@ export const AdminPage = () => {
     setSearchTerm
   } = AdminPageDataModel(styles)
 
+  const stats: IRequestStats = { all: 0, news: 0, moderation: 0, rejected: 0, published: 0, archived: 0 }
+  const selectedStatus: 'all' | 'news' | 'moderation' | 'rejected' | 'published' | 'archived' = "all"
+
 
   return (
     <>
@@ -71,38 +75,22 @@ export const AdminPage = () => {
           </div>
         </div>
 
-        {/* Табы */}
-        <div className={styles.tabs}>
-          <button
-            className={`${styles.tab} ${activeTab === 'requests' ? styles.tabActive : ''}`}
-            onClick={() => { setActiveTab('requests'); setSelectedItems([]); }}
-          >
-            <Icon name='requests' />
-            Заявки
-            {requests.filter(r => !r.archived && r.status === 'active').length > 0 && (
-              <span className={styles.tabBadge}>{requests.filter(r => !r.archived && r.status === 'active').length}</span>
-            )}
-          </button>
-          <button
-            className={`${styles.tab} ${activeTab === 'offers' ? styles.tabActive : ''}`}
-            onClick={() => { setActiveTab('offers'); setSelectedItems([]); }}
-          >
-            <Icon name='offers' />
-            Предложения
-          </button>
-          <button
-            className={`${styles.tab} ${activeTab === 'users' ? styles.tabActive : ''}`}
-            onClick={() => { setActiveTab('users'); setSelectedItems([]); }}
-          >
-            <Icon name='users' />
 
-            Пользователи
-          </button>
+        <div className={styles.tabs}>
+          {tabsButton.map((item, key) => (
+            <button
+              key={key}
+              className={`${styles.tab} ${selectedStatus === item.value ? styles.active : ''}`}
+              onClick={() => filteredRequests(item.value)}
+            >
+              {item.name} <span className={styles.tabCount}>{stats[item.value]}</span>
+            </button>
+          ))}
         </div>
 
         {/* Панель действий */}
         <div className={styles.actionBar}>
-          
+
           <Search value={searchTerm} onChange={setSearchTerm} />
 
           {activeTab === 'requests' && (

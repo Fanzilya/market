@@ -100,7 +100,6 @@ export const CreateOfferPage = observer(() => {
             </button>
             <button
               className={styles.submitButton}
-              disabled={isValid}
               onClick={onSubmit}
               style={{ backgroundColor: isValid ? "black" : "" }}
             >

@@ -19,34 +19,36 @@ export function CustomerData(styles: any) {
     const requests = !user?.email ? [] : listRequestsForCustomerEmail(user.email)
 
 
-    const filteredRequests = useMemo(() => {
-        return requests.filter(r => {
-            const matchesSearch = r.objectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                r.id.toLowerCase().includes(searchQuery.toLowerCase())
+    // const filteredRequests = useMemo(() => {
+    //     return requests.length == 0
+    //         ? []
+    //         : requests.filter(r => {
+    //             const matchesSearch = r.objectName.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    //                 r.id.toLowerCase().includes(searchQuery.toLowerCase())
 
-            const offerCount = countOffersByRequestId(r.id)
+    //             const offerCount = countOffersByRequestId(r.id)
 
-            // Фильтр по статусам
-            if (selectedStatus === 'all') return matchesSearch
-            if (selectedStatus === 'moderation') return matchesSearch && r.status === 'moderation' && !r.archived
-            if (selectedStatus === 'revision') return matchesSearch && r.status === 'revision' && !r.archived
-            if (selectedStatus === 'rejected') return matchesSearch && r.status === 'rejected' && !r.archived
-            if (selectedStatus === 'published') return matchesSearch && r.status === 'published' && !r.archived
-            if (selectedStatus === 'with-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount > 0
-            if (selectedStatus === 'no-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount === 0
-            if (selectedStatus === 'archived') return matchesSearch && r.archived === true
+    //             // Фильтр по статусам
+    //             if (selectedStatus === 'all') return matchesSearch
+    //             if (selectedStatus === 'moderation') return matchesSearch && r.status === 'moderation' && !r.archived
+    //             if (selectedStatus === 'revision') return matchesSearch && r.status === 'revision' && !r.archived
+    //             if (selectedStatus === 'rejected') return matchesSearch && r.status === 'rejected' && !r.archived
+    //             if (selectedStatus === 'published') return matchesSearch && r.status === 'published' && !r.archived
+    //             if (selectedStatus === 'with-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount > 0
+    //             if (selectedStatus === 'no-offers') return matchesSearch && r.status === 'published' && !r.archived && offerCount === 0
+    //             if (selectedStatus === 'archived') return matchesSearch && r.archived === true
 
-            return matchesSearch
-        })
-    }, [requests, searchQuery, selectedStatus])
+    //             return matchesSearch
+    //         })
+    // }, [requests, searchQuery, selectedStatus])
 
-    const paginatedRequests = useMemo(() => {
-        const start = (currentPage - 1) * itemsPerPage
-        const end = start + itemsPerPage
-        return filteredRequests.slice(start, end)
-    }, [filteredRequests, currentPage])
+    // const paginatedRequests = useMemo(() => {
+    //     const start = (currentPage - 1) * itemsPerPage
+    //     const end = start + itemsPerPage
+    //     return filteredRequests.slice(start, end)
+    // }, [filteredRequests, currentPage])
 
-    const totalPages = Math.ceil(filteredRequests.length / itemsPerPage)
+    // const totalPages = Math.ceil(filteredRequests.length / itemsPerPage)
 
     const onLogout = () => {
         setShowLogoutConfirm(true)
@@ -136,9 +138,9 @@ export function CustomerData(styles: any) {
         searchQuery,
         setSearchQuery,
         requests,
-        filteredRequests,
-        paginatedRequests,
-        totalPages,
+        // filteredRequests,
+        // paginatedRequests,
+        // totalPages,
         onLogout,
         confirmLogout,
         goToEditRequest,

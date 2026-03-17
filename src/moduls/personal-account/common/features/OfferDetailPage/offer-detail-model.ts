@@ -1,10 +1,26 @@
 import { offersSingleApi } from '@/entities/offer/api';
+import { OfferFull } from '@/entities/offer/type';
 import { makeAutoObservable } from 'mobx';
 
 
 class OfferDetailModel {
 
-    offer: any = []
+    offer: OfferFull = {
+        offersNumber: "",
+        nameByProject: 0,
+        nameBySupplier: "",
+        currentPriceNDS: 0,
+        currentPriceNoNDS: 0,
+        supportingDocumentDate: "",
+        manufacturerCountry: "",
+        warehouseLocation: "",
+        supplierSiteURL: "",
+        requestId: "",
+        request: "",
+        bussinessAccId: "",
+        bussinessAccount: "",
+        id: ""
+    }
     isLoader: boolean = true
 
 

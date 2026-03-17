@@ -49,3 +49,7 @@ export const CompanyRouter = {
     cerate: "/Companies/create",
     companyTypes: "/Companies/types/all",
 }
+
+export const FSNRouter = {
+    innCompany: "/egr/"
+}

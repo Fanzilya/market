@@ -1,9 +1,10 @@
-import { createCompanyApi, getCompanyTypesApi } from "@/entities/company/api";
+import { createCompanyApi, getCompanyTypesApi, getFNSCompany } from "@/entities/company/api";
 import { CompanyTypes, ICreateCompany } from "@/entities/company/type";
 import { employerRegisterApi, registerApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
 import { RegisterRequestDTO } from "@/entities/user/type";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
+import axios from "axios";
 import { makeAutoObservable, values } from "mobx";
 
 class RegisterModel {
@@ -26,7 +27,9 @@ class RegisterModel {
         companyTypeId: "",
     };
 
+    fnsValue: string = ""
     error: string = ""
+
     isLoading: boolean = false
 
     types: SeletectItemInterface[] = []
@@ -42,6 +45,30 @@ class RegisterModel {
     setFormCompanyData<K extends keyof typeof this.companyData>(name: K, value: typeof this.companyData[K]) {
         this.companyData[name] = value;
     }
+
+    setFnsValue(value: string) {
+        if (value.length <= 12) {
+            this.fnsValue = value
+        }
+    }
+
+    async searchCompany() {
+        try {
+            const res = await axios.get('/egr', {
+                params: {
+                    req: this.fnsValue,
+                    key: "67e284756d190b3b9d42e1791c5094e62e47a5be",
+                },
+            });
+
+            return res.data;
+        } catch (error) {
+            console.error('FNS error:', error);
+            throw error;
+        }
+
+    }
+
 
     validateForm() {
         // Общие проверки
