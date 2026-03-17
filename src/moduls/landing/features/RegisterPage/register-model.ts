@@ -31,6 +31,7 @@ class RegisterModel {
     error: string = ""
 
     isLoading: boolean = false
+    isLoadingCompanySearch: boolean = false
 
     types: SeletectItemInterface[] = []
 
@@ -39,7 +40,30 @@ class RegisterModel {
     }
 
     setFormData<K extends keyof typeof this.formData>(name: K, value: typeof this.formData[K]) {
+
+        if (name == "roleName") { this.clearFormsData() }
+
         this.formData[name] = value;
+    }
+
+    clearFormsData() {
+        this.formData = {
+            fullName: "",
+            email: "",
+            phoneNumber: "",
+            password: "",
+            confirmPassword: "",
+            roleName: Role.Customer
+        };
+
+        this.companyData = {
+            fullCompanyName: "",
+            shortCompanyName: "",
+            inn: "",
+            kpp: "",
+            jurAdress: "",
+            companyTypeId: "",
+        };
     }
 
     setFormCompanyData<K extends keyof typeof this.companyData>(name: K, value: typeof this.companyData[K]) {
@@ -51,24 +75,6 @@ class RegisterModel {
             this.fnsValue = value
         }
     }
-
-    async searchCompany() {
-        try {
-            // const res = await axios.get('/egr', {
-            //     params: {
-            //         req: this.fnsValue,
-            //         key: "67e284756d190b3b9d42e1791c5094e62e47a5be",
-            //     },
-            // });
-
-            // console.log(res.data);
-        } catch (error) {
-            console.error('FNS error:', error);
-            throw error;
-        }
-
-    }
-
 
     validateForm() {
         // Общие проверки
@@ -113,13 +119,6 @@ class RegisterModel {
 
     async handleSubmit(navigate: any) {
         this.error = ('')
-
-        const reska = await getCompanyByInnApi({ inn: this.fnsValue })
-
-        console.log(reska)
-
-
-        return
 
         if (!this.validateForm()) return
 
@@ -178,6 +177,44 @@ class RegisterModel {
             return false
         }
         return true
+    }
+
+
+    async getCompanyByInn() {
+        this.isLoadingCompanySearch = true
+        try {
+
+            await setTimeout(() => {
+                console.log('asd')
+            }, 2000)
+
+            // const reska = await getCompanyByInnApi({ inn: this.fnsValue })
+            // console.log(reska)
+            // return
+
+        } catch (error) {
+            console.log(error)
+        } finally {
+            this.isLoadingCompanySearch = false
+        }
+
+    }
+
+    async searchCompany() {
+        try {
+            // const res = await axios.get('/egr', {
+            //     params: {
+            //         req: this.fnsValue,
+            //         key: "67e284756d190b3b9d42e1791c5094e62e47a5be",
+            //     },
+            // });
+
+            // console.log(res.data);
+        } catch (error) {
+            console.error('FNS error:', error);
+            throw error;
+        }
+
     }
 
     async createCompany() {

@@ -1,5 +1,6 @@
 import { RegisterRequestDTO } from "@/entities/user/type";
 import { Input } from "@/shared/ui-kits/Input";
+import { observer } from "mobx-react-lite";
 import { useState } from "react";
 
 
@@ -13,7 +14,7 @@ interface Props {
 }
 
 
-export const CustomerForm = ({ styles, formData, setFormData, isLoading, onSubmit }: Props) => {
+export const CustomerForm = observer(({ styles, formData, setFormData, isLoading, onSubmit }: Props) => {
     const [focusedInput, setFocusedInput] = useState<string>('')
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -133,4 +134,4 @@ export const CustomerForm = ({ styles, formData, setFormData, isLoading, onSubmi
             </button>
         </>
     );
-}
+})

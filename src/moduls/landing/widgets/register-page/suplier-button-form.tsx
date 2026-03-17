@@ -1,4 +1,5 @@
 import { Button } from "@/shared/ui-kits/button"
+import { observer } from "mobx-react-lite"
 
 
 interface Props {
@@ -7,14 +8,17 @@ interface Props {
     tabForm: number
     onSubmit: () => void
     setTabForm: (value: number) => void
+    isLoadingCompanySearch: boolean,
+    getCompanyByInn: () => void
 }
 
-export const SuplierButtonForm = ({ onSubmit, tabForm, setTabForm, isLoading, styles }: Props) => {
+export const SuplierButtonForm = observer(({ getCompanyByInn, onSubmit, isLoadingCompanySearch, tabForm, setTabForm, isLoading, styles }: Props) => {
     return tabForm == 1 ?
-        <Button onClick={() => setTabForm(2)}
+        // <Button onClick={() => setTabForm(2)}
+        <Button onClick={getCompanyByInn}
             className='p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] mt-2 hover:shadow-lg'
-            disabled={isLoading}>
-            Продолжить
+            disabled={isLoadingCompanySearch}>
+            {isLoadingCompanySearch ? "Поиск ..." : "Продолжить"}
         </Button>
         :
         <div className="flex gap-2 mt-2">
@@ -38,4 +42,4 @@ export const SuplierButtonForm = ({ onSubmit, tabForm, setTabForm, isLoading, st
             </Button>
         </div>
 
-}
+})

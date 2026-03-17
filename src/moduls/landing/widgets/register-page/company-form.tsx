@@ -13,30 +13,46 @@ interface Props {
     types: SeletectItemInterface[],
 
     fnsValue: string,
+    styles: any,
     setFnsValue: (value: string) => void,
     searchCompany: () => void
 }
 
 
-export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany }: Props) => {
+export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany, styles }: Props) => {
 
-    const [isFnsSearch, setIsFnsSearch] = useState<boolean>(true)
+    const [isFromWord, setIsFromWord] = useState<boolean>(true)
 
     return (
         <>
             <p className="mt-3 font-semibold">Данные об компании</p>
 
-            <div className="flex gap-1">
-                <Button onClick={() => setIsFnsSearch(true)} className={` w-full py-1.5 ${!isFnsSearch && "opacity-30"}`}>Найти компанию</Button>
-                <Button onClick={() => setIsFnsSearch(false)} className={` w-full py-1.5 ${isFnsSearch && "opacity-30"}`}>Заполнить вручную</Button>
+            <div className="flex border-b border-gray-200">
+                <button
+                    onClick={() => setIsFromWord(true)}
+                    className={`w-full py-3 border-b-1 px-4 font-medium transition-all duration-200 ${isFromWord
+                        ? 'text-blue-600 border-blue-600'
+                        : 'text-gray-500 border-gray-100 hover:text-gray-700'
+                        }`}
+                >
+                    Заполнить вручную
+                </button>
+                <button
+                    onClick={() => setIsFromWord(false)}
+                    className={`w-full py-3 border-b-1 px-4 font-medium transition-all duration-200 ${!isFromWord
+                        ? 'text-blue-600 border-blue-600'
+                        : 'text-gray-500 border-gray-100 hover:text-gray-700'
+                        }`}
+                >
+                    Найти компанию
+                </button>
             </div>
 
-
-            {isFnsSearch
+            {!isFromWord
                 ? <div className="flex gap-1 items-end">
                     <Input
                         required
-                        label="Полное наименование компании"
+                        label="ИНН"
                         type="text"
                         value={fnsValue}
                         onChange={(e) => setFnsValue(e)}
@@ -47,12 +63,11 @@ export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading,
                         }}
                     />
 
-                    <Button className="mb-1.5 p-1.5 !rounded-[100px]" onClick={searchCompany} styleColor={fnsValue.length > 9 ? "blue" : "gray"}>
-                        <Icon name="check" color="white" />
+                    <Button className="h-[47.5px] w-[47.5px] p-2 !rounded-" onClick={searchCompany} styleColor={fnsValue.length > 9 ? "blue" : "gray"}>
+                        <Icon name="search" color="white" />
                     </Button>
                 </div>
                 : <>
-
                     <Input
                         required
                         label="Полное наименование компании"
@@ -103,22 +118,15 @@ export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading,
                         disabled={isLoading}
                     />
 
-                    <Input
-                        required
-                        label="Тип компании"
-                        type="text"
-                        value={formData.companyTypeId}
-                        onChange={(e) => setFormData("companyTypeId", e)}
-                        placeholder="ООО / АО / ИП"
-                        disabled={isLoading}
-                    />
+                    <div className={styles.inputGroup}>
+                        <label className={styles.label}>Тип компании <span className="text-red-500">*</span></label>
+                        <Selector
+                            placeholder="Тип компании"
+                            onSelect={(value) => setFormData("companyTypeId", value.value)}
+                            items={types}
 
-                    <Selector
-                        placeholder="Тип компании"
-                        onSelect={(value) => setFormData("companyTypeId", value.value)}
-                        items={types}
-
-                    />
+                        />
+                    </div>
                 </>
             }
         </>

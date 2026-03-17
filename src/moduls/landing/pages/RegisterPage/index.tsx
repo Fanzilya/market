@@ -11,6 +11,7 @@ import { Input } from '@/shared/ui-kits/Input'
 import { RegisterCompanyForm } from '../../widgets/register-page/company-form'
 import { SuplierForm } from '../../widgets/register-page/suplier-form'
 import { CustomerForm } from '../../widgets/register-page/customer-form'
+import { SuplierButtonForm } from '../../widgets/register-page/suplier-button-form'
 
 export const RegisterPage = observer(() => {
 
@@ -33,6 +34,8 @@ export const RegisterPage = observer(() => {
     setFnsValue,
     fnsValue,
     searchCompany,
+    isLoadingCompanySearch,
+    getCompanyByInn,
   } = registerModel
 
   useEffect(() => {
@@ -94,9 +97,9 @@ export const RegisterPage = observer(() => {
 
 
               {formData.roleName == Role.Customer && <CustomerForm styles={styles} formData={formData} setFormData={setFormData} isLoading={isLoading} onSubmit={onSubmit} />}
-              {formData.roleName == Role.Supplier && tabForm == 1 && <SuplierForm styles={styles} formData={formData} setFormData={setFormData} isLoading={isLoading} onSubmit={onSubmit} tabForm={tabForm} setTabForm={setTabForm} />}
-              {formData.roleName == Role.Supplier && tabForm == 2 && <RegisterCompanyForm formData={companyData} setFormData={setFormCompanyData} isLoading={isLoading} types={types} setFnsValue={setFnsValue} fnsValue={fnsValue} searchCompany={searchCompany} />}
-
+              {formData.roleName == Role.Supplier && tabForm == 1 && <RegisterCompanyForm styles={styles} formData={companyData} setFormData={setFormCompanyData} isLoading={isLoading} types={types} setFnsValue={setFnsValue} fnsValue={fnsValue} searchCompany={searchCompany} />}
+              {formData.roleName == Role.Supplier && tabForm == 2 && <SuplierForm styles={styles} formData={formData} setFormData={setFormData} isLoading={isLoading} onSubmit={onSubmit} tabForm={tabForm} setTabForm={setTabForm} />}
+              {formData.roleName == Role.Supplier && <SuplierButtonForm isLoadingCompanySearch={isLoadingCompanySearch} getCompanyByInn={getCompanyByInn} onSubmit={onSubmit} tabForm={tabForm} setTabForm={setTabForm} isLoading={isLoading} styles={styles} />}
 
 
               <div className={styles.loginLink}>
