@@ -105,3 +105,15 @@ a {
         background: rgba(0, 0, 0, 0.7);
     }
 }
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    border-color: #4A85F6;
+  }
+
+  50% {
+    border-color: #10B981;
+  }
+}

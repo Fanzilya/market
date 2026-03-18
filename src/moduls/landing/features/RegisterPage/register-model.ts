@@ -184,9 +184,12 @@ class RegisterModel {
         this.isLoadingCompanySearch = true
         try {
 
-            await setTimeout(() => {
-                console.log('asd')
-            }, 2000)
+            await new Promise(() => {
+                setTimeout(() => {
+                    console.log('asd')
+                }, 2000)
+            })
+
 
             // const reska = await getCompanyByInnApi({ inn: this.fnsValue })
             // console.log(reska)
@@ -195,6 +198,7 @@ class RegisterModel {
         } catch (error) {
             console.log(error)
         } finally {
+            console.log('ed')
             this.isLoadingCompanySearch = false
         }
 

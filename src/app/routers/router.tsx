@@ -134,15 +134,22 @@ export const AppRouter = createBrowserRouter([
       {
         path: 'requests',
         async lazy() {
-          const { AdminPage } = await import('@admin/pages/AdminPage');
-          return { Component: AdminPage };
+          const { ListRequest } = await import('@/moduls/personal-account/admin/pages/ListRequest');
+          return { Component: ListRequest };
         },
       },
       {
         path: 'users',
         async lazy() {
-          const { AdminUsersPage } = await import('@admin/pages/AdminUsersPage');
+          const { AdminUsersPage } = await import('@/moduls/personal-account/admin/pages/ListUsers');
           return { Component: AdminUsersPage };
+        },
+      },
+      {
+        path: 'companies',
+        async lazy() {
+          const { ListCompany } = await import('@/moduls/personal-account/admin/pages/ListCompany');
+          return { Component: ListCompany };
         },
       },
       {
@@ -151,6 +158,40 @@ export const AppRouter = createBrowserRouter([
           const { SchemeSetting } = await import('@admin/pages/SchemeSetting');
           return { Component: SchemeSetting };
         },
+      },
+      {
+        path: 'request',
+        children: [
+          {
+            path: ':requestId',
+            children: [
+              {
+                index: true,
+                async lazy() {
+                  const { RequestDetailPage } = await import('@common/pages/RequestDetailPage');
+                  return { Component: RequestDetailPage };
+                },
+              },
+            ]
+          },
+        ]
+      },
+      {
+        path: 'offer',
+        children: [
+          {
+            path: ':offerId',
+            children: [
+              {
+                index: true,
+                async lazy() {
+                  const { OfferDetailPage } = await import('@common/pages/OfferDetailPage');
+                  return { Component: OfferDetailPage };
+                },
+              },
+            ]
+          },
+        ],
       },
     ]
   },

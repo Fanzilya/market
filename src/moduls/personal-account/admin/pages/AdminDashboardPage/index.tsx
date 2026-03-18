@@ -7,6 +7,7 @@ import styles from './AdminDashboardPage.module.css'
 import { cardsActions } from '../../features/AdminDashboardPage/data'
 import { IconAdminDashboard } from '../../features/AdminDashboardPage/components'
 import Icon from '@/shared/ui-kits/Icon'
+import { PageTitle } from '@/shared/ui-kits/titles/h3'
 
 export const AdminDashboardPage = () => {
 
@@ -45,6 +46,9 @@ export const AdminDashboardPage = () => {
         </div>
       </div>
 
+
+
+      <PageTitle text="Статистика по заявкам" className="mb-3" />
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>📋</div>
@@ -77,7 +81,11 @@ export const AdminDashboardPage = () => {
             <span className={styles.statLabel}>В архиве</span>
           </div>
         </div>
+      </div>
 
+      <PageTitle text="Статистика по заявкам" className="mb-3" />
+
+      <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>💰</div>
           <div className={styles.statInfo}>
@@ -85,7 +93,11 @@ export const AdminDashboardPage = () => {
             <span className={styles.statLabel}>Предложений</span>
           </div>
         </div>
+      </div>
 
+      <PageTitle text="Статистика по заявкам" className="mb-3" />
+
+      <div className={styles.statsGrid}>
         <div className={styles.statCard}>
           <div className={styles.statIcon}>👥</div>
           <div className={styles.statInfo}>
@@ -95,8 +107,10 @@ export const AdminDashboardPage = () => {
         </div>
       </div>
 
-      <div className={styles.quickActions}>
-        <h2 className={styles.sectionTitle}>Быстрые действия</h2>
+
+
+      {/* <div className={styles.quickActions}>
+        <h2 className={styles.sectionTitle}>Заложим для статистики</h2>
         <div className={styles.actionsGrid}>
           {cardsActions.map((link, key) => (
             <Link to={link.link} className={styles.actionCard}>
@@ -105,7 +119,7 @@ export const AdminDashboardPage = () => {
             </Link>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

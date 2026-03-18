@@ -2,7 +2,7 @@ import { schemeActionsModel } from '@/widgets/Scheme/src/models/scheme-actions-m
 import { observer } from 'mobx-react-lite';
 import { cabinetLocationOptions, directionOptions, mediumOptions } from './src/data';
 import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing';
-import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PipelineMaterial, PipelineMaterialTranslations, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
+import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PerfomanceMeasureUnit, PerfomanceMeasureUnitTranslations, PipelineMaterial, PipelineMaterialTranslations, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
 import Icon from '@/shared/ui-kits/Icon';
 import { Input } from '@/shared/ui-kits/Input';
 
@@ -28,17 +28,34 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                 <div>
                     <h3 className={styles.subsectionTitle}>Основные параметры</h3>
                     <div className={styles.formGridTech}>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Производительность (м³/ч, л/с) <span className={styles.required}>*</span>
-                            </label>
+                        <div className="flex gap-3">
                             <Input
                                 type="number"
                                 value={knsData.capacity}
+                                required
+                                label='Производительность'
                                 onChange={(e) => setKnsData("capacity", e)}
-                                classNames={{ input: styles.input }}
-                                placeholder="м³/ч"
+                                classNames={{ container: "w-full" }}
+                                placeholder="0"
                             />
+
+                            <div className="flex flex-col gap-2 w-full">
+                                <label className={styles.label}>Единица измерения <span className="text-[#ef4444]">*</span></label>
+                                <select
+                                    value={knsData.motorStartMethod}
+                                    onChange={(e) => setKnsData("units", e.target.value)}
+                                    className={styles.select}
+                                >
+                                    {Object.values(PerfomanceMeasureUnit)
+                                        .filter(value => typeof value === 'number')
+                                        .map(value => (
+                                            <option key={value} value={value}>
+                                                {PerfomanceMeasureUnitTranslations[value as PerfomanceMeasureUnit]}
+                                            </option>
+                                        ))
+                                    }
+                                </select>
+                            </div>
                         </div>
 
                         <div className={styles.formGroup}>

@@ -8,7 +8,7 @@ export enum RequestStatus {
 }
 
 export enum PerfomanceMeasureUnit {
-    HorsePower,
+    LiterSecond,
     CubicMeter
 }
 
@@ -46,7 +46,7 @@ export const RequestStatusTranslations: Record<RequestStatus, string> = {
 };
 
 export const PerfomanceMeasureUnitTranslations: Record<PerfomanceMeasureUnit, string> = {
-    [PerfomanceMeasureUnit.HorsePower]: 'Л.с.',
+    [PerfomanceMeasureUnit.LiterSecond]: 'л.с.',
     [PerfomanceMeasureUnit.CubicMeter]: 'м³/ч'
 };
 
@@ -90,3 +90,43 @@ export const directionLabels = {
     11: '11 часов (330°)',
     12: '12 часов (вверх)',
 }
+
+
+
+export interface IRequestStats {
+    all: number,
+    news: number,
+    moderation: number,
+    rejected: number,
+    published: number,
+    archived: number,
+}
+
+
+export const tabsButton: { name: string, value: keyof IRequestStats }[] = [
+    {
+        name: "Все",
+        value: "all",
+    },
+    {
+        name: "Новые",
+        value: "news",
+    },
+    {
+        name: "На модерации",
+        value: "moderation",
+    },
+    {
+        name: "Отклонено",
+        value: "rejected",
+    },
+    {
+        name: "Опубликовано",
+        value: "published",
+    },
+    {
+        name: "Архив",
+        value: "archived",
+    },
+]
+

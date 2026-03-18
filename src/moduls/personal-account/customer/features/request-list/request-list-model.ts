@@ -1,8 +1,7 @@
 import { IRequest } from '@/entities/request/type';
 import { makeAutoObservable } from 'mobx';
-import { IRequestStats } from './config';
 import { countOffersByRequestId } from '@/shared/data/offers';
-import { RequestStatus } from '@/entities/request/config';
+import { IRequestStats, RequestStatus } from '@/entities/request/config';
 import { allByUserApi, requestSingleApi } from '@/entities/request/api';
 import { offersByRequestsApi } from '@/entities/offer/api';
 

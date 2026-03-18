@@ -7,13 +7,13 @@ import { requestListModel } from '../../features/request-list/request-list-model
 import { CustomerData } from '../../features/request-list/model-data'
 import { observer } from 'mobx-react-lite'
 import Loader from '@/shared/ui-kits/loader/loader'
-import { tabsButton } from '../../features/request-list/config'
 import { Search } from '@/shared/ui-kits/Input/input-search'
 import { ArchiveConfirmModal } from '../../widgets/request-list/archive-confirm-modal'
 import { LogoutConfirmModal } from '../../widgets/request-list/logout-confirm-modal'
 import { RequestTableRow } from '../../widgets/request-list/request-table-row'
 import { RequestCard } from '../../widgets/request-list/request-card'
 import { Role } from '@/entities/user/role'
+import { tabsButton } from '@/entities/request/config'
 
 export const CustomerPage = observer(() => {
   const { user } = useAuth()
@@ -246,17 +246,17 @@ export const CustomerPage = observer(() => {
       </div>
 
       {showArchiveConfirm && (
-        <ArchiveConfirmModal 
-          styles={styles} 
-          setShowArchiveConfirm={setShowArchiveConfirm} 
-          handleArchiveRequest={handleArchiveRequest} 
+        <ArchiveConfirmModal
+          styles={styles}
+          setShowArchiveConfirm={setShowArchiveConfirm}
+          handleArchiveRequest={handleArchiveRequest}
         />
       )}
       {showLogoutConfirm && (
-        <LogoutConfirmModal 
-          styles={styles} 
-          setShowLogoutConfirm={setShowLogoutConfirm} 
-          confirmLogout={confirmLogout} 
+        <LogoutConfirmModal
+          styles={styles}
+          setShowLogoutConfirm={setShowLogoutConfirm}
+          confirmLogout={confirmLogout}
         />
       )}
     </>

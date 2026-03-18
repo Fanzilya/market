@@ -4,7 +4,7 @@ import { IRequest } from "./type"
 
 // Получить класс статуса для отображения
 export const getStatusClass = (request: IRequest) => {
-    if (request.isArchived) return "bg-[rgba(100,_116,_139,_0.1)] text-[#64748B]"
+    if (request.isArchived) return "!bg-[rgba(100,_116,_139,_0.1)] !text-[#64748B]"
 
     switch (request.status) {
         case RequestStatus.Moderation:

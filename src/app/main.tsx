@@ -4,12 +4,20 @@ import { RouterProvider } from 'react-router-dom'
 import { AuthProvider } from '@/features/user/context/context'
 import { AppRouter } from './routers/router'
 import './main.css'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { queryClient } from '@/shared/libs/query-client'
+
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
+
 
 createRoot(document.getElementById('root') as HTMLElement).render(
-  <StrictMode>
-    <AuthProvider>
-      <RouterProvider router={AppRouter} />
-    </AuthProvider>
-  </StrictMode>,
+  <StrictMode >
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <RouterProvider router={AppRouter} />
+      </AuthProvider>
 
+      <ReactQueryDevtools initialIsOpen={true} />
+    </QueryClientProvider >
+  </StrictMode >
 )

@@ -1,11 +1,12 @@
-import { PumpsStartupMethodTranslations } from '@/entities/request/config';
+import { PerfomanceMeasureUnitTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config';
+import { BaseInfo, KnsData } from '@/entities/request/type';
 import { observer } from 'mobx-react-lite';
 
 
 interface Props {
     styles: any,
-    formData: any,
-    knsData: any,
+    formData: BaseInfo,
+    knsData: KnsData,
     motorStartOptions: any,
     elements: any,
 }
@@ -41,7 +42,7 @@ export const FormCheckSend = observer(({ styles, formData, knsData, motorStartOp
                 <div className={styles.previewGrid}>
                     <div className={styles.previewItem}>
                         <span className={styles.previewLabel}>Производительность:</span>
-                        <span className={styles.previewValue}>{knsData.capacity} м³/ч</span>
+                        <span className={styles.previewValue}>{knsData.capacity} {PerfomanceMeasureUnitTranslations[knsData.units]}</span>
                     </div>
                     <div className={styles.previewItem}>
                         <span className={styles.previewLabel}>Напор:</span>

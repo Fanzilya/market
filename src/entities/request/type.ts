@@ -1,5 +1,5 @@
 import { EquipmentDataCheckbox } from "@/widgets/Scheme/src/data/teeska";
-import { PipelineMaterial, PumpsStartupMethod, RequestStatus } from "./config";
+import { PerfomanceMeasureUnit, PipelineMaterial, PumpsStartupMethod, RequestStatus } from "./config";
 import { User } from "../user/type";
 
 export interface BaseInfo {
@@ -16,6 +16,7 @@ export interface BaseInfo {
 export interface KnsData {
     // Основные параметры
     capacity: string,
+    units: PerfomanceMeasureUnit,
     head: string,
     workingPumps: string,
     reservePumps: string,
@@ -172,7 +173,7 @@ export interface CurrentRes {
     /** Производительность */
     perfomance: number;
     /** Единицы измерения (вероятно, код единицы измерения) */
-    units: number;
+    units: PerfomanceMeasureUnit;
     /** Требуемое давление насоса */
     requiredPumpPressure: number;
     /** Количество рабочих насосов */

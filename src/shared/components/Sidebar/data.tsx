@@ -129,14 +129,14 @@ export function getSadbarData() {
       label: "Заявки",
       badge: "3", // Количество заявок на модерацию
     },
-    {
-      path: "/admin/offers",
-      icon: (
-        <Icon name="offers" />
-      ),
-      label: "Предложения",
-      badge: "5", // Количество предложений на модерацию
-    },
+    // {
+    //   path: "/admin/offers",
+    //   icon: (
+    //     <Icon name="offers" />
+    //   ),
+    //   label: "Предложения",
+    //   badge: "5", // Количество предложений на модерацию
+    // },
     {
       path: "/admin/users",
       icon: (

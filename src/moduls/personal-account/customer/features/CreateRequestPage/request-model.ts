@@ -4,7 +4,7 @@ import { STORAGE_KEY_SCHEME_SETTINGS } from "@/entities/scheme/config";
 import { checkBox, EquipmentDataCheckbox } from "@/widgets/Scheme/src/data/teeska";
 import { ruleSchemeObjectModel } from "./rule-scheme-object-model";
 import { BaseInfo, KnsData } from "@/entities/request/type";
-import { REQUESTS_KEY } from "@/entities/request/config";
+import { PerfomanceMeasureUnit, REQUESTS_KEY } from "@/entities/request/config";
 import { requestRevision, updateRequest } from "@/shared/data/requests";
 import { createRequestApi, equipmentsApi } from "@/entities/request/api";
 import { User } from "@/entities/user/type";
@@ -30,6 +30,7 @@ class RequestModel {
         knsData: {
             // Основные параметры
             capacity: '',
+            units: PerfomanceMeasureUnit.LiterSecond,
             head: '',
             workingPumps: '',
             reservePumps: '',
@@ -215,7 +216,7 @@ class RequestModel {
 
                 // Данные из knsData
                 perfomance: Number(this.model.knsData.capacity),
-                units: Number(this.model.knsData.medium),  // medium вместо units
+                units: Number(this.model.knsData.units),  // medium вместо units
                 requiredPumpPressure: Number(this.model.knsData.head),
                 activePumpsCount: Number(this.model.knsData.workingPumps),
                 reservePumpsCount: Number(this.model.knsData.reservePumps),

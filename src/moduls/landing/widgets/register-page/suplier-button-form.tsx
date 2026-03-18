@@ -16,8 +16,9 @@ export const SuplierButtonForm = observer(({ getCompanyByInn, onSubmit, isLoadin
     return tabForm == 1 ?
         // <Button onClick={() => setTabForm(2)}
         <Button onClick={getCompanyByInn}
-            className='p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] mt-2 hover:shadow-lg'
-            disabled={isLoadingCompanySearch}>
+            className={`${isLoadingCompanySearch ? "from-[#4f4f4f] to-[#a2a3a5]" : "from-[#4A85F6] to-[#3A6BC9]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
+            disabled={isLoadingCompanySearch}
+        >
             {isLoadingCompanySearch ? "Поиск ..." : "Продолжить"}
         </Button>
         :

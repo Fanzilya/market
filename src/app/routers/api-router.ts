@@ -53,3 +53,14 @@ export const CompanyRouter = {
 export const FSNRouter = {
     innCompany: "/egr/"
 }
+
+
+
+export const AdminRouter = {
+    usersAll: "/Admin/users/all",
+    companiesAll: "/Admin/companies/all",
+    requestsAll: "/Admin/requests/all",
+    requestArhiv: "/Admin/request/archive/change",
+    requestStatusChange: "/Admin/request/statusChange",
+}
+

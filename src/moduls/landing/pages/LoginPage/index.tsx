@@ -69,10 +69,11 @@ export const LoginPage = observer(() => {
                     onChange={(e) => setEmail(e.target.value)}
                     onFocus={() => setFocusedInput('email')}
                     onBlur={() => setFocusedInput(null)}
-                    placeholder="your.email@example.com"
+                    placeholder="@mail.ru"
                     className={`${styles.input} ${focusedInput === 'email' ? styles.inputFocused : ''} ${isValidEmail ? styles.inputValid : ''}`}
                     disabled={isLoading}
                   />
+
                   {isValidEmail && (
                     <div className={styles.validIcon}>
                       <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
@@ -81,6 +82,7 @@ export const LoginPage = observer(() => {
                       </svg>
                     </div>
                   )}
+
                 </div>
               </div>
 
@@ -149,6 +151,7 @@ export const LoginPage = observer(() => {
               </button>
             </div>
 
+            
             {/* Демо-аккаунты */}
             <div className={styles.demoAccounts}>
               <p className={styles.demoTitle}>Демо-аккаунты:</p>
@@ -167,7 +170,7 @@ export const LoginPage = observer(() => {
                 </button>
                 <button
                   className={styles.demoButton}
-                  onClick={() => handleDemoLogin('user@example.com', 'qwerty')}
+                  onClick={() => handleDemoLogin('azizman@mail.ru', '123456')}
                 >
                   Админ
                 </button>

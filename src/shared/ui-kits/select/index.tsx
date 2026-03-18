@@ -44,7 +44,7 @@ export const Selector = observer(({ placeholder, items, onSelect, classNames, de
 
 
     return (
-        <div ref={containerRef} className={`relative flex flex-col gap-[8px] ${classNames?.wripper}`} onClick={handleButtonClick}>
+        <div ref={containerRef} className={`relative flex flex-col gap-[8px] ${classNames?.wripper}`} onClick={(e) => { e.stopPropagation(); handleButtonClick() }}>
             {label && <span className={`text-[14px] font-medium text-[#1e293b] ${classNames?.label}`}>{label} {required && <span className="text-red-500">*</span>}</span>}
 
             <div

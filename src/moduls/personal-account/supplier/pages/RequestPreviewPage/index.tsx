@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useParams, useLocation } from 'react-router-dom'
 import PageHeader from './components/PageHeader'
 import InfoBanner from './components/InfoBanner'
-import ContactInfo from './components/ContactInfo'
+import ContactInfo from '../../../../../widgets/request-view/contact-info'
 import ExtrasSection from './components/ExtrasSection'
-import ClicksInfo from './components/ClicksInfo'
-import RespondButton from './components/RespondButton'
-import OfferButton from './components/OfferButton'
+import ClicksInfo from '../../../../../widgets/request-view/clicks-info'
+import RespondButton from '../../../../../widgets/request-view/respond-button'
+import OfferButton from '../../../../../widgets/request-view/offer-button'
 import useFreeClicks from './hooks/useFreeClicks'
 import useFavorites from './hooks/useFavorites'
 import { useAuth } from '@/features/user/context/context'
@@ -16,10 +16,11 @@ import styles from "./RequestPreviewPage.module.css"
 import { supplierPreviewModel } from '../../features/supplier-preview/supplier-preview-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
-import { directionLabels, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config'
+import { directionLabels, PerfomanceMeasureUnitTranslations, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config'
 import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing'
 import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 import Icon from '@/shared/ui-kits/Icon'
+import { RequestView } from '@/widgets/request-view'
 
 export const RequestPreviewPage = observer(() => {
   const { requestId } = useParams()
@@ -65,7 +66,7 @@ export const RequestPreviewPage = observer(() => {
         <AccountHeader
           title={hasResponded ? 'Заявка' : 'Предпросмотр заявки'}
           breadcrumbs={{
-            current: `Заявка ${request.innerId || "-"}`
+            current: `Заявка ${request?.innerId || "-"}`
           }}
 
           rightBlock={
@@ -82,164 +83,17 @@ export const RequestPreviewPage = observer(() => {
 
         <InfoBanner hasResponded={hasResponded} />
 
-        <div className={styles.requestCard}>  
-          <div className={styles.requestHeader}>
-            <h2 className={styles.requestTitle}>{request.objectName}</h2>
-            <div></div>
-            {/* <span className={styles.requestId}>{request.id}</span> */}
-          </div>
+        <RequestView
+          request={request}
+          currentModel={currentModel}
+          equipmentCurrentModel={equipmentCurrentModel}
+          hasResponded={hasResponded}
+          schemeIsActive={schemeIsActive}
+          freeClicksLeft={freeClicksLeft}
+          isClicksAvailable={isClicksAvailable}
+          handleRespond={handleRespond}
+        />
 
-          {hasResponded && (
-            <ContactInfo
-              govCustomerName={request.customerName}
-              contactPerson={request.contactName}
-              contactPhone={request.phoneNumber}
-            // contactEmail={request.contactEmail}
-            />
-          )}
-
-          <div className={styles.infoGrid}>
-            <InfoItem
-              label="Тип конфигурации"
-              value={'КНС'} />
-
-            <InfoItem
-              label="Дата создания"
-              value={new Date(request.createdAt).toLocaleDateString('ru-RU')} />
-
-            {request.locationRegion &&
-              <InfoItem
-                label="Регион"
-                value={request.locationRegion} />
-            }
-
-          </div>
-
-          <div className='flex gap-10'>
-            <div className='w-full'>
-              <h3 className={styles.sectionTitle}>Технические характеристики</h3>
-              <div className={styles.specsGrid}>
-                <SpecItem
-                  label={"Производительность:"}
-                  value={(currentModel.perfomance || '—') + " м³/ч"} />
-
-                <SpecItem
-                  label={"Требуемый напор:"}
-                  value={(currentModel.requiredPumpPressure || '—') + "  м"} />
-
-                <SpecItem
-                  label={"Рабочих насосов:"}
-                  value={currentModel.activePumpsCount || '0'} />
-
-                <SpecItem
-                  label={"Резервных насосов:"}
-                  value={currentModel.reservePumpsCount || '0'} />
-
-                <SpecItem
-                  label={"Насосов на склад:"}
-                  value={currentModel.pumpsToWarehouseCount || '0'} />
-
-                <SpecItem
-                  label={"Перекачиваемая среда:"}
-                  value={currentModel.pType || '—'} />
-
-                <SpecItem
-                  label={"Температура среды:"}
-                  value={(currentModel.environmentTemperature || '—') + "  °C"} />
-
-                <SpecItem
-                  label={"Взрывозащищенность:"}
-                  value={currentModel.explosionProtection ? 'Да' : 'Нет'} />
-              </div>
-
-              <h3 className={styles.sectionTitle}>Габаритные размеры трубопроводов и корпуса</h3>
-              <div className={styles.specsGrid}>
-                <SpecItem
-                  label={"Глубина подводящего A:"}
-                  value={(currentModel.supplyPipelineDepth) + " м"} />
-
-                <SpecItem
-                  label={"Диаметр подводящего B:"}
-                  value={`${currentModel.supplyPipelineDiameter} мм ${currentModel.supplyPipelineMaterial ? `(${currentModel.supplyPipelineMaterial})` : ''}`} />
-
-                <SpecItem
-                  label={"Направление подводящего:"}
-                  value={directionLabels[currentModel.supplyPipelineDirectionInHours] || currentModel.supplyPipelineDirectionInHours} />
-
-                <SpecItem
-                  label={"Глубина напорного D:"}
-                  value={currentModel.pressurePipelineDepth + " м"} />
-
-                <SpecItem
-                  label={"Диаметр напорного C:"}
-                  value={`${currentModel.pressurePipelineDiameter} мм ${currentModel.pressurePipelineMaterial ? PipelineMaterialTranslations[currentModel.pressurePipelineMaterial] : ''}`} />
-
-                <SpecItem
-                  label={"Направление напорного:"}
-                  value={directionLabels[currentModel.pressurePipelineDirectionInHours] || currentModel.pressurePipelineDirectionInHours} />
-
-                <SpecItem
-                  label={"Количество напорных:"}
-                  value={currentModel.hasManyExitPressurePipelines} />
-
-                <SpecItem
-                  label={"Диаметр станции:"}
-                  value={(currentModel.expectedDiameterOfPumpStation + " м")} />
-
-                <SpecItem
-                  label={"Высота станции:"}
-                  value={currentModel.expectedHeightOfPumpStation} />
-
-                <SpecItem
-                  label={"Утепление корпуса:"}
-                  value={currentModel.insulatedHousingDepth + " м"} />
-              </div>
-
-              <h3 className={styles.sectionTitle}>Габаритные размеры трубопроводов и корпуса</h3>
-              <div className={styles.specsGrid}>
-                <SpecItem
-                  label={"Метод пуска:"}
-                  value={PumpsStartupMethodTranslations[currentModel.startupMethod] || currentModel.startupMethod} />
-
-                <SpecItem
-                  label={"Вводов питания:"}
-                  value={currentModel.powerContactsToController} />
-
-                <SpecItem
-                  label={"Место установки шкафа:"}
-                  value={currentModel.place} />
-              </div>
-
-
-              <h3 className={styles.sectionTitle}>Дополнительная комплектация</h3>
-              {equipmentCurrentModel.length > 0 && Object.values(equipmentCurrentModel).some(v => v) && (
-                <div className={styles.extrasList}>
-                  {equipmentCurrentModel.map((item, key) => (
-                    <span key={key} className={styles.extraBadge}>{item.name}</span>
-                  ))}
-                </div>
-              )}
-            </div>
-
-            <KNSSchemaTesting isActive={schemeIsActive} />
-          </div>
-
-          {!hasResponded && (
-            <ClicksInfo freeClicksLeft={freeClicksLeft} />
-          )}
-
-          {!hasResponded ? (
-            <RespondButton
-              freeClicksLeft={freeClicksLeft}
-              isClicksAvailable={isClicksAvailable}
-              onRespond={handleRespond}
-            />
-          ) : (
-            <OfferButton
-              onCreateOffer={`/supplier/request/${request?.id}/offer/new`}
-            />
-          )}
-        </div>
       </div>
 
       {showFreeClicksModal && (

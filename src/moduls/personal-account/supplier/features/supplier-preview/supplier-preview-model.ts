@@ -52,7 +52,6 @@ class SupplierPreviewModel {
                 equipmentCurrent: equipmentCurrentRes.data,
             }
 
-
             const respondedRequests = JSON.parse(localStorage.getItem('respondedRequests') || '[]')
             if (this.model.request!.id && respondedRequests.includes(this.model.request!.id)) {
                 this.hasResponded = true
