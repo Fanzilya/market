@@ -8,47 +8,70 @@ import { observer } from 'mobx-react-lite'
 import styles from './RegisterPage.module.css'
 import { RegistrRoleButton } from '../../widgets/register-page/register-role-button'
 import { Input } from '@/shared/ui-kits/Input'
-import { RegisterCompanyForm } from '../../widgets/register-page/company-form'
+import { RegisterCompanyForm } from '../../widgets/register-page/suplier-company-form'
 import { SuplierForm } from '../../widgets/register-page/suplier-form'
 import { CustomerForm } from '../../widgets/register-page/customer-form'
 import { SuplierButtonForm } from '../../widgets/register-page/suplier-button-form'
+import { registerCompanyModel } from '../../features/RegisterPage/register-company-model'
+import { registerUserModel } from '../../features/RegisterPage/register-user-model'
+import { TabCounter } from '../../widgets/register-page/tab-counter'
 
 export const RegisterPage = observer(() => {
 
-  const { user } = useAuth()
-
-  const navigate = useNavigate()
   const [isMounted, setIsMounted] = useState(false)
 
-  const {
-    formData,
-    error,
-    setFormData,
-    isLoading,
-    handleSubmit,
-    setFormCompanyData,
-    companyData,
-    init,
-    types,
+  // const {
+  //   formData,
+  //   error,
+  //   setFormData,
+  //   isLoading,
+  //   handleSubmit,
+  //   setFormCompanyData,
+  //   companyData,
+  //   init,
+  //   types,
 
-    setFnsValue,
-    fnsValue,
-    searchCompany,
-    isLoadingCompanySearch,
-    getCompanyByInn,
-  } = registerModel
+  //   setFnsValue,
+  //   fnsValue,
+  //   searchCompany,
+  //   isLoadingCompanySearch,
+  //   getCompanyByInn,
+  // } = registerModel
+
+
+  // const {
+  //   error,
+  //   setFormCompanyData,
+  //   companyData,
+  //   init,
+  //   types,
+
+  //   setFnsValue,
+  //   fnsValue,
+  //   searchCompany,
+  //   isLoadingCompanySearch,
+  //   getCompanyByInn,
+  // } = registerCompanyModel
+
+  // const {
+  //   formData,
+  //   setFormData,
+  //   isLoading,
+  //   handleSubmit,
+  // } = registerUserModel
+
 
   useEffect(() => {
     setIsMounted(true)
-    init()
   }, [])
 
-  const onSubmit = () => {
-    handleSubmit(navigate)
-  }
+
+  // const onSubmit = () => {
+  //   handleSubmit(navigate)
+  // }
 
 
-  const [tabForm, setTabForm] = useState<number>(1)
+  const [roleName, setRoleName] = useState<Role>(Role.Customer)
 
 
   return (
@@ -65,24 +88,22 @@ export const RegisterPage = observer(() => {
             {/* Выбор роли */}
             <div className={styles.roleSelector}>
               <RegistrRoleButton
-                name='Исполнитель'
-                styles={styles}
-                onClick={() => setFormData('roleName', Role.Supplier)}
-                isActive={formData.roleName === Role.Supplier}
-                description="Поставщик или Производитель"
-              />
-
-              <RegistrRoleButton
                 name='Заказчик'
                 styles={styles}
-                onClick={() => setFormData('roleName', Role.Customer)}
-                isActive={formData.roleName === Role.Customer}
+                onClick={() => setRoleName(Role.Customer)}
+                isActive={roleName === Role.Customer}
                 description="Проектная или Подрядная организация"
               />
-
+              <RegistrRoleButton
+                name='Исполнитель'
+                styles={styles}
+                onClick={() => setRoleName(Role.Supplier)}
+                isActive={roleName === Role.Supplier}
+                description="Поставщик или Производитель"
+              />
             </div>
 
-            {error && (
+            {/* {error && (
               <div className={styles.errorMessage}>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                   <circle cx="12" cy="12" r="10" fill="#FECACA" />
@@ -91,16 +112,12 @@ export const RegisterPage = observer(() => {
                 </svg>
                 <span>{error}</span>
               </div>
-            )}
+            )} */}
 
             <div className={styles.form}>
 
-
-              {formData.roleName == Role.Customer && <CustomerForm styles={styles} formData={formData} setFormData={setFormData} isLoading={isLoading} onSubmit={onSubmit} />}
-              {formData.roleName == Role.Supplier && tabForm == 1 && <RegisterCompanyForm styles={styles} formData={companyData} setFormData={setFormCompanyData} isLoading={isLoading} types={types} setFnsValue={setFnsValue} fnsValue={fnsValue} searchCompany={searchCompany} />}
-              {formData.roleName == Role.Supplier && tabForm == 2 && <SuplierForm styles={styles} formData={formData} setFormData={setFormData} isLoading={isLoading} onSubmit={onSubmit} tabForm={tabForm} setTabForm={setTabForm} />}
-              {formData.roleName == Role.Supplier && <SuplierButtonForm isLoadingCompanySearch={isLoadingCompanySearch} getCompanyByInn={getCompanyByInn} onSubmit={onSubmit} tabForm={tabForm} setTabForm={setTabForm} isLoading={isLoading} styles={styles} />}
-
+              {roleName == Role.Customer && <CustomerForm styles={styles} />}
+              {roleName == Role.Supplier && <SuplierForm styles={styles} />}
 
               <div className={styles.loginLink}>
                 Уже есть аккаунт? <Link to="/login" className={styles.link}>Войти</Link>

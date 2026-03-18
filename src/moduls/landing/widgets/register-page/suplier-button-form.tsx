@@ -5,7 +5,7 @@ import { observer } from "mobx-react-lite"
 interface Props {
     styles: any
     isLoading: boolean
-    tabForm: number
+    tabFormd: number
     onSubmit: () => void
     setTabForm: (value: number) => void
     isLoadingCompanySearch: boolean,
@@ -14,8 +14,7 @@ interface Props {
 
 export const SuplierButtonForm = observer(({ getCompanyByInn, onSubmit, isLoadingCompanySearch, tabForm, setTabForm, isLoading, styles }: Props) => {
     return tabForm == 1 ?
-        // <Button onClick={() => setTabForm(2)}
-        <Button onClick={getCompanyByInn}
+        <Button onClick={() => { getCompanyByInn(); setTabForm(2) }}
             className={`${isLoadingCompanySearch ? "from-[#4f4f4f] to-[#a2a3a5]" : "from-[#4A85F6] to-[#3A6BC9]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
             disabled={isLoadingCompanySearch}
         >
@@ -42,5 +41,4 @@ export const SuplierButtonForm = observer(({ getCompanyByInn, onSubmit, isLoadin
                 )}
             </Button>
         </div>
-
 })

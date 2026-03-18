@@ -9,7 +9,7 @@ export const useRequestsListPageUI = () => {
     const [searchTerm, setSearchTerm] = useState('')
     // const [selectedItems, setSelectedItems] = useState([])
 
-    // // Логика фильтрации (будет применена к данным)
+    // Логика фильтрации (будет применена к данным)
     const getFilteredRequests = (requests) => {
         if (!Array.isArray(requests) || requests.length === 0) {
             return []
@@ -22,8 +22,8 @@ export const useRequestsListPageUI = () => {
             const matchesStatus = statusFilter != "arhive" ? ((statusFilter === 'all' || request.status == statusFilter) && (!request.isArchived)) : request.isArchived
 
             const matchesSearch = searchTerm
-                ? request.nameByProjectDocs?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                request.id?.toString().includes(searchTerm) ||
+                ? request.nameByProjectDocs?.toLowerCase().includes(searchTerm.toLowerCase())
+                || request.id?.toString().includes(searchTerm) ||
                 // Дополнительно можно искать по предложениям
                 item.offers.some(offer =>
                     offer.title?.toLowerCase().includes(searchTerm.toLowerCase())

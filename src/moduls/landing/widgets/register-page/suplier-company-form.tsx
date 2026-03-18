@@ -16,20 +16,34 @@ interface Props {
     styles: any,
     setFnsValue: (value: string) => void,
     searchCompany: () => void
+
+    setTabForm: (value: number) => void
+
+    canNextForm: boolean,
+    isLoadingCompanySearch: boolean,
+    getCompanyByInn: (value: any) => void
+    clearCompanyData: () => void
 }
 
 
-export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany, styles }: Props) => {
+export const RegisterCompanyForm = observer(({
+    formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany, styles,
+    setTabForm, isLoadingCompanySearch, getCompanyByInn, canNextForm, clearCompanyData
+}: Props) => {
 
     const [isFromWord, setIsFromWord] = useState<boolean>(true)
 
+    const switchForm = (value: boolean) => {
+        clearCompanyData()
+        setIsFromWord(value)
+    }
+
+
     return (
         <>
-            <p className="mt-3 font-semibold">Данные об компании</p>
-
             <div className="flex border-b border-gray-200">
                 <button
-                    onClick={() => setIsFromWord(true)}
+                    onClick={() => switchForm(true)}
                     className={`w-full py-3 border-b-1 px-4 font-medium transition-all duration-200 ${isFromWord
                         ? 'text-blue-600 border-blue-600'
                         : 'text-gray-500 border-gray-100 hover:text-gray-700'
@@ -38,7 +52,7 @@ export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading,
                     Заполнить вручную
                 </button>
                 <button
-                    onClick={() => setIsFromWord(false)}
+                    onClick={() => switchForm(false)}
                     className={`w-full py-3 border-b-1 px-4 font-medium transition-all duration-200 ${!isFromWord
                         ? 'text-blue-600 border-blue-600'
                         : 'text-gray-500 border-gray-100 hover:text-gray-700'
@@ -129,6 +143,13 @@ export const RegisterCompanyForm = observer(({ formData, setFormData, isLoading,
                     </div>
                 </>
             }
+
+            <Button onClick={() => setTabForm(2)}
+                className={`${canNextForm ? "from-[#4A85F6] to-[#3A6BC9]" : "from-[#4f4f4f] to-[#a2a3a5]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
+                disabled={!canNextForm}
+            >
+                {isLoadingCompanySearch ? "Поиск ..." : "Продолжить"}
+            </Button >
         </>
     );
 })

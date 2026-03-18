@@ -35,7 +35,7 @@ export const ListCompany = () => {
       <div className={styles.actionBar}>
         <div className={styles.searchBox}>
 
-          <Search value={searchTerm} onChange={setSearchTerm} placeholder='Поиск по имени или email...' />
+          <Search value={searchTerm} onChange={setSearchTerm} placeholder='Поиск по наименованию...' />
 
         </div>
 

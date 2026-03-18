@@ -1,32 +1,24 @@
 import { IRequestStats, RequestStatus } from '@/entities/request/config'
 import { RequestRes } from '@/entities/request/type'
+import { RoleIds } from '@/entities/user/role'
 import { useMemo, useState } from 'react'
 
 export const useUsersListPageUI = () => {
     // UI состояние
     // const [activeTab, setActiveTab] = useState('requests')
-    const [statusFilter, setStatusFilter] = useState<RequestStatus | "all" | "arhive">("all")
+    const [statusFilter, setStatusFilter] = useState<typeof RoleIds | "all">("all")
     const [searchTerm, setSearchTerm] = useState('')
-    // const [selectedItems, setSelectedItems] = useState([])
 
-    // // Логика фильтрации (будет применена к данным)
-    const getFiltered = (requests) => {
-        if (!Array.isArray(requests) || requests.length === 0) {
+    const getFiltered = (data) => {
+        if (!Array.isArray(data) || data.length === 0) {
             return []
         }
 
-        return requests.filter(item => {
-            const request = item
-
-            const matchesStatus = statusFilter != "arhive" ? ((statusFilter === 'all' || request.status == statusFilter) && (!request.isArchived)) : request.isArchived
-
+        return data.filter(data => {
+            const matchesStatus = statusFilter === 'all' || data.roleId == statusFilter
             const matchesSearch = searchTerm
-                ? request.nameByProjectDocs?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                request.id?.toString().includes(searchTerm) ||
-                // Дополнительно можно искать по предложениям
-                item.offers.some(offer =>
-                    offer.title?.toLowerCase().includes(searchTerm.toLowerCase())
-                )
+                ? data.fullName?.toLowerCase().includes(searchTerm.toLowerCase())
+                || data.email?.toString().includes(searchTerm)
                 : true
 
             return matchesStatus && matchesSearch

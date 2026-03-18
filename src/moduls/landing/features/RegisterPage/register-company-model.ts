@@ -7,16 +7,7 @@ import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
 import axios from "axios";
 import { makeAutoObservable, values } from "mobx";
 
-class RegisterModel {
-
-    formData: RegisterRequestDTO = {
-        fullName: "",
-        email: "",
-        phoneNumber: "",
-        password: "",
-        confirmPassword: "",
-        roleName: Role.Customer
-    };
+class RegisterCompanyModel {
 
     companyData: ICreateCompany = {
         fullCompanyName: "",
@@ -30,7 +21,6 @@ class RegisterModel {
     fnsValue: string = ""
     error: string = ""
 
-    isLoading: boolean = false
     isLoadingCompanySearch: boolean = false
 
     types: SeletectItemInterface[] = []
@@ -39,23 +29,7 @@ class RegisterModel {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    setFormData<K extends keyof typeof this.formData>(name: K, value: typeof this.formData[K]) {
-
-        if (name == "roleName") { this.clearFormsData() }
-
-        this.formData[name] = value;
-    }
-
     clearFormsData() {
-        this.formData = {
-            fullName: "",
-            email: "",
-            phoneNumber: "",
-            password: "",
-            confirmPassword: "",
-            roleName: Role.Customer
-        };
-
         this.companyData = {
             fullCompanyName: "",
             shortCompanyName: "",
@@ -76,31 +50,6 @@ class RegisterModel {
         }
     }
 
-    validateForm() {
-        // Общие проверки
-        if (!this.formData.email.trim()) {
-            this.error = ('Укажите email')
-            return false
-        }
-        if (this.formData.phoneNumber.length < 10) {
-            this.error = ('Введите корректный номер телефона')
-            return false
-        }
-        if (!this.formData.password) {
-            this.error = ('Введите пароль')
-            return false
-        }
-        if (this.formData.password.length < 6) {
-            this.error = ('Пароль должен содержать минимум 6 символов')
-            return false
-        }
-        if (this.formData.password !== this.formData.confirmPassword) {
-            this.error = ('Пароли не совпадают')
-            return false
-        }
-        return true
-    }
-
     async init() {
         try {
             const res = await getCompanyTypesApi()
@@ -117,39 +66,7 @@ class RegisterModel {
         }
     }
 
-    async handleSubmit(navigate: any) {
-        this.error = ('')
-
-        if (!this.validateForm()) return
-
-        if (this.formData.roleName === Role.Supplier) {
-
-            if (!this.validateCompanyForm()) return
-            // const companyId: string = await this.createCompany()
-            const res = await employerRegisterApi({
-                fullName: this.formData.fullName,
-                email: this.formData.email,
-                phoneNumber: this.formData.phoneNumber,
-                password: this.formData.password,
-                roleName: this.formData.roleName,
-                companyId: "019ce0b3-ccde-7207-afe5-62764ff98668",
-            })
-        } else {
-            const res = await registerApi(this.formData)
-            console.log(res)
-        }
-
-
-        this.isLoading = (false)
-        // navigate('/login', {
-        //     state: {
-        //         message: 'Регистрация успешна! Теперь вы можете войти в систему.'
-        //     }
-        // })
-    }
-
-
-    async validateCompanyForm() {
+    validateCompanyForm() {
         if (!this.companyData.fullCompanyName.trim()) {
             this.error = ('Укажите полное название компании')
             return false
@@ -179,17 +96,33 @@ class RegisterModel {
         return true
     }
 
+    get canNextForm() {
+        return this.validateCompanyForm()
+    }
 
-    async getCompanyByInn() {
+    clearCompanyData() {
+        this.companyData = {
+            fullCompanyName: "",
+            shortCompanyName: "",
+            inn: "",
+            kpp: "",
+            jurAdress: "",
+            companyTypeId: "",
+        }
+    }
+
+    async getCompanyByInn(action: any) {
         this.isLoadingCompanySearch = true
         try {
 
-            await new Promise(() => {
+            const res = await new Promise(() => {
                 setTimeout(() => {
-                    console.log('asd')
+                    action()
+
                 }, 2000)
             })
 
+            this.isLoadingCompanySearch = false
 
             // const reska = await getCompanyByInnApi({ inn: this.fnsValue })
             // console.log(reska)
@@ -226,4 +159,4 @@ class RegisterModel {
     }
 }
 
-export const registerModel = new RegisterModel();
+export const registerCompanyModel = new RegisterCompanyModel();

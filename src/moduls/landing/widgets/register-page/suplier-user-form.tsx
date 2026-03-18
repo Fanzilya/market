@@ -1,45 +1,23 @@
 import { RegisterRequestDTO } from "@/entities/user/type";
+import { Button } from "@/shared/ui-kits/button";
 import { Input } from "@/shared/ui-kits/Input";
 import { observer } from "mobx-react-lite";
-import { useEffect, useState } from "react";
-import { registerUserModel } from "../../features/RegisterPage/register-user-model";
-import { useNavigate } from "react-router-dom";
-
-
+import { useState } from "react";
 
 interface Props {
-    // isLoading: boolean,
+    isLoading: boolean,
     styles: any,
-    // formData: RegisterRequestDTO,
-    // setFormData: <K extends keyof RegisterRequestDTO> (name: K, value: RegisterRequestDTO) => void
-    // onSubmit: () => void
+    formData: RegisterRequestDTO,
+    setFormData: <K extends keyof RegisterRequestDTO> (name: K, value: RegisterRequestDTO) => void
+    setTabForm: (value: number) => void
+    onSubmit: () => void
 }
 
 
-export const CustomerForm = observer(({ styles
-    // , formData, setFormData, isLoading, onSubmit 
-}: Props) => {
-
-    const {
-        formData,
-        setFormData,
-        isLoading,
-        handleSubmit,
-        clearFormsData,
-    } = registerUserModel
-
-    const navigate = useNavigate()
+export const SuplierUserForm = observer(({ styles, formData, setFormData, isLoading, setTabForm, onSubmit }: Props) => {
     const [focusedInput, setFocusedInput] = useState<string>('')
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-    const onSubmit = () => {
-        handleSubmit(navigate)
-    }
-
-    useEffect(() => {
-        clearFormsData()
-    }, [])
 
     return (
         <>
@@ -143,16 +121,26 @@ export const CustomerForm = observer(({ styles
                 </div>
             </div>
 
-            <button onClick={onSubmit} className={styles.submitButton} disabled={isLoading}>
-                {isLoading ? (
-                    <>
-                        <span className={styles.spinner} />
-                        Регистрация...
-                    </>
-                ) : (
-                    'Зарегистрироваться'
-                )}
-            </button>
+            <div className="flex gap-2 mt-2">
+                <Button onClick={() => setTabForm(1)}
+                    className='w-full p-4 hover:shadow-lg focus:outline-none'
+                    styleColor="gray"
+                    disabled={isLoading}>
+                    Назад
+                </Button>
+                <Button onClick={onSubmit}
+                    className='w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2'
+                    disabled={isLoading}>
+                    {isLoading ? (
+                        <>
+                            <span className={styles.spinner} />
+                            Регистрация...
+                        </>
+                    ) : (
+                        'Зарегистрироваться'
+                    )}
+                </Button>
+            </div>
         </>
     );
 })

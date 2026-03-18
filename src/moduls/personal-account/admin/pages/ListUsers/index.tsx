@@ -78,7 +78,6 @@ export const AdminUsersPage = () => {
           <thead>
             <tr>
               <th>Пользователь</th>
-              <th>Email</th>
               <th>Роль</th>
               <th>Телефон</th>
               <th>Почта</th>
@@ -96,14 +95,15 @@ export const AdminUsersPage = () => {
                       <span>{user.fullName}</span>
                     </div>
                   </td>
-                  <td>{user.email}</td>
-                  <td className='flex justify-center'>
-                    <span className={`${styles.roleBadge} ${RoleStyle[user.roleId]}`}>
-                      {RoleName[user.roleId]}
-                    </span>
+                  <td>
+                    <div className='flex justify-center'>
+                      <span className={`${styles.roleBadge} ${RoleStyle[user.roleId]}`}>
+                        {RoleName[user.roleId]}
+                      </span>
+                    </div>
                   </td>
                   <td>{user.phoneNumber}</td>
-                  <td>{user.email || '—'}</td>
+                  <td>{user.email}</td>
                 </tr>
               ))}
           </tbody>
