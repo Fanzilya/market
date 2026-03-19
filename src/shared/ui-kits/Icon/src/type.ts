@@ -18,6 +18,7 @@ export type IconName =
     | 'analysis'
     | 'clock'
     | 'star'
+    | 'star-outline'
 
     // Действия
     | 'edit'

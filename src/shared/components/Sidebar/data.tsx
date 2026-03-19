@@ -97,6 +97,13 @@ export function getSadbarData() {
       label: "Заявки",
     },
     {
+      path: getRequestsPath() + "/request/favorites",
+      icon: (
+        <Icon name="star-outline" />
+      ),
+      label: "Избранные заявки",
+    },
+    {
       path: "/supplier/materials",
       icon: (
         <Icon name="materials" />
@@ -151,7 +158,7 @@ export function getSadbarData() {
       ),
       label: "Компании",
     },
-    
+
     {
       path: "/admin/scheme-setting",
       icon: (

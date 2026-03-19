@@ -126,6 +126,16 @@ export interface IUserId {
     userId: string
 }
 
+export interface FavouritesAddIds {
+    requestId: string
+    userId: string
+}
+
+export interface IBiznesView {
+    requestId: string
+    accountId: string
+}
+
 
 
 // API ANSWER

@@ -72,9 +72,6 @@ class RequestListModel {
         } finally {
             this.isLoader = false;
         }
-
-        console.log(this.model)
-
     }
 
 

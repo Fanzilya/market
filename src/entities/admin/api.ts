@@ -12,6 +12,7 @@ export const companiesAllApi = () => {
 export const requestsAllApi = () => {
     return instance.get(AdminRouter.requestsAll)
 }
+
 export const requestArhivApi = (params: IArhiveChange) => {
     return instance.put(AdminRouter.requestArhiv + "/?id=" + params.id)
 }

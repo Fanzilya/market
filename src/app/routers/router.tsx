@@ -306,7 +306,7 @@ export const AppRouter = createBrowserRouter([
       {
         index: true,
         async lazy() {
-          const { SupplierPage } = await import('@supplier/pages/SupplierPage');
+          const { SupplierPage } = await import('@/moduls/personal-account/supplier/pages/RequestListPage');
           return { Component: SupplierPage };
         },
       },
@@ -330,8 +330,14 @@ export const AppRouter = createBrowserRouter([
                   return { Component: CreateOfferPage };
                 },
               },
-
             ]
+          },
+          {
+            path: 'favorites',
+            async lazy() {
+              const { FavoritesRequestListPage } = await import('@/moduls/personal-account/supplier/pages/FavoritesRequestListPage');
+              return { Component: FavoritesRequestListPage };
+            },
           },
         ]
       },

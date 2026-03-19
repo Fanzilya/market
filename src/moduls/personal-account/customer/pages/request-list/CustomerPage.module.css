@@ -198,6 +198,7 @@
 .tableContainer {
   overflow-x: auto;
   margin-bottom: 24px;
+  background-color: white;
 }
 
 .table {
@@ -214,7 +215,7 @@
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 1px solid #9da0a5;
   white-space: nowrap;
 }
 
@@ -1329,7 +1330,7 @@
   overflow-x: auto;
   margin-bottom: 24px;
   border-radius: 12px;
-  border: 1px solid #f0f2f5;
+  border: 1px solid oklch(87.2% 0.01 258.338);
 }
 
 .table {

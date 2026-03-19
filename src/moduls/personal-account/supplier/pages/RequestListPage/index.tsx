@@ -8,17 +8,18 @@ import StatsBar from './components/StatsBar'
 import RequestsTable from './components/RequestsTable'
 import RequestsGrid from './components/RequestsGrid'
 import LogoutConfirmModal from './components/LogoutConfirmModal'
-import EmptyState from './components/EmptyState'
 import useSupplierData from './hooks/useSupplierData'
 import useFavorites from './hooks/useFavorites'
 import { useAuth } from '@/features/user/context/context'
 import styles from './SupplierPage.module.css'
 import { createColumns } from './config/tableColumns'
-import { requestListModel } from '../../features/supplier-request-list/request-list-model'
+// import { requestListModel } from '../../features/supplier-request-list/request-list-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { RequestTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-table-row'
 import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 import Icon from '@/shared/ui-kits/Icon'
+import { useRequestListModel } from '../../features/supplier-request-list/useRequestListModel'
+import EmptyState from '../../../../../shared/components/EmptyRequest/EmptyState'
 
 
 export const SupplierPage = () => {
@@ -28,18 +29,6 @@ export const SupplierPage = () => {
   const [freeClicksLeft, setFreeClicksLeft] = useState(5)
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768)
 
-  // Отслеживание размера экрана
-  useEffect(() => {
-    init()
-
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
   const {
     filters,
     setFilters,
@@ -48,8 +37,11 @@ export const SupplierPage = () => {
     refreshData,
   } = useSupplierData({ user, freeClicksLeft, setFreeClicksLeft, navigate })
 
-  const { favoriteRequests, handleToggleFavorite } = useFavorites({ user })
-  const { model, isLoader, init } = requestListModel
+  // const { model, isLoader, init } = requestListModel
+
+  const { requests, isLoading, onFavoriteAdd, isError, errors } = useRequestListModel()
+
+
 
   useEffect(() => {
     const handleFavoritesUpdate = () => refreshData()
@@ -104,48 +96,33 @@ export const SupplierPage = () => {
 
       <StatsBar stats={stats} freeClicksLeft={freeClicksLeft} />
 
-      {isLoader ? <Loader /> :
+      {isLoading ? <Loader /> :
         <>
-          {model.length === 0 ? (
+          {requests.length === 0 ? (
             <EmptyState />
           ) : (
-            <>
-              {/* Десктопная таблица */}
-              {!isMobile && (
-                <div className={styles.tableContainer}>
-                  <div className={styles.table}>
-                    <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
-                      {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => (
-                        <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>
-                      ))}
-                    </div>
-
-                    <div>
-                      {model.map((item, key) => (
-                        <RequestTableRow
-                          key={item.id || key}
-                          gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
-                          number={key + 1}
-                          styles={styles}
-                          item={item}
-                        />
-                      ))}
-                    </div>
-                  </div>
+            <div className={styles.tableContainer}>
+              <div className={styles.table}>
+                <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
+                  {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => (
+                    <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>
+                  ))}
                 </div>
-              )}
 
-              {/* Мобильные карточки */}
-              {isMobile && (
-                <RequestsGrid
-                  requests={model}
-                  favoriteRequests={favoriteRequests}
-                  onToggleFavorite={handleToggleFavorite}
-                  onRequestClick={handleRequestClick}
-                  freeClicksLeft={freeClicksLeft}
-                />
-              )}
-            </>
+                <div>
+                  {requests.map((item, key) => (
+                    <RequestTableRow
+                      key={item.id || key}
+                      gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+                      number={key + 1}
+                      styles={styles}
+                      item={item}
+                      onFavoriteAdd={onFavoriteAdd}
+                    />
+                  ))}
+                </div>
+              </div>
+            </div>
           )}
         </>
       }

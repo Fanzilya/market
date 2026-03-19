@@ -1,0 +1,46 @@
+// src/pages/SupplierPage/components/Header.tsx
+import { useAuth } from '@/features/user/context/context'
+import styles from '../SupplierPage.module.css'
+import { Role } from '@/entities/user/role'
+import { PageTitle } from '@/shared/ui-kits/titles/h3'
+
+export default function Header({ user, freeClicksLeft, onNavigate }) {
+  return (
+    <div className={styles.header}>
+      <div className={styles.headerLeft}>
+        <PageTitle text='Доступные заявки' />
+        <div className={styles.breadcrumbs}>
+          <span className={styles.breadcrumb} onClick={() => onNavigate('/dashboard')}>
+            Главная
+          </span>
+          <span className={styles.separator}>›</span>
+          <span className={styles.breadcrumbActive}>
+            {user.role == Role.Supplier ? 'Заявки' : 'Мои заявки'}
+          </span>
+        </div>
+      </div>
+
+      <div className={styles.headerRight}>
+        <div className={styles.clicksCounter}>
+          <ClockIcon />
+          <span>
+            Бесплатных кликов: <strong>{freeClicksLeft}</strong>
+          </span>
+        </div>
+        <div className={styles.companyInfo}>
+          <span className={styles.companyLabel}>Компания</span>
+          <span className={styles.companyName}>
+            {user.company?.name || 'Не указана'}
+          </span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+const ClockIcon = () => (
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="10" stroke="#4A85F6" strokeWidth="2" />
+    <path d="M12 6V12L16 14" stroke="#4A85F6" strokeWidth="2" strokeLinecap="round" />
+  </svg>
+)

@@ -16,7 +16,7 @@ export const ArchiveConfirmModal = ({ styles, setShowArchiveConfirm, handleArchi
                     <p className={styles.modalMessage}>
                         Заявка будет перемещена в архив. Вы сможете просматривать её, но не сможете редактировать.
                     </p>
-                    <div className={styles.modalActions}>
+                    <div className={`${styles.modalActions} p-3`}>
                         <button className={styles.modalCancel} onClick={() => setShowArchiveConfirm(false)}>
                             Отмена
                         </button>

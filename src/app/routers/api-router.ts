@@ -21,7 +21,13 @@ export const KnsRequest = {
 export const RequestRouter = {
     allPublic: "/Request/actual/published/all",
     single: "/Request/single",
-    allByUser: "/Request/user/requests/all"
+    allByUser: "/Request/user/requests/all",
+    favouritesByUser: "/Request/user/favourites",
+    favouritesAdd: "/Request/favourites/add",
+    favouriteRemove: "/Request/favourites/remove",
+    requestArhiv: "/Request/archive",
+    viewAccount: "/Request/supplier/view/request",
+    clickAccount: "/Request/supplier/click/request",
 }
 
 
@@ -43,7 +49,6 @@ export const OfferRouter = {
     // name: "/Offers/scemeFile/download/{id}",
 }
 
-
 export const CompanyRouter = {
     inn: "/Companies/company/inn",
     cerate: "/Companies/create",
@@ -53,8 +58,6 @@ export const CompanyRouter = {
 export const FSNRouter = {
     innCompany: "/egr/"
 }
-
-
 
 export const AdminRouter = {
     usersAll: "/Admin/users/all",

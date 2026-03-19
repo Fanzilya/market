@@ -14,11 +14,11 @@ import { RequestTableRow } from '../../widgets/request-list/request-table-row'
 import { RequestCard } from '../../widgets/request-list/request-card'
 import { Role } from '@/entities/user/role'
 import { tabsButton } from '@/entities/request/config'
+import { useRequestsListData } from '../../features/request-list/useRequestsListData'
 
 export const CustomerPage = observer(() => {
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [hoveredRow, setHoveredRow] = useState<number | null>(null)
   const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768)
 
   // Отслеживание размера экрана
@@ -44,7 +44,7 @@ export const CustomerPage = observer(() => {
     setSearchQuery,
     // requests,
     // paginatedRequests,
-    totalPages,
+    // totalPages,
     confirmLogout,
     goToEditRequest,
     openArchiveConfirm,
@@ -55,21 +55,7 @@ export const CustomerPage = observer(() => {
     goToCreateRequest
   } = CustomerData(styles)
 
-  const {
-    filterModel,
-    model,
-    filteredRequests,
-    selectedStatus,
-    isLoader,
-    init,
-    stats,
-  } = requestListModel
-
-  useEffect(() => {
-    if (user?.id) {
-      init(user.id)
-    }
-  }, [user?.id, init])
+  const { requests, isLoading, archiveRequest } = useRequestsListData()
 
   return (
     <>
@@ -87,9 +73,9 @@ export const CustomerPage = observer(() => {
       </div>
 
       {/* Карточка с заявками */}
-      <div className={styles.requestsCard}>
+      <div className={`${styles.requestsCard} mb-[32px]`}>
         {/* Поиск и создание */}
-        <div className={`flex items-center justify-between mb-[32px] gap-4 flex-wrap`}>
+        <div className={`flex items-center justify-between gap-4 flex-wrap`}>
           <Search placeholder='Поиск по ID, названию объекта...' value={searchQuery} onChange={setSearchQuery} />
           <div className={styles.headerActions}>
             <button
@@ -106,7 +92,7 @@ export const CustomerPage = observer(() => {
         </div>
 
         {/* Табы статусов */}
-        <div className={styles.tabs}>
+        {/* <div className={styles.tabs}>
           {tabsButton.map((item, key) => (
             <button
               key={key}
@@ -116,54 +102,55 @@ export const CustomerPage = observer(() => {
               {item.name} <span className={styles.tabCount}>{stats[item.value]}</span>
             </button>
           ))}
-        </div>
+        </div> */}
+      </div>
 
-        {isLoader ? <Loader /> :
-          <>
-            {/* Десктопная таблица */}
-            {!isMobile && (
-              <div className={styles.tableContainer}>
-                {model.length === 0 ? (
-                  <div className={styles.emptyState}>
-                    <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
-                      <rect x="3" y="3" width="18" height="18" rx="3" stroke="#CBD5E1" strokeWidth="2" />
-                      <path d="M9 12H15" stroke="#CBD5E1" strokeWidth="2" />
-                      <path d="M12 9V15" stroke="#CBD5E1" strokeWidth="2" />
-                    </svg>
-                    <div className={styles.emptyText}>
-                      По вашему запросу ничего не найдено
-                    </div>
+      {isLoading ? <Loader /> :
+        <>
+          {/* Десктопная таблица */}
+          {!isMobile && (
+            <div className={styles.tableContainer}>
+              {requests.length === 0 ? (
+                <div className={styles.emptyState}>
+                  <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="3" width="18" height="18" rx="3" stroke="#CBD5E1" strokeWidth="2" />
+                    <path d="M9 12H15" stroke="#CBD5E1" strokeWidth="2" />
+                    <path d="M12 9V15" stroke="#CBD5E1" strokeWidth="2" />
+                  </svg>
+                  <div className={styles.emptyText}>
+                    По вашему запросу ничего не найдено
                   </div>
-                ) : (
-                  <div className="text-[14px]">
-                    <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'>
-                      {['№', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => (
-                        <div key={key} className={`${styles.th} text-center`}>{item}</div>
-                      ))}
-                    </div>
-
-                    {model.map((item, index) => (
-                      <RequestTableRow
-                        key={item.id || index}
-                        gridClass={"grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]"}
-                        number={index + 1}
-                        styles={styles}
-                        item={item}
-                        openArchiveConfirm={openArchiveConfirm}
-                        goToEditRequest={goToEditRequest}
-                        handleDeleteRequest={handleDeleteRequest}
-                        handleResubmit={handleResubmit}
-                      />
+                </div>
+              ) : (
+                <div className="text-[14px]">
+                  <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'>
+                    {['№', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => (
+                      <div key={key} className={`${styles.th} text-center`}>{item}</div>
                     ))}
                   </div>
-                )}
-              </div>
-            )}
 
-            {/* Мобильные карточки */}
-            {isMobile && (
+                  {requests.map((item, index) => (
+                    <RequestTableRow
+                      key={item.id || index}
+                      gridClass={"grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]"}
+                      number={index + 1}
+                      styles={styles}
+                      item={item}
+                      onArhiv={archiveRequest}
+                      goToEditRequest={goToEditRequest}
+                      handleDeleteRequest={handleDeleteRequest}
+                      handleResubmit={handleResubmit}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Мобильные карточки */}
+          {/* {isMobile && (
               <div className={styles.requestsGrid}>
-                {model.length === 0 ? (
+                {requests.length === 0 ? (
                   <div className={styles.emptyState}>
                     <svg width="64" height="64" viewBox="0 0 24 24" fill="none">
                       <rect x="3" y="3" width="18" height="18" rx="3" stroke="#CBD5E1" strokeWidth="2" />
@@ -175,13 +162,12 @@ export const CustomerPage = observer(() => {
                     </div>
                   </div>
                 ) : (
-                  model.map((item, index) => (
+                  requests.map((item, index) => (
                     <RequestCard
                       key={item.id || index}
                       item={item}
                       index={index}
                       styles={styles}
-                      openArchiveConfirm={openArchiveConfirm}
                       goToEditRequest={goToEditRequest}
                       handleDeleteRequest={handleDeleteRequest}
                       handleResubmit={handleResubmit}
@@ -190,10 +176,10 @@ export const CustomerPage = observer(() => {
                   ))
                 )}
               </div>
-            )}
+            )} */}
 
-            {/* Пагинация */}
-            {filteredRequests.length > 0 && (
+          {/* Пагинация */}
+          {/* {filteredRequests.length > 0 && (
               <div className={styles.pagination}>
                 <div className={styles.paginationInfo}>
                   Показано {((currentPage - 1) * itemsPerPage) + 1} - {Math.min(currentPage * itemsPerPage, filteredRequests.length)} из {filteredRequests.length}
@@ -240,18 +226,11 @@ export const CustomerPage = observer(() => {
                   </button>
                 </div>
               </div>
-            )}
-          </>
-        }
-      </div>
+            )} */}
+        </>
+      }
 
-      {showArchiveConfirm && (
-        <ArchiveConfirmModal
-          styles={styles}
-          setShowArchiveConfirm={setShowArchiveConfirm}
-          handleArchiveRequest={handleArchiveRequest}
-        />
-      )}
+
       {showLogoutConfirm && (
         <LogoutConfirmModal
           styles={styles}

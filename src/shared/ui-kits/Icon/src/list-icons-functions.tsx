@@ -145,6 +145,12 @@ export const getIcon = (name: IconName, width: number, height: number, color: st
             </svg>
         ),
 
+        "star-outline": (
+            <svg width={width} height={height} viewBox="0 0 24 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M10.6167 1.61832C10.957 0.793706 12.125 0.793706 12.4654 1.61832L14.8784 7.46433L21.1593 7.97172C22.0438 8.04317 22.4039 9.14564 21.7321 9.72547L16.941 13.861L18.4023 20.0337C18.6073 20.9001 17.6632 21.5824 16.905 21.1157L11.541 17.8143L6.17703 21.1157C5.41882 21.5824 4.47468 20.9001 4.67977 20.0337L6.14102 13.861L1.34989 9.72547C0.678131 9.14564 1.03827 8.04317 1.92278 7.97172L8.20363 7.46433L10.6167 1.61832Z" stroke={color} stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+        ),
+
         // Действия
         "edit": (
             <svg width={width} height={height} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
