@@ -105,7 +105,7 @@ export const RegisterCompanyForm = observer(({
             />}
 
             <Button
-                onClick={() => canNextForm(setTabForm)}
+                onClick={() => canNextForm(() => setTabForm(2))}
                 className={`${(!isLoadingCompanySearch) ? "from-[#4A85F6] to-[#3A6BC9]" : "from-[#d0d4dc] to-[#737578]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
             >
                 {isLoadingCompanySearch ? "Поиск ..." : "Продолжить"}
