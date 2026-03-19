@@ -6,6 +6,7 @@ import { RegisterRequestDTO } from "@/entities/user/type";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
 import axios from "axios";
 import { makeAutoObservable, values } from "mobx";
+import { toast } from "react-toastify";
 
 class RegisterUserModel {
 
@@ -18,9 +19,9 @@ class RegisterUserModel {
         roleName: Role.Customer
     };
 
-    error: string = ""
-
     isLoading: boolean = false
+
+    _canRegisterUser: boolean = false
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -34,6 +35,8 @@ class RegisterUserModel {
     }
 
     clearFormsData() {
+
+        this.clearErrors()
         this.formData = {
             fullName: "",
             email: "",
@@ -45,59 +48,78 @@ class RegisterUserModel {
     }
 
 
-    validateForm() {
-        // Общие проверки
-        if (!this.formData.email.trim()) {
-            this.error = ('Укажите email')
-            return false
-        }
-        if (this.formData.phoneNumber.length < 10) {
-            this.error = ('Введите корректный номер телефона')
-            return false
-        }
-        if (!this.formData.password) {
-            this.error = ('Введите пароль')
-            return false
-        }
-        if (this.formData.password.length < 6) {
-            this.error = ('Пароль должен содержать минимум 6 символов')
-            return false
-        }
-        if (this.formData.password !== this.formData.confirmPassword) {
-            this.error = ('Пароли не совпадают')
-            return false
-        }
-        return true
+    errors: Partial<Record<keyof RegisterRequestDTO, string>> = {}
+    setError<K extends keyof RegisterRequestDTO>(key: K, message: string) {
+        this.errors[key] = message
     }
 
-    async handleSubmit(navigate: any) {
-        this.error = ('')
+    removeError<K extends keyof RegisterRequestDTO>(key: K) {
+        delete this.errors[key]
+    }
 
-        if (!this.validateForm()) return
+    clearErrors() {
+        this.errors = {}
+    }
 
-        if (this.formData.roleName === Role.Supplier) {
-
-            // const companyId: string = await this.createCompany()
-            const res = await employerRegisterApi({
-                fullName: this.formData.fullName,
-                email: this.formData.email,
-                phoneNumber: this.formData.phoneNumber,
-                password: this.formData.password,
-                roleName: this.formData.roleName,
-                companyId: "019ce0b3-ccde-7207-afe5-62764ff98668",
-            })
-        } else {
-            const res = await registerApi(this.formData)
-            console.log(res)
+    validateForm() {
+        if (!this.formData.fullName.trim()) {
+            this.setError("fullName", "Укажите ФИО")
         }
 
+        if (!this.formData.email.trim()) {
+            this.setError("email", "Укажите email")
+        }
 
-        this.isLoading = (false)
-        // navigate('/login', {
-        //     state: {
-        //         message: 'Регистрация успешна! Теперь вы можете войти в систему.'
-        //     }
-        // })
+        if (this.formData.phoneNumber.length < 10) {
+            this.setError("phoneNumber", "Введите корректный номер телефона")
+        }
+
+        if (!this.formData.password) {
+            this.setError("password", "Введите пароль")
+        }
+
+        if (this.formData.password.length < 6) {
+            this.setError("password", "Минимум 6 символов")
+        }
+
+        if (this.formData.password !== this.formData.confirmPassword) {
+            this.setError("confirmPassword", "Пароли не совпадают")
+        }
+
+        return Object.keys(this.errors).length === 0
+    }
+
+
+    get canRegisterUser() {
+        return Object.keys(this.errors).length === 0
+    }
+
+    async handleSubmit(navigate: any, companyId?: string) {
+        this.clearErrors()
+        if (!this.validateForm()) return
+
+        try {
+            if (this.formData.roleName === Role.Supplier) {
+                const res = await employerRegisterApi({
+                    fullName: this.formData.fullName,
+                    email: this.formData.email,
+                    phoneNumber: this.formData.phoneNumber,
+                    password: this.formData.password,
+                    roleName: this.formData.roleName,
+                    companyId: companyId!,
+                    // companyId: "019ce0b3-ccde-7207-afe5-62764ff98668",
+                })
+            } else {
+                const res = await registerApi(this.formData)
+                toast.success("Регистрация прошла успешно!")
+            }
+
+            this.isLoading = (false)
+            navigate('/login')
+        } catch (error) {
+            console.log('Ошибка при регистрации:', error)
+            throw error 
+        }
     }
 }
 

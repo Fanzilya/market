@@ -1,4 +1,4 @@
-import { createCompanyApi, getCompanyByInnApi, getCompanyTypesApi, getFNSCompany } from "@/entities/company/api";
+import { createCompanyApi, fnsSearchCompany, getCompanyByInnApi, getCompanyTypesApi, getFNSCompany } from "@/entities/company/api";
 import { CompanyTypes, ICreateCompany } from "@/entities/company/type";
 import { employerRegisterApi, registerApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
@@ -6,6 +6,8 @@ import { RegisterRequestDTO } from "@/entities/user/type";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
 import axios from "axios";
 import { makeAutoObservable, values } from "mobx";
+import { toast } from "react-toastify";
+import { dataRes } from "./data";
 
 class RegisterCompanyModel {
 
@@ -20,13 +22,29 @@ class RegisterCompanyModel {
 
     fnsValue: string = ""
     error: string = ""
+    openCompanyForm: boolean = false
+    isCompanyCreate: boolean = true
+
+    typeForm: "searchInn" | "form" = "form"
 
     isLoadingCompanySearch: boolean = false
-
     types: SeletectItemInterface[] = []
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
+    }
+
+    errors: Partial<Record<keyof (ICreateCompany & { fnsValue: string }), string>> = {}
+    setError<K extends keyof (ICreateCompany & { fnsValue: string })>(key: K, message: string) {
+        this.errors[key] = message
+    }
+
+    removeError<K extends keyof (ICreateCompany & { fnsValue: string })>(key: K) {
+        delete this.errors[key]
+    }
+
+    clearErrors() {
+        this.errors = {}
     }
 
     clearFormsData() {
@@ -50,6 +68,14 @@ class RegisterCompanyModel {
         }
     }
 
+    setTypeForm(value: "searchInn" | "form") {
+        this.typeForm = value
+    }
+
+    setOpenCompanyForm(value: boolean) {
+        this.openCompanyForm = value
+    }
+
     async init() {
         try {
             const res = await getCompanyTypesApi()
@@ -68,39 +94,47 @@ class RegisterCompanyModel {
 
     validateCompanyForm() {
         if (!this.companyData.fullCompanyName.trim()) {
-            this.error = ('Укажите полное название компании')
+            this.setError("fullCompanyName", 'Укажите полное название компании')
             return false
         }
         if (!this.companyData.shortCompanyName.trim()) {
-
-            this.error = ('Укажите короткое название компании')
+            this.setError("shortCompanyName", 'Укажите короткое название компании')
             return false
         }
         if (!this.companyData.inn.trim()) {
-            this.error = ('Укажите ИНН')
+            this.setError("inn", 'Укажите ИНН')
             return false
         }
         if (!this.companyData.kpp.trim()) {
-            this.error = ('Укажите КПП')
+            this.setError("kpp", 'Укажите КПП')
             return false
         }
         if (!this.companyData.jurAdress.trim()) {
-
-            this.error = ('Укажите юридический адрес')
+            this.setError("jurAdress", 'Укажите юридический адрес')
             return false
         }
         if (!this.companyData.companyTypeId.trim()) {
-            this.error = ('Укажите тип компании')
+            this.setError("companyTypeId", 'Укажите тип компании')
             return false
         }
-        return true
+
+        return Object.keys(this.errors).length === 0
     }
 
     get canNextForm() {
-        return this.validateCompanyForm()
+
+        return (this.companyData.fullCompanyName.trim()
+            && this.companyData.shortCompanyName.trim()
+            && this.companyData.inn.trim()
+            && this.companyData.kpp.trim()
+            && this.companyData.jurAdress.trim()
+            && this.companyData.companyTypeId.trim()
+            && this.validateCompanyForm())
     }
 
     clearCompanyData() {
+        this.clearErrors()
+
         this.companyData = {
             fullCompanyName: "",
             shortCompanyName: "",
@@ -111,51 +145,183 @@ class RegisterCompanyModel {
         }
     }
 
-    async getCompanyByInn(action: any) {
-        this.isLoadingCompanySearch = true
+    async createCompany() {
+        this.clearErrors()
         try {
-
-            const res = await new Promise(() => {
-                setTimeout(() => {
-                    action()
-
-                }, 2000)
+            const res = await createCompanyApi({
+                fullCompanyName: this.companyData.fullCompanyName,
+                shortCompanyName: this.companyData.shortCompanyName,
+                inn: this.companyData.inn,
+                kpp: this.companyData.kpp,
+                jurAdress: this.companyData.jurAdress,
+                companyTypeId: this.companyData.companyTypeId,
             })
 
-            this.isLoadingCompanySearch = false
-
-            // const reska = await getCompanyByInnApi({ inn: this.fnsValue })
-            // console.log(reska)
-            // return
+            return res.data
 
         } catch (error) {
-            console.log(error)
-        } finally {
-            console.log('ed')
-            this.isLoadingCompanySearch = false
+            console.log('Ошибка при создании компании:', error)
+            throw error // Пробрасываем ошибку дальше
         }
+
     }
 
-    async searchCompany() {
+    async getCompanyData() {
+        // Валидация длины ИНН
+        if (this.fnsValue.length !== 10 && this.fnsValue.length !== 12) {
+            this.setError('fnsValue', 'ИНН должен содержать 10 или 12 цифр')
+            return
+        }
+
+        this.isLoadingCompanySearch = true
+
         try {
-            // const res = await axios.get('/egr', {
-            //     params: {
-            //         req: this.fnsValue,
-            //         key: "67e284756d190b3b9d42e1791c5094e62e47a5be",
-            //     },
-            // });
 
-            // console.log(res.data);
-        } catch (error) {
-            console.error('FNS error:', error);
-            throw error;
+            const res = await new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log('sd')
+                    resolve()
+                }, 3000)
+            })
+
+
+            // 1. Сначала ищем в БД
+            const dbResult = await this.searchCompanyByBD()
+            if (dbResult) {
+                // Нашли в БД - заполняем модель
+                this.isCompanyCreate = false
+                this.fillCompanyDataFromDB(dbResult)
+                toast.success('Компания найдена в БД')
+                this.openCompanyForm = true
+                return
+            }
+
+            // 2. Если в БД нет, ищем в ФНС
+            const fnsResult = await this.searchCompanyByFns()
+            if (fnsResult) {
+                // Нашли в ФНС - заполняем модель
+                this.isCompanyCreate = true
+                this.fillCompanyDataFromFNS(dataRes)
+                toast.success('Компания найдена в ФНС')
+                this.openCompanyForm = true
+                return
+            }
+
+            // 3. Если нигде не нашли
+            this.isCompanyCreate = true
+            this.setError('fnsValue', 'Компания с таким ИНН не существует')
+
+        } catch (error: any) {
+            console.error('Ошибка при поиске компании:', error)
+
+            // Обработка специфических ошибок
+            if (error.response?.status === 404) {
+                this.setError('fnsValue', 'Компания с таким ИНН не найдена')
+            } else if (error.response?.status === 400) {
+                this.setError('fnsValue', 'Неверный формат ИНН')
+            } else {
+                this.setError('fnsValue', 'Ошибка при поиске компании. Попробуйте позже')
+            }
+
+        } finally {
+            this.isLoadingCompanySearch = false
         }
-
     }
 
-    async createCompany() {
-        const res = await createCompanyApi(this.companyData)
-        return res.data.companyTypeId
+    async searchCompanyByBD() {
+        try {
+            const res = await getCompanyByInnApi({ inn: this.fnsValue })
+
+            if (res.data && Object.keys(res.data).length > 0) {
+                console.log('Компания найдена в БД:', res.data)
+                return res.data
+            }
+
+            return null
+        } catch (error) {
+            // Если 404 - просто возвращаем null (компании нет в БД)
+            if (error.response?.status === 404) {
+                console.log('Компания не найдена в БД')
+                return null
+            }
+            // Другие ошибки пробрасываем дальше
+            throw error
+        }
+    }
+
+    async searchCompanyByFns() {
+        try {
+            const res = await fnsSearchCompany(this.fnsValue)
+
+            if (res.data && Object.keys(res.data).length > 0) {
+                console.log('Компания найдена в ФНС:', res.data)
+                return res.data
+            }
+
+            return null
+        } catch (error) {
+            if (error.response?.status === 404) {
+                console.log('Компания не найдена в ФНС')
+                return null
+            }
+            throw error
+        }
+    }
+
+    fillCompanyDataFromDB(data: any) {
+        this.companyData = {
+            fullCompanyName: data.fullCompanyName || '',
+            shortCompanyName: data.shortCompanyName || '',
+            inn: data.inn || this.fnsValue,
+            kpp: data.kpp || '',
+            jurAdress: data.jurAdress || '',
+            companyTypeId: data.companyTypeId || '',
+            id: data.id,
+        }
+    }
+
+    fillCompanyDataFromFNS(data: any) {
+        if (!!data.items[0]['ИП']) {
+
+            this.companyData = {
+                fullCompanyName: data.items[0]['ИП']['ФИОПолн'],
+                shortCompanyName: data.items[0]['ИП']['ФИОПолн'],
+                inn: data.items[0]['ИП']['ИННФЛ'],
+                kpp: '',
+                jurAdress: data.items[0]['ИП']['Адрес']['АдресПолн'],
+                companyTypeId: '',
+            }
+
+            return
+
+            // console.log("ИП: " + !!data.items[0]['ИП'])
+            // console.log("fullCompanyName:" + data.items[0]['ИП']['ФИОПолн'])
+            // console.log("shortCompanyName:" + data.items[0]['ИП']['ФИОПолн'])
+            // console.log("inn:" + data.items[0]['ИП']['ИННФЛ'])
+            // console.log("kpp:" + "Нету")
+            // console.log("jurAdress:" + data.items[0]['ИП']['Адрес']['АдресПолн'])
+        }
+
+        if (!!data.items[0]['ЮЛ']) {
+
+            this.companyData = {
+                fullCompanyName: data.items[0]['ЮЛ']['НаимПолнЮЛ'],
+                shortCompanyName: data.items[0]['ЮЛ']['НаимСокрЮЛ'],
+                inn: data.items[0]['ЮЛ']['ИНН'],
+                kpp: data.items[0]['ЮЛ']['КПП'],
+                jurAdress: data.items[0]['ЮЛ']['Адрес']['АдресПолн'],
+                companyTypeId: '',
+            }
+
+            // console.log("ЮЛ: " + !!data.items[0]['ЮЛ'])
+            // console.log("fullCompanyName:" + data.items[0]['ЮЛ']['НаимПолнЮЛ'])
+            // console.log("shortCompanyName:" + data.items[0]['ЮЛ']['НаимСокрЮЛ'])
+            // console.log("inn:" + data.items[0]['ЮЛ']['ИНН'])
+            // console.log("kpp:" + data.items[0]['ЮЛ']['КПП'])
+            // console.log("jurAdress:" + data.items[0]['ЮЛ']['Адрес']['АдресПолн'])
+
+            return
+        }
     }
 }
 

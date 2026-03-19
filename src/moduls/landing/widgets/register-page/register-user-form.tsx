@@ -1,64 +1,62 @@
-import { RegisterRequestDTO } from "@/entities/user/type";
-import { Button } from "@/shared/ui-kits/button";
+import { ErrorText } from "@/shared/components/error-text";
 import { Input } from "@/shared/ui-kits/Input";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 
-interface Props {
-    isLoading: boolean,
+
+interface Porps {
+    formData: any,
+    setFormData: any,
     styles: any,
-    formData: RegisterRequestDTO,
-    setFormData: <K extends keyof RegisterRequestDTO> (name: K, value: RegisterRequestDTO) => void
-    setTabForm: (value: number) => void
-    onSubmit: () => void
+    isLoading: any,
+    errors: any,
 }
 
+export const RegisterUserForm = observer(({ formData, setFormData, styles, isLoading, errors }: Props) => {
 
-export const SuplierUserForm = observer(({ styles, formData, setFormData, isLoading, setTabForm, onSubmit }: Props) => {
     const [focusedInput, setFocusedInput] = useState<string>('')
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
+
     return (
         <>
-            <div className={styles.inputGroup}>
-                <label className={styles.label}>ФИО *</label>
-                <Input
-                    type="text"
-                    value={formData.fullName}
-                    onChange={(e) => setFormData("fullName", e)}
-                    placeholder="Иванов Иван Иванович"
-                    classNames={{ input: styles.input }}
-                    disabled={isLoading}
-                />
-            </div>
+            <Input
+                type="text"
+                value={formData.fullName}
+                onChange={(e) => setFormData("fullName", e)}
+                placeholder="Иванов Иван Иванович"
+                classNames={{ input: styles.input }}
+                disabled={isLoading}
+                required
+                label="ФИО"
+                error={errors.fullName}
+            />
+            <Input
+                required
+                label="Email"
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData("email", e)}
+                placeholder="company@example.com"
+                classNames={{ input: styles.input }}
+                disabled={isLoading}
+                error={errors.email}
+            />
+            <Input
+                required
+                label="Номер телефона"
+                type="phone"
+                value={formData.phoneNumber}
+                onChange={(e) => setFormData("phoneNumber", e)}
+                placeholder="+79963363058"
+                classNames={{ input: styles.input }}
+                disabled={isLoading}
+                error={errors.phoneNumber}
+            />
 
             <div className={styles.inputGroup}>
-                <label className={styles.label}>Email *</label>
-                <Input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData("email", e)}
-                    placeholder="company@example.com"
-                    classNames={{ input: styles.input }}
-                    disabled={isLoading}
-                />
-            </div>
-
-            <div className={styles.inputGroup}>
-                <label className={styles.label}>Номер телефона *</label>
-                <Input
-                    type="phone"
-                    value={formData.phoneNumber}
-                    onChange={(e) => setFormData("phoneNumber", e)}
-                    placeholder="+79963363058"
-                    classNames={{ input: styles.input }}
-                    disabled={isLoading}
-                />
-            </div>
-
-            <div className={styles.inputGroup}>
-                <label className={styles.label}>Пароль *</label>
+                <label className={styles.label}>Пароль <span className="text-red-500">*</span></label>
                 <div className={styles.passwordWrapper}>
                     <Input
                         type={showPassword ? 'text' : 'password'}
@@ -86,10 +84,11 @@ export const SuplierUserForm = observer(({ styles, formData, setFormData, isLoad
                         )}
                     </button>
                 </div>
+                {errors.password && <ErrorText text={errors.password} />}
             </div>
 
             <div className={styles.inputGroup}>
-                <label className={styles.label}>Подтверждение пароля *</label>
+                <label className={styles.label}>Подтверждение пароля <span className="text-red-500">*</span></label>
                 <div className={styles.passwordWrapper}>
                     <input
                         type={showConfirmPassword ? 'text' : 'password'}
@@ -119,27 +118,7 @@ export const SuplierUserForm = observer(({ styles, formData, setFormData, isLoad
                         )}
                     </button>
                 </div>
-            </div>
-
-            <div className="flex gap-2 mt-2">
-                <Button onClick={() => setTabForm(1)}
-                    className='w-full p-4 hover:shadow-lg focus:outline-none'
-                    styleColor="gray"
-                    disabled={isLoading}>
-                    Назад
-                </Button>
-                <Button onClick={onSubmit}
-                    className='w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2'
-                    disabled={isLoading}>
-                    {isLoading ? (
-                        <>
-                            <span className={styles.spinner} />
-                            Регистрация...
-                        </>
-                    ) : (
-                        'Зарегистрироваться'
-                    )}
-                </Button>
+                {errors.confirmPassword && <ErrorText text={errors.confirmPassword} />}
             </div>
         </>
     );

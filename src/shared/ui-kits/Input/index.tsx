@@ -1,6 +1,7 @@
 import { HTMLInputTypeAttribute, useState } from "react";
 import { IMaskInput } from "react-imask";
 import { baseClasses, containerClasses, isFocusClasses, labelClasses, notFocusClasses } from "./styles";
+import { ErrorText } from "@/shared/components/error-text";
 
 interface Props {
     value: string | number | Date | null;
@@ -10,6 +11,7 @@ interface Props {
     type?: HTMLInputTypeAttribute;
     disabled?: boolean,
     required?: boolean,
+    error?: string,
     classNames?: {
         input?: string;
         label?: string;
@@ -17,7 +19,7 @@ interface Props {
     }
 }
 
-export const Input = ({ value, onChange, label, placeholder, classNames, type = "text", disabled = false, required = false }: Props) => {
+export const Input = ({ value, onChange, label, placeholder, classNames, type = "text", disabled = false, required = false, error }: Props) => {
 
     const [isFocused, setIsFocused] = useState(false);
     const InputComponent = type === "phone" ? IMaskInput : "input"
@@ -37,6 +39,8 @@ export const Input = ({ value, onChange, label, placeholder, classNames, type = 
                 onBlur={() => setIsFocused(false)}
                 className={`${baseClasses} ${isFocused ? isFocusClasses : notFocusClasses} ${classNames?.input}`}
             />
+
+            {error && <ErrorText text={error} />}
         </div>
     );
 }

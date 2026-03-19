@@ -1,65 +1,16 @@
 // src/pages/RegisterPage.tsx
 import { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '@/features/user/context/context'
-import { registerModel } from '../../features/RegisterPage/register-model'
+import { Link } from 'react-router-dom'
 import { Role } from '@/entities/user/role'
 import { observer } from 'mobx-react-lite'
 import styles from './RegisterPage.module.css'
 import { RegistrRoleButton } from '../../widgets/register-page/register-role-button'
-import { Input } from '@/shared/ui-kits/Input'
-import { RegisterCompanyForm } from '../../widgets/register-page/suplier-company-form'
 import { SuplierForm } from '../../widgets/register-page/suplier-form'
 import { CustomerForm } from '../../widgets/register-page/customer-form'
-import { SuplierButtonForm } from '../../widgets/register-page/suplier-button-form'
-import { registerCompanyModel } from '../../features/RegisterPage/register-company-model'
-import { registerUserModel } from '../../features/RegisterPage/register-user-model'
-import { TabCounter } from '../../widgets/register-page/tab-counter'
 
 export const RegisterPage = observer(() => {
 
   const [isMounted, setIsMounted] = useState(false)
-
-  // const {
-  //   formData,
-  //   error,
-  //   setFormData,
-  //   isLoading,
-  //   handleSubmit,
-  //   setFormCompanyData,
-  //   companyData,
-  //   init,
-  //   types,
-
-  //   setFnsValue,
-  //   fnsValue,
-  //   searchCompany,
-  //   isLoadingCompanySearch,
-  //   getCompanyByInn,
-  // } = registerModel
-
-
-  // const {
-  //   error,
-  //   setFormCompanyData,
-  //   companyData,
-  //   init,
-  //   types,
-
-  //   setFnsValue,
-  //   fnsValue,
-  //   searchCompany,
-  //   isLoadingCompanySearch,
-  //   getCompanyByInn,
-  // } = registerCompanyModel
-
-  // const {
-  //   formData,
-  //   setFormData,
-  //   isLoading,
-  //   handleSubmit,
-  // } = registerUserModel
-
 
   useEffect(() => {
     setIsMounted(true)
@@ -102,17 +53,6 @@ export const RegisterPage = observer(() => {
                 description="Поставщик или Производитель"
               />
             </div>
-
-            {/* {error && (
-              <div className={styles.errorMessage}>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <circle cx="12" cy="12" r="10" fill="#FECACA" />
-                  <path d="M12 7V13" stroke="#DC2626" strokeWidth="2" />
-                  <circle cx="12" cy="17" r="1.5" fill="#DC2626" />
-                </svg>
-                <span>{error}</span>
-              </div>
-            )} */}
 
             <div className={styles.form}>
 

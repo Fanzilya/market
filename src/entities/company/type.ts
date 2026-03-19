@@ -8,6 +8,7 @@ export interface ICreateCompany {
     kpp: string,
     jurAdress: string,
     companyTypeId: string
+    id?: string
 }
 export interface Company {
     name: string,

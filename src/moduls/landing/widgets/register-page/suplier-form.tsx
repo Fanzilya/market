@@ -9,6 +9,9 @@ import { RegisterCompanyForm } from "./suplier-company-form";
 import { SuplierUserForm } from "./suplier-user-form";
 import { registerCompanyModel } from "../../features/RegisterPage/register-company-model";
 import { observer } from "mobx-react-lite";
+import { RegisterUserForm } from "./register-user-form";
+import { Role } from "@/entities/user/role";
+import { toast } from "react-toastify";
 
 interface Props {
     // isLoading: boolean,
@@ -32,14 +35,20 @@ export const SuplierForm = observer(({ styles }: Props) => {
 
         setFnsValue,
         fnsValue,
-        searchCompany,
+        createCompany,
+        getCompanyData,
         isLoadingCompanySearch,
-        getCompanyByInn,
         canNextForm,
-        clearCompanyData
+        clearCompanyData,
+        isCompanyCreate,
+        setOpenCompanyForm,
+        openCompanyForm,
+        setTypeForm,
+        typeForm
     } = registerCompanyModel
 
     const {
+        errors,
         formData,
         setFormData,
         isLoading,
@@ -51,16 +60,39 @@ export const SuplierForm = observer(({ styles }: Props) => {
     const navigate = useNavigate()
     const [tabForm, setTabForm] = useState<number>(1)
 
-    const onSubmit = () => {
-        handleSubmit(navigate)
+    const onSubmit = async () => {
+        try {
+            let companyId: string = "";
+
+            if (isCompanyCreate) {
+                companyId = await createCompany()
+                if (!companyId) {
+                    throw new Error('Не удалось создать компанию')
+                }
+                console.log('✅ Компания создана, ID:', companyId)
+            } else {
+                companyId = companyData.id!
+            }
+
+            // 2. После получения companyId отправляем форму
+            console.log('📝 Отправка формы с companyId:', companyId)
+            await handleSubmit(navigate, companyId)
+            console.log('✅ Форма отправлена')
+
+        } catch (error) {
+            console.error('❌ Ошибка в onSubmit:', error)
+            toast.error('Произошла ошибка при регистрации')
+        }
     }
 
     useEffect(() => {
         if (types.length == 0) {
             init()
         }
-    }, [])
 
+        clearFormsData()
+        setFormData("roleName", Role.Supplier)
+    }, [])
 
     return (
         <>
@@ -75,27 +107,52 @@ export const SuplierForm = observer(({ styles }: Props) => {
                     formData={companyData}
                     setFormData={setFormCompanyData}
                     isLoading={isLoading}
+                    openCompanyForm={openCompanyForm}
+                    setOpenCompanyForm={setOpenCompanyForm}
                     types={types}
                     setFnsValue={setFnsValue}
                     fnsValue={fnsValue}
-                    searchCompany={searchCompany}
+                    searchCompany={getCompanyData}
                     setTabForm={setTabForm}
                     isLoadingCompanySearch={isLoadingCompanySearch}
-                    getCompanyByInn={getCompanyByInn}
+                    getCompanyByInn={getCompanyData}
                     canNextForm={canNextForm}
                     clearCompanyData={clearCompanyData}
+                    setTypeForm={setTypeForm}
+                    typeForm={typeForm}
                 />
             }
 
             {tabForm == 2 &&
-                <SuplierUserForm
-                    isLoading={isLoading}
-                    styles={styles}
-                    formData={formData}
-                    setFormData={setFormData}
-                    setTabForm={setTabForm}
-                    onSubmit={onSubmit}
-                />
+                <>
+                    <RegisterUserForm
+                        formData={formData}
+                        setFormData={setFormData}
+                        styles={styles}
+                        isLoading={isLoading}
+                        errors={errors}
+                    />
+                    <div className="flex gap-2 mt-2">
+                        <Button onClick={() => setTabForm(1)}
+                            className='w-full p-4 hover:shadow-lg focus:outline-none'
+                            styleColor="gray"
+                            disabled={isLoading}>
+                            Назад
+                        </Button>
+                        <Button onClick={onSubmit}
+                            className='w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2'
+                            disabled={isLoading}>
+                            {isLoading ? (
+                                <>
+                                    <span className={styles.spinner} />
+                                    Регистрация...
+                                </>
+                            ) : (
+                                'Зарегистрироваться'
+                            )}
+                        </Button>
+                    </div>
+                </>
             }
         </>
     );

@@ -32,6 +32,16 @@ export const Selector = observer(({ placeholder, items, onSelect, classNames, de
     };
 
     useEffect(() => {
+        if (defaultValue) {
+            items.forEach(element => {
+                if (element.value === defaultValue) {
+                    setValue(element.title)
+                }
+            });
+        }
+    }, [])
+
+    useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
                 setOpen(false);
