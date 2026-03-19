@@ -67,11 +67,11 @@ export const SuplierForm = observer(({ styles }: Props) => {
         const isCompanyValid = await validateCompanyForm()
 
         if (!isCompanyValid) {
-            toast.error('isCompanyValid Пожалуйста, заполните все обязательные поля')
+            toast.error('Пожалуйста, заполните все обязательные поля компании')
             return
         }
         if (!isUserValid) {
-            toast.error('isUserValid Пожалуйста, заполните все обязательные поля')
+            toast.error('Пожалуйста, заполните все обязательные поля пользователя')
             return
         }
 
