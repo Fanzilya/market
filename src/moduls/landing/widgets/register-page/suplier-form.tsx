@@ -27,7 +27,7 @@ interface Props {
 export const SuplierForm = observer(({ styles }: Props) => {
 
     const {
-        error,
+        errorsCompany,
         setFormCompanyData,
         companyData,
         init,
@@ -79,16 +79,10 @@ export const SuplierForm = observer(({ styles }: Props) => {
                 if (!companyId) {
                     throw new Error('Не удалось создать компанию')
                 }
-                console.log('✅ Компания создана, ID:', companyId)
             } else {
                 companyId = companyData.id!
             }
-
-            // 2. После получения companyId отправляем форму
-            console.log('📝 Отправка формы с companyId:', companyId)
             await handleSubmit(navigate, companyId)
-            console.log('✅ Форма отправлена')
-
         } catch (error) {
             console.error('❌ Ошибка в onSubmit:', error)
             toast.error('Произошла ошибка при регистрации')
@@ -130,6 +124,7 @@ export const SuplierForm = observer(({ styles }: Props) => {
                     clearCompanyData={clearCompanyData}
                     setTypeForm={setTypeForm}
                     typeForm={typeForm}
+                    errors={errorsCompany}
                 />
             }
 

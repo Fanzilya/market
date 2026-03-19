@@ -34,17 +34,17 @@ class RegisterCompanyModel {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    errors: Partial<Record<keyof (ICreateCompany & { fnsValue: string }), string>> = {}
+    errorsCompany: Partial<Record<keyof (ICreateCompany & { fnsValue: string }), string>> = {}
     setError<K extends keyof (ICreateCompany & { fnsValue: string })>(key: K, message: string) {
-        this.errors[key] = message
+        this.errorsCompany[key] = message
     }
 
     removeError<K extends keyof (ICreateCompany & { fnsValue: string })>(key: K) {
-        delete this.errors[key]
+        delete this.errorsCompany[key]
     }
 
     clearErrors() {
-        this.errors = {}
+        this.errorsCompany = {}
     }
 
     clearFormsData() {
@@ -59,6 +59,9 @@ class RegisterCompanyModel {
     }
 
     setFormCompanyData<K extends keyof typeof this.companyData>(name: K, value: typeof this.companyData[K]) {
+
+        if (name === "inn" && value?.length! > 12) return
+
         this.companyData[name] = value;
     }
 
@@ -97,40 +100,39 @@ class RegisterCompanyModel {
 
         if (!this.companyData.fullCompanyName.trim()) {
             this.setError("fullCompanyName", 'Укажите полное название компании')
-            return false
         }
         if (!this.companyData.shortCompanyName.trim()) {
             this.setError("shortCompanyName", 'Укажите короткое название компании')
-            return false
         }
         if (!this.companyData.inn.trim()) {
             this.setError("inn", 'Укажите ИНН')
-            return false
+        } else if (this.companyData.inn.length !== 10 && this.companyData.inn.length !== 12) {
+            this.setError("inn", 'ИНН должен содержать 10 или 12 цифр')
+        } else if (!/^\d+$/.test(this.companyData.inn)) {
+            this.setError("inn", 'ИНН должен содержать только цифры')
         }
-        if (!this.companyData.kpp.trim()) {
-            this.setError("kpp", 'Укажите КПП')
-            return false
+
+        if (this.companyData.kpp.trim()) {
+            if (this.companyData.kpp.length !== 9) {
+                this.setError("kpp", 'КПП должен содержать 9 цифр')
+            } else if (!/^\d+$/.test(this.companyData.kpp)) {
+                this.setError("kpp", 'КПП должен содержать только цифры')
+            }
         }
+
         if (!this.companyData.jurAdress.trim()) {
             this.setError("jurAdress", 'Укажите юридический адрес')
-            return false
         }
         if (!this.companyData.companyTypeId.trim()) {
             this.setError("companyTypeId", 'Укажите тип компании')
-            return false
         }
 
-        return Object.keys(this.errors).length === 0
+        return Object.keys(this.errorsCompany).length === 0
     }
 
-    get canNextForm() {
-        return (this.companyData.fullCompanyName.trim()
-            && this.companyData.shortCompanyName.trim()
-            && this.companyData.inn.trim()
-            && this.companyData.kpp.trim()
-            && this.companyData.jurAdress.trim()
-            && this.companyData.companyTypeId.trim()
-        )
+    canNextForm(actions: any) {
+        if (!this.validateCompanyForm()) return
+        actions()
     }
 
     clearCompanyData() {

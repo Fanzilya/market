@@ -13,10 +13,11 @@ interface Props {
     isLoading: boolean,
     types: SeletectItemInterface[],
     styles: any,
+    errors: any,
 }
 
 
-export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoading, types, styles }: Props) => {
+export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoading, types, styles, errors }: Props) => {
     return (
         <>
             <Input
@@ -27,6 +28,7 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
                 onChange={(e) => setFormData("fullCompanyName", e)}
                 placeholder="ООО «Ромашка»"
                 disabled={isLoading}
+                error={errors.fullCompanyName}
             />
 
             <Input
@@ -37,6 +39,7 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
                 onChange={(e) => setFormData("shortCompanyName", e)}
                 placeholder="ООО «Ромашка»"
                 disabled={isLoading}
+                error={errors.shortCompanyName}
             />
 
             <Input
@@ -47,16 +50,17 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
                 onChange={(e) => setFormData("inn", e)}
                 placeholder="1234567890"
                 disabled={isLoading}
+                error={errors.inn}
             />
 
             <Input
-                required
                 label="КПП"
                 type="number"
                 value={formData.kpp}
                 onChange={(e) => setFormData("kpp", e)}
                 placeholder="123456789"
                 disabled={isLoading}
+                error={errors.kpp}
             />
 
             <Input
@@ -67,6 +71,7 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
                 onChange={(e) => setFormData("jurAdress", e)}
                 placeholder="г. Москва, ул. Примерная, д. 1"
                 disabled={isLoading}
+                error={errors.jurAdress}
             />
 
             <div className={styles.inputGroup}>

@@ -23,16 +23,17 @@ interface Props {
 
     setTabForm: (value: number) => void
 
-    canNextForm: boolean,
+    canNextForm: (value: any) => void,
     isLoadingCompanySearch: boolean,
     setTypeForm: (value: "searchInn" | "form") => void
     typeForm: "searchInn" | "form"
+    errors: any,
 }
 
 
 export const RegisterCompanyForm = observer(({
     formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany, styles,
-    setTabForm, isLoadingCompanySearch, canNextForm, openCompanyForm, typeForm, setTypeForm
+    setTabForm, isLoadingCompanySearch, canNextForm, openCompanyForm, typeForm, setTypeForm, errors
 }: Props) => {
 
     return (
@@ -88,6 +89,7 @@ export const RegisterCompanyForm = observer(({
                             isLoading={isLoading}
                             types={types}
                             styles={styles}
+                            errors={errors}
                         />
                     }
                 </>
@@ -99,12 +101,12 @@ export const RegisterCompanyForm = observer(({
                 isLoading={isLoading}
                 types={types}
                 styles={styles}
+                errors={errors}
             />}
 
             <Button
-                onClick={() => setTabForm(2)}
-                className={`${(!isLoadingCompanySearch && canNextForm) ? "from-[#4A85F6] to-[#3A6BC9]" : "from-[#d0d4dc] to-[#737578]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
-                disabled={!canNextForm}
+                onClick={() => canNextForm(setTabForm)}
+                className={`${(!isLoadingCompanySearch) ? "from-[#4A85F6] to-[#3A6BC9]" : "from-[#d0d4dc] to-[#737578]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
             >
                 {isLoadingCompanySearch ? "Поиск ..." : "Продолжить"}
             </Button >
