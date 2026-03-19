@@ -132,7 +132,6 @@ class RegisterCompanyModel {
 
     canNextForm(actions: any) {
         if (!this.validateCompanyForm()) return
-        actions()
     }
 
     clearCompanyData() {
@@ -170,7 +169,7 @@ class RegisterCompanyModel {
         }
     }
 
-    async getCompanyData() {
+    async getCompanyData(actions: any) {
         // Валидация длины ИНН
         if (this.fnsValue.length !== 10 && this.fnsValue.length !== 12) {
             this.setError('fnsValue', 'ИНН должен содержать 10 или 12 цифр')
@@ -287,12 +286,14 @@ class RegisterCompanyModel {
     fillCompanyDataFromFNS(data: any) {
         if (!!data.items[0]['ИП']) {
 
+            const ipData = data.items[0]['ИП']
+
             this.companyData = {
-                fullCompanyName: data.items[0]['ИП']['ФИОПолн'],
-                shortCompanyName: data.items[0]['ИП']['ФИОПолн'],
-                inn: data.items[0]['ИП']['ИННФЛ'],
+                fullCompanyName: ipData?.['ФИОПолн'] || "",
+                shortCompanyName: ipData?.['ФИОПолн'] || "",
+                inn: ipData?.['ИННФЛ'] || "",
                 kpp: '',
-                jurAdress: data.items[0]['ИП']['Адрес']['АдресПолн'],
+                jurAdress: ipData?.['Адрес']?.['АдресПолн'] || "",
                 companyTypeId: '',
             }
 
@@ -307,13 +308,14 @@ class RegisterCompanyModel {
         }
 
         if (!!data.items[0]['ЮЛ']) {
+            const ipData = data.items[0]['ЮЛ']
 
             this.companyData = {
-                fullCompanyName: data.items[0]['ЮЛ']['НаимПолнЮЛ'],
-                shortCompanyName: data.items[0]['ЮЛ']['НаимСокрЮЛ'],
-                inn: data.items[0]['ЮЛ']['ИНН'],
-                kpp: data.items[0]['ЮЛ']['КПП'],
-                jurAdress: data.items[0]['ЮЛ']['Адрес']['АдресПолн'],
+                fullCompanyName: ipData?.['НаимПолнЮЛ'] || "",
+                shortCompanyName: ipData?.['НаимСокрЮЛ'] || "",
+                inn: ipData?.['ИНН'] || "",
+                kpp: ipData?.['КПП'] || "",
+                jurAdress: ipData?.['Адрес']?.['АдресПолн'] || "",
                 companyTypeId: '',
             }
 
