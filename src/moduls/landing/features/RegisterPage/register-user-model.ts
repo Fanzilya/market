@@ -61,18 +61,9 @@ class RegisterUserModel {
         this.errors = {}
     }
 
-
-    validateEmail(email: string): boolean {
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-        return emailRegex.test(email)
-    }
-
-    validatePhone(phone: string): boolean {
-        const digits = phone.replace(/\D/g, '')
-        return digits.length === 11 && digits[0] === '7'
-    }
-
     validateForm() {
+        this.clearErrors()
+
         if (!this.formData.fullName.trim()) {
             this.setError("fullName", "Укажите ФИО")
         }
@@ -80,14 +71,22 @@ class RegisterUserModel {
         // Использование
         if (!this.formData.email.trim()) {
             this.setError("email", "Укажите email")
-        } else if (!this.validateEmail(this.formData.email)) {
-            this.setError("email", "Введите корректную почту")
+        } else {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+            if (!emailRegex.test(this.formData.email)) {
+                this.setError("email", "Введите корректную почту")
+            }
         }
+
 
         if (!this.formData.phoneNumber.trim()) {
             this.setError("phoneNumber", "Укажите номер телефона")
-        } else if (!this.validatePhone(this.formData.phoneNumber)) {
-            this.setError("phoneNumber", "Введите корректный номер")
+        } else {
+            const digits = this.formData.phoneNumber.replace(/\D/g, '')
+            if (digits.length !== 11 || digits[0] !== '7') {
+                this.setError("phoneNumber", "Введите корректный номер")
+            }
         }
 
         if (!this.formData.password) {
@@ -111,7 +110,6 @@ class RegisterUserModel {
     }
 
     async handleSubmit(navigate: any, companyId?: string) {
-        this.clearErrors()
         if (!this.validateForm()) return
 
         try {

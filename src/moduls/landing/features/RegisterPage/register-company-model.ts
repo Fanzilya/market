@@ -93,6 +93,7 @@ class RegisterCompanyModel {
     }
 
     validateCompanyForm() {
+        this.clearErrors()
 
         if (!this.companyData.fullCompanyName.trim()) {
             this.setError("fullCompanyName", 'Укажите полное название компании')
@@ -123,14 +124,13 @@ class RegisterCompanyModel {
     }
 
     get canNextForm() {
-
         return (this.companyData.fullCompanyName.trim()
             && this.companyData.shortCompanyName.trim()
             && this.companyData.inn.trim()
             && this.companyData.kpp.trim()
             && this.companyData.jurAdress.trim()
             && this.companyData.companyTypeId.trim()
-            && this.validateCompanyForm())
+        )
     }
 
     clearCompanyData() {
@@ -147,7 +147,9 @@ class RegisterCompanyModel {
     }
 
     async createCompany() {
-        this.clearErrors()
+
+        if (!this.validateCompanyForm()) return
+
         try {
             const res = await createCompanyApi({
                 fullCompanyName: this.companyData.fullCompanyName,

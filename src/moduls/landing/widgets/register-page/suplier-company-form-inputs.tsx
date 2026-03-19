@@ -42,7 +42,7 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
             <Input
                 required
                 label="ИНН"
-                type="text"
+                type="number"
                 value={formData.inn}
                 onChange={(e) => setFormData("inn", e)}
                 placeholder="1234567890"
@@ -52,7 +52,7 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
             <Input
                 required
                 label="КПП"
-                type="text"
+                type="number"
                 value={formData.kpp}
                 onChange={(e) => setFormData("kpp", e)}
                 placeholder="123456789"

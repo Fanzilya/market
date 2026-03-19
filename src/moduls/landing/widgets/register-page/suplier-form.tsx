@@ -44,7 +44,8 @@ export const SuplierForm = observer(({ styles }: Props) => {
         setOpenCompanyForm,
         openCompanyForm,
         setTypeForm,
-        typeForm
+        typeForm,
+        validateCompanyForm
     } = registerCompanyModel
 
     const {
@@ -53,7 +54,8 @@ export const SuplierForm = observer(({ styles }: Props) => {
         setFormData,
         isLoading,
         handleSubmit,
-        clearFormsData
+        clearFormsData,
+        validateForm
     } = registerUserModel
 
 
@@ -61,6 +63,14 @@ export const SuplierForm = observer(({ styles }: Props) => {
     const [tabForm, setTabForm] = useState<number>(1)
 
     const onSubmit = async () => {
+        const isUserValid = await validateForm()
+        const isCompanyValid = await validateCompanyForm()
+
+        if (!isUserValid || !isCompanyValid) {
+            toast.error('Пожалуйста, заполните все обязательные поля')
+            return
+        }
+
         try {
             let companyId: string = "";
 
