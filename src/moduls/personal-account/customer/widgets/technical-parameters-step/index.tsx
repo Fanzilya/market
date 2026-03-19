@@ -11,15 +11,12 @@ interface Props {
     knsData: any,
     styles: any,
     formData: any,
-    focusedInput: any,
-    motorStartOptions: any,
     setKnsData: any,
     elements: any,
-    activeElements: any,
     setElementChecked: any,
 }
 
-export const TechnicalParametersStep = observer(({ knsData, styles, formData, focusedInput, motorStartOptions, setKnsData, elements, activeElements, setElementChecked }: Props) => {
+export const TechnicalParametersStep = observer(({ knsData, styles, formData, setKnsData, elements, setElementChecked }: Props) => {
 
     return (
         <div className={styles.stepContent}>
@@ -42,18 +39,17 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, fo
                             <div className="flex flex-col gap-2 w-full">
                                 <label className={styles.label}>Единица измерения <span className="text-[#ef4444]">*</span></label>
                                 <select
-                                    value={knsData.motorStartMethod}
+                                    value={knsData.units}
                                     onChange={(e) => setKnsData("units", e.target.value)}
                                     className={styles.select}
                                 >
-                                    {Object.values(PerfomanceMeasureUnit)
-                                        .filter(value => typeof value === 'number')
-                                        .map(value => (
-                                            <option key={value} value={value}>
-                                                {PerfomanceMeasureUnitTranslations[value as PerfomanceMeasureUnit]}
-                                            </option>
-                                        ))
-                                    }
+                                    <option value={PerfomanceMeasureUnit.LiterSecond}>
+                                        {PerfomanceMeasureUnitTranslations[PerfomanceMeasureUnit.LiterSecond as PerfomanceMeasureUnit]}
+                                    </option>
+                                    <option value={PerfomanceMeasureUnit.CubicMeter}>
+                                        {PerfomanceMeasureUnitTranslations[PerfomanceMeasureUnit.CubicMeter as PerfomanceMeasureUnit]}
+                                    </option>
+
                                 </select>
                             </div>
                         </div>

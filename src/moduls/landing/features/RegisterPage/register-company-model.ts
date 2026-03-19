@@ -284,7 +284,7 @@ class RegisterCompanyModel {
     }
 
     fillCompanyDataFromFNS(data: any) {
-        if (!!data.items[0]['ИП']) {
+        if (!!data.items?.[0]?.['ИП']) {
 
             const ipData = data.items[0]['ИП']
 
@@ -307,7 +307,7 @@ class RegisterCompanyModel {
             // console.log("jurAdress:" + data.items[0]['ИП']['Адрес']['АдресПолн'])
         }
 
-        if (!!data.items[0]['ЮЛ']) {
+        if (!!data.items?.[0]?.['ЮЛ']) {
             const ipData = data.items[0]['ЮЛ']
 
             this.companyData = {

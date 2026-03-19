@@ -100,6 +100,12 @@ class RequestModel {
     }
 
     setKnsData<K extends keyof typeof this.model.knsData>(name: K, value: typeof this.model.knsData[K]) {
+
+        console.log({
+            name: name,
+            value: value,
+        })
+
         this.model.knsData[name] = value;
     }
 
