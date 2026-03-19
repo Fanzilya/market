@@ -61,17 +61,33 @@ class RegisterUserModel {
         this.errors = {}
     }
 
+
+    validateEmail(email: string): boolean {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+        return emailRegex.test(email)
+    }
+
+    validatePhone(phone: string): boolean {
+        const digits = phone.replace(/\D/g, '')
+        return digits.length === 11 && digits[0] === '7'
+    }
+
     validateForm() {
         if (!this.formData.fullName.trim()) {
             this.setError("fullName", "Укажите ФИО")
         }
 
+        // Использование
         if (!this.formData.email.trim()) {
             this.setError("email", "Укажите email")
+        } else if (!this.validateEmail(this.formData.email)) {
+            this.setError("email", "Введите корректную почту")
         }
 
-        if (this.formData.phoneNumber.length < 10) {
-            this.setError("phoneNumber", "Введите корректный номер телефона")
+        if (!this.formData.phoneNumber.trim()) {
+            this.setError("phoneNumber", "Укажите номер телефона")
+        } else if (!this.validatePhone(this.formData.phoneNumber)) {
+            this.setError("phoneNumber", "Введите корректный номер")
         }
 
         if (!this.formData.password) {
@@ -118,7 +134,7 @@ class RegisterUserModel {
             navigate('/login')
         } catch (error) {
             console.log('Ошибка при регистрации:', error)
-            throw error 
+            throw error
         }
     }
 }

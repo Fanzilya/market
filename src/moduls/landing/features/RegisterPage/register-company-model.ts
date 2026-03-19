@@ -93,6 +93,7 @@ class RegisterCompanyModel {
     }
 
     validateCompanyForm() {
+
         if (!this.companyData.fullCompanyName.trim()) {
             this.setError("fullCompanyName", 'Укажите полное название компании')
             return false
@@ -163,7 +164,6 @@ class RegisterCompanyModel {
             console.log('Ошибка при создании компании:', error)
             throw error // Пробрасываем ошибку дальше
         }
-
     }
 
     async getCompanyData() {
@@ -201,7 +201,7 @@ class RegisterCompanyModel {
             if (fnsResult) {
                 // Нашли в ФНС - заполняем модель
                 this.isCompanyCreate = true
-                this.fillCompanyDataFromFNS(dataRes)
+                this.fillCompanyDataFromFNS(fnsResult)
                 toast.success('Компания найдена в ФНС')
                 this.openCompanyForm = true
                 return
