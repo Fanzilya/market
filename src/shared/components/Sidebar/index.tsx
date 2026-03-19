@@ -137,6 +137,7 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
               <img src={Logo} alt="КликПроект" />
               <span>КликПроект</span>
             </div>
+
             <button
               className={styles.mobileSidebarClose}
               onClick={() => setIsMobileMenuOpen(false)}
@@ -220,14 +221,20 @@ export const Sidebar = observer(({ isCollapsed, setIsCollapsed }: Props) => {
   return (
     <aside className={`${styles.sidebar} ${isCollapsed ? styles.collapsed : ''}`}>
       <div className={styles.logo}>
-        <div className={styles.logoIcon}>
-          <img
-            src={Logo}
-            alt="КликПроект"
-            className={styles.logoImage}
-          />
-        </div>
-        <h2 className={styles.logoText}>КликПроект</h2>
+
+        {!isCollapsed &&
+          <Link to="/" className='flex items-center flex-1'>
+            <div className={styles.logoIcon}>
+              <img
+                src={Logo}
+                alt="КликПроект"
+                className={styles.logoImage}
+              />
+            </div>
+            <h2 className={styles.logoText}>КликПроект</h2>
+          </Link>
+        }
+
         <button
           className={styles.collapseButton}
           onClick={() => setIsCollapsed(!isCollapsed)}

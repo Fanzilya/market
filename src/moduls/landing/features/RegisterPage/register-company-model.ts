@@ -5,7 +5,7 @@ import { Role } from "@/entities/user/role";
 import { RegisterRequestDTO } from "@/entities/user/type";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
 import axios from "axios";
-import { makeAutoObservable, values } from "mobx";
+import { action, makeAutoObservable, values } from "mobx";
 import { toast } from "react-toastify";
 import { dataRes } from "./data";
 
@@ -25,7 +25,7 @@ class RegisterCompanyModel {
     openCompanyForm: boolean = false
     isCompanyCreate: boolean = true
 
-    typeForm: "searchInn" | "form" = "form"
+    typeForm: "searchInn" | "form" = "searchInn"
 
     isLoadingCompanySearch: boolean = false
     types: SeletectItemInterface[] = []
@@ -123,6 +123,7 @@ class RegisterCompanyModel {
         if (!this.companyData.jurAdress.trim()) {
             this.setError("jurAdress", 'Укажите юридический адрес')
         }
+
         if (!this.companyData.companyTypeId.trim()) {
             this.setError("companyTypeId", 'Укажите тип компании')
         }
@@ -132,6 +133,7 @@ class RegisterCompanyModel {
 
     canNextForm(actions: any) {
         if (!this.validateCompanyForm()) return
+        actions()
     }
 
     clearCompanyData() {
@@ -194,18 +196,16 @@ class RegisterCompanyModel {
                 // Нашли в БД - заполняем модель
                 this.isCompanyCreate = false
                 this.fillCompanyDataFromDB(dbResult)
-                toast.success('Компания найдена в БД')
                 this.openCompanyForm = true
                 return
             }
 
             // 2. Если в БД нет, ищем в ФНС
             const fnsResult = await this.searchCompanyByFns()
-            if (fnsResult) {
+            if (fnsResult?.items.length > 0) {
                 // Нашли в ФНС - заполняем модель
                 this.isCompanyCreate = true
                 this.fillCompanyDataFromFNS(fnsResult)
-                toast.success('Компания найдена в ФНС')
                 this.openCompanyForm = true
                 return
             }

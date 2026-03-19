@@ -40,15 +40,6 @@ export const RegisterCompanyForm = observer(({
         <>
             <div className="flex border-b border-gray-200">
                 <button
-                    onClick={() => setTypeForm("form")}
-                    className={`w-full py-3 border-b-1 px-4 font-medium transition-all duration-200 ${typeForm == "form"
-                        ? 'text-blue-600 border-blue-600'
-                        : 'text-gray-500 border-gray-100 hover:text-gray-700'
-                        }`}
-                >
-                    Заполнить вручную
-                </button>
-                <button
                     onClick={() => setTypeForm("searchInn")}
                     className={`w-full py-3 border-b-1 px-4 font-medium transition-all duration-200 ${typeForm == "searchInn"
                         ? 'text-blue-600 border-blue-600'
@@ -56,6 +47,15 @@ export const RegisterCompanyForm = observer(({
                         }`}
                 >
                     Найти компанию
+                </button>
+                <button
+                    onClick={() => setTypeForm("form")}
+                    className={`w-full py-3 border-b-1 px-4 font-medium transition-all duration-200 ${typeForm == "form"
+                        ? 'text-blue-600 border-blue-600'
+                        : 'text-gray-500 border-gray-100 hover:text-gray-700'
+                        }`}
+                >
+                    Заполнить вручную
                 </button>
             </div>
 
