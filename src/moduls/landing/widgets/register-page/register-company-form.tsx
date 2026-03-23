@@ -2,12 +2,11 @@ import { Button } from "@/shared/ui-kits/button";
 import Icon from "@/shared/ui-kits/Icon";
 import { Input } from "@/shared/ui-kits/Input";
 import Loader from "@/shared/ui-kits/loader/loader";
-import { Selector } from "@/shared/ui-kits/select";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
 import { observer } from "mobx-react-lite";
-import { useState } from "react";
-import { SuplierCompanyFormInputs } from "./suplier-company-form-inputs";
+import { SuplierCompanyFormInputs } from "./register-company-form-inputs";
 import { ErrorText } from "@/shared/components/error-text";
+import { ReactNode } from "react";
 
 interface Props {
     formData: any,
@@ -29,12 +28,14 @@ interface Props {
     setTypeForm: (value: "searchInn" | "form") => void
     typeForm: "searchInn" | "form"
     errors: any,
+    botttom: ReactNode
 }
 
 
 export const RegisterCompanyForm = observer(({
     formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany, styles,
-    setTabForm, isLoadingCompanySearch, canNextForm, openCompanyForm, typeForm, setTypeForm, errors
+    setTabForm, isLoadingCompanySearch, canNextForm, openCompanyForm, typeForm, setTypeForm, errors,
+    botttom
 }: Props) => {
 
     return (
@@ -108,12 +109,9 @@ export const RegisterCompanyForm = observer(({
                 errors={errors}
             />}
 
-            <Button
-                onClick={() => canNextForm(() => setTabForm(2))}
-                className={`${(!isLoadingCompanySearch) ? "from-[#4A85F6] to-[#3A6BC9]" : "from-[#d0d4dc] to-[#737578]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
-            >
-                {isLoadingCompanySearch ? "Поиск ..." : "Продолжить"}
-            </Button >
+
+            {botttom}
+
         </>
     );
 })

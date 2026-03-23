@@ -11,7 +11,8 @@ import { toast } from "react-toastify";
 class RegisterUserModel {
 
     formData: RegisterRequestDTO = {
-        fullName: "",
+        name: "",
+        surname: "",
         email: "",
         phoneNumber: "",
         password: "",
@@ -63,8 +64,12 @@ class RegisterUserModel {
     validateForm() {
         this.clearErrors()
 
-        if (!this.formData.fullName.trim()) {
-            this.setError("fullName", "Укажите ФИО")
+        if (!this.formData.name.trim()) {
+            this.setError("name", "Укажите имя")
+        }
+
+        if (!this.formData.surname.trim()) {
+            this.setError("surname", "Укажите фамилию")
         }
 
         // Использование
@@ -88,18 +93,6 @@ class RegisterUserModel {
             }
         }
 
-        if (!this.formData.password) {
-            this.setError("password", "Введите пароль")
-        }
-
-        if (this.formData.password.length < 6) {
-            this.setError("password", "Минимум 6 символов")
-        }
-
-        if (this.formData.password !== this.formData.confirmPassword) {
-            this.setError("confirmPassword", "Пароли не совпадают")
-        }
-
         return Object.keys(this.errors).length === 0
     }
 
@@ -114,10 +107,9 @@ class RegisterUserModel {
         try {
             if (this.formData.roleName === Role.Supplier) {
                 const res = await employerRegisterApi({
-                    fullName: this.formData.fullName,
+                    fullName: this.formData.surname + " " + this.formData.name,
                     email: this.formData.email,
                     phoneNumber: this.formData.phoneNumber,
-                    password: this.formData.password,
                     roleName: this.formData.roleName,
                     companyId: companyId!,
                     // companyId: "019ce0b3-ccde-7207-afe5-62764ff98668",

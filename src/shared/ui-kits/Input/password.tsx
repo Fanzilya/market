@@ -1,0 +1,71 @@
+export const Password = () => {
+    return (
+        <>
+            <div className={styles.inputGroup}>
+                <label className={styles.label}>Пароль <span className="text-red-500">*</span></label>
+                <div className={styles.passwordWrapper}>
+                    <Input
+                        type={showPassword ? 'text' : 'password'}
+                        value={formData.password}
+                        onChange={(e) => setFormData('password', e)}
+                        placeholder="Минимум 6 символов"
+                        classNames={{ input: styles.input }}
+                        disabled={isLoading}
+                    />
+                    <button
+                        type="button"
+                        className={styles.passwordToggle}
+                        onClick={() => setShowPassword(!showPassword)}
+                    >
+                        {showPassword ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M2 12C2 12 5 6 12 6C19 6 22 12 22 12C22 12 19 18 12 18C5 18 2 12 2 12Z" stroke="currentColor" strokeWidth="2" />
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                            </svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M1 1L23 23" stroke="currentColor" strokeWidth="2" />
+                                <path d="M16.51 16.51C15.29 17.53 13.73 18.17 12 18.17C5 18.17 2 12.17 2 12.17C2 12.17 2.53 11.09 3.58 10.04" stroke="currentColor" strokeWidth="2" />
+                            </svg>
+                        )}
+                    </button>
+                </div>
+                {errors.password && <ErrorText text={errors.password} />}
+            </div>
+
+            <div className={styles.inputGroup}>
+                <label className={styles.label}>Подтверждение пароля <span className="text-red-500">*</span></label>
+                <div className={styles.passwordWrapper}>
+                    <input
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        value={formData.confirmPassword}
+                        onChange={(e) => setFormData('confirmPassword', e.target.value)}
+                        onFocus={() => setFocusedInput('confirmPassword')}
+                        onBlur={() => setFocusedInput('')}
+                        placeholder="Повторите пароль"
+                        className={`${styles.input} ${styles.inputPassword} ${focusedInput === 'confirmPassword' ? styles.inputFocused : ''}`}
+                        disabled={isLoading}
+                    />
+                    <button
+                        type="button"
+                        className={styles.passwordToggle}
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    >
+                        {showConfirmPassword ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M2 12C2 12 5 6 12 6C19 6 22 12 22 12C22 12 19 18 12 18C5 18 2 12 2 12Z" stroke="currentColor" strokeWidth="2" />
+                                <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
+                            </svg>
+                        ) : (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M1 1L23 23" stroke="currentColor" strokeWidth="2" />
+                                <path d="M16.51 16.51C15.29 17.53 13.73 18.17 12 18.17C5 18.17 2 12.17 2 12.17C2 12.17 2.53 11.09 3.58 10.04" stroke="currentColor" strokeWidth="2" />
+                            </svg>
+                        )}
+                    </button>
+                </div>
+                {errors.confirmPassword && <ErrorText text={errors.confirmPassword} />}
+            </div>
+        </>
+    );
+}

@@ -1,12 +1,9 @@
-import { RegisterRequestDTO } from "@/entities/user/type";
 import { Button } from "@/shared/ui-kits/button";
-import { Input } from "@/shared/ui-kits/Input";
 import { useEffect, useState } from "react";
 import { registerUserModel } from "../../features/RegisterPage/register-user-model";
 import { useNavigate } from "react-router-dom";
 import { TabCounter } from "./tab-counter";
-import { RegisterCompanyForm } from "./suplier-company-form";
-import { SuplierUserForm } from "./suplier-user-form";
+import { RegisterCompanyForm } from "./register-company-form";
 import { registerCompanyModel } from "../../features/RegisterPage/register-company-model";
 import { observer } from "mobx-react-lite";
 import { RegisterUserForm } from "./register-user-form";
@@ -14,18 +11,10 @@ import { Role } from "@/entities/user/role";
 import { toast } from "react-toastify";
 
 interface Props {
-    // isLoading: boolean,
     styles: any,
-    // formData: RegisterRequestDTO,
-    // setFormData: <K extends keyof RegisterRequestDTO> (name: K, value: RegisterRequestDTO) => void
-
-    // onSubmit: () => void
-    // setTabForm: (value: number) => void
-    roleName: Role.Customer | Role.Supplier
 }
 
-
-export const RegistrForm = observer(({ styles, roleName }: Props) => {
+export const RegistrForm = observer(({ styles }: Props) => {
 
     const {
         errorsCompany,
@@ -55,8 +44,8 @@ export const RegistrForm = observer(({ styles, roleName }: Props) => {
         setFormData,
         isLoading,
         handleSubmit,
+        validateForm,
         clearFormsData,
-        validateForm
     } = registerUserModel
 
 
@@ -99,16 +88,36 @@ export const RegistrForm = observer(({ styles, roleName }: Props) => {
         if (types.length == 0) {
             init()
         }
-
-        // clearFormsData()
-        setFormData("roleName", roleName)
+        clearFormsData()
+        clearCompanyData()
     }, [])
 
     return (
         <>
             <TabCounter tabForm={tabForm} />
 
+
             {tabForm == 1 &&
+                <>
+                    <RegisterUserForm
+                        formData={formData}
+                        setFormData={setFormData}
+                        styles={styles}
+                        isLoading={isLoading}
+                        errors={errors}
+                        bottom={
+                            <Button
+                                onClick={() => setTabForm(2)}
+                                className={`${(!isLoadingCompanySearch) ? "from-[#4A85F6] to-[#3A6BC9]" : "from-[#d0d4dc] to-[#737578]"} bg-gradient-to-br p-4 mt-2 hover:shadow-lg`}
+                            >
+                                {isLoadingCompanySearch ? "Поиск ..." : "Продолжить"}
+                            </Button >
+                        }
+                    />
+                </>
+            }
+
+            {tabForm == 2 &&
                 <RegisterCompanyForm
                     styles={styles}
                     formData={companyData}
@@ -128,39 +137,30 @@ export const RegistrForm = observer(({ styles, roleName }: Props) => {
                     setTypeForm={setTypeForm}
                     typeForm={typeForm}
                     errors={errorsCompany}
-                />
-            }
 
-            {tabForm == 2 &&
-                <>
-                    <RegisterUserForm
-                        formData={formData}
-                        setFormData={setFormData}
-                        styles={styles}
-                        isLoading={isLoading}
-                        errors={errors}
-                    />
-                    <div className="flex gap-2 mt-2">
-                        <Button onClick={() => setTabForm(1)}
-                            className='w-full p-4 hover:shadow-lg focus:outline-none'
-                            styleColor="gray"
-                            disabled={isLoading}>
-                            Назад
-                        </Button>
-                        <Button onClick={onSubmit}
-                            className='w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2'
-                            disabled={isLoading}>
-                            {isLoading ? (
-                                <>
-                                    <span className={styles.spinner} />
-                                    Регистрация...
-                                </>
-                            ) : (
-                                'Зарегистрироваться'
-                            )}
-                        </Button>
-                    </div>
-                </>
+                    botttom={
+                        <div className="flex gap-2 mt-2">
+                            <Button onClick={() => setTabForm(1)}
+                                className='w-full p-4'
+                                styleColor="gray"
+                                disabled={isLoading}>
+                                Назад
+                            </Button>
+                            <Button onClick={onSubmit}
+                                className='w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2'
+                                disabled={isLoading}>
+                                {isLoading ? (
+                                    <>
+                                        <span className={styles.spinner} />
+                                        Регистрация...
+                                    </>
+                                ) : (
+                                    'Зарегистрироваться'
+                                )}
+                            </Button>
+                        </div>
+                    }
+                />
             }
         </>
     );

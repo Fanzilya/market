@@ -16,7 +16,6 @@ class LoginModel {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-
     setEmail = (value: string) => {
         this.email = value
         this.isValidEmail = this.email.includes('@') && this.email.includes('.') && this.email.length > 5

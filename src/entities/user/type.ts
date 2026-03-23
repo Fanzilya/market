@@ -46,7 +46,8 @@ export interface PasswordOverrides {
 }
 
 export interface RegisterRequestDTO {
-    fullName: string,
+    name: string,
+    surname: string,
     email: string,
     phoneNumber: string,
     password: string,
@@ -58,7 +59,6 @@ export interface EmployerRegisterRequestDTO {
     fullName: string,
     email: string,
     phoneNumber: string,
-    password: string,
     roleName: Role.Customer | Role.Supplier,
     companyId: string,
 }

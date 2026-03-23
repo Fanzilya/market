@@ -2,35 +2,43 @@ import { ErrorText } from "@/shared/components/error-text";
 import { Input } from "@/shared/ui-kits/Input";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
+import { RegistrRoleButton } from "./register-role-button";
+import { Role } from "@/entities/user/role";
 
 
-interface Porps {
+interface Props {
     formData: any,
     setFormData: any,
     styles: any,
     isLoading: any,
     errors: any,
+    bottom: React.ReactNode
 }
 
-export const RegisterUserForm = observer(({ formData, setFormData, styles, isLoading, errors }: Props) => {
-
-    const [focusedInput, setFocusedInput] = useState<string>('')
-    const [showPassword, setShowPassword] = useState(false)
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-
-
+export const RegisterUserForm = observer(({ formData, setFormData, styles, isLoading, errors, bottom }: Props) => {
     return (
         <>
             <Input
                 type="text"
-                value={formData.fullName}
-                onChange={(e) => setFormData("fullName", e)}
-                placeholder="Иванов Иван Иванович"
+                value={formData.name}
+                onChange={(e) => setFormData("name", e)}
+                placeholder="Имя"
                 classNames={{ input: styles.input }}
                 disabled={isLoading}
                 required
-                label="ФИО"
-                error={errors.fullName}
+                label="Имя"
+                error={errors.name}
+            />
+            <Input
+                type="text"
+                value={formData.surname}
+                onChange={(e) => setFormData("surname", e)}
+                placeholder="Фамилия"
+                classNames={{ input: styles.input }}
+                disabled={isLoading}
+                required
+                label="Имя"
+                error={errors.surname}
             />
             <Input
                 required
@@ -43,6 +51,7 @@ export const RegisterUserForm = observer(({ formData, setFormData, styles, isLoa
                 disabled={isLoading}
                 error={errors.email}
             />
+
             <Input
                 required
                 label="Номер телефона"
@@ -55,71 +64,25 @@ export const RegisterUserForm = observer(({ formData, setFormData, styles, isLoa
                 error={errors.phoneNumber}
             />
 
-            <div className={styles.inputGroup}>
-                <label className={styles.label}>Пароль <span className="text-red-500">*</span></label>
-                <div className={styles.passwordWrapper}>
-                    <Input
-                        type={showPassword ? 'text' : 'password'}
-                        value={formData.password}
-                        onChange={(e) => setFormData('password', e)}
-                        placeholder="Минимум 6 символов"
-                        classNames={{ input: styles.input }}
-                        disabled={isLoading}
-                    />
-                    <button
-                        type="button"
-                        className={styles.passwordToggle}
-                        onClick={() => setShowPassword(!showPassword)}
-                    >
-                        {showPassword ? (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M2 12C2 12 5 6 12 6C19 6 22 12 22 12C22 12 19 18 12 18C5 18 2 12 2 12Z" stroke="currentColor" strokeWidth="2" />
-                                <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-                            </svg>
-                        ) : (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M1 1L23 23" stroke="currentColor" strokeWidth="2" />
-                                <path d="M16.51 16.51C15.29 17.53 13.73 18.17 12 18.17C5 18.17 2 12.17 2 12.17C2 12.17 2.53 11.09 3.58 10.04" stroke="currentColor" strokeWidth="2" />
-                            </svg>
-                        )}
-                    </button>
-                </div>
-                {errors.password && <ErrorText text={errors.password} />}
+            <div className={styles.roleSelector}>
+                <RegistrRoleButton
+                    name='Заказчик'
+                    styles={styles}
+                    onClick={() => setFormData("roleName", Role.Customer)}
+                    isActive={formData.roleName === Role.Customer}
+                    description="Проектная или Подрядная организация"
+                />
+
+                <RegistrRoleButton
+                    name='Исполнитель'
+                    styles={styles}
+                    onClick={() => setFormData("roleName", Role.Supplier)}
+                    isActive={formData.roleName === Role.Supplier}
+                    description="Поставщик или Производитель"
+                />
             </div>
 
-            <div className={styles.inputGroup}>
-                <label className={styles.label}>Подтверждение пароля <span className="text-red-500">*</span></label>
-                <div className={styles.passwordWrapper}>
-                    <input
-                        type={showConfirmPassword ? 'text' : 'password'}
-                        value={formData.confirmPassword}
-                        onChange={(e) => setFormData('confirmPassword', e.target.value)}
-                        onFocus={() => setFocusedInput('confirmPassword')}
-                        onBlur={() => setFocusedInput('')}
-                        placeholder="Повторите пароль"
-                        className={`${styles.input} ${styles.inputPassword} ${focusedInput === 'confirmPassword' ? styles.inputFocused : ''}`}
-                        disabled={isLoading}
-                    />
-                    <button
-                        type="button"
-                        className={styles.passwordToggle}
-                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    >
-                        {showConfirmPassword ? (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M2 12C2 12 5 6 12 6C19 6 22 12 22 12C22 12 19 18 12 18C5 18 2 12 2 12Z" stroke="currentColor" strokeWidth="2" />
-                                <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />
-                            </svg>
-                        ) : (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M1 1L23 23" stroke="currentColor" strokeWidth="2" />
-                                <path d="M16.51 16.51C15.29 17.53 13.73 18.17 12 18.17C5 18.17 2 12.17 2 12.17C2 12.17 2.53 11.09 3.58 10.04" stroke="currentColor" strokeWidth="2" />
-                            </svg>
-                        )}
-                    </button>
-                </div>
-                {errors.confirmPassword && <ErrorText text={errors.confirmPassword} />}
-            </div>
+            {bottom}
         </>
     );
 })

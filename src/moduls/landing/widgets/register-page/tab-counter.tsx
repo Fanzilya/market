@@ -11,8 +11,7 @@ export const TabCounter = ({ tabForm }: Props) => {
                     className={`
                         w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
                         transition-colors
-                        ${tabForm >= 1 ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-400'
-                        }
+                        ${tabForm >= 1 ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-400'}
                     `}
                 >
                     1
@@ -23,7 +22,7 @@ export const TabCounter = ({ tabForm }: Props) => {
                         ${tabForm >= 1 ? 'text-gray-700' : 'text-gray-400'}
                     `}
                 >
-                    Компания
+                    Пользователь
                 </span>
             </div>
 
@@ -35,7 +34,8 @@ export const TabCounter = ({ tabForm }: Props) => {
                     className={`
                         w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium
                         transition-colors
-                        ${tabForm >= 2 ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-400'}
+                        ${tabForm >= 2 ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-400'
+                        }
                     `}
                 >
                     2
@@ -46,7 +46,7 @@ export const TabCounter = ({ tabForm }: Props) => {
                         ${tabForm >= 2 ? 'text-gray-700' : 'text-gray-400'}
                     `}
                 >
-                    Пользователь
+                    Компания
                 </span>
             </div>
         </div>

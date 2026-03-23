@@ -22,7 +22,6 @@ export const RegisterPage = observer(() => {
   // }
 
 
-  const [roleName, setRoleName] = useState<Role.Customer | Role.Supplier>(Role.Customer)
 
 
   return (
@@ -36,28 +35,10 @@ export const RegisterPage = observer(() => {
             <h1 className={styles.title}>Регистрация</h1>
             <p className={styles.subtitle}>Создайте аккаунт для начала работы</p>
 
-            {/* Выбор роли */}
-            <div className={styles.roleSelector}>
-              <RegistrRoleButton
-                name='Заказчик'
-                styles={styles}
-                onClick={() => setRoleName(Role.Customer)}
-                isActive={roleName === Role.Customer}
-                description="Проектная или Подрядная организация"
-              />
-              <RegistrRoleButton
-                name='Исполнитель'
-                styles={styles}
-                onClick={() => setRoleName(Role.Supplier)}
-                isActive={roleName === Role.Supplier}
-                description="Поставщик или Производитель"
-              />
-            </div>
-
             <div className={styles.form}>
 
               {/* {roleName == Role.Customer && <CustomerForm styles={styles} />} */}
-              <RegistrForm styles={styles} roleName={roleName} />
+              <RegistrForm styles={styles} />
 
               <div className={styles.loginLink}>
                 Уже есть аккаунт? <Link to="/login" className={styles.link}>Войти</Link>
