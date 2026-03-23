@@ -9,6 +9,8 @@ import { action, makeAutoObservable, values } from "mobx";
 import { toast } from "react-toastify";
 import { dataRes } from "./data";
 
+type CompanyErrorsKeys = keyof ICreateCompany | 'fnsValue' | 'searchInn';
+
 class RegisterCompanyModel {
 
     companyData: ICreateCompany = {
@@ -34,8 +36,9 @@ class RegisterCompanyModel {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    errorsCompany: Partial<Record<keyof (ICreateCompany & { fnsValue: string }), string>> = {}
-    setError<K extends keyof (ICreateCompany & { fnsValue: string })>(key: K, message: string) {
+    errorsCompany: Partial<Record<keyof (ICreateCompany & { fnsValue: string; searchInn: string }), string>> = {}
+
+    setError<K extends keyof (ICreateCompany & { fnsValue: string; searchInn: string; })>(key: K, message: string) {
         this.errorsCompany[key] = message
     }
 
@@ -126,6 +129,11 @@ class RegisterCompanyModel {
 
         if (!this.companyData.companyTypeId.trim()) {
             this.setError("companyTypeId", 'Укажите тип компании')
+        }
+
+        if (!this.companyData.fullCompanyName.trim() && this.fnsValue.length !== 10 && this.fnsValue.length !== 12) {
+            this.setError("searchInn", 'Заполните данные компании')
+            console.log("searchInn")
         }
 
         return Object.keys(this.errorsCompany).length === 0

@@ -5,7 +5,7 @@ import { Role } from '@/entities/user/role'
 import { observer } from 'mobx-react-lite'
 import styles from './RegisterPage.module.css'
 import { RegistrRoleButton } from '../../widgets/register-page/register-role-button'
-import { SuplierForm } from '../../widgets/register-page/suplier-form'
+import { RegistrForm } from '../../widgets/register-page/register-form'
 import { CustomerForm } from '../../widgets/register-page/customer-form'
 
 export const RegisterPage = observer(() => {
@@ -22,7 +22,7 @@ export const RegisterPage = observer(() => {
   // }
 
 
-  const [roleName, setRoleName] = useState<Role>(Role.Customer)
+  const [roleName, setRoleName] = useState<Role.Customer | Role.Supplier>(Role.Customer)
 
 
   return (
@@ -56,8 +56,8 @@ export const RegisterPage = observer(() => {
 
             <div className={styles.form}>
 
-              {roleName == Role.Customer && <CustomerForm styles={styles} />}
-              {roleName == Role.Supplier && <SuplierForm styles={styles} />}
+              {/* {roleName == Role.Customer && <CustomerForm styles={styles} />} */}
+              <RegistrForm styles={styles} roleName={roleName} />
 
               <div className={styles.loginLink}>
                 Уже есть аккаунт? <Link to="/login" className={styles.link}>Войти</Link>

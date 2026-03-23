@@ -66,7 +66,7 @@ class LoginModel {
                     break
             }
         } catch {
-            this.error = "Ошибка авторизации.Проверьте данные и попробуйте снова."
+            this.error = "Ошибка авторизации. Проверьте данные и попробуйте снова."
         } finally {
             this.isLoading = false
         }

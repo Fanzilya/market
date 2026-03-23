@@ -21,10 +21,11 @@ interface Props {
 
     // onSubmit: () => void
     // setTabForm: (value: number) => void
+    roleName: Role.Customer | Role.Supplier
 }
 
 
-export const SuplierForm = observer(({ styles }: Props) => {
+export const RegistrForm = observer(({ styles, roleName }: Props) => {
 
     const {
         errorsCompany,
@@ -70,6 +71,7 @@ export const SuplierForm = observer(({ styles }: Props) => {
             toast.error('Пожалуйста, заполните все обязательные поля компании')
             return
         }
+
         if (!isUserValid) {
             toast.error('Пожалуйста, заполните все обязательные поля пользователя')
             return
@@ -98,16 +100,13 @@ export const SuplierForm = observer(({ styles }: Props) => {
             init()
         }
 
-        clearFormsData()
-        setFormData("roleName", Role.Supplier)
+        // clearFormsData()
+        setFormData("roleName", roleName)
     }, [])
 
     return (
         <>
-
-            <TabCounter
-                tabForm={tabForm}
-            />
+            <TabCounter tabForm={tabForm} />
 
             {tabForm == 1 &&
                 <RegisterCompanyForm

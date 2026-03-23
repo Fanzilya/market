@@ -48,7 +48,7 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
                 type="number"
                 value={formData.inn}
                 onChange={(e) => setFormData("inn", e)}
-                placeholder="1234567890"
+                placeholder="000000000000"
                 disabled={isLoading}
                 error={errors.inn}
             />
@@ -58,7 +58,7 @@ export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoa
                 type="number"
                 value={formData.kpp}
                 onChange={(e) => setFormData("kpp", e)}
-                placeholder="123456789"
+                placeholder="000000000"
                 disabled={isLoading}
                 error={errors.kpp}
             />

@@ -7,6 +7,7 @@ import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
 import { SuplierCompanyFormInputs } from "./suplier-company-form-inputs";
+import { ErrorText } from "@/shared/components/error-text";
 
 interface Props {
     formData: any,
@@ -61,25 +62,28 @@ export const RegisterCompanyForm = observer(({
 
             {typeForm == "searchInn" &&
                 <>
-                    <div className="flex gap-1 items-end">
-                        <Input
-                            required
-                            label="Поиск по ИНН"
-                            type="text"
-                            value={fnsValue}
-                            onChange={(e) => setFnsValue(e)}
-                            placeholder="000000000000"
-                            disabled={isLoading}
-                            classNames={{
-                                container: "w-full"
-                            }}
-                        />
+                    <div>
+                        <div className="flex gap-1 items-end">
+                            <Input
+                                required
+                                label="Поиск по ИНН"
+                                type="text"
+                                value={fnsValue}
+                                onChange={(e) => setFnsValue(e)}
+                                placeholder="000000000000"
+                                disabled={isLoading}
+                                classNames={{
+                                    container: "w-full"
+                                }}
+                            />
 
-                        <Button className="h-[47.5px] w-[47.5px] p-2 !rounded-" onClick={searchCompany} styleColor={fnsValue.length > 9 ? "blue" : "gray"}>
-                            <Icon name="search" color="white" />
-                        </Button>
+                            <Button className="h-[47.5px] w-[47.5px] p-2 !rounded-" onClick={searchCompany} styleColor={fnsValue.length > 9 ? "blue" : "gray"}>
+                                <Icon name="search" color="white" />
+                            </Button>
+                        </div>
+
+                        {errors.searchInn && <ErrorText text={errors.searchInn} />}
                     </div>
-
                     {isLoadingCompanySearch && <Loader />}
 
                     {!isLoadingCompanySearch && openCompanyForm &&

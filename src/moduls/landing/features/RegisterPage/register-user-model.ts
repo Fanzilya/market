@@ -35,7 +35,6 @@ class RegisterUserModel {
     }
 
     clearFormsData() {
-
         this.clearErrors()
         this.formData = {
             fullName: "",
@@ -47,8 +46,8 @@ class RegisterUserModel {
         };
     }
 
-
     errors: Partial<Record<keyof RegisterRequestDTO, string>> = {}
+
     setError<K extends keyof RegisterRequestDTO>(key: K, message: string) {
         this.errors[key] = message
     }
