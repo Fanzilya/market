@@ -37,7 +37,7 @@ export const RegisterUserForm = observer(({ formData, setFormData, styles, isLoa
                 classNames={{ input: styles.input }}
                 disabled={isLoading}
                 required
-                label="Имя"
+                label="Фамилия"
                 error={errors.surname}
             />
             <Input

@@ -50,8 +50,6 @@ export interface RegisterRequestDTO {
     surname: string,
     email: string,
     phoneNumber: string,
-    password: string,
-    confirmPassword: string,
     roleName: Role.Customer | Role.Supplier,
 }
 

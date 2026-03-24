@@ -15,8 +15,6 @@ class RegisterUserModel {
         surname: "",
         email: "",
         phoneNumber: "",
-        password: "",
-        confirmPassword: "",
         roleName: Role.Customer
     };
 
@@ -29,20 +27,16 @@ class RegisterUserModel {
     }
 
     setFormData<K extends keyof typeof this.formData>(name: K, value: typeof this.formData[K]) {
-
-        if (name == "roleName") { this.clearFormsData() }
-
         this.formData[name] = value;
     }
 
     clearFormsData() {
         this.clearErrors()
         this.formData = {
-            fullName: "",
+            name: "",
+            surname: "",
             email: "",
             phoneNumber: "",
-            password: "",
-            confirmPassword: "",
             roleName: Role.Customer
         };
     }
