@@ -21,8 +21,8 @@ class ForgotPasswordModel {
         this.email = ""
     }
 
-
     errors: string = ""
+    success: boolean = false
 
     setError(message: string) {
         this.errors = message
@@ -54,6 +54,7 @@ class ForgotPasswordModel {
         try {
             const res = await recoveryApi({ email: this.email })
             toast.success("Новый пароль отправлен на почту")
+            this.success = true
         } catch (error) {
             console.log(error)
             toast.error("Ошибка при восстановлении пароля")

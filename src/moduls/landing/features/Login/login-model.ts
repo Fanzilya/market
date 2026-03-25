@@ -48,8 +48,6 @@ class LoginModel {
             const res = await loginApi({
                 email: this.email,
                 password: this.password,
-                twoFactorCode: "string",
-                twoFactorRecoveryCode: "string"
             })
 
             signIn(res.data)

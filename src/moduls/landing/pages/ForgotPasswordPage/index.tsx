@@ -6,37 +6,33 @@ import { AuthLayout } from '../../widgets/layout/layout'
 import { Input } from '@/shared/ui-kits/Input'
 import { forgotPasswordModel } from '../../features/ForgotPassword/forgot-password-model'
 import { Button } from '@/shared/ui-kits/button'
+import { observer } from 'mobx-react-lite'
 
-export const ForgotPasswordPage = () => {
+export const ForgotPasswordPage = observer(() => {
 
-  const { email, setFormData, clearFormsData, onSubmit, isLoader, errors } = forgotPasswordModel
+  const { email, setFormData, clearFormsData, onSubmit, isLoader, errors, success } = forgotPasswordModel
 
   useEffect(() => {
     clearFormsData()
   }, [])
 
   return (
-
     <AuthLayout
-
       title='Восстановление пароля'
       subtitle='Введите email адрес, указанный при регистрации. Мы отправим вам инструкцию по восстановлению пароля.'
-
       formBlock={
         <>
-          {/* {success && (
+          {success && (
             <div className={styles.successMessage}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" fill="#BBF7D0" />
                 <path d="M8 12L11 15L16 9" stroke="#16A34A" strokeWidth="2" />
               </svg>
-              <span>{success}</span>
+              <span>Новый пароль отправлен на указанную вами почту</span>
             </div>
-          )} */}
+          )}
 
-          <form onSubmit={onSubmit} className={styles.form}>
-
-
+          <div className={styles.form}>
             <Input
               type="email"
               value={email}
@@ -53,6 +49,7 @@ export const ForgotPasswordPage = () => {
               type="submit"
               className="w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2"
               disabled={isLoader}
+              onClick={onSubmit}
             >
               {isLoader ? (
                 <>
@@ -63,7 +60,7 @@ export const ForgotPasswordPage = () => {
                 'Отправить'
               )}
             </Button>
-          </form>
+          </div>
 
           <Link to="/login" className={styles.backLink}>
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
@@ -73,9 +70,6 @@ export const ForgotPasswordPage = () => {
             Вернуться к входу
           </Link>
 
-          <div className={styles.loginLink}>
-            Вспомнили пароль? <Link to="/login" className={styles.link}>Войти</Link>
-          </div>
         </>
       }
       informationBlock={
@@ -108,3 +102,4 @@ export const ForgotPasswordPage = () => {
     />
   )
 }
+)
