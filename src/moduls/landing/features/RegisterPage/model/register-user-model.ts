@@ -77,7 +77,6 @@ class RegisterUserModel {
             }
         }
 
-
         if (!this.formData.phoneNumber.trim()) {
             this.setError("phoneNumber", "Укажите номер телефона")
         } else {
@@ -90,9 +89,8 @@ class RegisterUserModel {
         return Object.keys(this.errors).length === 0
     }
 
-
-    get canRegisterUser() {
-        return Object.keys(this.errors).length === 0
+    canRegisterUser() {
+        return this.validateForm()
     }
 
     async handleSubmit(navigate: any, companyId?: string) {

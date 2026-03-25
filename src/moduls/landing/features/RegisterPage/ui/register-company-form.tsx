@@ -19,11 +19,8 @@ interface Props {
     fnsValue: string,
     styles: any,
     setFnsValue: (value: string) => void,
-    searchCompany: () => void
+    searchCompany: (data: any) => void
 
-    setTabForm: (value: number) => void
-
-    canNextForm: (value: any) => void,
     isLoadingCompanySearch: boolean,
     setTypeForm: (value: "searchInn" | "form") => void
     typeForm: "searchInn" | "form"
@@ -31,10 +28,9 @@ interface Props {
     botttom: ReactNode
 }
 
-
 export const RegisterCompanyForm = observer(({
     formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany, styles,
-    setTabForm, isLoadingCompanySearch, canNextForm, openCompanyForm, typeForm, setTypeForm, errors,
+    isLoadingCompanySearch, openCompanyForm, typeForm, setTypeForm, errors,
     botttom
 }: Props) => {
 
@@ -83,7 +79,7 @@ export const RegisterCompanyForm = observer(({
                             </Button>
                         </div>
 
-                        {errors.searchInn && <ErrorText text={errors.searchInn} />}
+                        {errors.fnsValue && <ErrorText text={errors.fnsValue} />}
                     </div>
                     {isLoadingCompanySearch && <Loader />}
 

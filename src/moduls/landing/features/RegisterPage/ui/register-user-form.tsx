@@ -2,7 +2,7 @@ import { ErrorText } from "@/shared/components/error-text";
 import { Input } from "@/shared/ui-kits/Input";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
-import { RegistrRoleButton } from "./register-role-button";
+import { RegistrRoleButton } from "../../../widgets/register-page/register-role-button";
 import { Role } from "@/entities/user/role";
 
 
@@ -46,7 +46,7 @@ export const RegisterUserForm = observer(({ formData, setFormData, styles, isLoa
                 type="email"
                 value={formData.email}
                 onChange={(e) => setFormData("email", e)}
-                placeholder="company@example.com"
+                placeholder="@mail.ru"
                 classNames={{ input: styles.input }}
                 disabled={isLoading}
                 error={errors.email}

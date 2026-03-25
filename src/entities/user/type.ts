@@ -94,3 +94,7 @@ export interface IUserId {
     userId: string
 }
 
+export interface IEmail {
+    email: string
+}
+

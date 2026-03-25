@@ -1,6 +1,6 @@
 import { instance } from "@/app/api/instances"
 import { Auth, CompanyRouter } from "@/app/routers/api-router"
-import { EmployerRegisterRequestDTO, IUserId, LoginRequest, RefreshTokenRequestDTO, RegisterRequestDTO } from "./type"
+import { EmployerRegisterRequestDTO, IEmail, IUserId, LoginRequest, RefreshTokenRequestDTO, RegisterRequestDTO } from "./type"
 
 export const registerApi = (params: RegisterRequestDTO) => {
     return instance.post(Auth.register, params)
@@ -24,6 +24,10 @@ export const createRoleApi = (params: any) => {
 
 export const logoutApi = () => {
     return instance.post(Auth.logout)
+}
+
+export const recoveryApi = (params: IEmail) => {
+    return instance.get(Auth.recovery, { params })
 }
 
 export const getCurrentUserApi = () => {

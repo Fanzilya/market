@@ -50,17 +50,6 @@ class RegisterCompanyModel {
         this.errorsCompany = {}
     }
 
-    clearFormsData() {
-        this.companyData = {
-            fullCompanyName: "",
-            shortCompanyName: "",
-            inn: "",
-            kpp: "",
-            jurAdress: "",
-            companyTypeId: "",
-        };
-    }
-
     setFormCompanyData<K extends keyof typeof this.companyData>(name: K, value: typeof this.companyData[K]) {
 
         if (name === "inn" && value?.length! > 12) return
@@ -101,12 +90,16 @@ class RegisterCompanyModel {
     validateCompanyForm() {
         this.clearErrors()
 
+        if (this.typeForm == "searchInn" && !this.checkFnsValue()) return Object.keys(this.errorsCompany).length === 0
+
         if (!this.companyData.fullCompanyName.trim()) {
             this.setError("fullCompanyName", 'Укажите полное название компании')
         }
+        
         if (!this.companyData.shortCompanyName.trim()) {
             this.setError("shortCompanyName", 'Укажите короткое название компании')
         }
+
         if (!this.companyData.inn.trim()) {
             this.setError("inn", 'Укажите ИНН')
         } else if (this.companyData.inn.length !== 10 && this.companyData.inn.length !== 12) {
@@ -139,11 +132,6 @@ class RegisterCompanyModel {
         return Object.keys(this.errorsCompany).length === 0
     }
 
-    canNextForm(actions: any) {
-        if (!this.validateCompanyForm()) return
-        actions()
-    }
-
     clearCompanyData() {
         this.clearErrors()
 
@@ -158,6 +146,9 @@ class RegisterCompanyModel {
     }
 
     async createCompany() {
+
+        this.clearErrors()
+
 
         if (!this.validateCompanyForm()) return
 
@@ -179,12 +170,19 @@ class RegisterCompanyModel {
         }
     }
 
-    async getCompanyData(actions: any) {
-        // Валидация длины ИНН
+    checkFnsValue() {
         if (this.fnsValue.length !== 10 && this.fnsValue.length !== 12) {
             this.setError('fnsValue', 'ИНН должен содержать 10 или 12 цифр')
-            return
+            return false
         }
+        return true
+    }
+
+    async getCompanyData(actions: any) {
+
+        this.clearCompanyData()
+
+        if (!this.checkFnsValue()) return
 
         this.isLoadingCompanySearch = true
 

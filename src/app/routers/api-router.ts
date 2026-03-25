@@ -7,6 +7,7 @@ export const Auth = {
     me: "/Auth/me",
     accountMany: "/Auth/employer/account",
     employeRegister: "/Auth/employe/register",
+    recovery: "/Auth/password/recovery",
 }
 
 

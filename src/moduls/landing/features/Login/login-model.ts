@@ -21,6 +21,7 @@ class LoginModel {
         this.isValidEmail = this.email.includes('@') && this.email.includes('.') && this.email.length > 5
 
     }
+
     setPassword = (value: string) => {
         this.password = value
     }
