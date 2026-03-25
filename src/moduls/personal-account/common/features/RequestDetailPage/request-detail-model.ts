@@ -60,9 +60,6 @@ class RequestDetailModel {
                 }
             });
 
-
-
-
         } catch (error) {
             console.log(error)
         } finally {

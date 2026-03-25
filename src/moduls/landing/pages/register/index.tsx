@@ -32,7 +32,8 @@ export const RegisterPage = observer(() => {
     openCompanyForm,
     setTypeForm,
     typeForm,
-    validateCompanyForm
+    validateCompanyForm,
+    canRegister
   } = registerCompanyModel
 
   const {
@@ -43,7 +44,8 @@ export const RegisterPage = observer(() => {
     handleSubmit,
     validateForm,
     clearFormsData,
-    canRegisterUser
+    canRegisterUser,
+    setIsLoading
   } = registerUserModel
 
 
@@ -51,6 +53,7 @@ export const RegisterPage = observer(() => {
   const [tabForm, setTabForm] = useState<number>(1)
 
   const onSubmit = async () => {
+
     const isUserValid = await validateForm()
     const isCompanyValid = await validateCompanyForm()
 
@@ -64,6 +67,8 @@ export const RegisterPage = observer(() => {
       toast.error('Пожалуйста, заполните все обязательные поля пользователя')
       return
     }
+
+    setIsLoading(true)
 
 
     try {
@@ -146,9 +151,16 @@ export const RegisterPage = observer(() => {
                     disabled={isLoading}>
                     Назад
                   </Button>
+
+
+                  {canRegister ? "a" : "s"}
+                  {isLoading ? "w" : "e"}
+
                   <Button onClick={onSubmit}
-                    className='w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2'
-                    disabled={isLoading}>
+                    className={`w-full p-4 bg-gradient-to-br hover:shadow-lg`}
+                    disabled={!(!isLoading && canRegister)}
+                    styleColor={canRegister ? "blue" : "gray"}
+                  >
                     {isLoading ? (
                       <>
                         <span className={styles.spinner} />

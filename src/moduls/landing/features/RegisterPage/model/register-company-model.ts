@@ -1,13 +1,7 @@
-import { createCompanyApi, fnsSearchCompany, getCompanyByInnApi, getCompanyTypesApi, getFNSCompany } from "@/entities/company/api";
+import { createCompanyApi, fnsSearchCompany, getCompanyByInnApi, getCompanyTypesApi } from "@/entities/company/api";
 import { CompanyTypes, ICreateCompany } from "@/entities/company/type";
-import { employerRegisterApi, registerApi } from "@/entities/user/api";
-import { Role } from "@/entities/user/role";
-import { RegisterRequestDTO } from "@/entities/user/type";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
-import axios from "axios";
 import { action, makeAutoObservable, values } from "mobx";
-import { toast } from "react-toastify";
-import { dataRes } from "./data";
 
 type CompanyErrorsKeys = keyof ICreateCompany | 'fnsValue' | 'searchInn';
 
@@ -26,10 +20,13 @@ class RegisterCompanyModel {
     error: string = ""
     openCompanyForm: boolean = false
     isCompanyCreate: boolean = true
+    isCanRegister: boolean = false
+    isCompanyLoader: boolean = false
 
     typeForm: "searchInn" | "form" = "searchInn"
 
     isLoadingCompanySearch: boolean = false
+
     types: SeletectItemInterface[] = []
 
     constructor() {
@@ -143,12 +140,23 @@ class RegisterCompanyModel {
             jurAdress: "",
             companyTypeId: "",
         }
+
+        this.fnsValue = ""
+
+
+        this.fnsValue = ""
+        this.error = ""
+        this.openCompanyForm = false
+        this.isCompanyCreate = true
+        this.isCanRegister = false
+        this.isCompanyLoader = false
+        this.typeForm = "searchInn"
+        this.isLoadingCompanySearch = false
     }
 
     async createCompany() {
-
         this.clearErrors()
-
+        this.isCanRegister = true
 
         if (!this.validateCompanyForm()) return
 
@@ -235,6 +243,18 @@ class RegisterCompanyModel {
         } finally {
             this.isLoadingCompanySearch = false
         }
+    }
+
+    get canRegister() {
+        return (
+            this.companyData.fullCompanyName.trim().length > 0
+            && this.companyData.shortCompanyName.trim().length > 0
+            && this.companyData.inn.trim().length > 0
+            && this.companyData.kpp.trim().length > 0
+            && this.companyData.jurAdress.trim().length > 0
+            && this.companyData.companyTypeId.trim().length > 0
+            && this.companyData.fullCompanyName.trim().length > 0
+        )
     }
 
     async searchCompanyByBD() {

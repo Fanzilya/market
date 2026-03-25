@@ -93,8 +93,14 @@ class RegisterUserModel {
         return this.validateForm()
     }
 
+    setIsLoading(value: boolean) {
+        this.isLoading = value
+    }
+
     async handleSubmit(navigate: any, companyId?: string) {
+
         if (!this.validateForm()) return
+        this.isLoading = true
 
         try {
             // if (this.formData.roleName === Role.Supplier) {
@@ -109,14 +115,14 @@ class RegisterUserModel {
             // } else {
             //     const res = await registerApi(this.formData)
             // }
-            
-            toast.success("Регистрация прошла успешно!")
 
-            this.isLoading = (false)
+            toast.success("Регистрация прошла успешно!")
             navigate('/login')
         } catch (error) {
             console.log('Ошибка при регистрации:', error)
             throw error
+        } finally {
+            this.isLoading = false
         }
     }
 }

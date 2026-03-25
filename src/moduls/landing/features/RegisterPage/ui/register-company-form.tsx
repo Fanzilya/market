@@ -74,8 +74,9 @@ export const RegisterCompanyForm = observer(({
                                 }}
                             />
 
-                            <Button className="h-[47.5px] w-[47.5px] p-2 !rounded-" onClick={searchCompany} styleColor={fnsValue.length > 9 ? "blue" : "gray"}>
-                                <Icon name="search" color="white" />
+                            <Button className="h-[47.5px] w-min px-5 py-2 !rounded-" onClick={searchCompany} styleColor={fnsValue.length > 9 ? "blue" : "gray"}>
+                                {/* <Icon name="search" color="white" /> */}
+                                Поиск
                             </Button>
                         </div>
 
@@ -105,9 +106,7 @@ export const RegisterCompanyForm = observer(({
                 errors={errors}
             />}
 
-
             {botttom}
-
         </>
     );
 })
