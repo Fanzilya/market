@@ -33,7 +33,8 @@ export const RegisterPage = observer(() => {
     setTypeForm,
     typeForm,
     validateCompanyForm,
-    canRegister
+    canRegister,
+    allClearData
   } = registerCompanyModel
 
   const {
@@ -95,6 +96,7 @@ export const RegisterPage = observer(() => {
     }
     clearCompanyData()
     clearFormsData()
+    allClearData()
   }, [])
 
   return (
@@ -152,9 +154,6 @@ export const RegisterPage = observer(() => {
                     Назад
                   </Button>
 
-
-                  {canRegister ? "a" : "s"}
-                  {isLoading ? "w" : "e"}
 
                   <Button onClick={onSubmit}
                     className={`w-full p-4 bg-gradient-to-br hover:shadow-lg`}

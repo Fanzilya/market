@@ -140,10 +140,9 @@ class RegisterCompanyModel {
             jurAdress: "",
             companyTypeId: "",
         }
+    }
 
-        this.fnsValue = ""
-
-
+    allClearData() {
         this.fnsValue = ""
         this.error = ""
         this.openCompanyForm = false
