@@ -12,12 +12,10 @@ export const LoginPage = observer(() => {
   const { signIn } = useAuth()
 
   const {
-    email,
-    password,
+    model,
     error,
     setEmail,
     setPassword,
-    setError,
     onSubmit,
     isLoading,
     isValidEmail,
@@ -27,8 +25,6 @@ export const LoginPage = observer(() => {
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const [rememberMe, setRememberMe] = useState<boolean>(false)
 
-
-  // Демо-аккаунты для быстрого входа
   const handleDemoLogin = (demoEmail, demoPassword) => {
     setEmail(demoEmail)
     setPassword(demoPassword)
@@ -136,6 +132,7 @@ export const LoginPage = observer(() => {
                 Забыли пароль?
               </Link>
             </div>
+            <div className='text-blue-500'></div>
 
             <button
               className={styles.submitButton}

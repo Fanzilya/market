@@ -4,9 +4,8 @@ import { useAuth } from "@/features/user/context/context";
 import { makeAutoObservable } from "mobx";
 
 class LoginModel {
+    model: { email: string, password: string } = { email: "", password: "" }
 
-    email: string = ""
-    password: string = ""
     error: string = ""
 
     isLoading: boolean = false
@@ -16,28 +15,23 @@ class LoginModel {
         makeAutoObservable(this, {}, { autoBind: true });
     }
 
-    setEmail = (value: string) => {
-        this.email = value
-        this.isValidEmail = this.email.includes('@') && this.email.includes('.') && this.email.length > 5
-
+    setFormData<K extends keyof typeof this.model>(name: K, value: typeof this.model[K]) {
+        this.model[name] = value;
     }
 
-    setPassword = (value: string) => {
-        this.password = value
-    }
-
-    setError(value: string) {
-        this.email = value;
+    errors: Partial<Record<keyof RegisterRequestDTO, string>> = {}
+    setError<K extends keyof RegisterRequestDTO>(key: K, message: string) {
+        this.errors[key] = message
     }
 
     async onSubmit(signIn: any) {
         this.error = ""
 
-        if (!this.email || !this.password) {
+        if (!this.model.email || !this.model.password) {
             this.error = "Пожалуйста, заполните все поля"
             return
         }
-        if (!this.email.includes('@')) {
+        if (!this.model.email.includes('@')) {
             this.error = "Введите корректный email адрес"
             return
         }
@@ -46,8 +40,8 @@ class LoginModel {
 
         try {
             const res = await loginApi({
-                email: this.email,
-                password: this.password,
+                email: this.model.email,
+                password: this.model.password,
             })
 
             signIn(res.data)
