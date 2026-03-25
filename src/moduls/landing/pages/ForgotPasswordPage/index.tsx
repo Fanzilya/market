@@ -11,6 +11,10 @@ export const ForgotPasswordPage = () => {
 
   const { email, setFormData, clearFormsData, onSubmit, isLoader, errors } = forgotPasswordModel
 
+  useEffect(() => {
+    clearFormsData()
+  }, [])
+
   return (
 
     <AuthLayout
@@ -47,7 +51,7 @@ export const ForgotPasswordPage = () => {
 
             <Button
               type="submit"
-              className={styles.submitButton}
+              className="w-full p-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#4A85F6] focus:ring-offset-2"
               disabled={isLoader}
             >
               {isLoader ? (
@@ -56,7 +60,7 @@ export const ForgotPasswordPage = () => {
                   Отправка...
                 </>
               ) : (
-                'Отправить инструкцию'
+                'Отправить'
               )}
             </Button>
           </form>

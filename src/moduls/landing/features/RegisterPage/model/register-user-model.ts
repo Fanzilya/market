@@ -97,19 +97,20 @@ class RegisterUserModel {
         if (!this.validateForm()) return
 
         try {
-            if (this.formData.roleName === Role.Supplier) {
-                const res = await employerRegisterApi({
-                    fullName: this.formData.surname + " " + this.formData.name,
-                    email: this.formData.email,
-                    phoneNumber: this.formData.phoneNumber,
-                    roleName: this.formData.roleName,
-                    companyId: companyId!,
-                    // companyId: "019ce0b3-ccde-7207-afe5-62764ff98668",
-                })
-            } else {
-                const res = await registerApi(this.formData)
-                toast.success("Регистрация прошла успешно!")
-            }
+            // if (this.formData.roleName === Role.Supplier) {
+            const res = await employerRegisterApi({
+                fullName: this.formData.surname + " " + this.formData.name,
+                email: this.formData.email,
+                phoneNumber: this.formData.phoneNumber,
+                roleName: this.formData.roleName,
+                companyId: companyId!,
+                // companyId: "019ce0b3-ccde-7207-afe5-62764ff98668",
+            })
+            // } else {
+            //     const res = await registerApi(this.formData)
+            // }
+            
+            toast.success("Регистрация прошла успешно!")
 
             this.isLoading = (false)
             navigate('/login')

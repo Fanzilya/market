@@ -95,7 +95,7 @@ class RegisterCompanyModel {
         if (!this.companyData.fullCompanyName.trim()) {
             this.setError("fullCompanyName", 'Укажите полное название компании')
         }
-        
+
         if (!this.companyData.shortCompanyName.trim()) {
             this.setError("shortCompanyName", 'Укажите короткое название компании')
         }

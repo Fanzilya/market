@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 class ForgotPasswordModel {
 
     email: string = ""
-    isLoader: boolean = true
+    isLoader: boolean = false
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true })
@@ -49,7 +49,6 @@ class ForgotPasswordModel {
 
 
     async onSubmit() {
-
         if (!this.validateForm()) return
         this.isLoader = true
         try {
