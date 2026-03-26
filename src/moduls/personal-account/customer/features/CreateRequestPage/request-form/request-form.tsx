@@ -21,10 +21,8 @@ export const RequestForm = observer(({ requestId }: Props) => {
         handleNext,
         handleBack,
         activeStep,
-        setActiveStep,
         getStepStatus,
-        isEditMode,
-        handleSubmit
+        isEditMode
     } = useRequestForm(requestId)
 
 
