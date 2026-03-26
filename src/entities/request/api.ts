@@ -31,6 +31,10 @@ export const requestSingleApi = (params: IRequestId) => {
     return instance.get(RequestRouter.single, { params })
 }
 
+export const requestSupplierSingleApi = (params: IBiznesView) => {
+    return instance.post(RequestRouter.supplierSingle, params)
+}
+
 export const favouritesAddApi = (params: FavouritesAddIds) => {
     return instance.post(RequestRouter.favouritesAdd, params)
 }
@@ -52,5 +56,5 @@ export const viewUserApi = (params: IBiznesView) => {
 }
 
 export const clickAccountApi = (params: IBiznesView) => {
-    return instance.post(RequestRouter.clickAccount, params)
+    return instance.put(RequestRouter.clickAccount, params)
 }

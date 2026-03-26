@@ -59,8 +59,13 @@ export const RegisterPage = observer(() => {
     const isCompanyValid = await validateCompanyForm()
 
     if (!isCompanyValid) {
-      if (errorsCompany.fnsValue) toast.error('')
-      else toast.error('Пожалуйста, заполните все обязательные поля компании')
+      if (errorsCompany.fnsValue) {
+        toast.error('')
+      }
+      else {
+        toast.error('Пожалуйста, заполните все обязательные поля компании')
+      }
+
       return
     }
 
@@ -153,7 +158,6 @@ export const RegisterPage = observer(() => {
                     disabled={isLoading}>
                     Назад
                   </Button>
-
 
                   <Button onClick={onSubmit}
                     className={`w-full p-4 bg-gradient-to-br hover:shadow-lg`}

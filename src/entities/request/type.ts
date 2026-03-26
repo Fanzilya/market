@@ -177,6 +177,8 @@ export interface RequestRes {
     favoriteRequests: any; // TODO: Уточнить тип
     /** Уникальный идентификатор запроса */
     id: string;
+    isFavorite: string;
+    supplierRequestStatus: "Viewed" | "Payed" | "New";
 }
 
 export interface CurrentRes {

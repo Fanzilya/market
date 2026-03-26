@@ -159,9 +159,6 @@
 }
 
 /* Формы */
-.stepContent {
-  margin-bottom: 32px;
-}
 
 .sectionTitle {
   font-size: 18px;
@@ -245,6 +242,8 @@
 .checkbox input[type="checkbox"] {
   width: 18px;
   height: 18px;
+  min-width: 18px;
+  min-height: 18px;
   accent-color: #4A85F6;
   cursor: pointer;
 }

@@ -3,9 +3,7 @@ import { InfoItem, SpecItem } from "./components";
 import ContactInfo from "./contact-info";
 import { directionLabels, PerfomanceMeasureUnitTranslations, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from "@/entities/request/config";
 import { KNSSchemaTesting } from "../Scheme/scheme-testing";
-import ClicksInfo from "./clicks-info";
-import RespondButton from "./respond-button";
-import OfferButton from "./offer-button";
+
 
 interface Props {
     request: RequestRes,
@@ -163,22 +161,6 @@ export const RequestView = ({ request, currentModel, equipmentCurrentModel, sche
 
                 <KNSSchemaTesting isActive={schemeIsActive} />
             </div>
-
-            {/* {!hasResponded && (
-                <ClicksInfo freeClicksLeft={freeClicksLeft!} />
-            )}
-
-            {!hasResponded ? (
-                <RespondButton
-                    freeClicksLeft={freeClicksLeft!}
-                    isClicksAvailable={isClicksAvailable!}
-                    onRespond={handleRespond!}
-                />
-            ) : (
-                <OfferButton
-                    onCreateOffer={`/supplier/request/${request?.id}/offer/new`}
-                />
-            )} */}
         </div>
     );
 }

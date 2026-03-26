@@ -36,7 +36,6 @@ export enum ControllerInstalationPlace {
     UHL4
 }
 
-
 // Объекты с переводами
 export const RequestStatusTranslations: Record<RequestStatus, string> = {
     [RequestStatus.New]: 'Новый',
@@ -130,3 +129,15 @@ export const tabsButton: { name: string, value: keyof IRequestStats }[] = [
     },
 ]
 
+
+
+export const configTypeList = [
+    {
+        id: "019cdcd9-1892-7f3a-955c-3503ede15a6d",
+        name: "КНС (Канализационная насосная станция)"
+    },
+    {
+        id: "0",
+        name: "Насосы"
+    },
+]

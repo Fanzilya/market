@@ -1,10 +1,14 @@
 // src/pages/ProfilePage/components/ProfileTabs.tsx
 import styles from './WidgetsProfilePage.module.css'
 
-export default function ProfileTabs({ tabs, activeTab, onTabChange }) {
+export default function ProfileTabs({ activeTab, onTabChange }) {
   return (
     <div className={styles.tabs}>
-      {tabs.map(tab => (
+      {[
+        { id: 'profile', label: 'Основная информация' },
+        { id: 'company', label: 'Информация о компании' },
+        { id: 'security', label: 'Безопасность' }
+      ].map(tab => (
         <button
           key={tab.id}
           className={`${styles.tab} ${activeTab === tab.id ? styles.active : ''}`}

@@ -15,15 +15,13 @@ export const DashboardPage = observer(() => {
     const navigate = useNavigate()
     const { user } = useAuth()
 
-    const { activity,
-        customerRequests,
+    const {
         isCustomer,
         isSupplier,
         services,
         supplierOffers,
         supplierRequests
     } = getDashboardData()
-
 
     const { init, count, isLoader } = dashboardModel
 

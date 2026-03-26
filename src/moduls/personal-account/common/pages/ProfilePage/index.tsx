@@ -12,12 +12,7 @@ import LogoutConfirmModal from '../../widgets/ProfilePage/components/LogoutConfi
 import ProfileHeader from '../../widgets/ProfilePage/components/ProfileHeader'
 import ProfileTabs from '../../widgets/ProfilePage/components/ProfileTabs'
 import styles from "./ProfilePage.module.css"
-
-const TABS = [
-  { id: 'profile', label: 'Основная информация', component: ProfileInfoTab },
-  { id: 'company', label: 'Информация о компании', component: CompanyInfoTab, showFor: 'supplier' },
-  { id: 'security', label: 'Безопасность', component: SecurityTab }
-]
+import { ProfileTitle } from '../../widgets/ProfilePage/components/Tabs/ProfileTitle'
 
 export const ProfilePage = () => {
   const { user, signOut } = useAuth()
@@ -35,29 +30,103 @@ export const ProfilePage = () => {
   }
 
   const isSupplier = user.role === Role.Supplier
-  const availableTabs = TABS.filter(tab =>
-    !tab.showFor || (tab.showFor === 'supplier' && isSupplier)
-  )
-
-  const CurrentTabComponent = availableTabs.find(tab => tab.id === activeTab)?.component
 
   return (
     <>
       <PageHeader onNavigate={navigate} />
 
       <div className={styles.profileCard}>
-        <ProfileHeader user={user} isSupplier={isSupplier} />
+        <ProfileHeader user={user} />
 
-        <ProfileTabs
-          tabs={availableTabs}
+        {/* <ProfileTabs
           activeTab={activeTab}
           onTabChange={setActiveTab}
-        />
+        /> */}
 
         <div className={styles.tabContent}>
-          {CurrentTabComponent && (
-            <CurrentTabComponent user={user} isSupplier={isSupplier} />
-          )}
+          <div className={styles.tilesGrid}>
+            {activeTab == "profile" && (
+              [
+                {
+                  icon: 'user',
+                  label: 'ФИО',
+                  value: user.fullName,
+                  type: 'text',
+                },
+                {
+                  icon: 'email',
+                  label: 'Email',
+                  value: user.email,
+                  type: 'email',
+                },
+                {
+                  icon: 'phone',
+                  label: 'Телефон',
+                  value: user.phoneNumber,
+                  type: 'phone',
+                }
+              ].map((tile, key) => (
+                <ProfileTitle key={key} tile={tile} />
+              ))
+            )}
+          </div>
+
+          {/* {activeTab == "company" && (
+            <>
+              <div className={styles.emptyState}>
+                <p>Информация о компании отсутствует</p>
+              </div>
+              <div className={styles.tilesGrid}>
+                {[
+                  {
+                    icon: 'building',
+                    label: 'Наименование',
+                    value: company?.name || '—',
+                  },
+                  {
+                    icon: 'building',
+                    label: 'Краткое наименование',
+                    value: company?.shortName || '—',
+                  },
+                  {
+                    icon: 'building',
+                    label: 'Тип компании',
+                    value: company?.typeName || '—',
+                  },
+                  {
+                    icon: 'document',
+                    label: 'ИНН',
+                    value: company?.inn || '—',
+                  },
+                  {
+                    icon: 'document',
+                    label: 'КПП',
+                    value: company?.kpp || '—',
+                  },
+                  {
+                    icon: 'document',
+                    label: 'ОГРН',
+                    value: company?.ogrn || '—',
+                  },
+                  {
+                    icon: 'location',
+                    label: 'Юридический адрес',
+                    value: company?.legalAddress || '—',
+                  },
+                  {
+                    icon: 'info',
+                    label: 'О компании',
+                    value: company?.about || '—',
+                  },
+                ].map((tile, key) => (
+                  <ProfileTitle key={key} tile={tile} />
+                ))}
+              </div>
+            </>
+          )} */}
+          {/* {activeTab == "security" && (
+            <SecurityTab user={user} />
+          )} */}
         </div>
       </div>
       <LogoutConfirmModal

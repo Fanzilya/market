@@ -1,4 +1,5 @@
-import { getCurrentUserApi, loginApi } from "@/entities/user/api";
+import { getAccountManyApi, getCurrentUserApi, loginApi } from "@/entities/user/api";
+import { ACCOUNT_SUPPLY } from "@/entities/user/config";
 import { Role } from "@/entities/user/role";
 import { ILogin, RegisterRequestDTO } from "@/entities/user/type";
 import { useAuth } from "@/features/user/context/context";
@@ -67,6 +68,7 @@ class LoginModel {
                     window.location.href = '/customer/dashboard'
                     break
                 case Role.Supplier:
+                    this.accountMany(res.data.user.id)
                     window.location.href = '/supplier/dashboard'
                     break
                 case Role.Admin:
@@ -77,6 +79,18 @@ class LoginModel {
             this.setError('all', "Ошибка авторизации. Проверьте данные и попробуйте снова.")
         } finally {
             this.isLoading = false
+        }
+    }
+
+
+    async accountMany(userId: string) {
+        try {
+
+            const resUser = await getAccountManyApi({ userId: userId })
+            localStorage.setItem(ACCOUNT_SUPPLY, JSON.stringify(resUser.data))
+
+        } catch (error) {
+            console.log(error)
         }
     }
 }

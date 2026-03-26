@@ -5,7 +5,7 @@ import { checkBox } from "@/widgets/Scheme/src/data/teeska";
 import { KNSSchema } from "@/widgets/Scheme";
 import { EquipmentForm } from "../../widgets/scheme-form";
 import { observer } from "mobx-react-lite";
-import { savedData } from "@/moduls/personal-account/customer/features/CreateRequestPage/data";
+import { savedData } from "@/moduls/personal-account/customer/features/CreateRequestPage/data/tech-data";
 import { STORAGE_KEY_SCHEME_SETTINGS } from "@/entities/scheme/config";
 
 export const SchemeSetting = observer(() => {

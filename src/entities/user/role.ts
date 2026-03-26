@@ -18,6 +18,12 @@ export enum RoleIds {
 
 
 
+export const RoleNameText: Record<Role, string> = {
+    [Role.Admin]: 'Админ',
+    [Role.Customer]: 'Заказчик',
+    [Role.Supplier]: 'Исполнитель',
+};
+
 export const RoleName: Record<RoleIds, string> = {
     [RoleIds.Admin]: 'Админ',
     [RoleIds.Customer]: 'Заказчик',

@@ -98,10 +98,10 @@ export const getDashboardData = (): DashboardData => {
             //     'Новых': supplierRequests.length,
             //     'Активных': supplierRequests.length
             // },
-            extraAction: {
-                label: 'Бесплатных кликов: 5',
-                link: '/billing'
-            }
+            // extraAction: {
+            //     label: 'Бесплатных кликов: 5',
+            //     link: '/billing'
+            // }
         },
         {
             category: 'Предложения',

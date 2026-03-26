@@ -103,3 +103,10 @@ export interface IEmail {
     email: string
 }
 
+export interface ISupplierAccount {
+    coins: number,
+    userId: string,
+    user: any,
+    accountRequests: any,
+    id: string
+}

@@ -16,9 +16,7 @@ export const OfferDetailPage = observer(() => {
     navigate,
     activeTab,
     setActiveTab,
-    request,
     formatPrice,
-    getDocumentType,
     getDocumentTypeName,
     getDocumentIcon,
     getDocumentName,
@@ -143,27 +141,32 @@ export const OfferDetailPage = observer(() => {
 
 
                 {[
-                  offer.passportFileId && {
+                  {
+                    condition: offer?.passportFileId,
                     name: "Паспорт оборудования",
                     link: `https://triapi.ru/market/api/Offers/equipPassport/download/?passportId=${offer?.passportFileId}&download=true`,
                     id: 'passport'
                   },
-                  offer.certificateFileId && {
+                  {
+                    condition: offer?.certificateFileId,
                     name: "Сертификат оборудования",
                     link: `https://triapi.ru/market/api/Offers/equipCertificate/download/?certificateId=${offer?.certificateFileId}`,
                     id: 'certificate'
                   },
-                  offer.planFileId && {
+                  {
+                    condition: offer?.planFileId,
                     name: "Чертеж/Схема",
                     link: `https://triapi.ru/market/api/Offers/scemeFile/download/?shemeFileId=${offer?.planFileId}`,
                     id: 'plan'
                   },
-                  offer.offerFileId && {
+                  {
+                    condition: offer?.offerFileId,
                     name: "КП на фирменном бланке",
                     link: `https://triapi.ru/market/api/Offers/offerFile/download/?offerId=${offer?.offerFileId}`,
                     id: 'offer'
                   }
                 ]
+                  .filter(item => item.condition)
                   .map((item) => (
                     <div className={styles.infoItem} key={item?.id}>
                       <span className={styles.infoLabel}>{item?.name}</span>

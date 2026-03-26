@@ -20,14 +20,13 @@ import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account
 import Icon from '@/shared/ui-kits/Icon'
 import { useRequestListModel } from '../../features/supplier-request-list/useRequestListModel'
 import EmptyState from '../../../../../shared/components/EmptyRequest/EmptyState'
+import { RequestsupplierTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-supplier-table-row'
 
 
 export const SupplierPage = () => {
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [showLogoutConfirm, setShowLogoutConfirm] = useState(false)
   const [freeClicksLeft, setFreeClicksLeft] = useState(5)
-  const [isMobile, setIsMobile] = useState<boolean>(window.innerWidth <= 768)
 
   const {
     filters,
@@ -39,7 +38,7 @@ export const SupplierPage = () => {
 
   // const { model, isLoader, init } = requestListModel
 
-  const { requests, isLoading, onFavoriteAdd, isError, errors } = useRequestListModel()
+  const { requests, isLoading, onFavoriteAdd } = useRequestListModel()
 
 
 
@@ -48,11 +47,6 @@ export const SupplierPage = () => {
     window.addEventListener('favorites-updated', handleFavoritesUpdate)
     return () => window.removeEventListener('favorites-updated', handleFavoritesUpdate)
   }, [refreshData])
-
-  // Функция для обработки клика по заявке
-  const handleRequestClick = (requestId: string) => {
-    navigate(`/supplier/request/${requestId}`)
-  }
 
   return (
     <div className={styles.mainContent}>
@@ -103,17 +97,18 @@ export const SupplierPage = () => {
           ) : (
             <div className={styles.tableContainer}>
               <div className={styles.table}>
-                <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
-                  {['ID', 'Объект', 'Заказчик', 'Тип', 'КП', 'Дата', 'Статус', 'Действия'].map((item, key) => (
+                <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr] justify-center items-center'>
+                  {['ID', 'Тип', 'Дата', 'Статус', 'Действия'].map((item, key) => (
+                    // 'КП', 
                     <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>
                   ))}
                 </div>
 
                 <div>
                   {requests.map((item, key) => (
-                    <RequestTableRow
+                    <RequestsupplierTableRow
                       key={item.id || key}
-                      gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+                      gridClass='grid grid-cols-[70px__1fr_1fr_1fr_1fr]'
                       number={key + 1}
                       styles={styles}
                       item={item}

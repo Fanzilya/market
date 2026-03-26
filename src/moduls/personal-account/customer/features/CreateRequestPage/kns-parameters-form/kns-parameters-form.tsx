@@ -1,22 +1,37 @@
 import { schemeActionsModel } from '@/widgets/Scheme/src/models/scheme-actions-model';
 import { observer } from 'mobx-react-lite';
-import { cabinetLocationOptions, directionOptions, mediumOptions } from './src/data';
+import { cabinetLocationOptions, directionOptions, mediumOptions } from '../data/data';
 import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing';
 import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PerfomanceMeasureUnit, PerfomanceMeasureUnitTranslations, PipelineMaterial, PipelineMaterialTranslations, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
 import Icon from '@/shared/ui-kits/Icon';
 import { Input } from '@/shared/ui-kits/Input';
+import { requestTechnicalParametersModel } from './kns-parameters-model';
+import { useEffect } from 'react';
+import { BackButton, FormBtnContainer, NextButton } from '../ui/form-btn-container';
 
 
 interface Props {
-    knsData: any,
     styles: any,
-    formData: any,
-    setKnsData: any,
-    elements: any,
-    setElementChecked: any,
+    handleNext: () => void
+    handleBack: () => void
 }
 
-export const TechnicalParametersStep = observer(({ knsData, styles, formData, setKnsData, elements, setElementChecked }: Props) => {
+export const TechnicalParametersStep = observer(({ styles, handleNext, handleBack }: Props) => {
+
+    const { elements, initData, setKnsData, knsData, setElementChecked, clear } = requestTechnicalParametersModel
+
+
+    useEffect(() => {
+        if (elements.length == 0) {
+            initData()
+        }
+    }, [])
+
+    const handleBackButton = () => {
+        clear()
+        handleBack()
+    }
+
 
     return (
         <div className={styles.stepContent}>
@@ -398,17 +413,10 @@ export const TechnicalParametersStep = observer(({ knsData, styles, formData, se
                 {elements && <KNSSchemaTesting isActive={elements[3]?.checked} />}
             </div>
 
-
-            {false && formData.configType !== 'КНС' && (
-                <div className={styles.infoMessage}>
-                    <Icon name='info' color='#4A85F6' width={24} />
-
-                    <p>
-                        Для выбранного типа конфигурации дополнительные параметры будут доступны позже.
-                        Пожалуйста, продолжите создание заявки с основной информацией.
-                    </p>
-                </div>
-            )}
+            <FormBtnContainer>
+                <BackButton onClick={handleBackButton} />
+                <NextButton onClick={handleNext} />
+            </FormBtnContainer >
         </div>
     );
 })

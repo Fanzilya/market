@@ -1,7 +1,7 @@
 // hooks/useRequestsQuery.js
 import { requestArhivApi, requestsAllApi, requestStatusChangeApi } from '@/entities/admin/api'
 import { offersByRequestsApi } from '@/entities/offer/api'
-import { allRequestPublicApi, favouritesAddApi, requestSingleApi } from '@/entities/request/api'
+import { allRequestPublicApi, favouritesAddApi, favouritesByUserApi, requestSingleApi } from '@/entities/request/api'
 import { RequestRes } from '@/entities/request/type'
 import { IUserId } from '@/entities/user/type'
 import { useAuth } from '@/features/user/context/context'
@@ -54,7 +54,7 @@ export const useRequestListModel = () => {
             if (detailResult.isLoading || offersResult.isLoading) {
                 return null
             }
-
+            
             // Если есть ошибка в одном из запросов, логируем и пропускаем
             if (detailResult.error || offersResult.error) {
                 console.error(`Ошибка при обработке request ${request.id}:`, {
@@ -72,10 +72,13 @@ export const useRequestListModel = () => {
         .filter((item) => item !== null)
 
 
-
+    const requestsFavouritesQuery = useQuery({
+        queryKey: ['supplier-request-favorite-list', user?.id],
+        queryFn: () => favouritesByUserApi({ userId: user?.id?.toString()! }),
+        staleTime: 5 * 60 * 1000,
+    })
 
     // Мутация для архивации
-
     const favouritesAddMutation = useMutation({
         mutationFn: (requestId: string) => favouritesAddApi({ requestId: requestId, userId: user?.id?.toString()! }),
         onSuccess: () => {
@@ -89,7 +92,7 @@ export const useRequestListModel = () => {
             console.error('Ошибка при архивации:', error)
         },
     })
-    
+
     const sortRequests = (requestsToSort) => {
         return [...requestsToSort].sort((a, b) => {
             // Сортировка по дате создания (новые сверху)

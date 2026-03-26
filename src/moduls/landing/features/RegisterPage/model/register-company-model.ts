@@ -188,9 +188,7 @@ class RegisterCompanyModel {
     async getCompanyData(actions: any) {
 
         this.clearCompanyData()
-
         if (!this.checkFnsValue()) return
-
         this.isLoadingCompanySearch = true
 
         try {
@@ -213,7 +211,7 @@ class RegisterCompanyModel {
                 this.openCompanyForm = true
                 return
             }
-
+            // "019d23fe-15f1-780e-bc8b-cb9170f5d169"
             // 3. Если нигде не нашли
             this.isCompanyCreate = true
             this.setError('fnsValue', 'Компания с таким ИНН не существует')

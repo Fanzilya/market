@@ -7,10 +7,9 @@ interface Props {
   clicksLeft: any,
   onConfirm: any,
   onClose: any,
-  onGoToBilling: any,
 }
 
-export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoToBilling }: Props) {
+export default function FreeClicksModal({ clicksLeft, onConfirm, onClose }: Props) {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
@@ -44,13 +43,14 @@ export default function FreeClicksModal({ clicksLeft, onConfirm, onClose, onGoTo
             Отмена
           </button>
           <button className={styles.confirmButton} onClick={onConfirm}>
-            Продолжить бесплатно
+            Продолжить
+            {/* Продолжить бесплатно */}
           </button>
         </div>
 
-        <button className={styles.billingLink} onClick={onGoToBilling}>
+        {/* <button className={styles.billingLink} onClick={onGoToBilling}>
           Перейти к тарифам и оплате →
-        </button>
+        </button> */}
       </div>
     </div>
   )

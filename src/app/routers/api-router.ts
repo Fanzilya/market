@@ -22,6 +22,7 @@ export const KnsRequest = {
 export const RequestRouter = {
     allPublic: "/Request/actual/published/all",
     single: "/Request/single",
+    supplierSingle: "/Request/supplier/single",
     allByUser: "/Request/user/requests/all",
     favouritesByUser: "/Request/user/favourites",
     favouritesAdd: "/Request/favourites/add",
