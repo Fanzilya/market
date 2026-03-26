@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "./LayoutPage.module.css"
+import { Link } from "react-router-dom"
+import Logo from "../../../../../public/logo.svg"
 
 
 
@@ -15,7 +17,6 @@ export const AuthLayout = ({ formBlock, informationBlock, title, subtitle }: Pro
     const [isMounted, setIsMounted] = useState(false)
 
     useEffect(() => {
-
         setIsMounted(true)
     }, [])
 
@@ -25,6 +26,19 @@ export const AuthLayout = ({ formBlock, informationBlock, title, subtitle }: Pro
                 {/* Левая колонка - форма регистрации */}
                 <div className={styles.formColumn}>
                     <div className={styles.formContainer}>
+
+                        {/* <Link className={styles.logo} to='/'>
+                            <img
+                                src={Logo}
+                                alt="КликПроект"
+                                className={styles.logoImage}
+                            />
+                            <span className={styles.logoText}>КликПроект</span>
+                        </Link> */}
+
+                        {/* Декоративный разделитель */}
+                        <div className={styles.logoDivider} />
+
                         <h1 className={styles.title}>{title}</h1>
                         <p className={styles.subtitle}>{subtitle}</p>
                         <div className={styles.form}>

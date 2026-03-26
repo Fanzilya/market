@@ -45,6 +45,11 @@ export interface PasswordOverrides {
     [email: string]: string;
 }
 
+export interface ILogin {
+    email: string,
+    password: string
+}
+
 export interface RegisterRequestDTO {
     name: string,
     surname: string,

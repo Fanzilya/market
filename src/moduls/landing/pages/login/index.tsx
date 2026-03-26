@@ -6,6 +6,8 @@ import { useAuth } from '@/features/user/context/context'
 import { loginModel } from '../../features/Login/login-model'
 import { observer } from 'mobx-react-lite'
 import { AuthLayout } from '../../widgets/layout/layout'
+import { Input } from '@/shared/ui-kits/Input'
+import { ErrorText } from '@/shared/components/error-text'
 
 export const LoginPage = observer(() => {
 
@@ -13,12 +15,10 @@ export const LoginPage = observer(() => {
 
   const {
     model,
-    error,
-    setEmail,
-    setPassword,
+    errors,
     onSubmit,
     isLoading,
-    isValidEmail,
+    setFormData
   } = loginModel
 
   const [focusedInput, setFocusedInput] = useState<string | null>(null)
@@ -26,8 +26,8 @@ export const LoginPage = observer(() => {
   const [rememberMe, setRememberMe] = useState<boolean>(false)
 
   const handleDemoLogin = (demoEmail, demoPassword) => {
-    setEmail(demoEmail)
-    setPassword(demoPassword)
+    setFormData('email', demoEmail)
+    setFormData('password', demoPassword)
   }
 
   const handleSubmit = () => {
@@ -44,44 +44,32 @@ export const LoginPage = observer(() => {
 
       formBlock={
         <>
-          {error && (
+
+          {errors.all && (
             <div className={styles.errorMessage}>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                 <circle cx="12" cy="12" r="10" fill="#FECACA" />
                 <path d="M12 7V13" stroke="#DC2626" strokeWidth="2" />
                 <circle cx="12" cy="17" r="1.5" fill="#DC2626" />
               </svg>
-              <span>{error}</span>
+              <span>{errors.all}</span>
             </div>
           )}
 
+
           <div className={styles.form}>
             {/* Email */}
-            <div className={styles.inputGroup}>
-              <label className={styles.label}>Email</label>
-              <div className={styles.inputWrapper}>
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  onFocus={() => setFocusedInput('email')}
-                  onBlur={() => setFocusedInput(null)}
-                  placeholder="@mail.ru"
-                  className={`${styles.input} ${focusedInput === 'email' ? styles.inputFocused : ''} ${isValidEmail ? styles.inputValid : ''}`}
-                  disabled={isLoading}
-                />
-
-                {isValidEmail && (
-                  <div className={styles.validIcon}>
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                      <circle cx="12" cy="12" r="10" stroke="#10B981" strokeWidth="2" />
-                      <path d="M8 12L11 15L16 9" stroke="#10B981" strokeWidth="2" />
-                    </svg>
-                  </div>
-                )}
-
-              </div>
-            </div>
+            <Input
+              required
+              label="Email"
+              type="email"
+              value={model.email}
+              onChange={(e) => setFormData("email", e)}
+              placeholder="@mail.ru"
+              classNames={{ input: styles.input }}
+              disabled={isLoading}
+              error={errors.email}
+            />
 
             {/* Пароль */}
             <div className={styles.inputGroup}>
@@ -89,8 +77,8 @@ export const LoginPage = observer(() => {
               <div className={styles.passwordWrapper}>
                 <input
                   type={showPassword ? 'text' : 'password'}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  value={model.password}
+                  onChange={(e) => setFormData("password", e.target.value)}
                   onFocus={() => setFocusedInput('password')}
                   onBlur={() => setFocusedInput(null)}
                   placeholder="Введите пароль"
@@ -115,11 +103,12 @@ export const LoginPage = observer(() => {
                   )}
                 </button>
               </div>
+              {errors.password && <ErrorText text={errors.password} />}
+
             </div>
 
-            {/* Запомнить меня и забыли пароль */}
             <div className={styles.rememberRow}>
-              <label className={styles.checkbox}>
+              {/* <label className={styles.checkbox}>
                 <input
                   type="checkbox"
                   checked={rememberMe}
@@ -127,7 +116,8 @@ export const LoginPage = observer(() => {
                   className={styles.checkboxInput}
                 />
                 <span className={styles.checkboxLabel}>Запомнить меня</span>
-              </label>
+              </label> */}
+              <div></div>
               <Link to="/forgot-password" className={styles.forgotLink}>
                 Забыли пароль?
               </Link>

@@ -6,7 +6,7 @@ export default function PageHeader({ requestId, hasResponded, isFavorite, onTogg
     <div className={styles.header}>
       <div className={styles.headerLeft}>
         <h1 className={styles.title}>
-          
+
         </h1>
         <div className={styles.breadcrumbs}>
           <span className={styles.breadcrumb} onClick={() => onNavigate('/dashboard')}>
@@ -18,7 +18,7 @@ export default function PageHeader({ requestId, hasResponded, isFavorite, onTogg
           </span>
           <span className={styles.separator}>›</span>
           <span className={styles.current}>
-            
+
           </span>
         </div>
       </div>

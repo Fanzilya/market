@@ -1,15 +1,21 @@
 import { getCurrentUserApi, loginApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
+import { ILogin, RegisterRequestDTO } from "@/entities/user/type";
 import { useAuth } from "@/features/user/context/context";
 import { makeAutoObservable } from "mobx";
 
+
+interface IErrorLogin extends ILogin {
+    all: string
+}
+
 class LoginModel {
-    model: { email: string, password: string } = { email: "", password: "" }
 
-    error: string = ""
-
+    model: ILogin = {
+        email: "",
+        password: ""
+    }
     isLoading: boolean = false
-    isValidEmail: boolean = false
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true });
@@ -19,22 +25,32 @@ class LoginModel {
         this.model[name] = value;
     }
 
-    errors: Partial<Record<keyof RegisterRequestDTO, string>> = {}
-    setError<K extends keyof RegisterRequestDTO>(key: K, message: string) {
+    errors: Partial<Record<keyof IErrorLogin, string>> = {}
+    setError<K extends keyof IErrorLogin>(key: K, message: string) {
         this.errors[key] = message
     }
 
-    async onSubmit(signIn: any) {
-        this.error = ""
+    removeError<K extends keyof IErrorLogin>(key: K) {
+        delete this.errors[key]
+    }
 
-        if (!this.model.email || !this.model.password) {
-            this.error = "Пожалуйста, заполните все поля"
-            return
+    clearErrors() {
+        this.errors = {}
+    }
+    validateForm() {
+        this.clearErrors()
+        if (!this.model.email.trim()) {
+            this.setError("email", "Укажите email")
         }
-        if (!this.model.email.includes('@')) {
-            this.error = "Введите корректный email адрес"
-            return
+        if (!this.model.password.trim()) {
+            this.setError("password", "Укажите пароль")
         }
+        return Object.keys(this.errors).length === 0
+    }
+
+    async onSubmit(signIn: any) {
+
+        if (!this.validateForm()) return
 
         this.isLoading = true
 
@@ -58,7 +74,7 @@ class LoginModel {
                     break
             }
         } catch {
-            this.error = "Ошибка авторизации. Проверьте данные и попробуйте снова."
+            this.setError('all', "Ошибка авторизации. Проверьте данные и попробуйте снова.")
         } finally {
             this.isLoading = false
         }

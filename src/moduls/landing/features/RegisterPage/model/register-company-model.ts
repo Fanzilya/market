@@ -194,15 +194,6 @@ class RegisterCompanyModel {
         this.isLoadingCompanySearch = true
 
         try {
-
-            const res = await new Promise((resolve) => {
-                setTimeout(() => {
-                    console.log('sd')
-                    resolve()
-                }, 3000)
-            })
-
-
             // 1. Сначала ищем в БД
             const dbResult = await this.searchCompanyByBD()
             if (dbResult) {

@@ -56,6 +56,27 @@ export const AppRouter = createBrowserRouter([
           };
         },
       },
+      {
+        path: 'login',
+        async lazy() {
+          const { LoginPage } = await import('@/moduls/landing/pages/login');
+          return { Component: LoginPage };
+        },
+      },
+      {
+        path: 'register',
+        async lazy() {
+          const { RegisterPage } = await import('@/moduls/landing/pages/register');
+          return { Component: RegisterPage };
+        },
+      },
+      {
+        path: 'forgot-password',
+        async lazy() {
+          const { ForgotPasswordPage } = await import('@landing/pages/ForgotPasswordPage');
+          return { Component: ForgotPasswordPage };
+        },
+      },
       // Бренды и товары
       {
         path: '/brands',
@@ -92,27 +113,6 @@ export const AppRouter = createBrowserRouter([
     ]
   },
 
-  {
-    path: 'login',
-    async lazy() {
-      const { LoginPage } = await import('@/moduls/landing/pages/login');
-      return { Component: LoginPage };
-    },
-  },
-  {
-    path: 'register',
-    async lazy() {
-      const { RegisterPage } = await import('@/moduls/landing/pages/register');
-      return { Component: RegisterPage };
-    },
-  },
-  {
-    path: 'forgot-password',
-    async lazy() {
-      const { ForgotPasswordPage } = await import('@landing/pages/ForgotPasswordPage');
-      return { Component: ForgotPasswordPage };
-    },
-  },
 
   // Админ
   {
