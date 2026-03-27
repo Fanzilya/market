@@ -1,11 +1,10 @@
-import float_switch_1 from "../../../../.././widgets/Scheme/src/data/svg/float-switch-1.svg"
-import grid_above from "../../../../.././widgets/Scheme/src/data/svg/grid_above.svg"
-import grid from "../../../../.././widgets/Scheme/src/data/svg/grid.svg"
-import pavilion from "../../../../.././widgets/Scheme/src/data/svg/pavilion.svg"
-import pumps_pressure from "../../../../.././widgets/Scheme/src/data/svg/pumps_pressure.svg"
-import shredder from "../../../../.././widgets/Scheme/src/data/svg/shredder.svg"
-import pavilion_above from "../../../../.././widgets/Scheme/src/data/svg/pavilion_above.svg"
-
+import float_switch_1 from "@/widgets/Scheme/src/data/svg/float-switch-1.svg"
+import grid_above from "@/widgets/Scheme/src/data/svg/grid_above.svg"
+import grid from "@/widgets/Scheme/src/data/svg/grid.svg"
+import pavilion from "@/widgets/Scheme/src/data/svg/pavilion.svg"
+import pumps_pressure from "@/widgets/Scheme/src/data/svg/pumps_pressure.svg"
+import shredder from "@/widgets/Scheme/src/data/svg/shredder.svg"
+import pavilion_above from "@/widgets/Scheme/src/data/svg/pavilion_above.svg"
 
 import { STORAGE_KEY_SCHEME_SETTINGS } from "@/entities/scheme/config"
 
