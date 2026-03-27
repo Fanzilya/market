@@ -16,7 +16,7 @@ interface Props {
     handleBack: () => void
 }
 
-export const TechnicalParametersStep = observer(({ styles, handleNext, handleBack }: Props) => {
+export const TechnicalParametersForm = observer(({ styles, handleNext, handleBack }: Props) => {
 
     const { elements, initData, setKnsData, knsData, setElementChecked, clear } = requestTechnicalParametersModel
 

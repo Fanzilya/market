@@ -37,3 +37,7 @@ export const getCurrentUserApi = () => {
 export const getAccountManyApi = (params: IUserId) => {
     return instance.get(Auth.accountMany, { params })
 }
+
+export const emailCheckApi = (params: IEmail) => {
+    return instance.get(Auth.emailCheck, { params })
+}

@@ -104,6 +104,8 @@ export const RegisterPage = observer(() => {
     allClearData()
   }, [])
 
+
+
   return (
     <AuthLayout
       title="Регистрация"

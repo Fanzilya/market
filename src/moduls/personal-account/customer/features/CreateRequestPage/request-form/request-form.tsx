@@ -3,12 +3,13 @@ import styles from './request-form.module.css'
 import { observer } from 'mobx-react-lite'
 import { useRequestForm } from './use-request-form'
 import { FormBasicInformationForm } from '../basic-information-form/basic-information-form'
-import { TechnicalParametersStep } from '../kns-parameters-form/kns-parameters-form'
+import { TechnicalParametersForm } from '../kns-parameters-form/kns-parameters-form'
 import { useState } from 'react'
-import { TechnicalPumpParametersStep } from '../pump-parameters-form/pump-parameters-form'
+import { PumpParametersForm } from '../pump-parameters-form/pump-parameters-form'
 import { FormViewContainer } from '../ui/form-view-container'
 import { FormBasicInformationView } from '../basic-information-form/basic-information-view'
 import { TechnicalParametersView } from '../kns-parameters-form/kns-parameters-view'
+import { PupmParametersView } from '../pump-parameters-form/pupm-parameters-view'
 
 interface Props {
     requestId?: string
@@ -85,13 +86,16 @@ export const RequestForm = observer(({ requestId }: Props) => {
 
                 {activeStep === 1 && <FormBasicInformationForm styles={styles} handleNext={handleNext} setConfigTypeId={setConfigTypeId} />}
                 {/* {activeStep === 2 && (configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" ? <TechnicalParametersStep styles={styles} handleNext={handleNext} handleBack={handleBack} /> : <TechnicalPumpParametersStep />)} */}
-                {activeStep === 2 && configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" && <TechnicalParametersStep styles={styles} handleNext={handleNext} handleBack={handleBack} />}
+                {activeStep === 2 && (configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d"
+                    ? <TechnicalParametersForm styles={styles} handleNext={handleNext} handleBack={handleBack} />
+                    : <PumpParametersForm styles={styles} handleNext={handleNext} handleBack={handleBack} />
+                )}
 
-                {/* Шаг 3: Проверка и отправка */}
                 {activeStep === 3 && (
                     <>
                         <FormBasicInformationView />
-                        {configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" && <TechnicalParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} />}
+
+                        {configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" ? <TechnicalParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} /> : <PupmParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} />}
                     </>
                 )}
 

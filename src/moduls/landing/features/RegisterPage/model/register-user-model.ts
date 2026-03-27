@@ -1,6 +1,6 @@
 import { createCompanyApi, getCompanyByInnApi, getCompanyTypesApi } from "@/entities/company/api";
 import { CompanyTypes, ICreateCompany } from "@/entities/company/type";
-import { employerRegisterApi, registerApi } from "@/entities/user/api";
+import { emailCheckApi, employerRegisterApi, registerApi } from "@/entities/user/api";
 import { Role } from "@/entities/user/role";
 import { RegisterRequestDTO } from "@/entities/user/type";
 import { SeletectItemInterface } from "@/shared/ui-kits/select/src/type";
@@ -19,7 +19,7 @@ class RegisterUserModel {
     };
 
     isLoading: boolean = false
-
+    private debounceTimer: NodeJS.Timeout | null = null;
     _canRegisterUser: boolean = false
 
     constructor() {
@@ -28,7 +28,45 @@ class RegisterUserModel {
 
     setFormData<K extends keyof typeof this.formData>(name: K, value: typeof this.formData[K]) {
         this.formData[name] = value;
+
+
+        if (name === 'email') {
+            if (this.debounceTimer) {
+                clearTimeout(this.debounceTimer);
+            }
+
+            this.debounceTimer = setTimeout(() => {
+                this.checkEmailAvailability(value as string);
+            }, 1000);
+        }
     }
+    private async checkEmailAvailability(email: string) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+        if (!this.formData.email.trim()) {
+            this.setError("email", "Укажите email")
+            return
+        } else if (!emailRegex.test(this.formData.email)) {
+            this.setError("email", "Введите корректную почту")
+            return
+        } else {
+            this.setError("email", "")
+        }
+
+
+
+        try {
+            const result = await emailCheckApi({ email });
+
+            if (result.data) {
+                this.setError("email", "Почта занята другим пользователем")
+            }
+        } catch (error) {
+            console.error('Email check failed:', error);
+        }
+    }
+
+
 
     clearFormsData() {
         this.clearErrors()
