@@ -49,7 +49,7 @@ class LoginModel {
         return Object.keys(this.errors).length === 0
     }
 
-    async onSubmit(signIn: any) {
+    async onSubmit(signIn: any, signInAccount: any) {
 
         if (!this.validateForm()) return
 
@@ -68,7 +68,7 @@ class LoginModel {
                     window.location.href = '/customer/dashboard'
                     break
                 case Role.Supplier:
-                    this.accountMany(res.data.user.id)
+                    this.accountMany(res.data.user.id, signInAccount)
                     window.location.href = '/supplier/dashboard'
                     break
                 case Role.Admin:
@@ -83,11 +83,11 @@ class LoginModel {
     }
 
 
-    async accountMany(userId: string) {
+    async accountMany(userId: string, signInAccount: any) {
         try {
 
             const resUser = await getAccountManyApi({ userId: userId })
-            localStorage.setItem(ACCOUNT_SUPPLY, JSON.stringify(resUser.data))
+            signInAccount(resUser.data)
 
         } catch (error) {
             console.log(error)

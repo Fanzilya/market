@@ -7,7 +7,7 @@ import { Role } from '@/entities/user/role'
 import Logo from "../../../../public/logo.svg"
 
 export default function Header() {
-  const { user, signOut } = useAuth()
+  const { user, signOut, signOutAccount } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [isScrolled, setIsScrolled] = useState(false)
@@ -22,8 +22,8 @@ export default function Header() {
   }, [user])
 
   const handleLogout = () => {
+    signOutAccount()
     signOut()
-    navigate('/')
   }
 
   const isActive = (path) => {
@@ -38,7 +38,7 @@ export default function Header() {
       <div className={styles.container}>
         <div className={styles.headerContent}>
           <div className={styles.logo} onClick={() => navigate('/')}>
-            
+
             <img
               src={Logo}
               alt="КликПроект"

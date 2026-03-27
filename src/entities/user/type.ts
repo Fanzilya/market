@@ -12,7 +12,13 @@ export interface AuthContextType {
     setUser: (data: User | null) => void;
     signOut: () => void;
     changePassword: (email: string, currentPassword: string, newPassword: string) => void,
-    getAllUsers: () => Omit<DemoUser, 'password'>[]
+    getAllUsers: () => Omit<DemoUser, 'password'>[],
+
+
+    accountData: IAccountSupply,
+    setAccount: (data: IAccountSupply | null) => void
+    signInAccount: (data: IAccountSupply) => void
+    signOutAccount: () => void
 }
 
 
@@ -23,6 +29,14 @@ export interface User {
     phoneNumber: string;
     role: Role;
     company?: Company;
+}
+
+export interface IAccountSupply {
+    coins: number,
+    userId: string,
+    user: any,
+    accountRequests: any,
+    id: string
 }
 
 export interface RegisterResult {

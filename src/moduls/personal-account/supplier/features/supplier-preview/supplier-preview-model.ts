@@ -77,18 +77,20 @@ class SupplierPreviewModel {
         }
     }
 
-    async init(id: string) {
+    async init(id: string, accountData: any) {
         this.isLoader = true
         this.schemeIsActive = false
 
         try {
-            this.accountData = JSON.parse(localStorage.getItem(ACCOUNT_SUPPLY) || "")
+            this.accountData = accountData
 
             const [resquestRes, currentRes, equipmentCurrentRes] = await Promise.all([
                 requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }),
                 currentKnsApi({ requestId: id }),
                 equipmentCurrentKnsApi({ requestId: id })
             ])
+
+            console.log(resquestRes.data)
 
             this.model = {
                 request: { ...resquestRes.data, id },

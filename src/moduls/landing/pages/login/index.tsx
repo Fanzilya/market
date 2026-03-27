@@ -11,7 +11,7 @@ import { ErrorText } from '@/shared/components/error-text'
 
 export const LoginPage = observer(() => {
 
-  const { signIn } = useAuth()
+  const { signIn, signInAccount } = useAuth()
 
   const {
     model,
@@ -31,7 +31,7 @@ export const LoginPage = observer(() => {
   }
 
   const handleSubmit = () => {
-    onSubmit(signIn)
+    onSubmit(signIn, signInAccount)
   }
 
   return (

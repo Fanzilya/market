@@ -18,14 +18,14 @@ import { OfferButton, RespondButton } from '@/widgets/request-view/action-button
 
 export const RequestPreviewPage = observer(() => {
   const { requestId } = useParams()
-  const { user } = useAuth()
+  const { user, accountData } = useAuth()
   const navigate = useNavigate()
   const [showFreeClicksModal, setShowFreeClicksModal] = useState(false)
 
-  const { request, isLoader, init, accountData, currentModel, equipmentCurrentModel, schemeIsActive, clickRequestUser } = supplierPreviewModel
+  const { request, isLoader, init, currentModel, equipmentCurrentModel, schemeIsActive, clickRequestUser } = supplierPreviewModel
 
   useEffect(() => {
-    init(requestId!)
+    init(requestId!, accountData)
   }, [])
 
   const { decrementClicks, isClicksAvailable } = useFreeClicks()

@@ -1,5 +1,5 @@
 import { ACCESS_TOKEN, REFRESH_TOKEN, USER_STORAGE_KEY } from "@/entities/user/config";
-import { DemoUser, PasswordChangeResult, PasswordOverrides, RegisterResult, User } from "@/entities/user/type";
+import { DemoUser, PasswordChangeResult, RegisterResult, User } from "@/entities/user/type";
 import { DEMO_USERS } from "../data";
 import { makeAutoObservable } from "mobx";
 
@@ -16,7 +16,7 @@ export class UserModel {
     }
 
     private initFromStorage() {
-        const storedUser = localStorage.getItem("user");
+        const storedUser = localStorage.getItem(USER_STORAGE_KEY);
 
         if (storedUser) {
             try {
@@ -27,7 +27,7 @@ export class UserModel {
         }
     }
     private clearStorage() {
-        localStorage.removeItem("user");
+        localStorage.removeItem(USER_STORAGE_KEY);
     }
 
 
