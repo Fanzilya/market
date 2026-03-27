@@ -2,7 +2,7 @@ import { EquipmentDataCheckbox } from '@/widgets/Scheme/src/data/teeska';
 import { makeAutoObservable } from 'mobx';
 
 
-class RuleSchemeObjectModel {
+class KnsRuleuleSchemeObjectModel {
 
     checkForDisable(data: EquipmentDataCheckbox[], id: number, checked: boolean) {
         const arraySetting: Record<number, number[]> = {
@@ -23,4 +23,4 @@ class RuleSchemeObjectModel {
     }
 }
 
-export const ruleSchemeObjectModel = new RuleSchemeObjectModel()
+export const knsRuleSchemeObjectModel = new KnsRuleuleSchemeObjectModel()

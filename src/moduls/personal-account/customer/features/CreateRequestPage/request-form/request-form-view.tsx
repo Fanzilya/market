@@ -25,10 +25,6 @@ export const RequestForm = observer(() => {
                 <FormBasicInformationView />
 
 
-
-
-
-
                 {/* <h3 className={styles.previewTitle}>Электрические параметры</h3>
                 <div className={styles.previewGrid}>
                     <div className={styles.previewItem}>

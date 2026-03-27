@@ -1,36 +1,43 @@
-import Icon from '@/shared/ui-kits/Icon';
-import { Input } from '@/shared/ui-kits/Input';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
 import { formBasicInformationModel } from './form-basic-information';
-import { SelectParameters } from '../ui/select-parameters';
-import { configTypeList } from '@/entities/request/config';
-import { FormViewContainer } from '../ui/form-view-container';
+import BasicInformationViewContainer from '../../../../../../widgets/request-view/basic-information-view-container';
 
 export const FormBasicInformationView = observer(() => {
 
-    const { formData } = formBasicInformationModel
+    const { formData, regionList } = formBasicInformationModel
 
     return (
         <div className="mb-[32px]">
-            <FormViewContainer
+            <BasicInformationViewContainer
                 title='Основная информация'
                 items={[
                     {
-                        label: "Объект:",
+                        label: "Название объекта:",
                         value: formData.objectName,
+                    },
+                    {
+                        label: "Регион:",
+                        value: regionList.find(item => item.id === formData.regionId)?.name || "",
                     },
                     {
                         label: "Заказчик:",
                         value: formData.govCustomerName,
                     },
                     {
-                        label: "Тип:",
-                        value: "КНС (Канализационная насосная станция)",
+                        label: "Проектная организация:",
+                        value: formData.projectOrganizationName,
                     },
                     {
-                        label: "Контакт:",
+                        label: "Тип конфигурации:",
+                        value: formData.configType,
+                    },
+                    {
+                        label: "Контактное лицо:",
                         value: formData.contactPerson,
+                    },
+                    {
+                        label: "Телефон:",
+                        value: formData.contactPhone,
                     },
                 ]}
             />

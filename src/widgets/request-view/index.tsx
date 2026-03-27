@@ -1,8 +1,9 @@
 import { CurrentRes, EquipmentCurrentRes, RequestRes } from "@/entities/request/type";
 import { InfoItem, SpecItem } from "./components";
-import ContactInfo from "./contact-info";
+import BasicInformationViewContainer from "./basic-information-view-container";
 import { directionLabels, PerfomanceMeasureUnitTranslations, PipelineMaterialTranslations, PumpsStartupMethodTranslations } from "@/entities/request/config";
 import { KNSSchemaTesting } from "../Scheme/scheme-testing";
+import { SchemeDocsForm } from "../scheme-docs/scheme-docs-form";
 
 
 interface Props {
@@ -25,14 +26,31 @@ export const RequestView = ({ request, currentModel, equipmentCurrentModel, sche
                 {/* <span className="inline-block px-3 py-1.5 bg-[rgba(74,133,246,0.1)] rounded-lg text-sm font-semibold text-[#4A85F6] font-mono">{request.id}</span> */}
             </div>
 
-            {hasResponded && (
-                <ContactInfo
-                    govCustomerName={request.customerName}
-                    contactPerson={request.contactName}
-                    contactPhone={request.phoneNumber}
-                // contactEmail={request.contactEmail}
-                />
-            )}
+            <BasicInformationViewContainer
+                title="Контактная информация"
+                items={[
+                    {
+                        is: ("customerName" in request) ? true : false,
+                        label: "Заказчик:",
+                        value: request.customerName
+                    },
+                    {
+                        is: ("contactName" in request) ? true : false,
+                        label: "Контактное лицо:",
+                        value: request.contactName
+                    },
+                    {
+                        is: ("phoneNumber" in request) ? true : false,
+                        label: "Телефон:",
+                        value: request.phoneNumber
+                    },
+                    {
+                        is: ("contactEmail" in request) ? true : false,
+                        label: "Email:",
+                        value: request.contactEmail
+                    },
+                ]}
+            />
 
             <div className="grid grid-cols-3 gap-4 mb-8 p-5 bg-slate-50 rounded-2xl">
                 <InfoItem
@@ -48,7 +66,6 @@ export const RequestView = ({ request, currentModel, equipmentCurrentModel, sche
                         label="Регион"
                         value={request.locationRegion} />
                 }
-
             </div>
 
             <div className='flex gap-10'>

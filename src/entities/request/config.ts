@@ -137,7 +137,7 @@ export const configTypeList = [
         name: "КНС (Канализационная насосная станция)"
     },
     {
-        id: "0",
+        id: "019d2f27-6de3-7acf-bce5-79ad199baf24",
         name: "Насосы"
     },
 ]

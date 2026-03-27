@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { PerfomanceMeasureUnitTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config';
 import { BackButton, FormBtnContainer } from '../ui/form-btn-container';
-import { FormViewContainer } from '../ui/form-view-container';
 import { pumpParametersModel } from './pump-parameters-model';
 
 
@@ -17,10 +16,10 @@ export const PupmParametersView = observer(({ styles, handleNext, handleBack }: 
 
     return (
         <>
-            <FormViewContainer
+            {/* <FormViewContainer
                 title='Результат формы'
                 items={[]}
-            />
+            /> */}
 
 
             <FormBtnContainer>

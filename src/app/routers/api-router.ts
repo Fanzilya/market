@@ -19,6 +19,11 @@ export const KnsRequest = {
     create: "/KnsRequest/create/new",
 }
 
+export const PumpConfiguration = {
+    types: '/PumpConfig/pump/types/all',
+    create: "/PumpConfig/create",
+}
+
 
 export const RequestRouter = {
     allPublic: "/Request/actual/published/all",
@@ -70,3 +75,7 @@ export const AdminRouter = {
     requestStatusChange: "/Admin/request/statusChange",
 }
 
+
+export const RegionsRouter = {
+    all: "/InnerControllerForDevelopers/regions/all"
+}

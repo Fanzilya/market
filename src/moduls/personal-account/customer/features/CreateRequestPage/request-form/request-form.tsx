@@ -3,13 +3,12 @@ import styles from './request-form.module.css'
 import { observer } from 'mobx-react-lite'
 import { useRequestForm } from './use-request-form'
 import { FormBasicInformationForm } from '../basic-information-form/basic-information-form'
-import { TechnicalParametersForm } from '../kns-parameters-form/kns-parameters-form'
-import { useState } from 'react'
+import { KnsParametersForm } from '../kns-parameters-form/kns-parameters-form'
 import { PumpParametersForm } from '../pump-parameters-form/pump-parameters-form'
-import { FormViewContainer } from '../ui/form-view-container'
 import { FormBasicInformationView } from '../basic-information-form/basic-information-view'
-import { TechnicalParametersView } from '../kns-parameters-form/kns-parameters-view'
+import { KnsParametersView } from '../kns-parameters-form/kns-parameters-view'
 import { PupmParametersView } from '../pump-parameters-form/pupm-parameters-view'
+import { useEffect } from 'react'
 
 interface Props {
     requestId?: string
@@ -23,16 +22,29 @@ export const RequestForm = observer(({ requestId }: Props) => {
         handleBack,
         activeStep,
         getStepStatus,
-        isEditMode
+        isEditMode,
+        configTypeId,
+        setConfigTypeId,
+        fullClear,
+        setFullClear
     } = useRequestForm(requestId)
 
 
-    const [configTypeId, setConfigTypeId] = useState<string>("")
 
 
     // const { user } = useAuth()
     // const navigate = useNavigate()
     // const [focusedInput, setFocusedInput] = useState<string | null>(null)
+
+
+
+    useEffect(() => {
+        setFullClear(false)
+
+        return () => {
+            setFullClear(true);
+        };
+    }, []);
 
 
     return (
@@ -84,18 +96,18 @@ export const RequestForm = observer(({ requestId }: Props) => {
                     ))}
                 </div>
 
-                {activeStep === 1 && <FormBasicInformationForm styles={styles} handleNext={handleNext} setConfigTypeId={setConfigTypeId} />}
+                {activeStep === 1 && <FormBasicInformationForm fullClear={fullClear} styles={styles} handleNext={handleNext} setConfigTypeId={setConfigTypeId} />}
                 {/* {activeStep === 2 && (configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" ? <TechnicalParametersStep styles={styles} handleNext={handleNext} handleBack={handleBack} /> : <TechnicalPumpParametersStep />)} */}
                 {activeStep === 2 && (configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d"
-                    ? <TechnicalParametersForm styles={styles} handleNext={handleNext} handleBack={handleBack} />
-                    : <PumpParametersForm styles={styles} handleNext={handleNext} handleBack={handleBack} />
+                    ? <KnsParametersForm fullClear={fullClear} styles={styles} handleNext={handleNext} handleBack={handleBack} />
+                    : <PumpParametersForm fullClear={fullClear} styles={styles} handleNext={handleNext} handleBack={handleBack} />
                 )}
 
                 {activeStep === 3 && (
                     <>
                         <FormBasicInformationView />
 
-                        {configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" ? <TechnicalParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} /> : <PupmParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} />}
+                        {configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" ? <KnsParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} /> : <PupmParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} />}
                     </>
                 )}
 

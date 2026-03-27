@@ -5,7 +5,9 @@ import { useState } from "react"
 export function useRequestForm(requestId: string | undefined) {
     const isEditMode = !!requestId
 
-    const [activeStep, setActiveStep] = useState(1)
+    const [fullClear, setFullClear] = useState<boolean>(true)
+    const [activeStep, setActiveStep] = useState(2)
+    const [configTypeId, setConfigTypeId] = useState<string>("019d2f27-6de3-7acf-bce5-79ad199baf24")
 
     const handleNext = () => {
         if (activeStep === 1) {
@@ -160,6 +162,10 @@ export function useRequestForm(requestId: string | undefined) {
         activeStep,
         setActiveStep,
         getStepStatus,
-        isEditMode
+        isEditMode,
+        configTypeId,
+        setConfigTypeId,
+        fullClear,
+        setFullClear
     })
 }

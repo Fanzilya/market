@@ -5,7 +5,7 @@ import { User } from "../user/type";
 export interface BaseInfo {
     objectName: string,
     govCustomerName: string,
-    locationRegion: string,
+    regionId: string,
     configType: string,
     contactPerson: string,
     contactPhone: string,
@@ -155,6 +155,7 @@ export interface RequestRes {
     contactName: string;
     /** Номер телефона */
     phoneNumber: string;
+    contactEmail? string;
     /** Дата создания (в формате ISO) */
     createdAt: string; // Можно использовать Date после парсинга
     /** Статус запроса */

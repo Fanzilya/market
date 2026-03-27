@@ -1,15 +1,9 @@
-import { schemeActionsModel } from '@/widgets/Scheme/src/models/scheme-actions-model';
 import { observer } from 'mobx-react-lite';
-import { cabinetLocationOptions, directionOptions, mediumOptions } from '../data/data';
-import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing';
-import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PerfomanceMeasureUnit, PerfomanceMeasureUnitTranslations, PipelineMaterial, PipelineMaterialTranslations, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
-import Icon from '@/shared/ui-kits/Icon';
-import { Input } from '@/shared/ui-kits/Input';
-import { requestTechnicalParametersModel } from './kns-parameters-model';
-import { useEffect } from 'react';
-import { BackButton, CancelButton, FormBtnContainer, NextButton } from '../ui/form-btn-container';
-import { FormViewContainer } from '../ui/form-view-container';
-
+import { PerfomanceMeasureUnitTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config';
+import { knsParametersModel } from './kns-parameters-model';
+import { BackButton, FormBtnContainer } from '../ui/form-btn-container';
+import { SchemeDocsView } from '@/widgets/scheme-docs/scheme-docs-view';
+import { ParametersViewContainer } from '@/widgets/request-view/parameters-view-container';
 
 interface Props {
     styles: any,
@@ -17,99 +11,129 @@ interface Props {
     handleBack: () => void
 }
 
-export const TechnicalParametersView = observer(({ styles, handleNext, handleBack }: Props) => {
+export const KnsParametersView = observer(({ styles, handleNext, handleBack }: Props) => {
 
-    const { knsData, elements } = requestTechnicalParametersModel
+    const { knsData, elements, fileUrl } = knsParametersModel
 
     return (
         <>
-            <FormViewContainer
-                title='Технические параметры'
-                items={[
-                    {
-                        label: "Производительность:",
-                        value: knsData.capacity + " " + PerfomanceMeasureUnitTranslations[knsData.units],
-                    },
-                    {
-                        label: "Напор:",
-                        value: knsData.head + " м",
-                    },
-                    {
-                        label: "Насосы:",
-                        value: `${knsData.workingPumps || '0'} раб. / ${knsData.reservePumps || '0'} рез. / ${knsData.stockPumps || '0'} склад`,
-                    },
-                    {
-                        label: "Среда:",
-                        value: knsData.medium,
-                    },
-                    {
-                        label: "Температура:",
-                        value: (knsData.temperature || '—') + " °C",
-                    },
-                    {
-                        label: "Взрывозащита:",
-                        value: knsData.explosionProof ? 'Да' : 'Нет',
-                    },
-                ]}
-            />
+            <div className='grid grid-cols-2 gap-5'>
+                <div>
+                    {/* <div className="grid grid-cols-3 gap-4 mb-8 p-5 bg-slate-50 rounded-2xl">
+                    <InfoItem
+                        label="Тип конфигурации"
+                        value={'КНС'} />
 
-            <FormViewContainer
-                title='Электрические параметры'
-                items={[
-                    {
-                        label: "Метод пуска:",
-                        value: PumpsStartupMethodTranslations[knsData.motorStartMethod],
-                    },
-                    {
-                        label: "Вводов питания:",
-                        value: knsData.powerInputs || '1',
-                    },
-                    {
-                        label: "Место установки шкафа:",
-                        value: knsData.cabinetLocation || 'УХЛ1',
-                    },
-                ]}
-            />
+                    <InfoItem
+                        label="Дата создания"
+                        value={new Date(request?.createdAt).toLocaleDateString('ru-RU')} />
 
-            {elements[3].checked &&
-                <FormViewContainer
-                    title='Габаритные размеры'
-                    items={[
-                        {
-                            label: "A (вход):",
-                            value: knsData.inletDepth || '—' + " м",
-                        },
-                        {
-                            label: "B (вход):",
-                            value: (knsData.inletDiameter || '—') + " мм " + (knsData.inletMaterial || '—'),
-                        },
-                        {
-                            label: "C (выход):",
-                            value: (knsData.outletDiameter || '—') + " мм " + (knsData.outletMaterial || '—'),
-                        },
-                        {
-                            label: "D (выход):",
-                            value: (knsData.outletDepth || '—') + " м",
-                        },
-                        {
-                            label: "Станция:",
-                            value: (knsData.stationDiameter || '—') + " м × " + (knsData.stationHeight || '—') + " м",
-                        },
-                        {
-                            label: "Утепление:",
-                            value: (knsData.insulation || '—') + " м",
-                        },
-                    ]}
-                />
-            }
+                    {request?.locationRegion &&
+                        <InfoItem
+                            label="Регион"
+                            value={request.locationRegion} />
+                    }
+                </div> */}
 
 
-            {elements &&
-                <FormViewContainer
-                    title='Габаритные размеры'
-                    list={elements.filter(item => item.checked)}
-                />
-            }
+                    <ParametersViewContainer
+                        title='Технические параметры'
+                        classNames={{
+                            items: "!grid-cols-1"
+                        }}
+                        items={[
+                            {
+                                label: "Производительность:",
+                                value: knsData.capacity + " " + PerfomanceMeasureUnitTranslations[knsData.units],
+                            },
+                            {
+                                label: "Напор:",
+                                value: knsData.head + " м",
+                            },
+                            {
+                                label: "Насосы:",
+                                value: `${knsData.workingPumps || '0'} раб. / ${knsData.reservePumps || '0'} рез. / ${knsData.stockPumps || '0'} склад`,
+                            },
+                            {
+                                label: "Среда:",
+                                value: knsData.medium,
+                            },
+                            {
+                                label: "Температура:",
+                                value: (knsData.temperature || '—') + " °C",
+                            },
+                            {
+                                label: "Взрывозащита:",
+                                value: knsData.explosionProof ? 'Да' : 'Нет',
+                            },
+                        ]}
+
+                    />
+
+
+                    <ParametersViewContainer
+                        title='Электрические параметры'
+                        items={[
+                            {
+                                label: "Метод пуска:",
+                                value: PumpsStartupMethodTranslations[knsData.motorStartMethod],
+                            },
+                            {
+                                label: "Вводов питания:",
+                                value: knsData.powerInputs || '1',
+                            },
+                            {
+                                label: "Место установки шкафа:",
+                                value: knsData.cabinetLocation || 'УХЛ1',
+                            },
+                        ]}
+                    />
+
+
+
+                    {elements.length > 0 && elements[3].checked &&
+                        <ParametersViewContainer
+                            title='Габаритные размеры'
+                            items={[
+                                {
+                                    label: "A (вход):",
+                                    value: knsData.inletDepth || '—' + " м",
+                                },
+                                {
+                                    label: "B (вход):",
+                                    value: (knsData.inletDiameter || '—') + " мм " + (knsData.inletMaterial || '—'),
+                                },
+                                {
+                                    label: "C (выход):",
+                                    value: (knsData.outletDiameter || '—') + " мм " + (knsData.outletMaterial || '—'),
+                                },
+                                {
+                                    label: "D (выход):",
+                                    value: (knsData.outletDepth || '—') + " м",
+                                },
+                                {
+                                    label: "Станция:",
+                                    value: (knsData.stationDiameter || '—') + " м × " + (knsData.stationHeight || '—') + " м",
+                                },
+                                {
+                                    label: "Утепление:",
+                                    value: (knsData.insulation || '—') + " м",
+                                },
+                            ]}
+                        />
+                    }
+
+
+                    {elements &&
+                        <ParametersViewContainer
+                            title='Габаритные размеры'
+                            list={elements.filter(item => item.checked)}
+                        />
+                    }
+                </div>
+
+                <SchemeDocsView url={fileUrl} />
+            </div>
 
             <FormBtnContainer>
                 <BackButton onClick={handleBack} />

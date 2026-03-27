@@ -244,8 +244,8 @@ export const AppRouter = createBrowserRouter([
                   {
                     path: 'edit',
                     async lazy() {
-                      const { CreateRequestPage } = await import('@/moduls/personal-account/customer/pages/RequestFormPage');
-                      return { Component: CreateRequestPage };
+                      const { RequestFormPage } = await import('@/moduls/personal-account/customer/pages/RequestFormPage');
+                      return { Component: RequestFormPage };
                     },
                   },
                   {

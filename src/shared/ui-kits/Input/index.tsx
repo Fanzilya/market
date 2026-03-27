@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, useState } from "react";
+import React, { HTMLInputTypeAttribute, useState } from "react";
 import { IMaskInput } from "react-imask";
 import { baseClasses, containerClasses, isFocusClasses, labelClasses, notFocusClasses } from "./styles";
 import { ErrorText } from "@/shared/components/error-text";
@@ -6,7 +6,7 @@ import { ErrorText } from "@/shared/components/error-text";
 interface Props {
     value: string | number | Date | null;
     onChange: (value: string | number) => void;
-    label?: string;
+    label?: string | React.ReactNode;
     placeholder: string;
     type?: HTMLInputTypeAttribute;
     disabled?: boolean,
@@ -26,7 +26,13 @@ export const Input = ({ value, onChange, label, placeholder, classNames, type = 
 
     return (
         <div className={`${containerClasses} ${classNames?.container}`}>
-            {label && <div className={`${labelClasses} ${classNames?.label}`}>{label} {required && <span className="text-red-500">*</span>}</div>}
+            {label && (typeof label == "string")
+                ? <div className={`${labelClasses} ${classNames?.label}`}>{label}
+                    {required && <span className="text-red-500">*</span>}
+                </div>
+                : label
+            }
+
             <InputComponent
                 type={type}
                 placeholder={placeholder}

@@ -5,33 +5,46 @@ import { KNSSchemaTesting } from '@/widgets/Scheme/scheme-testing';
 import { ControllerInstalationPlace, ControllerInstalationPlaceTranslations, directionLabels, PerfomanceMeasureUnit, PerfomanceMeasureUnitTranslations, PipelineMaterial, PipelineMaterialTranslations, PumpEnvironment, PumpEnvironmentTranslations, PumpsStartupMethod, PumpsStartupMethodTranslations } from '@/entities/request/config';
 import Icon from '@/shared/ui-kits/Icon';
 import { Input } from '@/shared/ui-kits/Input';
-import { requestTechnicalParametersModel } from './kns-parameters-model';
+import { knsParametersModel } from './kns-parameters-model';
 import { useEffect } from 'react';
 import { BackButton, FormBtnContainer, NextButton } from '../ui/form-btn-container';
+import { SchemeDocsForm } from '@/widgets/scheme-docs/scheme-docs-form';
+import { Selector } from '@/shared/ui-kits/select';
 
 
 interface Props {
     styles: any,
     handleNext: () => void
     handleBack: () => void
+    fullClear: boolean,
+
 }
 
-export const TechnicalParametersForm = observer(({ styles, handleNext, handleBack }: Props) => {
+export const KnsParametersForm = observer(({ styles, handleNext, handleBack, fullClear }: Props) => {
 
-    const { elements, initData, setKnsData, knsData, setElementChecked, clear } = requestTechnicalParametersModel
-
+    const { elements, initData, setKnsData, knsData, setElementChecked, clearForm, setFile, errorModel, validateForm, fileUrl, file } = knsParametersModel
 
     useEffect(() => {
         if (elements.length == 0) {
             initData()
         }
+
+        if (fullClear) {
+            errorModel.clearErrors()
+            clearForm()
+        }
     }, [])
 
     const handleBackButton = () => {
-        clear()
+        clearForm()
         handleBack()
     }
 
+    const onHandleNext = () => {
+        if (validateForm()) {
+            handleNext()
+        }
+    }
 
     return (
         <div className={styles.stepContent}>
@@ -40,113 +53,111 @@ export const TechnicalParametersForm = observer(({ styles, handleNext, handleBac
                 <div>
                     <h3 className={styles.subsectionTitle}>Основные параметры</h3>
                     <div className={styles.formGridTech}>
-                        <div className="flex gap-3">
+                        <div className="flex gap-3 flex-wrap">
                             <Input
                                 type="number"
                                 value={knsData.capacity}
                                 required
                                 label='Производительность'
                                 onChange={(e) => setKnsData("capacity", e)}
-                                classNames={{ container: "w-full" }}
+                                error={errorModel.errors.capacity}
+                                classNames={{ container: "min-w-[50%] flex-1" }}
                                 placeholder="0"
                             />
 
-                            <div className="flex flex-col gap-2 w-full">
-                                <label className={styles.label}>Единица измерения <span className="text-[#ef4444]">*</span></label>
-                                <select
-                                    value={knsData.units}
-                                    onChange={(e) => setKnsData("units", e.target.value)}
-                                    className={styles.select}
-                                >
-                                    <option value={PerfomanceMeasureUnit.LiterSecond}>
-                                        {PerfomanceMeasureUnitTranslations[PerfomanceMeasureUnit.LiterSecond as PerfomanceMeasureUnit]}
-                                    </option>
-                                    <option value={PerfomanceMeasureUnit.CubicMeter}>
-                                        {PerfomanceMeasureUnitTranslations[PerfomanceMeasureUnit.CubicMeter as PerfomanceMeasureUnit]}
-                                    </option>
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Требуемый напор (м) <span className={styles.required}>*</span>
-                            </label>
-                            <Input
-                                type="number"
-                                value={knsData.head}
-                                onChange={(e) => setKnsData("head", e)}
-                                classNames={{ input: styles.input }}
-                                placeholder="м"
+                            <Selector
+                                required
+                                placeholder={"Единица измерения"}
+                                label={"Единица измерения"}
+                                classNames={{ wripper: "w-[20%] min-w-[250px]" }}
+                                items={
+                                    Object.values(PerfomanceMeasureUnit)
+                                        .filter(value => typeof value === 'number')
+                                        .map(value => {
+                                            return {
+                                                title: PerfomanceMeasureUnitTranslations[value as PumpEnvironment],
+                                                value: value
+                                            }
+                                        })
+                                }
+                                defaultValue={String(knsData.units)}
+                                onSelect={(e) => setKnsData("units", e.value)}
+                                error={errorModel.errors.units}
                             />
                         </div>
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Кол-во рабочих насосов</label>
-                            <Input
-                                type="number"
-                                value={knsData.workingPumps}
-                                onChange={(e) => setKnsData("workingPumps", e)}
-                                classNames={{ input: styles.input }}
-                                placeholder="например: 2"
-                            />
-                        </div>
+                        <Input
+                            label='Требуемый напор (м)'
+                            required
+                            type="number"
+                            value={knsData.head}
+                            onChange={(e) => setKnsData("head", e)}
+                            error={errorModel.errors.head}
+                            classNames={{ input: styles.input }}
+                            placeholder="м"
+                        />
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Кол-во резервных насосов</label>
-                            <Input
-                                type="number"
-                                value={knsData.reservePumps}
-                                onChange={(e) => setKnsData("reservePumps", e)}
-                                classNames={{ input: styles.input }}
-                                placeholder="например: 1"
-                            />
-                        </div>
+                        <Input
+                            type="number"
+                            label='Кол-во рабочих насосов'
+                            value={knsData.workingPumps}
+                            onChange={(e) => setKnsData("workingPumps", e)}
+                            error={errorModel.errors.workingPumps}
+                            classNames={{ input: styles.input }}
+                            placeholder="например: 2"
+                        />
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Кол-во насосов на склад</label>
-                            <Input
-                                type="number"
-                                value={knsData.stockPumps}
-                                onChange={(e) => setKnsData("stockPumps", e)}
-                                classNames={{ input: styles.input }}
-                                placeholder="например: 0"
-                            />
-                        </div>
+                        <Input
+                            type="number"
+                            label='Кол-во резервных насосов'
+                            value={knsData.reservePumps}
+                            onChange={(e) => setKnsData("reservePumps", e)}
+                            error={errorModel.errors.reservePumps}
+                            classNames={{ input: styles.input }}
+                            placeholder="например: 1"
+                        />
+
+                        <Input
+                            type="number"
+                            label='Кол-во насосов на склад'
+                            value={knsData.stockPumps}
+                            onChange={(e) => setKnsData("stockPumps", e)}
+                            error={errorModel.errors.stockPumps}
+                            classNames={{ input: styles.input }}
+                            placeholder="например: 0"
+                        />
                     </div>
 
                     {/* Параметры среды */}
                     <h3 className={styles.subsectionTitle}>Параметры среды</h3>
                     <div className={styles.formGridTech}>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Перекачиваемая среда</label>
-                            <select
-                                value={knsData.medium}
-                                onChange={(e) => setKnsData("medium", e.target.value)}
-                                className={styles.select}
-                            >
-                                {Object.values(PumpEnvironment)
-                                    .filter(value => typeof value === 'number')
-                                    .map(value => (
-                                        <option key={value} value={value}>
-                                            {PumpEnvironmentTranslations[value as PumpEnvironment]}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
+                        <Selector
+                            required
+                            placeholder={"Перекачиваемая среда"}
+                            label={"Перекачиваемая среда"}
+                            items={Object.values(PumpEnvironment)
+                                .filter(value => typeof value === 'number')
+                                .map(value => {
+                                    return {
+                                        title: PumpEnvironmentTranslations[value as PumpEnvironment],
+                                        value: String(value)
+                                    }
+                                })
+                            }
+                            defaultValue={knsData.medium}
+                            onSelect={(e) => setKnsData("medium", e.value)}
+                            error={errorModel.errors.medium}
+                        />
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Температура среды (°C)</label>
-                            <Input
-                                type="number"
-                                value={knsData.temperature}
-                                onChange={(e) => setKnsData("temperature", e)}
-                                classNames={{ input: styles.input }}
-                                placeholder="°C"
-                            />
-                        </div>
+                        <Input
+                            type="number"
+                            label='Температура среды (°C)'
+                            value={knsData.temperature}
+                            onChange={(e) => setKnsData("temperature", e)}
+                            error={errorModel.errors.temperature}
+                            classNames={{ input: styles.input }}
+                            placeholder="°C"
+                        />
                     </div>
 
                     <div className={styles.checkboxGroup}>
@@ -163,235 +174,240 @@ export const TechnicalParametersForm = observer(({ styles, handleNext, handleBac
                     {/* Электрические параметры */}
                     <h3 className={styles.subsectionTitle}>Электрические параметры</h3>
                     <div className={styles.formGridTech}>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Метод пуска электродвигателей</label>
-                            <select
-                                value={knsData.motorStartMethod}
-                                onChange={(e) => setKnsData("motorStartMethod", e.target.value)}
-                                className={styles.select}
-                            >
-                                {Object.values(PumpsStartupMethod)
-                                    .filter(value => typeof value === 'number')
-                                    .map(value => (
-                                        <option key={value} value={value}>
-                                            {PumpsStartupMethodTranslations[value as PumpsStartupMethod]}
-                                        </option>
-                                    ))
-                                }
-                            </select>
-                        </div>
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Количество вводов питания</label>
-                            <select
-                                value={knsData.powerInputs}
-                                onChange={(e) => setKnsData("powerInputs", e.target.value)}
-                                className={styles.select}
-                            >
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                            </select>
-                        </div>
+                        <Selector
+                            required
+                            placeholder={"Метод пуска электродвигателей"}
+                            label={"Метод пуска электродвигателей"}
+                            items={Object.values(PumpsStartupMethod)
+                                .filter(value => typeof value === 'number')
+                                .map(value => {
+                                    return {
+                                        value: String(value),
+                                        title: PumpsStartupMethodTranslations[value as PumpsStartupMethod]
+                                    }
+                                })
+                            }
+                            defaultValue={knsData.motorStartMethod}
+                            onSelect={(e) => setKnsData("motorStartMethod", e.value)}
+                            error={errorModel.errors.motorStartMethod}
+                        />
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Место установки шкафа</label>
-                            <select
-                                value={knsData.cabinetLocation}
-                                onChange={(e) => setKnsData("cabinetLocation", e.target.value)}
-                                className={styles.select}
-                            >
-                                {Object.values(ControllerInstalationPlace)
-                                    .filter(value => typeof value === 'number')
-                                    .map(value => (
-                                        <option key={value} value={value}>
-                                            {ControllerInstalationPlaceTranslations[value as ControllerInstalationPlace]}
-                                        </option>
-                                    ))
+                        <Selector
+                            required
+                            placeholder={"Количество вводов питания"}
+                            label={"Количество вводов питания"}
+                            items={[
+                                {
+                                    value: "1",
+                                    title: "1",
+                                },
+                                {
+                                    value: "2",
+                                    title: "2",
                                 }
-                            </select>
-                        </div>
+                            ]}
+                            onSelect={(e) => setKnsData("powerInputs", e.value)}
+                            defaultValue={knsData.powerInputs}
+                            error={errorModel.errors.powerInputs}
+                        />
+
+
+                        <Selector
+                            required
+                            placeholder={"Место установки шкафа"}
+                            label={"Место установки шкафа"}
+                            items={Object.values(ControllerInstalationPlace)
+                                .filter(value => typeof value === 'number')
+                                .map(value => {
+                                    return {
+                                        value: String(value),
+                                        title: ControllerInstalationPlaceTranslations[value as ControllerInstalationPlace]
+                                    }
+                                })
+                            }
+                            defaultValue={knsData.cabinetLocation}
+                            onSelect={(e) => setKnsData("cabinetLocation", e.value)}
+                            error={errorModel.errors.cabinetLocation}
+                        />
                     </div>
 
                     <h3 className={styles.subsectionTitle}>Габаритные размеры трубопроводов и корпуса насосной станции</h3>
                     <div className={styles.formGridTech}>
-                        <div className={styles.dimensionsContainer}>
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Глубина залегания подводящего трубопровода, A (мм)</div>
-                                <div className={styles.dimensionValue}>
-                                    <Input
-                                        type="text"
-                                        value={knsData.inletDepth}
-                                        onChange={(e) => setKnsData("inletDepth", e)}
-                                        classNames={{ input: styles.input }}
-                                        placeholder="м"
-                                    />
-                                </div>
-                            </div>
+                        <Input
+                            label='Глубина залегания подводящего трубопровода, A (мм)'
+                            type="text"
+                            value={knsData.inletDepth}
+                            onChange={(e) => setKnsData("inletDepth", e)}
+                            error={errorModel.errors.inletDepth}
+                            classNames={{ input: styles.input }}
+                            placeholder="м"
+                        />
 
-                            {/* Диаметр и материал подводящего трубопровода */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Диаметр и материал подводящего трубопровода, B</div>
-                                <div className={styles.dimensionValue}>
-                                    <div className={styles.dimensionGroup}>
-                                        <Input
-                                            type="text"
-                                            value={knsData.inletDiameter}
-                                            onChange={(e) => setKnsData("inletDiameter", e)}
-                                            classNames={{ input: styles.input }}
-                                            placeholder="мм"
-                                        />
+                        {/* Диаметр и материал подводящего трубопровода */}
+                        <div className="flex gap-3 flex-wrap">
+                            <Input
+                                type="text"
+                                label='Диаметр подводящего трубопровода, B'
+                                value={knsData.inletDiameter}
+                                onChange={(e) => setKnsData("inletDiameter", e)}
+                                error={errorModel.errors.inletDiameter}
+                                classNames={{ container: "min-w-[50%] flex-1" }}
+                                placeholder="мм"
+                            />
 
-                                        <select
-                                            value={knsData.inletMaterial}
-                                            onChange={(e) => setKnsData("inletMaterial", e.target.value)}
-                                            className={styles.select}
-                                        >
-                                            {Object.values(PipelineMaterial)
-                                                .filter(value => typeof value === 'number')
-                                                .map(value => (
-                                                    <option key={value} value={value}>
-                                                        {PipelineMaterialTranslations[value]}
-                                                    </option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Направление подводящего трубопровода */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Направление подводящего трубопровода, по часам</div>
-                                <div className={styles.dimensionValue}>
-                                    <select
-                                        value={knsData.inletDirection}
-                                        onChange={(e) => setKnsData("inletDirection", e.target.value)}
-                                        className={styles.select}
-                                    >
-                                        {Object.entries(directionLabels).map(([value, label]) => (
-                                            <option key={value} value={value}>{label}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Глубина напорного трубопровода */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Глубина залегания напорного трубопровода, D (мм)</div>
-                                <div className={styles.dimensionValue}>
-                                    <Input
-                                        type="number"
-                                        value={knsData.outletDepth}
-                                        onChange={(e) => setKnsData("outletDepth", e)}
-                                        classNames={{ input: styles.input }}
-                                        placeholder="м"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Диаметр и материал напорного трубопровода */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Диаметр и материал напорного трубопровода на выходе из насосной станции, C</div>
-                                <div className={styles.dimensionValue}>
-                                    <div className={styles.dimensionGroup}>
-                                        <Input
-                                            type="number"
-                                            value={knsData.outletDiameter}
-                                            onChange={(e) => setKnsData("outletDiameter", e)}
-                                            classNames={{ input: styles.input }}
-                                            placeholder="мм"
-                                        />
-                                        <select
-                                            value={knsData.outletMaterial}
-                                            onChange={(e) => setKnsData("outletMaterial", e.target.value)}
-                                            className={styles.select}
-                                        >
-                                            {Object.values(PipelineMaterial)
-                                                .filter(value => typeof value === 'number')
-                                                .map(value => (
-                                                    <option key={value} value={value}>
-                                                        {PipelineMaterialTranslations[value]}
-                                                    </option>
-                                                ))
-                                            }
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Направление напорного трубопровода */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Направление напорного трубопровода, по часам</div>
-                                <div className={styles.dimensionValue}>
-                                    <select
-                                        value={knsData.outletDirection}
-                                        onChange={(e) => setKnsData("outletDirection", e.target.value)}
-                                        className={styles.select}
-                                    >
-                                        {directionOptions.map(opt => (
-                                            <option key={opt.value} value={opt.value}>{opt.label}</option>
-                                        ))}
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Количество напорных трубопроводов */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Количество напорных трубопроводов на выходе из насосной станции</div>
-                                <div className={styles.dimensionValue}>
-                                    <select
-                                        value={knsData.outletCount}
-                                        onChange={(e) => setKnsData("outletCount", e.target.value)}
-                                        className={styles.select}
-                                    >
-                                        <option value="1">1</option>
-                                        <option value="2">2</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            {/* Диаметр станции */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Предполагаемый диаметр насосной станции (мм)</div>
-                                <div className={styles.dimensionValue}>
-                                    <Input
-                                        type="number"
-                                        value={knsData.stationDiameter}
-                                        onChange={(e) => setKnsData("stationDiameter", e)}
-                                        classNames={{ input: styles.input }}
-                                        placeholder="м"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Высота станции */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Предполагаемая высота насосной станции (мм)</div>
-                                <div className={styles.dimensionValue}>
-                                    <Input
-                                        type="number"
-                                        value={knsData.stationHeight}
-                                        onChange={(e) => setKnsData("stationHeight", e)}
-                                        classNames={{ input: styles.input }}
-                                        placeholder="м"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Утепление */}
-                            <div className={styles.formGroup}>
-                                <div className={styles.label}>Наличие утепления корпуса (указать глубину, мм)</div>
-                                <div className={styles.dimensionValue}>
-                                    <Input
-                                        type="number"
-                                        value={knsData.insulation}
-                                        onChange={(e) => setKnsData("insulation", e)}
-                                        classNames={{ input: styles.input }}
-                                        placeholder="м"
-                                    />
-                                </div>
-                            </div>
+                            <Selector
+                                placeholder={"Материал"}
+                                label={"Материал"}
+                                classNames={{ wripper: "w-[20%] min-w-[250px]" }}
+                                items={Object.values(PipelineMaterial)
+                                    .filter(value => typeof value === 'number')
+                                    .map(value => {
+                                        return {
+                                            value: String(value),
+                                            title: PipelineMaterialTranslations[value]
+                                        }
+                                    })
+                                }
+                                defaultValue={knsData.inletMaterial}
+                                onSelect={(e) => setKnsData("inletMaterial", e.value)}
+                                error={errorModel.errors.inletMaterial}
+                            />
                         </div>
+
+
+                        {/* Направление подводящего трубопровода */}
+
+                        <Selector
+                            required
+                            placeholder={"Направление подводящего трубопровода, по часам"}
+                            label={"Направление подводящего трубопровода, по часам"}
+                            items={
+                                Object.entries(directionLabels).map(([value, label]) => {
+                                    return {
+                                        value: String(value),
+                                        title: label
+                                    }
+                                })
+                            }
+                            defaultValue={knsData.inletDirection}
+                            onSelect={(e) => setKnsData("inletDirection", e.value)}
+                            error={errorModel.errors.inletDirection}
+                        />
+
+                        {/* Глубина напорного трубопровода */}
+                        <Input
+                            label='Глубина залегания напорного трубопровода, D (мм)'
+                            type="number"
+                            value={knsData.outletDepth}
+                            onChange={(e) => setKnsData("outletDepth", e)}
+                            error={errorModel.errors.outletDepth}
+                            classNames={{ input: styles.input }}
+                            placeholder="м"
+                        />
+
+                        {/* Диаметр и материал напорного трубопровода */}
+                        <div className="flex gap-3 flex-wrap">
+
+                            <Input
+                                label='Диаметр напорного трубопровода на выходе из насосной станции, C'
+                                type="number"
+                                value={knsData.outletDiameter}
+                                onChange={(e) => setKnsData("outletDiameter", e)}
+                                error={errorModel.errors.outletDiameter}
+                                classNames={{ container: "min-w-[50%] flex-1" }}
+                                placeholder="мм"
+                            />
+
+                            <Selector
+                                required
+                                placeholder={"Материал"}
+                                label={"Материал"}
+                                classNames={{ wripper: "w-[20%] min-w-[250px]" }}
+                                items={Object.values(PipelineMaterial)
+                                    .filter(value => typeof value === 'number')
+                                    .map(value => {
+                                        return {
+                                            value: String(value),
+                                            title: PipelineMaterialTranslations[value]
+                                        }
+                                    })
+                                }
+                                defaultValue={knsData.outletMaterial}
+                                onSelect={(e) => setKnsData("outletMaterial", e.value)}
+                                error={errorModel.errors.outletMaterial}
+                            />
+                        </div>
+
+
+                        {/* Направление напорного трубопровода */}
+                        <Selector
+                            required
+                            placeholder={"Направление напорного трубопровода, по часам"}
+                            label={"Направление напорного трубопровода, по часам"}
+                            items={directionOptions.map(opt => {
+                                return {
+                                    value: opt.value,
+                                    title: opt.label
+                                }
+                            })}
+                            defaultValue={knsData.outletDirection}
+                            onSelect={(e) => setKnsData("outletDirection", e.value)}
+                            error={errorModel.errors.outletDirection}
+                        />
+
+                        {/* Количество напорных трубопроводов */}
+                        <Selector
+                            required
+                            placeholder={"Количество напорных трубопроводов на выходе из насосной станции"}
+                            label={"Количество напорных трубопроводов на выходе из насосной станции"}
+                            items={[
+                                {
+                                    value: "1",
+                                    title: "1"
+                                },
+                                {
+                                    value: "2",
+                                    title: "2"
+                                },
+                            ]}
+                            defaultValue={knsData.outletCount}
+                            onSelect={(e) => setKnsData("outletCount", e.value)}
+                            error={errorModel.errors.outletCount}
+                        />
+
+                        {/* Диаметр станции */}
+                        <Input
+                            label='Предполагаемый диаметр насосной станции (мм)'
+                            type="number"
+                            value={knsData.stationDiameter}
+                            onChange={(e) => setKnsData("stationDiameter", e)}
+                            error={errorModel.errors.stationDiameter}
+                            classNames={{ input: styles.input }}
+                            placeholder="м"
+                        />
+
+                        {/* Высота станции */}
+                        <Input
+                            type="number"
+                            label='Предполагаемая высота насосной станции (мм)'
+                            value={knsData.stationHeight}
+                            onChange={(e) => setKnsData("stationHeight", e)}
+                            error={errorModel.errors.stationHeight}
+                            classNames={{ input: styles.input }}
+                            placeholder="м"
+                        />
+
+                        {/* Утепление */}
+                        <Input
+                            type="number"
+                            label='Наличие утепления корпуса (указать глубину, мм)'
+                            value={knsData.insulation}
+                            onChange={(e) => setKnsData("insulation", e)}
+                            error={errorModel.errors.insulation}
+                            classNames={{ input: styles.input }}
+                            placeholder="м"
+                        />
                     </div>
 
                     <h3 className={styles.subsectionTitle}>Дополнительная комплектация</h3>
@@ -410,12 +426,13 @@ export const TechnicalParametersForm = observer(({ styles, handleNext, handleBac
                     </div>
                 </div>
 
-                {elements && <KNSSchemaTesting isActive={elements[3]?.checked} />}
+                {/* {elements && <KNSSchemaTesting isActive={elements[3]?.checked} />} */}
+                <SchemeDocsForm setFile={setFile} isError={errorModel.errors?.fileUrl?.length > 0} fileUrl={fileUrl} fileData={file} />
             </div>
 
             <FormBtnContainer>
                 <BackButton onClick={handleBackButton} />
-                <NextButton onClick={handleNext} />
+                <NextButton onClick={onHandleNext} />
             </FormBtnContainer >
         </div>
     );

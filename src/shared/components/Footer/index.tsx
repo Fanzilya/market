@@ -24,7 +24,7 @@ export default function Footer() {
               Платформа для автоматизации сбора коммерческих предложений
               и поиска инженерного оборудования
             </p>
-            
+
           </div>
 
           <div className={styles.footerColumn}>

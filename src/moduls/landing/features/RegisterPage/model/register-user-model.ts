@@ -29,7 +29,6 @@ class RegisterUserModel {
     setFormData<K extends keyof typeof this.formData>(name: K, value: typeof this.formData[K]) {
         this.formData[name] = value;
 
-
         if (name === 'email') {
             if (this.debounceTimer) {
                 clearTimeout(this.debounceTimer);
@@ -40,6 +39,7 @@ class RegisterUserModel {
             }, 1000);
         }
     }
+    
     private async checkEmailAvailability(email: string) {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
