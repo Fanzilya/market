@@ -1,4 +1,4 @@
-import { InstalationType, LiquidType, PipesConditions } from "./config"
+import { InstalationType, LiquidsIntakeType, LiquidType, PipesConditions } from "./config"
 
 export interface IPumpType {
     typeName: string,
@@ -18,35 +18,35 @@ export interface IPumpBaseInformation {
 }
 
 
-export interface IPumpsCreate {
-    pumpedLiquidType: LiquidType, // Вид перекачиваемой жидкости
-    pumpEfficiency: number, // Подача (производительность)
-    // Кол-во раб 
-    // Кол-во резервынй насосов
+export interface IPumpsForm {
+    pumpedLiquidType: LiquidType | string, // Вид перекачиваемой жидкости
+    pumpEfficiency: string, // number // Подача (производительность)
+    workPumpsCount: string, // number // Кол-во раб
+    reservePumpsCount: string, // number // Кол-во резервынй насосов
     // ---
-    liquidTemperature: number, // counts
-    mineralParticlesSize: number, // counts
-    mineralParticlesConcentration: number, // counts
-    bigParticleExistance: boolean, // counts
-    specificWastes: string, // counts (Пишет вручную)
-    liquidDensity: number, // counts
+    liquidTemperature: string, // number // Температура
+    mineralParticlesSize: string, // number // Крупность минеральных частиц
+    mineralParticlesConcentration: string, // number // Содержание минеральных частиц
+    bigParticleExistance: boolean, // Наличие в воде крупных механических и длинноволокнистых примесей
+    specificWastes: string, // Если есть специафические отходы
+    liquidDensity: string, // number
     // ---
 
     pumpTypeId: string, // Способ установки насоса (configTypes)
 
     // Если выбрал погружной, то 
-    heightOrDepth: number, // либо глубина либо высота всасывания
-    InstalationType: InstalationType // либо [] либо [] 
+    heightOrDepth: string, // number // либо глубина либо высота всасывания
+    instalationType: InstalationType | string // либо [] либо [] 
 
     // АБ
-    requiredPressure: number, // требуемый напор 
-    requiredOutPressure: number, // потеря напора на излив
-    pressureLoses: number, // потеря напора в трубо 
-    networkLength: number, // Длина сети трубы
-    pipesConditions: PipesConditions, // состояние сети (enum дадут)
-    pumpDiameter: number, // диаметр трубы
+    requiredPressure: string, // number // требуемый напор 
+    requiredOutPressure: string, // number // потеря напора на излив
+    pressureLoses: string, // number // потеря напора в трубо 
+    networkLength: string, // number // Длина сети трубы
+    pipesConditions: PipesConditions | string, // состояние сети (enum дадут)
+    pumpDiameter: string, // number // диаметр трубы
     geodesicalMarks: string, // геодез отметка
-    // ТУТТУТУТТУТУТТУ LiquidsIntakeType
+    intakeType: LiquidsIntakeType | string,
     //  7
     explosionProtection: boolean, // Взрывозащищённость
 
@@ -55,9 +55,9 @@ export interface IPumpsCreate {
 
     // 9
     powerCurrentType: string, // Вид тока питания
-    workPower: number, // рабочее напряжение
+    workPower: string, // number // рабочее напряжение
     frequencyConverter: boolean, // наличие преобразователя чистоты
-    powerCableLength: number, // Длина силового кабеля
+    powerCableLength: string, // number // Длина силового кабеля
 
     // 10
     liftingTransportEquipment: boolean, // есть || нету
@@ -67,30 +67,5 @@ export interface IPumpsCreate {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export type IPumpsCreate = IPumpBaseInformation & IPumpsForm & {
+};

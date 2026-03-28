@@ -56,8 +56,8 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                         <div className="flex gap-3 flex-wrap">
                             <Input
                                 type="number"
-                                value={knsData.capacity}
                                 required
+                                value={knsData.capacity}
                                 label='Производительность'
                                 onChange={(e) => setKnsData("capacity", e)}
                                 error={errorModel.errors.capacity}
@@ -66,9 +66,9 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                             />
 
                             <Selector
-                                required
                                 placeholder={"Единица измерения"}
                                 label={"Единица измерения"}
+                                required
                                 classNames={{ wripper: "w-[20%] min-w-[250px]" }}
                                 items={
                                     Object.values(PerfomanceMeasureUnit)
@@ -88,7 +88,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
 
                         <Input
                             label='Требуемый напор (м)'
-                            required
                             type="number"
                             value={knsData.head}
                             onChange={(e) => setKnsData("head", e)}
@@ -132,7 +131,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                     <h3 className={styles.subsectionTitle}>Параметры среды</h3>
                     <div className={styles.formGridTech}>
                         <Selector
-                            required
                             placeholder={"Перекачиваемая среда"}
                             label={"Перекачиваемая среда"}
                             items={Object.values(PumpEnvironment)
@@ -176,7 +174,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                     <div className={styles.formGridTech}>
 
                         <Selector
-                            required
                             placeholder={"Метод пуска электродвигателей"}
                             label={"Метод пуска электродвигателей"}
                             items={Object.values(PumpsStartupMethod)
@@ -194,7 +191,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                         />
 
                         <Selector
-                            required
                             placeholder={"Количество вводов питания"}
                             label={"Количество вводов питания"}
                             items={[
@@ -214,7 +210,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
 
 
                         <Selector
-                            required
                             placeholder={"Место установки шкафа"}
                             label={"Место установки шкафа"}
                             items={Object.values(ControllerInstalationPlace)
@@ -279,7 +274,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                         {/* Направление подводящего трубопровода */}
 
                         <Selector
-                            required
                             placeholder={"Направление подводящего трубопровода, по часам"}
                             label={"Направление подводящего трубопровода, по часам"}
                             items={
@@ -320,7 +314,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                             />
 
                             <Selector
-                                required
                                 placeholder={"Материал"}
                                 label={"Материал"}
                                 classNames={{ wripper: "w-[20%] min-w-[250px]" }}
@@ -342,7 +335,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
 
                         {/* Направление напорного трубопровода */}
                         <Selector
-                            required
                             placeholder={"Направление напорного трубопровода, по часам"}
                             label={"Направление напорного трубопровода, по часам"}
                             items={directionOptions.map(opt => {
@@ -358,7 +350,6 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
 
                         {/* Количество напорных трубопроводов */}
                         <Selector
-                            required
                             placeholder={"Количество напорных трубопроводов на выходе из насосной станции"}
                             label={"Количество напорных трубопроводов на выходе из насосной станции"}
                             items={[

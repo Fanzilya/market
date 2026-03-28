@@ -1,17 +1,10 @@
 import { observer } from 'mobx-react-lite';
 import { PerfomanceMeasureUnitTranslations, PumpsStartupMethodTranslations } from '@/entities/request/config';
 import { knsParametersModel } from './kns-parameters-model';
-import { BackButton, FormBtnContainer } from '../ui/form-btn-container';
 import { SchemeDocsView } from '@/widgets/scheme-docs/scheme-docs-view';
 import { ParametersViewContainer } from '@/widgets/request-view/parameters-view-container';
 
-interface Props {
-    styles: any,
-    handleNext: () => void
-    handleBack: () => void
-}
-
-export const KnsParametersView = observer(({ styles, handleNext, handleBack }: Props) => {
+export const KnsParametersView = observer(() => {
 
     const { knsData, elements, fileUrl } = knsParametersModel
 
@@ -48,7 +41,7 @@ export const KnsParametersView = observer(({ styles, handleNext, handleBack }: P
                             },
                             {
                                 label: "Напор:",
-                                value: knsData.head + " м",
+                                value: knsData.head ? knsData.head + " м" : "",
                             },
                             {
                                 label: "Насосы:",
@@ -60,7 +53,7 @@ export const KnsParametersView = observer(({ styles, handleNext, handleBack }: P
                             },
                             {
                                 label: "Температура:",
-                                value: (knsData.temperature || '—') + " °C",
+                                value: knsData.temperature ? knsData.temperature + " °C" : "",
                             },
                             {
                                 label: "Взрывозащита:",
@@ -69,7 +62,6 @@ export const KnsParametersView = observer(({ styles, handleNext, handleBack }: P
                         ]}
 
                     />
-
 
                     <ParametersViewContainer
                         title='Электрические параметры'
@@ -84,12 +76,10 @@ export const KnsParametersView = observer(({ styles, handleNext, handleBack }: P
                             },
                             {
                                 label: "Место установки шкафа:",
-                                value: knsData.cabinetLocation || 'УХЛ1',
+                                value: knsData.cabinetLocation,
                             },
                         ]}
                     />
-
-
 
                     {elements.length > 0 && elements[3].checked &&
                         <ParametersViewContainer
@@ -124,7 +114,7 @@ export const KnsParametersView = observer(({ styles, handleNext, handleBack }: P
                     }
 
 
-                    {elements &&
+                    {elements.length > 0 &&
                         <ParametersViewContainer
                             title='Габаритные размеры'
                             list={elements.filter(item => item.checked)}
@@ -134,11 +124,6 @@ export const KnsParametersView = observer(({ styles, handleNext, handleBack }: P
 
                 <SchemeDocsView url={fileUrl} />
             </div>
-
-            <FormBtnContainer>
-                <BackButton onClick={handleBack} />
-                {/* <SubmitButton /> */}
-            </FormBtnContainer >
         </>
     );
 })

@@ -27,9 +27,16 @@ export enum PipesConditions {
     Old
 }
 
+export enum PumpManagement {
+    Manual = 1,
+    RemoteСontrol,
+    AutoFloatSensor,
+    AutoPneumatic,
+    Other,
+}
 
 export const LiquidTypeTranslations: Record<LiquidType, string> = {
-    [LiquidType.HouseholdLiquids]: 'Хоз.бытовые стоки',
+    [LiquidType.HouseholdLiquids]: 'Хоз. бытовые стоки',
     [LiquidType.FacilityLiquids]: 'Промышленные стоки',
     [LiquidType.RainIceLiquids]: 'Дождевые, талые стоки',
 };
@@ -48,4 +55,12 @@ export const PipesConditionsTranslations: Record<PipesConditions, string> = {
     [PipesConditions.New]: 'Новый',
     [PipesConditions.TenYears]: 'Срок эксплуатации 10 лет',
     [PipesConditions.Old]: 'Старые',
+};
+
+export const PumpManagementTranslations: Record<PumpManagement, string> = {
+    [PumpManagement.Manual]: 'Ручное',
+    [PumpManagement.RemoteСontrol]: 'Дистанционное ',
+    [PumpManagement.AutoFloatSensor]: 'Автоматическое с помощью поплавкового датчика',
+    [PumpManagement.AutoPneumatic]: 'Автоматическое пневматическое',
+    [PumpManagement.Other]: 'Другой способ управления',
 }; 

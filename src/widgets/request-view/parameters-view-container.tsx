@@ -1,7 +1,9 @@
+import { useEffect } from "react";
 import { SpecItem } from "./components";
 import { TitleBlock } from "./request-titles";
 
 export interface Item {
+    is?: boolean,
     label: string,
     value: string,
 }
@@ -19,14 +21,30 @@ interface ContainerProps {
 
 
 export const ParametersViewContainer = ({ title, items, classNames, list }: ContainerProps) => {
+
+    useEffect(() => {
+        console.log(items)
+    }, [])
+
+    const isValuePresent = (value: any) => {
+        if (value === null || value === undefined) return false;
+        if (typeof value === 'string') return value.trim() !== "";
+        return false;
+    };
+
+    const buildItems = (items: { label: string; value: any }[]) => items && items.filter(item => isValuePresent(item.value));
+
+    const filteredItems = buildItems(items);
+
+    if (filteredItems && !filteredItems.length) return null;
+
     return (
         <>
             <TitleBlock title={title} className={classNames?.title} />
 
-
-            {items && items?.filter((item => ('is' in item) ? item.is : true)).map(item => item).length > 0 &&
+            {filteredItems &&
                 <div className="grid grid-cols-1 gap-4 mb-6">
-                    {items?.filter((item => ('is' in item) ? item.is : true)).map(item => (
+                    {filteredItems?.filter((item => ('is' in item) ? item.is : true)).map(item => (
                         <SpecItem label={item.label} value={item.value} />
                     ))}
                 </div>

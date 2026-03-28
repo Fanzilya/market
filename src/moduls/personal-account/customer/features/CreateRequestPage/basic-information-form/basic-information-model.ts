@@ -4,13 +4,13 @@ import { getAllRegionsApi } from "@/entities/regions/api";
 import { IRegion } from "@/entities/regions/type";
 import { ErrorModelClass } from "@/shared/libs/error-model";
 
-class FormBasicInformationModel {
+class BasicInformationModel {
 
     formData: BaseInfo = {
         objectName: '',
         govCustomerName: '',
         regionId: '',
-        configType: "019cdcd9-1892-7f3a-955c-3503ede15a6d",
+        configType: "",
         contactPerson: '',
         contactPhone: '',
         contactEmail: '',
@@ -115,4 +115,4 @@ class FormBasicInformationModel {
     }
 }
 
-export const formBasicInformationModel = new FormBasicInformationModel()
+export const basicInformationModel = new BasicInformationModel()

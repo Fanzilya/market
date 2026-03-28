@@ -3,12 +3,10 @@ import styles from './request-form.module.css'
 import { observer } from 'mobx-react-lite'
 import { useRequestForm } from './use-request-form'
 import { FormBasicInformationForm } from '../basic-information-form/basic-information-form'
-import { KnsParametersForm } from '../kns-parameters-form/kns-parameters-form'
-import { PumpParametersForm } from '../pump-parameters-form/pump-parameters-form'
-import { FormBasicInformationView } from '../basic-information-form/basic-information-view'
-import { KnsParametersView } from '../kns-parameters-form/kns-parameters-view'
-import { PupmParametersView } from '../pump-parameters-form/pupm-parameters-view'
+import { KnsParametersForm } from '../kns-parameters/kns-parameters-form'
+import { PumpParametersForm } from '../pump-parameters/pump-parameters-form'
 import { useEffect } from 'react'
+import { RequestFormView } from './request-form-view'
 
 interface Props {
     requestId?: string
@@ -26,16 +24,9 @@ export const RequestForm = observer(({ requestId }: Props) => {
         configTypeId,
         setConfigTypeId,
         fullClear,
-        setFullClear
+        setFullClear,
+        handleSubmit
     } = useRequestForm(requestId)
-
-
-
-
-    // const { user } = useAuth()
-    // const navigate = useNavigate()
-    // const [focusedInput, setFocusedInput] = useState<string | null>(null)
-
 
 
     useEffect(() => {
@@ -103,13 +94,7 @@ export const RequestForm = observer(({ requestId }: Props) => {
                     : <PumpParametersForm fullClear={fullClear} styles={styles} handleNext={handleNext} handleBack={handleBack} />
                 )}
 
-                {activeStep === 3 && (
-                    <>
-                        <FormBasicInformationView />
-
-                        {configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d" ? <KnsParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} /> : <PupmParametersView styles={styles} handleNext={handleNext} handleBack={handleBack} />}
-                    </>
-                )}
+                {activeStep === 3 && <RequestFormView handleBack={handleBack} configTypeId={configTypeId} handleSubmit={handleSubmit} />}
 
                 {/* <div className={styles.formActions}>
                     {activeStep > 1 && (

@@ -52,6 +52,7 @@ export interface KnsData {
     element1Value: string,
     element2Param: string,
     elements?: EquipmentDataCheckbox
+    equipmentGuidList?: string[]
 }
 
 

@@ -5,6 +5,6 @@ import { IPumpsCreate } from "./type"
 export const getPumpTypes = () => {
     return instance.get(PumpConfiguration.types)
 }
-export const createPump = (params: IPumpsCreate) => {
+export const createPumpApi = (params: IPumpsCreate) => {
     return instance.post(PumpConfiguration.create, params)
 }

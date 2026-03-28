@@ -2,7 +2,7 @@ import Icon from '@/shared/ui-kits/Icon';
 import { Input } from '@/shared/ui-kits/Input';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
-import { formBasicInformationModel } from './form-basic-information';
+import { basicInformationModel } from './basic-information-model';
 import { SelectParameters } from '../ui/select-parameters';
 import { configTypeList } from '@/entities/request/config';
 import { CancelButton, FormBtnContainer, NextButton } from '../ui/form-btn-container';
@@ -20,7 +20,7 @@ interface Porps {
 export const FormBasicInformationForm = observer(({ fullClear, styles, handleNext, setConfigTypeId }: Porps) => {
 
     const [isHovered, setIsHovered] = useState(false);
-    const { formData, setFormData, regionList, init, errors, validateForm, errorModel, clearForm } = formBasicInformationModel
+    const { formData, setFormData, regionList, init, errors, validateForm, errorModel, clearForm } = basicInformationModel
 
     const navigate = useNavigate()
 
@@ -143,6 +143,7 @@ export const FormBasicInformationForm = observer(({ fullClear, styles, handleNex
 
                 <div className={styles.formGrid}>
                     <Input
+                        required
                         label='Контактное лицо'
                         type="text"
                         placeholder='Контактное лицо'
@@ -156,6 +157,7 @@ export const FormBasicInformationForm = observer(({ fullClear, styles, handleNex
 
                     <Input
                         label='Телефон'
+                        required
                         type="phone"
                         value={formData.contactPhone}
                         onChange={(e) => setFormData("contactPhone", e)}

@@ -4,28 +4,60 @@ import { observer } from 'mobx-react-lite'
 import { useRequestForm } from './use-request-form'
 import { FormBasicInformationForm } from '../basic-information-form/basic-information-form'
 import { FormBasicInformationView } from '../basic-information-form/basic-information-view'
+import { KnsParametersView } from '../kns-parameters/kns-parameters-view'
+import { PupmParametersView } from '../pump-parameters/pump-parameters-view'
+import { BackButton, FormBtnContainer, SubmitButton } from '../ui/form-btn-container'
+import { basicInformationModel } from '../basic-information-form/basic-information-model'
+import { knsParametersModel } from '../kns-parameters/kns-parameters-model'
+import { pumpParametersModel } from '../pump-parameters/pump-parameters-model'
+import { BaseInfo, KnsData } from '@/entities/request/type'
+import { IPumpsForm } from '@/entities/pumps/type'
+import { configTypeKeys } from '@/entities/request/config'
 
 interface Props {
-    requestId?: string
+    configTypeId?: string,
+    handleBack: () => void,
+    handleSubmit: ({ basicData, configParametrsData }: { basicData: BaseInfo, configParametrsData: KnsData | IPumpsForm }) => void,
 }
 
 
-export const RequestForm = observer(() => {
+export const RequestFormView = observer(({ configTypeId, handleBack, handleSubmit }: Props) => {
+
+    const { formData } = basicInformationModel
+    const { knsData, preparationData, file: filekns } = knsParametersModel
+    const { model, file: filePump } = pumpParametersModel
 
 
-
-
+    const onSubmit = () => {
+        handleSubmit({
+            basicData: formData,
+            configParametrsData: configTypeId == configTypeKeys.pupm
+                ? model
+                : {
+                    ...knsData,
+                    equipmentGuidList: preparationData()
+                },
+            fileData: configTypeId == configTypeKeys.pupm ? filePump : filekns
+        })
+    }
 
     return (
         <div className={styles.stepContent}>
             <h2 className={styles.sectionTitle}>Проверка данных</h2>
 
-            <div className={styles.previewCard}>
+            <FormBasicInformationView />
 
-                <FormBasicInformationView />
+            {configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d"
+                ? <KnsParametersView />
+                : <PupmParametersView />
+            }
 
+            <FormBtnContainer>
+                <BackButton onClick={handleBack} />
+                <SubmitButton onClick={onSubmit} />
+            </FormBtnContainer >
 
-                {/* <h3 className={styles.previewTitle}>Электрические параметры</h3>
+            {/* <h3 className={styles.previewTitle}>Электрические параметры</h3>
                 <div className={styles.previewGrid}>
                     <div className={styles.previewItem}>
                         <span className={styles.previewLabel}>Метод пуска:</span>
@@ -96,7 +128,6 @@ export const RequestForm = observer(() => {
                         </div>
                     </>
                 )} */}
-            </div>
         </div>
     )
 })

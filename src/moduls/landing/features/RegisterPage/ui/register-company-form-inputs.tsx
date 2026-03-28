@@ -14,10 +14,11 @@ interface Props {
     types: SeletectItemInterface[],
     styles: any,
     errors: any,
+    roleUser: string,
 }
 
 
-export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoading, types, styles, errors }: Props) => {
+export const SuplierCompanyFormInputs = observer(({ formData, setFormData, isLoading, types, styles, errors, roleUser }: Props) => {
     return (
         <>
             <Input

@@ -45,7 +45,7 @@ export const RequestStatusTranslations: Record<RequestStatus, string> = {
 };
 
 export const PerfomanceMeasureUnitTranslations: Record<PerfomanceMeasureUnit, string> = {
-    [PerfomanceMeasureUnit.LiterSecond]: 'л.с.',
+    [PerfomanceMeasureUnit.LiterSecond]: 'л/с',
     [PerfomanceMeasureUnit.CubicMeter]: 'м³/ч'
 };
 
@@ -141,3 +141,8 @@ export const configTypeList = [
         name: "Насосы"
     },
 ]
+export const configTypeKeys = {
+    kns: "019cdcd9-1892-7f3a-955c-3503ede15a6d",
+    pupm: "019d2f27-6de3-7acf-bce5-79ad199baf24",
+}
+

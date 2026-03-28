@@ -54,8 +54,7 @@ export const CancelButton = ({ onClick }: { onClick: () => void }) => {
     );
 };
 
-export const SubmitButton = ({ isSubmitting, isEditMode, onClick }: { isSubmitting: boolean; isEditMode: boolean; onClick: () => void; }) => {
-
+export const SubmitButton = ({ isSubmitting, isEditMode, onClick }: { isSubmitting?: boolean; isEditMode?: boolean; onClick: () => void; }) => {
     return (
         <button
             type="button"

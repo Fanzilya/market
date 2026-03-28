@@ -80,7 +80,7 @@ export const OfferDetailPage = observer(() => {
 
         {/* Табы */}
 
-        <div className={styles.tabs}>
+        {/* <div className={styles.tabs}>
           <button
             className={`${styles.tab} ${activeTab === 'details' ? styles.tabActive : ''}`}
             onClick={() => setActiveTab('details')}
@@ -111,7 +111,7 @@ export const OfferDetailPage = observer(() => {
           >
             Документы
           </button>
-        </div>
+        </div> */}
 
 
         {/* Контент табов */}
@@ -138,7 +138,6 @@ export const OfferDetailPage = observer(() => {
 
                   </div>
                 ))}
-
 
                 {[
                   {

@@ -151,6 +151,7 @@ export const RegisterPage = observer(() => {
               setTypeForm={setTypeForm}
               typeForm={typeForm}
               errors={errorsCompany}
+              roleUser={formData.roleName}
 
               botttom={
                 <div className="flex gap-2 mt-2">

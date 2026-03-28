@@ -25,12 +25,13 @@ interface Props {
     setTypeForm: (value: "searchInn" | "form") => void
     typeForm: "searchInn" | "form"
     errors: any,
-    botttom: ReactNode
+    botttom: ReactNode,
+    roleUser: string
 }
 
 export const RegisterCompanyForm = observer(({
     formData, setFormData, isLoading, types, fnsValue, setFnsValue, searchCompany, styles,
-    isLoadingCompanySearch, openCompanyForm, typeForm, setTypeForm, errors,
+    isLoadingCompanySearch, openCompanyForm, typeForm, setTypeForm, errors, roleUser,
     botttom
 }: Props) => {
 
@@ -104,6 +105,7 @@ export const RegisterCompanyForm = observer(({
                 types={types}
                 styles={styles}
                 errors={errors}
+                roleUser={roleUser}
             />}
 
             {botttom}
