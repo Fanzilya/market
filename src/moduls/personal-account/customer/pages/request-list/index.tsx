@@ -3,17 +3,13 @@ import { useAuth } from '@/features/user/context/context'
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import styles from "./CustomerPage.module.css"
-import { requestListModel } from '../../features/request-list/request-list-model'
 import { CustomerData } from '../../features/request-list/model-data'
 import { observer } from 'mobx-react-lite'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { Search } from '@/shared/ui-kits/Input/input-search'
-import { ArchiveConfirmModal } from '../../widgets/request-list/archive-confirm-modal'
 import { LogoutConfirmModal } from '../../widgets/request-list/logout-confirm-modal'
 import { RequestTableRow } from '../../widgets/request-list/request-table-row'
-import { RequestCard } from '../../widgets/request-list/request-card'
 import { Role } from '@/entities/user/role'
-import { tabsButton } from '@/entities/request/config'
 import { useRequestsListData } from '../../features/request-list/useRequestsListData'
 
 export const CustomerPage = observer(() => {
@@ -32,30 +28,23 @@ export const CustomerPage = observer(() => {
   }, [])
 
   const {
-    itemsPerPage,
     showLogoutConfirm,
     setShowLogoutConfirm,
-    showArchiveConfirm,
-    setShowArchiveConfirm,
-    currentPage,
-    setCurrentPage,
-    // setSelectedStatus,
     searchQuery,
     setSearchQuery,
-    // requests,
-    // paginatedRequests,
-    // totalPages,
     confirmLogout,
     goToEditRequest,
-    openArchiveConfirm,
-    handleArchiveRequest,
     handleDeleteRequest,
     handleResubmit,
-    // getStatusText,
     goToCreateRequest
   } = CustomerData(styles)
 
   const { requests, isLoading, archiveRequest } = useRequestsListData()
+
+  useEffect(() => {
+    console.log(requests)
+  }, [requests])
+
 
   return (
     <>

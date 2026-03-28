@@ -101,7 +101,7 @@ class BasicInformationModel {
             objectName: '',
             govCustomerName: '',
             regionId: '',
-            configType: "019cdcd9-1892-7f3a-955c-3503ede15a6d",
+            configType: "",
             contactPerson: '',
             contactPhone: '',
             contactEmail: '',

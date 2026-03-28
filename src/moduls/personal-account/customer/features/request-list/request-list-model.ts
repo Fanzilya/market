@@ -20,7 +20,6 @@ class RequestListModel {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-
     filteredRequests(selectedStatus: 'all' | 'news' | 'moderation' | 'rejected' | 'published' | 'archived') {
         this.selectedStatus = selectedStatus
 

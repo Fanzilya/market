@@ -22,8 +22,8 @@ export const KnsRequest = {
 export const PumpConfiguration = {
     types: '/PumpConfig/pump/types/all',
     create: "/PumpConfig/create",
+    single: "/PumpConfig/single",
 }
-
 
 export const RequestRouter = {
     allPublic: "/Request/actual/published/all",

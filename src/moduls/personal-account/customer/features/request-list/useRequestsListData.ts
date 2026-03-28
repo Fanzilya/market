@@ -1,7 +1,9 @@
 // hooks/useRequestsQuery.js
 import { requestArhivApi, requestsAllApi, requestStatusChangeApi } from '@/entities/admin/api'
 import { offersByRequestsApi } from '@/entities/offer/api'
+import { getPumpSingle } from '@/entities/pumps/api'
 import { allByUserApi, requestArhivCustomerApi, requestSingleApi } from '@/entities/request/api'
+import { configTypeKeys } from '@/entities/request/config'
 import { RequestRes } from '@/entities/request/type'
 import { useAuth } from '@/features/user/context/context'
 import { useQuery, useMutation, useQueryClient, useQueries } from '@tanstack/react-query'
@@ -33,7 +35,7 @@ export const useRequestsListData = () => {
     const requestDetailsQueries = useQueries({
         queries: requests.map((request: RequestRes) => ({
             queryKey: [queryKeys.requestDetail, request.id],
-            queryFn: () => requestSingleApi({ id: request.id }),
+            queryFn: () => request.configTypeId == configTypeKeys.pupm ? getPumpSingle({ requestId: request.id }) : requestSingleApi({ id: request.id }),
             staleTime: 5 * 60 * 1000,
             enabled: !!request.id,
         })),
