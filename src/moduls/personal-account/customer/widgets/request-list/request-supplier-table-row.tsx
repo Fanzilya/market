@@ -1,5 +1,5 @@
 import { OfferFull } from "@/entities/offer/type";
-import { RequestStatus, RequestStatusTranslations } from "@/entities/request/config";
+import { configTypeKeys, PerfomanceMeasureUnitTranslations, RequestStatus, RequestStatusTranslations } from "@/entities/request/config";
 import { getStatusClass, getStatusText } from "@/entities/request/functions";
 import { IRequest, RequestRes } from "@/entities/request/type";
 import { Role } from "@/entities/user/role";
@@ -33,6 +33,7 @@ interface Props {
 
 
 export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleDeleteRequest, handleResubmit, number, gridClass, onArhiv, onChangeStatus, onFavoriteAdd, onFavoriteRemove }: Props) => {
+
     // Функция для переключения видимости КП
     const toggleOffers = (itemId: string) => {
         // Находим элемент с КП по id родителя
@@ -75,6 +76,9 @@ export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleD
         setShowArchiveConfirm(false)
     }
 
+
+    // useEffect(() => { console.log(item.data) }, [])
+
     return (
         <>
             {showArchiveConfirm && (
@@ -85,35 +89,44 @@ export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleD
                 />
             )}
 
-            <div className="relative">
+            <div onClick={() => navigate(`/supplier/request/${item.data.configTypeId == configTypeKeys.kns ? "kns" : "pump"}/${item.data.requestId}`)} className="relative">
                 <div key={number} onClick={() => user?.role != Role.Supplier && toggleOffers(item.data.id)} className={`${styles.tr} py-5 px-3 cursor-pointer items-center text-center hover:bg-[rgba(74,_133,_246,_0.05)] border-b border-gray-300 ${gridClass}`}>
                     <div className={styles.div}>
                         <span className={styles.idBadge}>{item.data.innerId || number}</span>
                     </div>
 
                     <div className={styles.div}>
-                        <span className={styles.typeBadge}>КНС</span>
+                        <span className={styles.idBadge}>{item.data.region?.regionName || "-"}</span>
                     </div>
-                    {/* <div className={styles.div}>
-                        <div className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 rounded-full text-xs font-semibold text-green-600" >
 
-                            <Icon name='check' width={12} />
-                            offerCount === 0
-                            {offerCount}
-                            <span className={styles.noOffers}>{item.offers.length}</span>
+                    <div className={styles.div}>
+                        <span className={styles.typeBadge}>{item.data.requestConfigType.configTypeName}</span>
+                    </div>
+
+                    <div className={styles.div}>
+                        <span className={styles.typeBadge}>{item.data?.knsConfigDTO ? (item.data?.knsConfigDTO.efficiency + " " + PerfomanceMeasureUnitTranslations[item.data?.knsConfigDTO.untis]) : item.data?.pumpConfigDTO.efficiency + " м³/ч"} </span>
+                    </div>
+
+                    <div className={styles.div}>
+                        <div className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 rounded-full text-xs font-semibold text-green-600" >
+                            <ViewIcon />
+                            {item.data.businessOffersCount}
                         </div>
-                    </div> */}
+                    </div>
 
                     <div className={`${styles.div} `}>
                         <span className={styles.date + " block w-full text-center"}>
                             {new Date(item.data.createdAt).toLocaleDateString('ru-RU')}
                         </span>
                     </div>
+
                     <div className={`${styles.div} flex justify-center items-center`}>
                         <span className={`${styles.statusBadge} ${getStatusClass(item.data)}`}>
                             {getStatusText(item.data)}
                         </span>
                     </div>
+
+
                     <div className={styles.div}>
                         {user?.role == Role.Admin &&
                             <div className="flex gap-3 justify-center items-center">
@@ -228,10 +241,9 @@ export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleD
 
                         {user?.role == Role.Supplier &&
                             <div className="flex gap-3 justify-center items-center">
-                                <button className={`${styles.actionButton} px-[10px] !w-min gap-1`} onClick={(e) => { e.stopPropagation(); navigate(`${user?.role == Role.Supplier ? "/supplier" : "/admin"}/request/${item.data.id}`) }} >
+                                <button className={`${styles.actionButton} px-[10px] !w-min gap-1`} >
                                     {true ? (
                                         <>
-                                            <ViewIcon />
                                             Просмотр
                                         </>
                                     ) : (

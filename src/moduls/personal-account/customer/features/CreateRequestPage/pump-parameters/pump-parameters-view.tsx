@@ -4,10 +4,19 @@ import { SchemeDocsView } from '@/widgets/scheme-docs/scheme-docs-view';
 import { ParametersViewContainer } from '@/widgets/request-view/parameters-view-container';
 import { InstalationTypeTranslations, LiquidsIntakeTypeTranslations, LiquidTypeTranslations, PipesConditionsTranslations } from '@/entities/pumps/config';
 import { TitleBlock } from '@/widgets/request-view/request-titles';
+import { IPumpsForm, IPumpType } from '@/entities/pumps/type';
 
-export const PupmParametersView = observer(() => {
 
-    const { model, fileUrl, configTypes, submersibleTypesId } = pumpParametersModel
+interface Props {
+    model: IPumpsForm,
+    configTypes: IPumpType[],
+    fileUrl: string,
+    submersibleTypesId: string,
+}
+
+
+export const PupmParametersView = observer(({ model, fileUrl, configTypes, submersibleTypesId, }: Props) => {
+
 
     return (
         <>

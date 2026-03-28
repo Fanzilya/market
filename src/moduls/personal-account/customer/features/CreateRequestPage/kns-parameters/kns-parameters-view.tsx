@@ -3,10 +3,19 @@ import { PerfomanceMeasureUnitTranslations, PumpsStartupMethodTranslations } fro
 import { knsParametersModel } from './kns-parameters-model';
 import { SchemeDocsView } from '@/widgets/scheme-docs/scheme-docs-view';
 import { ParametersViewContainer } from '@/widgets/request-view/parameters-view-container';
+import { EquipmentDataCheckbox } from '@/widgets/Scheme/src/data/teeska';
+import { KnsData } from '@/entities/request/type';
 
-export const KnsParametersView = observer(() => {
 
-    const { knsData, elements, fileUrl } = knsParametersModel
+
+interface Props {
+    knsData: KnsData,
+    elements: EquipmentDataCheckbox[],
+    fileUrl: string,
+}
+
+
+export const KnsParametersView = observer(({ knsData, elements, fileUrl }: Props) => {
 
     return (
         <>

@@ -232,7 +232,7 @@ export const AppRouter = createBrowserRouter([
                 },
               },
               {
-                path: ':requestId',
+                path: ':type/:requestId',
                 children: [
                   {
                     index: true,
@@ -259,7 +259,6 @@ export const AppRouter = createBrowserRouter([
               },
             ]
           },
-
           {
             path: 'offer',
             children: [
@@ -313,7 +312,7 @@ export const AppRouter = createBrowserRouter([
         path: 'request',
         children: [
           {
-            path: ':requestId',
+            path: ':type/:requestId',
             children: [
               {
                 index: true,

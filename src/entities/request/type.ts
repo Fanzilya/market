@@ -6,12 +6,19 @@ export interface BaseInfo {
     objectName: string,
     govCustomerName: string,
     regionId: string,
+    regionName?: string,
     configType: string,
     contactPerson: string,
     contactPhone: string,
     contactEmail: string,
     projectOrganizationName: string,
 }
+
+export interface BaseInfoFull extends BaseInfo {
+    id?: string
+    innerId: string
+}
+
 
 export interface KnsData {
     // Основные параметры
@@ -141,47 +148,42 @@ export interface IBiznesView {
 
 // API ANSWER
 
-export interface RequestRes {
-    /** Название по проектной документации */
-    innerId?: string;
-    /** Название по проектной документации */
-    nameByProjectDocs: string;
-    /** Наименование объекта */
-    objectName: string;
-    /** Регион расположения */
-    locationRegion: string;
-    /** Наименование заказчика */
-    customerName: string;
-    /** Контактное лицо */
-    contactName: string;
-    /** Номер телефона */
-    phoneNumber: string;
-    contactEmail? string;
-    /** Дата создания (в формате ISO) */
-    createdAt: string; // Можно использовать Date после парсинга
-    /** Статус запроса */
-    status: RequestStatus | null;
-    /** Флаг архивации */
-    isArchived: boolean;
-    /** ID пользователя */
-    userId: string;
-    /** Объект пользователя (может быть null) */
-    user: User | null;
-    /** ID типа конфигурации */
-    configTypeId: string;
-    /** Тип конфигурации (может быть null) */
-    requestConfigType: string | null;
-    /** Конфигурации КНС (может быть null) */
-    knsConfigs: any; // TODO: Уточнить тип
-    /** Оборудование запроса (может быть null) */
-    equipRequest: any; // TODO: Уточнить тип
-    /** Избранные запросы (может быть null) */
-    favoriteRequests: any; // TODO: Уточнить тип
-    /** Уникальный идентификатор запроса */
+export interface RequestConfigType {
+    configTypeName: string;
     id: string;
-    isFavorite: string;
-    supplierRequestStatus: "Viewed" | "Payed" | "New";
 }
+
+export interface PumpConfigDTO {
+    efficiency: number;
+}
+
+export interface PumpConfigRegion {
+    regionName: string;
+    id: string;
+}
+
+export interface RequestRes {
+    requestId: string;
+    innerId: string;
+    nameByProjectDocs: string;
+    objectName: string;
+    customerName: string;
+    projectOrganizationName: string;
+    contactName: string;
+    phoneNumber: string;
+    createdAt: string; // или Date, если преобразуется
+    status: RequestStatus;
+    regionId: string | null;
+    region: PumpConfigRegion | null;
+    isArchived: boolean;
+    configTypeId: string;
+    requestConfigType: RequestConfigType;
+    knsConfigDTO: null;
+    losConfigDTO: null;
+    pumpConfigDTO: PumpConfigDTO | null;
+    supplierRequestStatus?: "Viewed" | "Payed" | "New";
+}
+
 
 export interface CurrentRes {
     /** Производительность */

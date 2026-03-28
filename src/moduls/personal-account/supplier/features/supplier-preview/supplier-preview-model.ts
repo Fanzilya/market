@@ -1,6 +1,8 @@
+import { getPumpSingle } from '@/entities/pumps/api';
+import { getAllRegionsApi } from '@/entities/regions/api';
+import { IRegion } from '@/entities/regions/type';
 import { clickAccountApi, currentKnsApi, equipmentCurrentKnsApi, requestSingleApi, requestSupplierSingleApi, viewUserApi } from '@/entities/request/api';
-import { ApiResponse } from '@/entities/request/type';
-import { getAccountManyApi } from '@/entities/user/api';
+import { BaseInfoFull } from '@/entities/request/type';
 import { ACCOUNT_SUPPLY } from '@/entities/user/config';
 import { ISupplierAccount } from '@/entities/user/type';
 import { makeAutoObservable } from 'mobx';
@@ -8,10 +10,19 @@ import { makeAutoObservable } from 'mobx';
 
 class SupplierPreviewModel {
 
-    model: ApiResponse = {
-        request: null,
-        current: null,
-        equipmentCurrent: null,
+
+    request: BaseInfoFull = {
+        id: "",
+        objectName: "",
+        govCustomerName: "",
+        regionId: "",
+        configType: "",
+        contactPerson: "",
+        contactPhone: "",
+        contactEmail: "",
+        projectOrganizationName: "",
+        regionName: "",
+        innerId: "",
     }
 
     schemeIsActive: boolean = false
@@ -29,20 +40,11 @@ class SupplierPreviewModel {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-    get request() {
-        return this.model.request!
-    }
-    get currentModel() {
-        return this.model.current!
-    }
-    get equipmentCurrentModel() {
-        return this.model.equipmentCurrent!
-    }
 
     async clickRequestUser() {
         try {
             const res = await clickAccountApi({
-                requestId: this.model.request?.id!,
+                requestId: this.request?.id!,
                 accountId: this.accountData.id,
             })
 
@@ -54,10 +56,7 @@ class SupplierPreviewModel {
             localStorage.setItem(ACCOUNT_SUPPLY, JSON.stringify(newData))
             this.accountData = newData
 
-
-            this.request.supplierRequestStatus = "Payed"
-
-
+            // this.request.supplierRequestStatus = "Payed"
 
         } catch (error) {
             console.log(error)
@@ -77,31 +76,57 @@ class SupplierPreviewModel {
         }
     }
 
-    async init(id: string, accountData: any) {
+    async init(id: string, accountData: any, type: string) {
         this.isLoader = true
         this.schemeIsActive = false
+        this.accountData = accountData
 
         try {
-            this.accountData = accountData
 
-            const [resquestRes, currentRes, equipmentCurrentRes] = await Promise.all([
-                requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }),
-                currentKnsApi({ requestId: id }),
-                equipmentCurrentKnsApi({ requestId: id })
-            ])
+            if (type == "kns") {
+                const [resquestRes, configRes, equipmentCurrentRes] = await Promise.all([
+                    requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }),
+                    currentKnsApi({ requestId: id }),
+                    equipmentCurrentKnsApi({ requestId: id })
+                ])
 
-            console.log(resquestRes.data)
+                console.log(resquestRes, configRes, equipmentCurrentRes)
+                this.request = {
+                    objectName: resquestRes.data.objectName,
+                    govCustomerName: resquestRes.data.customerName,
+                    regionId: resquestRes.data.locationRegion, // СДЕЛАТЬ ДОБАВЛЕНИЕ РЕГИОНА
+                    configType: resquestRes.data.configTypeId,
+                    contactPerson: resquestRes.data.contactName,
+                    contactPhone: resquestRes.data.phoneNumber,
+                    contactEmail: "",
+                    projectOrganizationName: resquestRes.data.projectOrganizationName,
+                    regionName: resquestRes.data.locationRegion, // СДЕЛАТЬ ДОБАВЛЕНИЕ РЕГИОНА
+                    innerId: resquestRes.data.innerId,
+                }
+            } else {
+                const [resquestRes, configRes] = await Promise.all([
+                    requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }),
+                    getPumpSingle({ requestId: id })
+                ])
 
-            this.model = {
-                request: { ...resquestRes.data, id },
-                current: currentRes.data,
-                equipmentCurrent: equipmentCurrentRes.data,
+                console.log(resquestRes, configRes)
             }
 
 
-            if (resquestRes.data.supplierRequestStatus == "New") {
-                this.viewUser(id)
-            }
+            // console.log(resquestRes.data)
+
+            // this.model = {
+            //     request: { ...resquestRes.data, id },
+            //     current: currentRes.data,
+            //     equipmentCurrent: equipmentCurrentRes.data,
+            // }
+
+
+            // if (resquestRes.data.supplierRequestStatus == "New") {
+            //     this.viewUser(id)
+            // }
+
+
 
         } catch (error) {
             console.log(error)

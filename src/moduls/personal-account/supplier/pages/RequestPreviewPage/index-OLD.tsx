@@ -15,75 +15,52 @@ import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account
 import Icon from '@/shared/ui-kits/Icon'
 import { RequestView } from '@/widgets/request-view'
 import { OfferButton, RespondButton } from '@/widgets/request-view/action-button'
-import { BasicInformationView } from '@/moduls/personal-account/customer/features/CreateRequestPage/basic-information-form/basic-information-view'
-import { KnsParametersView } from '@/moduls/personal-account/customer/features/CreateRequestPage/kns-parameters/kns-parameters-view'
-import { PupmParametersView } from '@/moduls/personal-account/customer/features/CreateRequestPage/pump-parameters/pump-parameters-view'
 
 export const RequestPreviewPage = observer(() => {
   const { requestId, type } = useParams()
-
-
   const { user, accountData } = useAuth()
   const [showFreeClicksModal, setShowFreeClicksModal] = useState(false)
 
-  const { request, isLoader, init } = supplierPreviewModel
+  const { request, isLoader, init, currentModel, equipmentCurrentModel, schemeIsActive, clickRequestUser } = supplierPreviewModel
 
   useEffect(() => {
-    init(requestId!, accountData, type)
+    init(requestId!, accountData)
   }, [])
 
-  // const { decrementClicks, isClicksAvailable } = useFreeClicks()
-  // const { isFavorite, handleToggleFavorite } = useFavorites({ user, requestId })
+  const { decrementClicks, isClicksAvailable } = useFreeClicks()
+  const { isFavorite, handleToggleFavorite } = useFavorites({ user, requestId })
 
-  // const handleRespond = () => { setShowFreeClicksModal(true) }
+  const handleRespond = () => { setShowFreeClicksModal(true) }
 
-  // const handleConfirmFreeClick = async () => {
-  //   decrementClicks()
-  //   setShowFreeClicksModal(false)
-  //   await clickRequestUser()
-  //   window.scrollTo({ top: 0, behavior: 'smooth' })
-  // }
+  const handleConfirmFreeClick = async () => {
+    decrementClicks()
+    setShowFreeClicksModal(false)
+    await clickRequestUser()
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 
   return isLoader ? <Loader /> : (
     <>
-      <div className="bg-white rounded-[20px] p-[32px] border-[1px_solid_#f0f2f5]">
+      <div className={styles.container}>
         <AccountHeader
-          // title={request.supplierRequestStatus == "Payed" ? 'Заявка' : 'Предпросмотр заявки'}
-          title={'Заявка'}
+          title={request.supplierRequestStatus == "Payed" ? 'Заявка' : 'Предпросмотр заявки'}
           breadcrumbs={{
             current: `Заявка ${request?.innerId || "-"}`
           }}
 
           rightBlock={
             <button
-            // className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
-            // onClick={handleToggleFavorite}
-            // title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+              className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
+              onClick={handleToggleFavorite}
+              title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
             >
               <Icon name="star" />
             </button>}
         />
 
-        <BasicInformationView formData={request} />
+        <InfoBanner hasResponded={request.supplierRequestStatus != "Payed"} />
 
-        {type == "kns"
-          ? <KnsParametersView
-            knsData={knsData}
-            elements={elements}
-            fileUrl={fileUrl}
-          />
-          : <PupmParametersView
-            model={model}
-            configTypes={configTypes}
-            fileUrl={fileUrlPump}
-            submersibleTypesId={submersibleTypesId}
-          />
-        }
-
-
-        {/* <InfoBanner hasResponded={request.supplierRequestStatus != "Payed"} /> */}
-
-        {/* <RequestView
+        <RequestView
           request={request}
           currentModel={currentModel}
           equipmentCurrentModel={equipmentCurrentModel}
@@ -92,9 +69,9 @@ export const RequestPreviewPage = observer(() => {
           freeClicksLeft={accountData.coins}
           isClicksAvailable={isClicksAvailable}
           handleRespond={handleRespond}
-        /> */}
+        />
 
-        {/* {request.supplierRequestStatus != "Payed" && (
+        {request.supplierRequestStatus != "Payed" && (
           <ClicksInfo freeClicksLeft={accountData.coins} />
         )}
 
@@ -106,7 +83,7 @@ export const RequestPreviewPage = observer(() => {
             isClicksAvailable={isClicksAvailable}
             onRespond={handleRespond}
           />
-        )} */}
+        )}
 
       </div>
 

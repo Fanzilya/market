@@ -47,25 +47,23 @@ export const useRequestListModel = () => {
 
     const requestsWithOffers = requests
         .map((request: RequestRes, index: number) => {
-            const detailResult = requestDetailsQueries[index]
             const offersResult = offersQueries[index]
 
             // Пропускаем, если какой-то из запросов еще загружается или содержит ошибку
-            if (detailResult.isLoading || offersResult.isLoading) {
+            if (offersResult.isLoading) {
                 return null
             }
-            
+
             // Если есть ошибка в одном из запросов, логируем и пропускаем
-            if (detailResult.error || offersResult.error) {
+            if (offersResult.error) {
                 console.error(`Ошибка при обработке request ${request.id}:`, {
-                    detailError: detailResult.error,
                     offersError: offersResult.error,
                 })
                 return null
             }
 
             return {
-                data: detailResult.data?.data ?? request,
+                data: request,
                 offers: offersResult.data?.data ?? [],
             }
         })

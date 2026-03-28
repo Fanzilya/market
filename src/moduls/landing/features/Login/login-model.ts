@@ -68,7 +68,7 @@ class LoginModel {
                     window.location.href = '/customer/dashboard'
                     break
                 case Role.Supplier:
-                    this.accountMany(res.data.user.id, signInAccount)
+                    await this.accountMany(res.data.user.id, signInAccount)
                     window.location.href = '/supplier/dashboard'
                     break
                 case Role.Admin:

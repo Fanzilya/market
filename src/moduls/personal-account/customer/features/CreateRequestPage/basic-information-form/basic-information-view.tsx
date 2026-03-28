@@ -2,11 +2,16 @@ import { observer } from 'mobx-react-lite';
 import { basicInformationModel } from './basic-information-model';
 import BasicInformationViewContainer from '../../../../../../widgets/request-view/basic-information-view-container';
 import { configTypeList } from '@/entities/request/config';
+import { BaseInfo } from '@/entities/request/type';
+import { IRegion } from '@/entities/regions/type';
 
-export const FormBasicInformationView = observer(() => {
 
-    const { formData, regionList } = basicInformationModel
+interface Props {
+    formData: BaseInfo,
+}
 
+
+export const BasicInformationView = observer(({ formData }: Props) => {
     return (
         <div className="mb-[32px]">
             <BasicInformationViewContainer
@@ -18,7 +23,7 @@ export const FormBasicInformationView = observer(() => {
                     },
                     {
                         label: "Регион:",
-                        value: regionList.find(item => item.id === formData.regionId)?.regionName || "",
+                        value: formData?.regionName || "",
                     },
                     {
                         label: "Заказчик:",

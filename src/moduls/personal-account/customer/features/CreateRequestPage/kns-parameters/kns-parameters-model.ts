@@ -9,7 +9,7 @@ class KnsParametersModel {
 
     knsData: KnsData = {
         // Основные параметры
-        capacity: '50',
+        capacity: '',
         units: PerfomanceMeasureUnit.LiterSecond,
         head: '',
         workingPumps: '',

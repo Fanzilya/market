@@ -94,6 +94,12 @@ class BasicInformationModel {
         runInAction(() => {
             this.formData[name] = value;
         });
+
+
+        if (name == "regionId") {
+            this.formData.regionName = this.regionList.find(item => item.id === this.formData.regionId)?.regionName || ""
+        }
+
     }
 
     clearForm() {

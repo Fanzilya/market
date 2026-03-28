@@ -3,7 +3,7 @@ import styles from './request-form.module.css'
 import { observer } from 'mobx-react-lite'
 import { useRequestForm } from './use-request-form'
 import { FormBasicInformationForm } from '../basic-information-form/basic-information-form'
-import { FormBasicInformationView } from '../basic-information-form/basic-information-view'
+import { BasicInformationView } from '../basic-information-form/basic-information-view'
 import { KnsParametersView } from '../kns-parameters/kns-parameters-view'
 import { PupmParametersView } from '../pump-parameters/pump-parameters-view'
 import { BackButton, FormBtnContainer, SubmitButton } from '../ui/form-btn-container'
@@ -23,9 +23,9 @@ interface Props {
 
 export const RequestFormView = observer(({ configTypeId, handleBack, handleSubmit }: Props) => {
 
-    const { formData } = basicInformationModel
-    const { knsData, preparationData, file: filekns } = knsParametersModel
-    const { model, file: filePump } = pumpParametersModel
+    const { formData, regionList } = basicInformationModel
+    const { knsData, preparationData, file: filekns, elements, fileUrl } = knsParametersModel
+    const { model, file: filePump, configTypes, submersibleTypesId, fileUrl: fileUrlPump } = pumpParametersModel
 
 
     const onSubmit = () => {
@@ -45,11 +45,20 @@ export const RequestFormView = observer(({ configTypeId, handleBack, handleSubmi
         <div className={styles.stepContent}>
             <h2 className={styles.sectionTitle}>Проверка данных</h2>
 
-            <FormBasicInformationView />
+            <BasicInformationView formData={formData} />
 
-            {configTypeId == "019cdcd9-1892-7f3a-955c-3503ede15a6d"
-                ? <KnsParametersView />
-                : <PupmParametersView />
+            {configTypeId == configTypeKeys.kns
+                ? <KnsParametersView
+                    knsData={knsData}
+                    elements={elements}
+                    fileUrl={fileUrl}
+                />
+                : <PupmParametersView
+                    model={model}
+                    configTypes={configTypes}
+                    fileUrl={fileUrlPump}
+                    submersibleTypesId={submersibleTypesId}
+                />
             }
 
             <FormBtnContainer>

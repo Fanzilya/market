@@ -40,7 +40,7 @@ export function useRequestForm(requestId: string | undefined) {
         if (!user) return
         console.log(fileData)
         let resultId: string | boolean = false;
-        if (configTypeId == "019d2f27-6de3-7acf-bce5-79ad199baf24") {
+        if (configTypeId == configTypeKeys.pupm) {
             resultId = await createPump(basicData, configParametrsData)
         } else {
             resultId = await createKns(basicData, configParametrsData)

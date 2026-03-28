@@ -40,8 +40,6 @@ export const SupplierPage = () => {
 
   const { requests, isLoading, onFavoriteAdd } = useRequestListModel()
 
-
-
   useEffect(() => {
     const handleFavoritesUpdate = () => refreshData()
     window.addEventListener('favorites-updated', handleFavoritesUpdate)
@@ -97,8 +95,8 @@ export const SupplierPage = () => {
           ) : (
             <div className={styles.tableContainer}>
               <div className={styles.table}>
-                <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr] justify-center items-center'>
-                  {['ID', 'Тип', 'Дата', 'Статус', 'Действия'].map((item, key) => (
+                <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
+                  {['ID', 'Регион', 'Тип', 'Производительность', 'Отклики', 'Дата', 'Статус', 'Действия'].map((item, key) => (
                     // 'КП', 
                     <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>
                   ))}
@@ -108,7 +106,7 @@ export const SupplierPage = () => {
                   {requests.map((item, key) => (
                     <RequestsupplierTableRow
                       key={item.id || key}
-                      gridClass='grid grid-cols-[70px__1fr_1fr_1fr_1fr]'
+                      gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
                       number={key + 1}
                       styles={styles}
                       item={item}

@@ -15,7 +15,7 @@ import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account
 import { RequestView } from '@/widgets/request-view'
 
 export const RequestDetailPage = observer(() => {
-  const { requestId } = useParams()
+  const { requestId, type } = useParams()
   const { user } = useAuth()
   const navigate = useNavigate()
 
@@ -27,6 +27,7 @@ export const RequestDetailPage = observer(() => {
   const isSupplier = user!.role === Role.Supplier
   const { init, isLoader, requestModel, currentModel, equipmentCurrentModel, schemeIsActive, offers } = requestDetailModel
   useEffect(() => {
+    alert(type)
     init(requestId || "")
   }, [requestId])
 
