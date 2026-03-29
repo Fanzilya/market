@@ -347,6 +347,23 @@ export const AppRouter = createBrowserRouter([
         },
       },
       {
+        path: 'offer',
+        children: [
+          {
+            path: ':offerId',
+            children: [
+              {
+                index: true,
+                async lazy() {
+                  const { OfferDetailPage } = await import('@common/pages/OfferDetailPage');
+                  return { Component: OfferDetailPage };
+                },
+              },
+            ]
+          },
+        ],
+      },
+      {
         path: 'balance',
         async lazy() {
           const { SupplierBalancePage } = await import('@supplier/pages/SupplierBalancePage');

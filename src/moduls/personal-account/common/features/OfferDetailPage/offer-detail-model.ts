@@ -19,7 +19,10 @@ class OfferDetailModel {
         request: "",
         bussinessAccId: "",
         bussinessAccount: "",
-        id: ""
+        id: "",
+        deliveryTerms: "",
+        garantyPeriod: 0,
+        paymentTerms: "",
     }
     isLoader: boolean = true
 

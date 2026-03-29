@@ -1,6 +1,16 @@
 import { AccountHeader } from "@/moduls/personal-account/_layout/widgets/account-header";
+import { useMyOffersList } from "../../features/my-offers-list/use-my-offers-list";
+import Loader from "@/shared/ui-kits/loader/loader";
+import { OfferItem } from "@/widgets/offers/offer-item";
 
 export const MyOfferList = () => {
+
+
+
+
+    const { offerList, isLoader } = useMyOffersList()
+
+
     return (
         <div>
             <AccountHeader
@@ -11,9 +21,14 @@ export const MyOfferList = () => {
                 }} />
 
 
-
-
-
+            {isLoader
+                ? <Loader />
+                : (
+                    <div className="space-y-3">
+                        {offerList.map((offer: any) => <OfferItem item={offer} url={`/supplier/offer/${offer.id}`} />)}
+                    </div>
+                )
+            }
         </div>
     );
 }

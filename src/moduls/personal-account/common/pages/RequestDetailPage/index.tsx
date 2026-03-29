@@ -35,6 +35,7 @@ export const RequestDetailPage = observer(() => {
 
     <AccountHeader
       title={`Заявка ${request?.innerId}`}
+      navBack={-1}
       breadcrumbs={{
         current: request?.innerId || "",
         linksBack: [

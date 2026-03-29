@@ -1,0 +1,1275 @@
+/* src/pages/OffersPage.module.css */
+.page {
+  display: flex;
+  min-height: 100vh;
+  background: #F8FAFC;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.main {
+  flex: 1;
+  margin-left: 280px;
+  padding: 32px;
+  transition: margin-left 0.3s ease;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Шапка страницы */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 4px 0;
+  letter-spacing: -0.3px;
+}
+
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #64748B;
+  flex-wrap: wrap;
+}
+
+.breadcrumb {
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.breadcrumb:hover {
+  color: #4A85F6;
+}
+
+.separator {
+  color: #CBD5E1;
+  font-size: 16px;
+}
+
+.current {
+  color: #4A85F6;
+  font-weight: 500;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Переключатель вида */
+.viewToggle {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background: #F1F5F9;
+  border-radius: 10px;
+}
+
+.viewToggleButton {
+  width: 38px;
+  height: 38px;
+  border-radius: 8px;
+  background: transparent;
+  border: none;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.viewToggleButton:hover {
+  background: white;
+  color: #4A85F6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.viewToggleButton.active {
+  background: white;
+  color: #4A85F6;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Кнопки */
+.backButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: white;
+  border: 1px solid #E2E8F0;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748B;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.backButton:hover {
+  border-color: #4A85F6;
+  color: #4A85F6;
+  background: #F8FAFC;
+}
+
+.exportButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #10B981;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.exportButton:hover {
+  background: #0D9668;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 15px rgba(16, 185, 129, 0.3);
+}
+
+.exportButtonLarge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 14px 32px;
+  background: #10B981;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.exportButtonLarge:hover {
+  background: #0D9668;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(16, 185, 129, 0.4);
+}
+
+/* Информация о заявке */
+.requestInfoCard {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.requestHeader {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.requestTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0;
+}
+
+.requestId {
+  display: inline-block;
+  padding: 4px 10px;
+  background: rgba(74, 133, 246, 0.1);
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #4A85F6;
+  font-family: monospace;
+}
+
+.requestDetails {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.detailItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.detailLabel {
+  font-size: 13px;
+  color: #64748B;
+  font-weight: 500;
+}
+
+.detailValue {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1E293B;
+}
+
+/* Статистика */
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid #E2E8F0;
+  transition: all 0.2s;
+}
+
+.statCard:hover {
+  border-color: #4A85F6;
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.statValue {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  color: #4A85F6;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: #64748B;
+}
+
+/* Фильтры */
+.filtersBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: white;
+  border-radius: 12px;
+  border: 1px solid #E2E8F0;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-size: 14px;
+  font-weight: 500;
+  color: #64748B;
+}
+
+.filterSelect {
+  padding: 8px 32px 8px 12px;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1E293B;
+  background: white;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+}
+
+.sortOrderButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #E2E8F0;
+  background: white;
+  color: #64748B;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.sortOrderButton:hover {
+  border-color: #4A85F6;
+  color: #4A85F6;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #1E293B;
+  cursor: pointer;
+}
+
+.checkbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #4A85F6;
+  cursor: pointer;
+}
+
+/* Таблица */
+.tableContainer {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  overflow: auto;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.th {
+  text-align: left;
+  padding: 16px 20px;
+  background: #F8FAFC;
+  color: #64748B;
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 1px solid #E2E8F0;
+  white-space: nowrap;
+}
+
+.td {
+  padding: 16px 20px;
+  border-bottom: 1px solid #F1F5F9;
+  color: #1E293B;
+  vertical-align: middle;
+}
+
+.tr {
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tr:hover {
+  background: #F8FAFC;
+}
+
+/* Ячейки таблицы */
+.companyCell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.companyAvatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.companyName {
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 2px;
+}
+
+.companyContact {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.priceCell {
+  font-weight: 600;
+  color: #10B981;
+  font-family: monospace;
+  font-size: 15px;
+}
+
+.dateCell {
+  color: #64748B;
+  font-size: 13px;
+}
+
+.innCell, .kppCell {
+  font-family: monospace;
+  font-size: 13px;
+  color: #1E293B;
+}
+
+.statusCell {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.statusCell.manufacturer {
+  background: #E6F7E6;
+  color: #10B981;
+}
+
+.statusCell.supplier {
+  background: #F0F9FF;
+  color: #4A85F6;
+}
+
+.viewOfferButton {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.viewOfferButton:hover {
+  border-color: #4A85F6;
+  color: #4A85F6;
+  background: #F8FAFC;
+}
+
+/* Карточки */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.offerCard {
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.offerCard:hover {
+  transform: translateY(-4px);
+  border-color: #4A85F6;
+  box-shadow: 0 8px 20px rgba(74, 133, 246, 0.1);
+}
+
+.offerCardSelected {
+  border-color: #4A85F6;
+  background: rgba(74, 133, 246, 0.02);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+}
+
+.cardCheckbox {
+  width: 18px;
+  height: 18px;
+  accent-color: #4A85F6;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.cardAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4A85F6, #3A6BC9);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.cardCompany {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 4px 0;
+}
+
+.cardDate {
+  font-size: 12px;
+  color: #64748B;
+}
+
+.cardPrice {
+  font-size: 20px;
+  font-weight: 700;
+  color: #10B981;
+  white-space: nowrap;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 0;
+  border-top: 1px solid #F1F5F9;
+  border-bottom: 1px solid #F1F5F9;
+}
+
+.cardRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardLabel {
+  font-size: 13px;
+  color: #64748B;
+}
+
+.cardValue {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1E293B;
+}
+
+.cardStatus {
+  display: inline-block;
+  padding: 2px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cardManufacturer {
+  background: #E6F7E6;
+  color: #10B981;
+}
+
+.cardSupplier {
+  background: #F0F9FF;
+  color: #4A85F6;
+}
+
+.cardComment {
+  background: #F8FAFC;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 13px;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.cardComment p {
+  margin: 0;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.cardButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: transparent;
+  border: 1px solid #4A85F6;
+  border-radius: 8px;
+  color: #4A85F6;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.cardButton:hover {
+  background: #4A85F6;
+  color: white;
+}
+
+/* Аттачи */
+.attachments {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding-top: 12px;
+  border-top: 1px solid #F1F5F9;
+}
+
+.attachmentsLabel {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.attachment {
+  padding: 4px 10px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  border-radius: 20px;
+  font-size: 12px;
+  color: #475569;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.attachment:hover {
+  background: #E2E8F0;
+  border-color: #4A85F6;
+  color: #4A85F6;
+}
+
+/* Нижний экспорт */
+.bottomExport {
+  display: flex;
+  justify-content: center;
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 1px solid #F1F5F9;
+}
+
+/* Пустое состояние */
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 16px;
+  border: 1px solid #E2E8F0;
+  margin-bottom: 24px;
+}
+
+.emptyState svg {
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.emptyState h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 8px 0;
+}
+
+.emptyState p {
+  font-size: 14px;
+  color: #64748B;
+  margin: 0;
+}
+
+/* Страница ошибки */
+.errorContainer {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  background: #F8FAFC;
+}
+
+.errorCard {
+  background: white;
+  border-radius: 24px;
+  padding: 40px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border: 1px solid #E2E8F0;
+}
+
+.errorIcon {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.errorCard h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1E293B;
+  margin: 0 0 12px 0;
+}
+
+.errorCard p {
+  font-size: 15px;
+  color: #64748B;
+  margin: 0 0 24px 0;
+}
+
+.primaryButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: #4A85F6;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.primaryButton:hover {
+  background: #3A6BC9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(74, 133, 246, 0.3);
+}
+
+/* Чат */
+.withChat .main {
+  margin-right: 380px;
+}
+
+.chatSidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 380px;
+  height: 100vh;
+  background: white;
+  border-left: 1px solid #E2E8F0;
+  box-shadow: -4px 0 20px rgba(0, 0, 0, 0.05);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+}
+
+.chatHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid #F1F5F9;
+  background: white;
+}
+
+.chatHeaderInfo {
+  flex: 1;
+}
+
+.chatTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1E293B;
+  margin: 0 0 4px 0;
+}
+
+.chatSupplierName {
+  font-size: 14px;
+  color: #4A85F6;
+  font-weight: 500;
+}
+
+.chatCloseButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
+  color: #64748B;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.chatCloseButton:hover {
+  background: #F1F5F9;
+  color: #1E293B;
+  border-color: #CBD5E1;
+}
+
+.chatMessages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chatMessage {
+  display: flex;
+  max-width: 85%;
+}
+
+.customerMessage {
+  align-self: flex-end;
+}
+
+.supplierMessage {
+  align-self: flex-start;
+}
+
+.messageContent {
+  padding: 12px 16px;
+  border-radius: 16px;
+  position: relative;
+  word-break: break-word;
+}
+
+.customerMessage .messageContent {
+  background: #4A85F6;
+  color: white;
+  border-bottom-right-radius: 4px;
+}
+
+.supplierMessage .messageContent {
+  background: #F1F5F9;
+  color: #1E293B;
+  border-bottom-left-radius: 4px;
+}
+
+.messageTime {
+  display: block;
+  font-size: 10px;
+  margin-top: 4px;
+  opacity: 0.7;
+}
+
+.messageUnread {
+  margin-left: 4px;
+  color: #4A85F6;
+}
+
+.chatInput {
+  padding: 20px;
+  border-top: 1px solid #F1F5F9;
+  background: white;
+  display: flex;
+  gap: 12px;
+}
+
+.chatInput textarea {
+  flex: 1;
+  padding: 10px 12px;
+  border: 2px solid #E2E8F0;
+  border-radius: 20px;
+  font-size: 14px;
+  resize: none;
+  height: 44px;
+  max-height: 100px;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.chatInput textarea:focus {
+  outline: none;
+  border-color: #4A85F6;
+  box-shadow: 0 0 0 3px rgba(74, 133, 246, 0.1);
+}
+
+.sendButton {
+  width: 44px;
+  height: 44px;
+  border-radius: 22px;
+  background: #4A85F6;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  box-shadow: 0 4px 10px rgba(74, 133, 246, 0.3);
+}
+
+.sendButton:hover:not(:disabled) {
+  background: #3A6BC9;
+  transform: scale(1.05);
+}
+
+.sendButton:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Адаптивность */
+@media (max-width: 1200px) {
+  .statsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .cardsGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .withChat .main {
+    margin-right: 320px;
+  }
+  
+  .chatSidebar {
+    width: 320px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .main {
+    margin-left: 0;
+    padding: 24px;
+  }
+  
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .headerActions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .main {
+    padding: 20px;
+  }
+  
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cardsGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .filtersBar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filterGroup {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .filterSelect {
+    flex: 1;
+  }
+  
+  .requestDetails {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .tableContainer {
+    overflow-x: auto;
+  }
+  
+  .table {
+    min-width: 900px;
+  }
+  
+  .withChat .main {
+    margin-right: 0;
+  }
+  
+  .chatSidebar {
+    width: 100%;
+    left: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .headerActions {
+    flex-direction: column;
+  }
+  
+  .viewToggle {
+    width: 100%;
+  }
+  
+  .viewToggleButton {
+    flex: 1;
+  }
+  
+  .backButton, .exportButton {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .filterGroup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .filterSelect {
+    width: 100%;
+  }
+  
+  .sortOrderButton {
+    align-self: flex-end;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .cardPrice {
+    align-self: flex-end;
+  }
+  
+  .cardRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.statCard, .offerCard, .tr {
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Темная тема */
+:global(.dark-mode) .page {
+  background: #0F172A;
+}
+
+:global(.dark-mode) .main {
+  background: #0F172A;
+}
+
+:global(.dark-mode) .title {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .requestInfoCard,
+:global(.dark-mode) .statCard,
+:global(.dark-mode) .filtersBar,
+:global(.dark-mode) .offerCard,
+:global(.dark-mode) .tableContainer,
+:global(.dark-mode) .emptyState,
+:global(.dark-mode) .errorCard,
+:global(.dark-mode) .chatSidebar {
+  background: #1E293B;
+  border-color: #334155;
+}
+
+:global(.dark-mode) .requestTitle {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .detailValue,
+:global(.dark-mode) .companyName,
+:global(.dark-mode) .cardCompany,
+:global(.dark-mode) .cardValue,
+:global(.dark-mode) .errorCard h2 {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .detailLabel,
+:global(.dark-mode) .filterLabel,
+:global(.dark-mode) .companyContact,
+:global(.dark-mode) .cardLabel,
+:global(.dark-mode) .dateCell,
+:global(.dark-mode) .cardDate {
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .filterSelect {
+  background: #1E293B;
+  border-color: #475569;
+  color: #F1F5F9;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9L12 15L18 9'/%3E%3C/svg%3E");
+}
+
+:global(.dark-mode) .th {
+  background: #2D3A4F;
+  color: #94A3B8;
+  border-bottom-color: #475569;
+}
+
+:global(.dark-mode) .td {
+  color: #F1F5F9;
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .tr:hover {
+  background: #2D3A4F;
+}
+
+:global(.dark-mode) .viewToggle {
+  background: #2D3A4F;
+}
+
+:global(.dark-mode) .viewToggleButton:hover {
+  background: #1E293B;
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .viewToggleButton.active {
+  background: #1E293B;
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .backButton {
+  background: #1E293B;
+  border-color: #334155;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .backButton:hover {
+  border-color: #4A85F6;
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .sortOrderButton {
+  background: #1E293B;
+  border-color: #334155;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .sortOrderButton:hover {
+  border-color: #4A85F6;
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .checkboxLabel {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .innCell,
+:global(.dark-mode) .kppCell {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .statusCell.manufacturer {
+  background: #1A2E2A;
+  color: #34D399;
+}
+
+:global(.dark-mode) .statusCell.supplier {
+  background: #1E2A3A;
+  color: #60A5FA;
+}
+
+:global(.dark-mode) .cardComment {
+  background: #2D3A4F;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .attachment {
+  background: #2D3A4F;
+  border-color: #475569;
+  color: #94A3B8;
+}
+
+:global(.dark-mode) .attachment:hover {
+  background: #3D4A5C;
+  border-color: #4A85F6;
+  color: #4A85F6;
+}
+
+:global(.dark-mode) .chatHeader {
+  background: #1E293B;
+  border-bottom-color: #334155;
+}
+
+:global(.dark-mode) .chatTitle {
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .supplierMessage .messageContent {
+  background: #2D3A4F;
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .chatInput {
+  background: #1E293B;
+  border-top-color: #334155;
+}
+
+:global(.dark-mode) .chatInput textarea {
+  background: #2D3A4F;
+  border-color: #475569;
+  color: #F1F5F9;
+}
+
+:global(.dark-mode) .bottomExport {
+  border-top-color: #334155;
+}

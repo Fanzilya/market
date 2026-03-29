@@ -78,7 +78,11 @@ export interface OfferFull {
     planFileId?: null | string,
     planFile?: null | string,
     id: string
-    innerId?: string
+    innerId?: string,
+
+    deliveryTerms: string,
+    garantyPeriod: number,
+    paymentTerms: string,
 }
 
 

@@ -8,9 +8,13 @@ import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
 import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 import Icon from '@/shared/ui-kits/Icon'
+import { useAuth } from '@/features/user/context/context'
+import { Role } from '@/entities/user/role'
 
 export const OfferDetailPage = observer(() => {
   const { offerId } = useParams()
+
+  const { user } = useAuth()
 
   const {
     navigate,
@@ -35,25 +39,21 @@ export const OfferDetailPage = observer(() => {
   return isLoader ? <Loader /> : (
     <>
       <AccountHeader
+        navBack={-1}
         title='Коммерческое предложение'
         breadcrumbs={{
           current: `КП №${offer?.offersNumber || offer?.id}`,
-          linksBack: [
-            { text: "Главная", link: "/dashboard" },
-            { text: "Заявки", link: "/customer" },
-            // request && { text: request.id, link: `/customer/request/${request.id}` }
-          ]
+          linksBack: user?.role == Role.Customer
+            ? [
+              { text: "Главная", link: "/dashboard" },
+              { text: "Заявки", link: "/customer" },
+              // request && { text: request.id, link: `/customer/request/${request.id}` }
+            ]
+            : [
+              { text: "Главная", link: "/supplier/dashboard" },
+              { text: "Мои коммерческие предложения", link: "/supplier/offers" },
+            ]
         }}
-
-        rightBlock={
-          <button className={styles.backButton} onClick={() => navigate(-1)}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-              <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
-              <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
-            </svg>
-            Назад
-          </button>
-        }
       />
 
       {/* Информация о предложении */}
@@ -127,6 +127,7 @@ export const OfferDetailPage = observer(() => {
                 { name: "КПП", value: offer?.kpp },
                 { name: "Местоположение склада", value: offer?.warehouseLocation },
                 { name: "Список поставщиков", value: offer?.supplierSiteURL },
+                { name: "Гарантированный период", value: offer?.garantyPeriod ? offer?.garantyPeriod + " мес." : "" },
                 { name: "Дата оформления сопроводительного документа", value: offer?.supportingDocumentDate, type: "date" },
                 { name: "Страна производитель", value: offer?.manufacturerCountry },
                 { name: "Цена без НДС", value: offer?.currentPriceNoNDS },
@@ -184,11 +185,16 @@ export const OfferDetailPage = observer(() => {
                     </div>
                   ))}
               </div>
-
-              {offer?.comment && (
+              {offer?.paymentTerms && (
                 <div className={styles.commentSection}>
-                  <h4 className={styles.commentTitle}>Комментарий к предложению</h4>
-                  <p className={styles.commentText}>{offer?.comment}</p>
+                  <span className={`${styles.infoLabel} mb-0.5 font-semibold`}>Условия оплаты</span>
+                  <p className={styles.commentText}>{offer?.paymentTerms}</p>
+                </div>
+              )}
+              {offer?.deliveryTerms && (
+                <div className={styles.commentSection}>
+                  <span className={`${styles.infoLabel} mb-0.5 font-semibold`}>Условия доставки</span>
+                  <p className={styles.commentText}>{offer?.deliveryTerms}</p>
                 </div>
               )}
             </div>
