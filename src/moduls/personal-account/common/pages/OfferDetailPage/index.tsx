@@ -131,13 +131,15 @@ export const OfferDetailPage = observer(() => {
                 { name: "Страна производитель", value: offer?.manufacturerCountry },
                 { name: "Цена без НДС", value: offer?.currentPriceNoNDS },
                 { name: "Цена с НДС", value: offer?.currentPriceNDS },
-                ].map((item, key) => (
-                  <div className={styles.infoItem}>
-                    <span className={styles.infoLabel}>{item.name}</span>
-                    <span className={styles.infoValue}>{item?.type === "date" ? new Date(item.value).toLocaleDateString('ru-RU') : item.value}</span>
+                ]
+                  .filter(item => item.value?.toString().trim())
+                  .map((item, key) => (
+                    <div className={styles.infoItem}>
+                      <span className={styles.infoLabel}>{item.name}</span>
+                      <span className={styles.infoValue}>{item?.type === "date" ? new Date(item.value).toLocaleDateString('ru-RU') : item.value}</span>
 
-                  </div>
-                ))}
+                    </div>
+                  ))}
 
                 {[
                   {
@@ -149,7 +151,7 @@ export const OfferDetailPage = observer(() => {
                   {
                     condition: offer?.certificateFileId,
                     name: "Сертификат оборудования",
-                    link: `https://triapi.ru/market/api/Offers/equipCertificate/download/?certificateId=${offer?.certificateFileId}`,
+                    link: `https://triapi.ru/market/api/Offers/equipCertificate/download/?certifecateId=${offer?.certificateFileId}`,
                     id: 'certificate'
                   },
                   {
@@ -390,7 +392,7 @@ export const OfferDetailPage = observer(() => {
               <path d="M19 12H5" stroke="currentColor" strokeWidth="2" />
               <path d="M12 5L5 12L12 19" stroke="currentColor" strokeWidth="2" />
             </svg>
-            Вернуться к списку предложений
+            Вернуться назад
           </button>
         </div>
       </div>

@@ -9,11 +9,29 @@ export interface IOfferCreate {
 
 
     proccent?: number,
-    currentPriceNoNDS: 0,
+    currentPriceNoNDS: number,
     supportingDocumentDate: Date | null,
     manufacturerCountry: string,
+    offerNumber: string,
+    deliveryTerms: string,
+    garantyPeriod: number | string,
+    paymentTerms: string,
 }
 
+
+// string  offerNumber
+// string  nameBySupplier 
+// double currentPriceNDS
+// double currentPriceNoNDS
+// DateTime supportingDocumentDate
+// string  warehouseLocation
+// string  supplierSiteURL
+// string  manufacturerCountry
+// string  deliveryTerms условия доставки
+// string  garantyPeriod гарантированный период 
+// string  paymentTerms условия оплаты
+// Guid bussinessAccId
+// Guid requestId
 
 export interface IUserId {
     userId: string

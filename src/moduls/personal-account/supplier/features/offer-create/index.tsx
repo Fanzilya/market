@@ -14,14 +14,9 @@ import { InformationsBox } from '@/shared/ui-kits/information-box'
 import Icon from '@/shared/ui-kits/Icon'
 import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 import { BaseInfoFull } from '@/entities/request/type'
+import { useOfferCreate } from './use-offer-create'
+import { DeliveryForm } from './tabs/delivery-form'
 
-const TABS = [
-  { id: 'main', label: 'Основная информация', component: MainInfoTab },
-  // { id: 'company', label: 'Информация о компании', component: CompanyInfoTab },
-  // { id: 'delivery', label: 'Условия поставки', component: DeliveryTab },
-  // { id: 'materials', label: 'Материалы и оборудование', component: MaterialsTab },
-  { id: 'docs', label: 'Документы', component: DocumentsTab }
-]
 
 
 interface Props {
@@ -29,20 +24,16 @@ interface Props {
   requestId: string
   request: BaseInfoFull
   onCancle: () => void
+  setIsPay: () => void
 }
 
-export const CreateOfferForm = observer(({ className, requestId, request, onCancle }: Props) => {
-  const { user } = useAuth()
+export const CreateOfferForm = observer(({ className, requestId, request, onCancle, setIsPay }: Props) => {
+  const { user, accountData } = useAuth()
 
   const { setModel, model, create, docsModel, clear, setDocsModel, isValid, isSubmitting } = createOfferModel
 
-
-  useEffect(() => {
-    console.log(request)
-  }, [])
-
   const onSubmit = () => {
-    create(user?.fullName, requestId, request.objectName)
+    create(user?.fullName, requestId, request.objectName, accountData.id, onCancle, setIsPay)
   }
 
   useEffect(() => {
@@ -51,16 +42,23 @@ export const CreateOfferForm = observer(({ className, requestId, request, onCanc
 
 
   return (
-    <div className={`${styles.form} ${className} `}>
-      <h3 className={"text-[22px] font-semibold text-[#1E293B] mb-[10px] pb-[12px] border-b border-[#F1F5F9]"}>Создать коммерческое предложение</h3 >
+    <div className={`${styles.form} ${className} min-h-[50vh]`}>
+      <h3 className={"text-[22px] font-semibold text-[#1E293B] mb-[10px] pb-[12px] border-b border-[#F1F5F9]"}>Создать коммерческое предложение</h3>
 
-      <div className='bg-white rounded-2xl border-[1px_solid_#E2E8F0] p-[24px] mb-[24px]'>
+
+      <div className='mb-[24px]'>
         <BasicInformationForm model={model} setModel={setModel} />
       </div>
 
-      <div className='bg-white rounded-2xl border-[1px_solid_#E2E8F0] p-[24px] mb-[24px]'>
+      <div className='mb-[24px]'>
         <DocumentsForm docsModel={docsModel} setDocsModel={setDocsModel} />
       </div>
+
+      <div className='mb-[24px]'>
+        <DeliveryForm model={model} setModel={setModel} />
+      </div>
+
+
 
       <div className={styles.formActions}>
         <button

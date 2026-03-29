@@ -31,6 +31,7 @@ class OffersListModel {
     offers: OfferFull[] = []
 
     isLoader: boolean = true
+
     stats: { total: number, minPrice: number, maxPrice: number, avgPrice: number } = {
         total: 0,
         minPrice: 0,

@@ -60,6 +60,7 @@ class SupplierPreviewModel {
         powerInputs: '1',
         cabinetLocation: 'УХЛ1',
     }
+
     knsElementsData: EquipmentDataCheckbox[] = []
 
     pumpData: IPumpsForm = {
@@ -106,7 +107,7 @@ class SupplierPreviewModel {
     }
 
     isLoader: boolean = true
-    isPay: boolean = false
+    isPay: "Payed" | 'Viewed' | "КП" = 'Viewed'
 
     constructor() {
         makeAutoObservable(this, {}, { autoBind: true })
@@ -127,13 +128,17 @@ class SupplierPreviewModel {
             localStorage.setItem(ACCOUNT_SUPPLY, JSON.stringify(newData))
             this.accountData = newData
 
-            this.isPay = true
+            this.isPay = 'Payed'
 
         } catch (error) {
             console.log(error)
         } finally {
             this.isLoader = false
         }
+    }
+
+    setIsPay(value: "Payed" | 'Viewed' | "КП") {
+        this.isPay = value
     }
 
     async viewUser(requestId: string) {
@@ -161,7 +166,7 @@ class SupplierPreviewModel {
         try {
             if (type == "kns") {
                 const [resquestRes, configRes, equipmentCurrentRes] = await Promise.all([
-                    this.isPay ? requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }) : requestSupplierSingleHalfApi({ requestId: id, accountId: this.accountData.id }),
+                    this.isPay != "Viewed" ? requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }) : requestSupplierSingleHalfApi({ requestId: id, accountId: this.accountData.id }),
                     currentKnsApi({ requestId: id }),
                     equipmentCurrentKnsApi({ requestId: id })
                 ])
@@ -169,7 +174,7 @@ class SupplierPreviewModel {
                 this.formingKns(configRes.data, equipmentCurrentRes.data)
             } else {
                 const [resquestRes, configRes] = await Promise.all([
-                    this.isPay ? requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }) : requestSupplierSingleHalfApi({ requestId: id, accountId: this.accountData.id }),
+                    this.isPay != "Viewed" ? requestSupplierSingleApi({ requestId: id, accountId: this.accountData.id }) : requestSupplierSingleHalfApi({ requestId: id, accountId: this.accountData.id }),
                     getPumpSingle({ requestId: id })
                 ])
                 resquestRes && this.formingRequest(resquestRes.data)

@@ -1,5 +1,6 @@
 import { IOfferCreate } from "@/entities/offer/type";
 import { Input } from "@/shared/ui-kits/Input";
+import { Textarea } from "@/shared/ui-kits/Input/Textarea";
 import { Selector } from "@/shared/ui-kits/select";
 import { observer } from "mobx-react-lite";
 import { useState } from "react";
@@ -13,22 +14,15 @@ interface Props {
 export const BasicInformationForm = observer(({ model, setModel }: Props) => {
 
     return (
-        <>
-            <h3 className={"text-[18px] font-semibold text-[#1E293B] mb-[10px] pb-[12px] border-b border-[#F1F5F9]"}>Основная информация</h3 >
-            <div className='grid grid-cols-2 gap-[16px]'>
+        <div>
+            <h3 className={"text-[18px] font-semibold text-[#1E293B] mb-[10px] "}>Основная информация</h3 >
+            <div className='grid grid-cols-2 gap-[16px] bg-white rounded-2xl border-[1px_solid_#E2E8F0] p-[24px]'>
                 <Input
                     label='Местоположение склада'
                     placeholder='Местоположение склада'
                     required
                     value={model.warehouseLocation}
                     onChange={(e) => setModel("warehouseLocation", e.toString())}
-                />
-
-                <Input
-                    label='Cайта поставщика'
-                    placeholder='Cайта поставщика'
-                    value={model.supplierSiteURL}
-                    onChange={(e) => setModel("supplierSiteURL", e.toString())}
                 />
 
                 <Input
@@ -39,14 +33,17 @@ export const BasicInformationForm = observer(({ model, setModel }: Props) => {
                     value={model.supportingDocumentDate}
                     onChange={(e) => setModel("offerNumber", e)}
                 />
-                <Input
-                    label='Дата оформления сопроводительного документа'
-                    placeholder='Дата оформления сопроводительного документа'
-                    required
-                    type='date'
-                    value={model.supportingDocumentDate}
-                    onChange={(e) => setModel("supportingDocumentDate", e)}
-                />
+
+                <div>
+                    <Input
+                        label='Cайта поставщика'
+                        placeholder='Cайта поставщика'
+                        value={model.supplierSiteURL}
+                        onChange={(e) => setModel("supplierSiteURL", e.toString())}
+                    />
+
+                </div>
+
                 <Input
                     label='Страна производитель'
                     placeholder='Страна производитель'
@@ -100,7 +97,15 @@ export const BasicInformationForm = observer(({ model, setModel }: Props) => {
                     />
 
                 </div>
+                <Input
+                    label='Дата оформления сопроводительного документа'
+                    placeholder='Дата оформления сопроводительного документа'
+                    required
+                    type='date'
+                    value={model.supportingDocumentDate}
+                    onChange={(e) => setModel("supportingDocumentDate", e)}
+                />
             </div>
-        </>
+        </div>
     );
 })

@@ -11,7 +11,7 @@ interface Props {
 }
 
 
-export const BasicInformationView = observer(({ formData }: Props) => {
+export const BasicInformationView = observer    (({ formData }: Props) => {
     return (
         <div className="mb-[32px]">
             <BasicInformationViewContainer

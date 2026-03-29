@@ -13,8 +13,8 @@ interface Props {
 export const DocumentsForm = observer(({ docsModel, setDocsModel }: Props) => {
     return (
         <>
-            <h3 className={"text-[18px] font-semibold text-[#1E293B] mb-[20px] pb-[12px] border-b border-[#F1F5F9]"}>Документы</h3>
-            <div className='grid grid-cols-2 gap-[16px]'>
+            <h3 className={"text-[18px] font-semibold text-[#1E293B] mb-[20px]"}>Документы</h3>
+            <div className='grid grid-cols-2 gap-[16px] bg-white rounded-2xl border-[1px_solid_#E2E8F0] p-[24px]'>
                 <InputFile label='Сертификат'
                     placeholder="Загрузить файл"
                     value={(docsModel?.certificate?.name) || ""}

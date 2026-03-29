@@ -2,12 +2,13 @@ import { formatDate } from "@/utils/get-form-data";
 import { Link } from "react-router-dom";
 
 interface Props {
-    item: any
+    item: any,
+    url: string
 }
 
-export const OfferItem = ({ item }: Props) => {
+export const OfferItem = ({ item, url }: Props) => {
     return (
-        <Link to={`/customer/offer/${item.id}`}
+        <Link to={url}
             className="bg-white rounded-xl block border border-gray-200 hover:border-blue-200 hover:shadow-lg transition-all duration-200 overflow-hidden"
         >
             {/* Верхняя цветная полоса с индикатором */}

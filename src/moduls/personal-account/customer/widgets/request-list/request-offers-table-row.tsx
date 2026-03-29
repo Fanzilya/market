@@ -1,3 +1,4 @@
+import { configTypeKeys } from "@/entities/request/config"
 import { Role } from "@/entities/user/role"
 import { formatDate } from "@/utils/get-form-data"
 import { Link, useNavigate } from "react-router-dom"
@@ -12,7 +13,7 @@ export const RequestOffersTableRow = ({ item, user }: Props) => {
     return item.offers && item.offers.length > 0 ?
         (item.offers.map((offer: any) => {
 
-            const linkTo = (!user ? `/customer` : (user?.role == Role.Customer ? `/customer` : "/admin")) + `/offer/${offer.id}`
+            const linkTo = (!user ? `/customer` : (user?.role == Role.Customer ? `/customer` : "/admin")) + `/offer/` + offer.id
 
             return <Link to={linkTo} key={offer.id} className="py-3  px-6 border-b border-gray-200 hover:bg-gray-50 transition-colors duration-200 grid grid-cols-6 items-center justify-items-center ">
                 {/* Данные */}

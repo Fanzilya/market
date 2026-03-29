@@ -1,5 +1,5 @@
 import { OfferFull } from "@/entities/offer/type";
-import { RequestStatus, RequestStatusTranslations } from "@/entities/request/config";
+import { configTypeKeys, RequestStatus, RequestStatusTranslations } from "@/entities/request/config";
 import { getStatusClass, getStatusText } from "@/entities/request/functions";
 import { IRequest, RequestRes } from "@/entities/request/type";
 import { Role } from "@/entities/user/role";
@@ -144,7 +144,7 @@ export const RequestTableRow = ({ styles, item, goToEditRequest, handleDeleteReq
 
                         {user?.role == Role.Customer &&
                             <div className={styles.actions + " flex justify-center"}>
-                                <Link className={styles.actionButton} to={`/customer/request/${item.data.id}`}>
+                                <Link className={styles.actionButton} to={`/customer/request/${item.data.configTypeId == configTypeKeys.kns ? "kns" : "pump"}/${item.data.requestId}`}>
                                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                                         <path d="M1 12C1 12 5 4 12 4C19 4 23 12 23 12C23 12 19 20 12 20C5 20 1 12 1 12Z" stroke="currentColor" strokeWidth="2" />
                                         <circle cx="12" cy="12" r="3" stroke="currentColor" strokeWidth="2" />

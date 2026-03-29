@@ -23,7 +23,7 @@ export const RequestPreviewPage = observer(() => {
   const [showFreeClicksModal, setShowFreeClicksModal] = useState(false)
   const [isCreateOffer, setIsCreateOffer] = useState(false)
 
-  const { request, isLoader, init, knsData, knsElementsData, pumpData, isPay, clickRequestUser } = supplierPreviewModel
+  const { request, isLoader, init, knsData, knsElementsData, pumpData, isPay, clickRequestUser, setIsPay } = supplierPreviewModel
 
   useEffect(() => {
     if (requestId != null && requestId != "null") {
@@ -46,7 +46,7 @@ export const RequestPreviewPage = observer(() => {
 
       <AccountHeader
         navBack={'/supplier'}
-        title={isPay ? 'Заявка' : 'Предпросмотр заявки'}
+        title={isPay != "Viewed" ? 'Заявка' : 'Предпросмотр заявки'}
         breadcrumbs={{
           current: `Заявка ${request?.innerId || "-"}`,
           linksBack: [{ link: "/supplier/dashboard", text: "Главная" }, { link: "/supplier", text: "Заявки" }]
@@ -62,7 +62,7 @@ export const RequestPreviewPage = observer(() => {
           </button>}
       />
 
-      <InfoBanner hasResponded={!isPay} />
+      <InfoBanner hasResponded={isPay == "Viewed"} />
 
       <BasicInformationView formData={request} />
 
@@ -80,15 +80,15 @@ export const RequestPreviewPage = observer(() => {
         />
       }
 
-      {!isPay && (
+      {isPay == "Viewed" && (
         <ClicksInfo freeClicksLeft={accountData.coins} />
       )}
 
-      {isPay
-        ? (isCreateOffer
-          ? <CreateOfferForm className={"mt-10"} requestId={requestId} request={request} onCancle={() => setIsCreateOffer(false)} />
+      {isPay != "Viewed"
+        ? (isPay != "КП" && (isCreateOffer
+          ? <CreateOfferForm className={"mt-10"} requestId={requestId} request={request} onCancle={() => setIsCreateOffer(false)} setIsPay={() => setIsPay("КП")} />
           : <OfferButton onCreateOffer={() => setIsCreateOffer(true)} />
-        ) : (
+        )) : (
           <RespondButton
             freeClicksLeft={accountData.coins}
             isClicksAvailable={accountData.coins > 0}

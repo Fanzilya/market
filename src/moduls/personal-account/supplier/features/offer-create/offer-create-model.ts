@@ -11,20 +11,24 @@ class CreateOfferModel {
     isSubmitting: boolean = false
 
     model: IOfferCreate = {
-
         currentPriceNDS: 0,
-        warehouseLocation: "",
+        warehouseLocation: "Москва",
         supplierSiteURL: "",
 
         nameByProject: "",
         nameBySupplier: "",
-        bussinessAccId: "019ce105-1aa3-737d-ba51-4b09419e2c9e",
+        bussinessAccId: "",
         requestId: "",
 
         proccent: 0.22,
         currentPriceNoNDS: 0,
         supportingDocumentDate: null,
-        manufacturerCountry: "",
+        manufacturerCountry: "Россия",
+
+        offerNumber: "13212231231",
+        deliveryTerms: "Никаких",
+        garantyPeriod: 24,
+        paymentTerms: "Никаких",
     }
     docsModel: IOfferDocs = { offer: null, passport: null, certificate: null, scheme: null }
 
@@ -61,27 +65,31 @@ class CreateOfferModel {
 
     clear() {
         this.model = {
-
             currentPriceNDS: 0,
             warehouseLocation: "",
             supplierSiteURL: "",
 
             nameByProject: "",
             nameBySupplier: "",
-            bussinessAccId: "019ce105-1aa3-737d-ba51-4b09419e2c9e",
+            bussinessAccId: "",
             requestId: "",
 
             proccent: 0.22,
             currentPriceNoNDS: 0,
             supportingDocumentDate: null,
             manufacturerCountry: "",
+
+            offerNumber: "",
+            deliveryTerms: "",
+            garantyPeriod: "",
+            paymentTerms: "",
         }
         this.docsModel = { offer: null, passport: null, certificate: null, scheme: null }
         this.isSubmitting = false
     }
 
 
-    async create(userName: string, requestId: string, requestName: string) {
+    async create(userName: string, requestId: string, requestName: string, bussinessAccId: string, onCancle: () => void, setIsPay: () => void) {
 
         this.isSubmitting = true
 
@@ -97,14 +105,24 @@ class CreateOfferModel {
 
                 nameByProject: this.model.nameByProject,
                 nameBySupplier: this.model.nameBySupplier,
-                bussinessAccId: this.model.bussinessAccId,
+                bussinessAccId: bussinessAccId,
                 requestId: this.model.requestId,
 
                 currentPriceNoNDS: this.model.currentPriceNoNDS,
                 supportingDocumentDate: this.model.supportingDocumentDate,
                 manufacturerCountry: this.model.manufacturerCountry,
+
+                offerNumber: this.model.offerNumber,
+                deliveryTerms: this.model.deliveryTerms,
+                garantyPeriod: Number(this.model.garantyPeriod),
+                paymentTerms: this.model.paymentTerms,
             })
             const resDoc = await this.createDocs(res.data)
+
+
+            this.clear()
+            onCancle()
+            setIsPay()
 
             toast.success("Коммерческое предложение отправлено!")
 
