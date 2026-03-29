@@ -1,13 +1,16 @@
 import { Button } from "@/shared/ui-kits/button"
-import { Link } from "react-router-dom"
 
-export function OfferButton({ onCreateOffer }: { onCreateOffer: string }) {
+interface Props {
+  onCreateOffer: () => void,
+}
+
+export function OfferButton({ onCreateOffer }: Props) {
   return (
-    <div className="text-center p-8 bg-slate-50 rounded-2xl my-8 border-2 border-dashed border-[#4A85F6] animate-pulse">
-      <Link className="inline-flex items-center gap-3 px-9 py-[18px] bg-gradient-to-br from-emerald-500 to-emerald-700 border-none rounded-xl text-white text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-emerald-500/30 mb-4 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-500/40" to={onCreateOffer} >
+    <div className={`text-center p-8 bg-slate-50 rounded-2xl my-8 border-2 border-dashed border-[#4A85F6] animate-pulse`}>
+      <Button onClick={onCreateOffer} className="inline-flex items-center gap-3 px-9 py-[18px] bg-gradient-to-br from-emerald-500 to-emerald-700 border-none rounded-xl text-white text-lg font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-emerald-500/30 mb-4 hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-xl hover:shadow-emerald-500/40" >
         <StarIcon />
         Создать коммерческое предложение
-      </Link>
+      </Button>
       <p className="m-0 text-sm text-slate-500">
         После создания КП заказчик сможет увидеть ваше предложение
       </p>

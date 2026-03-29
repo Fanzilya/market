@@ -44,12 +44,11 @@ export const SupplierPage = () => {
         onNavigate={navigate}
       /> */}
 
-
       <AccountHeader
         title='Доступные заявки'
         breadcrumbs={{
           current: "Заявки",
-          linksBack: [{ text: "Главная", link: "/dashboard" }]
+          linksBack: [{ text: "Главная", link: "/supplier/dashboard" }]
         }}
         rightBlock={
           <div className={styles.headerRight}>

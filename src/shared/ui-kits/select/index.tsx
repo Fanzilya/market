@@ -19,7 +19,7 @@ type Props = {
     }
 }
 
-export const Selector = observer(({ placeholder, items, onSelect, classNames, defaultValue, label, required = false, error }: Props) => {
+export const Selector = ({ placeholder, items, onSelect, classNames, defaultValue, label, required = false, error }: Props) => {
 
     let [isOpen, setOpen] = useState<boolean>(false)
 
@@ -96,4 +96,4 @@ export const Selector = observer(({ placeholder, items, onSelect, classNames, de
             {error && <ErrorText text={error} />}
         </div>
     )
-})
+}

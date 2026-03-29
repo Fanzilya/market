@@ -104,12 +104,19 @@ export function getSadbarData() {
       label: "Избранные заявки",
     },
     {
-      path: "/supplier/materials",
+      path: "/supplier/offers",
       icon: (
         <Icon name="materials" />
       ),
-      label: "Подбор материалов",
+      label: "Коммерческие предложения",
     },
+    // {
+    //   path: "/supplier/materials",
+    //   icon: (
+    //     <Icon name="materials" />
+    //   ),
+    //   label: "Подбор материалов",
+    // },
     {
       path: "/supplier/balance",
       icon: (

@@ -38,8 +38,8 @@ export const ParametersViewContainer = ({ title, items, classNames, list }: Cont
 
             {filteredItems &&
                 <div className="grid grid-cols-1 gap-4 mb-6">
-                    {filteredItems?.filter((item => ('is' in item) ? item.is : true)).map(item => (
-                        <SpecItem label={item.label} value={item.value} />
+                    {filteredItems?.filter((item => ('is' in item) ? item.is : true)).map((item, key) => (
+                        <SpecItem key={key} label={item.label} value={item.value} />
                     ))}
                 </div>
             }

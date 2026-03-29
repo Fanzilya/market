@@ -275,7 +275,7 @@ export const AppRouter = createBrowserRouter([
                   {
                     path: 'edit',
                     async lazy() {
-                      const { CreateOfferPage } = await import('@supplier/pages/CreateOfferPage');
+                      const { CreateOfferPage } = await import('@/moduls/personal-account/supplier/features/offer-create');
                       return { Component: CreateOfferPage };
                     },
                   },
@@ -324,7 +324,7 @@ export const AppRouter = createBrowserRouter([
               {
                 path: 'offer/new',
                 async lazy() {
-                  const { CreateOfferPage } = await import('@supplier/pages/CreateOfferPage');
+                  const { CreateOfferPage } = await import('@/moduls/personal-account/supplier/features/offer-create');
                   return { Component: CreateOfferPage };
                 },
               },
@@ -338,6 +338,13 @@ export const AppRouter = createBrowserRouter([
             },
           },
         ]
+      },
+      {
+        path: 'offers',
+        async lazy() {
+          const { MyOfferList } = await import('@supplier/pages/MyOfferList');
+          return { Component: MyOfferList };
+        },
       },
       {
         path: 'balance',

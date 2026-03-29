@@ -6,29 +6,32 @@ import FreeClicksModal from '@/shared/components/FreeClicksModal'
 import { supplierPreviewModel } from '../../features/supplier-preview/supplier-preview-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
-import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
-import Icon from '@/shared/ui-kits/Icon'
 import { BasicInformationView } from '@/moduls/personal-account/customer/features/CreateRequestPage/basic-information-form/basic-information-view'
 import { KnsParametersView } from '@/moduls/personal-account/customer/features/CreateRequestPage/kns-parameters/kns-parameters-view'
 import { PupmParametersView } from '@/moduls/personal-account/customer/features/CreateRequestPage/pump-parameters/pump-parameters-view'
 import InfoBanner from './components/InfoBanner'
 import ClicksInfo from '@/widgets/request-view/clicks-info'
 import { OfferButton, RespondButton } from '@/widgets/request-view/action-button'
-import { ACCOUNT_SUPPLY } from '@/entities/user/config'
+import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
+import Icon from '@/shared/ui-kits/Icon'
+import { CreateOfferForm } from '../../features/offer-create'
 
 export const RequestPreviewPage = observer(() => {
   const { requestId, type } = useParams()
 
-
   const { accountData } = useAuth()
   const [showFreeClicksModal, setShowFreeClicksModal] = useState(false)
+  const [isCreateOffer, setIsCreateOffer] = useState(false)
 
-  const { viewUser, request, isLoader, init, knsData, knsElementsData, pumpData, isPay, clickRequestUser } = supplierPreviewModel
+  const { request, isLoader, init, knsData, knsElementsData, pumpData, isPay, clickRequestUser } = supplierPreviewModel
 
   useEffect(() => {
-    init(requestId!, accountData, type)
-    viewUser(requestId!)
-  }, [])
+    if (requestId != null && requestId != "null") {
+      console.log(requestId)
+
+      init(requestId!, accountData, type!)
+    }
+  }, [requestId])
 
   const handleRespond = () => { setShowFreeClicksModal(true) }
 
@@ -46,16 +49,7 @@ export const RequestPreviewPage = observer(() => {
         title={isPay ? 'Заявка' : 'Предпросмотр заявки'}
         breadcrumbs={{
           current: `Заявка ${request?.innerId || "-"}`,
-          linksBack: [
-            {
-              link: "/supplier",
-              text: "Заявки"
-            },
-            {
-              link: "/supplier",
-              text: "Заявки"
-            }
-          ]
+          linksBack: [{ link: "/supplier/dashboard", text: "Главная" }, { link: "/supplier", text: "Заявки" }]
         }}
 
         rightBlock={
@@ -90,15 +84,17 @@ export const RequestPreviewPage = observer(() => {
         <ClicksInfo freeClicksLeft={accountData.coins} />
       )}
 
-      {isPay ? (
-        <OfferButton onCreateOffer={`/supplier/request/${requestId}/offer/new`} />
-      ) : (
-        <RespondButton
-          freeClicksLeft={accountData.coins}
-          isClicksAvailable={accountData.coins > 0}
-          onRespond={handleRespond}
-        />
-      )}
+      {isPay
+        ? (isCreateOffer
+          ? <CreateOfferForm className={"mt-10"} requestId={requestId} request={request} onCancle={() => setIsCreateOffer(false)} />
+          : <OfferButton onCreateOffer={() => setIsCreateOffer(true)} />
+        ) : (
+          <RespondButton
+            freeClicksLeft={accountData.coins}
+            isClicksAvailable={accountData.coins > 0}
+            onRespond={handleRespond}
+          />
+        )}
 
 
       {showFreeClicksModal && (

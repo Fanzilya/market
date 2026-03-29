@@ -21,13 +21,13 @@ export const AccountHeader = ({ rightBlock, title, breadcrumbs, navBack }: Props
                     {navBack &&
                         <Button
                             styleColor="blue"
-                            className="px-2 py-1 flex items-center"
+                            className="p-2 flex items-center"
                             onClick={() => navigate(navBack)}
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                width="16"
-                                height="16"
+                                width="20"
+                                height="20"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -37,7 +37,6 @@ export const AccountHeader = ({ rightBlock, title, breadcrumbs, navBack }: Props
                             >
                                 <path d="M15 18l-6-6 6-6" />
                             </svg>
-                            <span className="mb-0.5">назад</span>
                         </Button>
                     }
 

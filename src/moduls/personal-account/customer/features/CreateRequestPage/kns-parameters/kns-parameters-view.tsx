@@ -38,7 +38,6 @@ export const KnsParametersView = observer(({ knsData, elements, fileUrl, fileTyp
                     }
                 </div> */}
 
-
                     <ParametersViewContainer
                         title='Технические параметры'
                         classNames={{

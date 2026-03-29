@@ -8,6 +8,7 @@ export interface IOfferCreate {
     requestId: string
 
 
+    proccent?: number,
     currentPriceNoNDS: 0,
     supportingDocumentDate: Date | null,
     manufacturerCountry: string,

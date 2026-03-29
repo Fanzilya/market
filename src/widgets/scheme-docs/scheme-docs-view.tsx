@@ -24,6 +24,11 @@ export const SchemeDocsView = ({ url, fileType = "create" }: { url?: string, fil
         setLoading(true);
         setError(null);
 
+        if (!url) {
+            setLoading(false);
+            setFileData('Файл не найден или ошибка сети');
+        }
+
         if (fileData) {
             URL.revokeObjectURL(fileData);
             setFileData(null);
@@ -75,19 +80,24 @@ export const SchemeDocsView = ({ url, fileType = "create" }: { url?: string, fil
 
             {!loading && error && (
                 <div className="flex flex-col items-center justify-center h-64">
-                    <p className="text-xl text-red-500 font-semibold mb-4">Ошибка при загрузке документа</p>
+                    <p className="text-xl text-red-400 font-semibold mb-4">Ошибка при загрузке документа</p>
                     <p className="text-gray-500">{error}</p>
                 </div>
             )}
 
-            {!loading && !error && (
+            {!loading && !error && ((fileData || url) ? (
                 <iframe
                     src={`${fileType == "download" ? fileData : url}#toolbar=0&navpanes=0`}
                     className="w-full h-full rounded-lg"
                     title="Просмотр файла"
                     style={{ border: 'none' }}
                 />
-            )}
+            ) : (
+                <div className="flex flex-col items-center justify-center h-64">
+                    <p className="text-xl text-red-400 font-semibold mb-4">Ошибка при загрузке документа</p>
+                    <p className="text-gray-500">{"Файл не найден или ошибка сети"}</p>
+                </div>
+            ))}
         </div>
     );
 };

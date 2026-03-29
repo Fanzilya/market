@@ -3,12 +3,11 @@ import { IOfferCreate, IOfferDocs, OfferFull } from '@/entities/offer/type';
 import { requestSingleApi } from '@/entities/request/api';
 import { makeAutoObservable } from 'mobx';
 import { ChangeEvent } from 'react';
+import { toast } from 'react-toastify';
 
 
 class CreateOfferModel {
 
-    request: OfferFull | null = null
-    isLoader: boolean = true
     isSubmitting: boolean = false
 
     model: IOfferCreate = {
@@ -22,11 +21,11 @@ class CreateOfferModel {
         bussinessAccId: "019ce105-1aa3-737d-ba51-4b09419e2c9e",
         requestId: "",
 
+        proccent: 0.22,
         currentPriceNoNDS: 0,
         supportingDocumentDate: null,
         manufacturerCountry: "",
     }
-
     docsModel: IOfferDocs = { offer: null, passport: null, certificate: null, scheme: null }
 
     constructor() {
@@ -36,10 +35,13 @@ class CreateOfferModel {
     setModel<K extends keyof typeof this.model>(name: K, value: typeof this.model[K]) {
         if (name === "currentPriceNoNDS") {
             this.model[name] = value;
-            this.model['currentPriceNDS'] = (Number(value) + (Number(value) * 0.22))
-        } else {
-            this.model[name] = value;
+            this.model['currentPriceNDS'] = (Number(value) + (Number(value) * this.model.proccent!))
+        } else if (name == "proccent") {
+            this.model['currentPriceNDS'] = (Number(this.model.currentPriceNoNDS) + (Number(this.model.currentPriceNoNDS) * Number(this.model.proccent!)))
         }
+        this.model[name] = value;
+
+        console.log(name)
     }
 
     setDocsModel<K extends keyof typeof this.docsModel>(name: K, value: typeof this.docsModel[K]) {
@@ -57,34 +59,54 @@ class CreateOfferModel {
     }
 
 
-    async init(id: string) {
-        this.isLoader = true
+    clear() {
+        this.model = {
 
-        try {
-            const res = await requestSingleApi({ id: id })
+            currentPriceNDS: 0,
+            warehouseLocation: "",
+            supplierSiteURL: "",
 
-            this.request = res.data
+            nameByProject: "",
+            nameBySupplier: "",
+            bussinessAccId: "019ce105-1aa3-737d-ba51-4b09419e2c9e",
+            requestId: "",
 
-        } catch (error) {
-            console.log(error)
-        } finally {
-            this.isLoader = false
+            proccent: 0.22,
+            currentPriceNoNDS: 0,
+            supportingDocumentDate: null,
+            manufacturerCountry: "",
         }
+        this.docsModel = { offer: null, passport: null, certificate: null, scheme: null }
+        this.isSubmitting = false
     }
 
-    async create(userName: string, navigate: any) {
+
+    async create(userName: string, requestId: string, requestName: string) {
 
         this.isSubmitting = true
 
         try {
-            this.model.requestId = this.request.id
+            this.model.requestId = requestId
             this.model.nameBySupplier = userName
-            this.model.nameByProject = this.request.nameByProjectDocs
+            this.model.nameByProject = requestName
 
-            const res = await createRequestApi(this.model)
-            await this.createDocs(res.data)
+            const res = await createRequestApi({
+                currentPriceNDS: this.model.currentPriceNDS,
+                warehouseLocation: this.model.warehouseLocation,
+                supplierSiteURL: this.model.supplierSiteURL,
 
-            navigate("/supplier")
+                nameByProject: this.model.nameByProject,
+                nameBySupplier: this.model.nameBySupplier,
+                bussinessAccId: this.model.bussinessAccId,
+                requestId: this.model.requestId,
+
+                currentPriceNoNDS: this.model.currentPriceNoNDS,
+                supportingDocumentDate: this.model.supportingDocumentDate,
+                manufacturerCountry: this.model.manufacturerCountry,
+            })
+            const resDoc = await this.createDocs(res.data)
+
+            toast.success("Коммерческое предложение отправлено!")
 
         } catch (error) {
             console.log(error)
@@ -94,47 +116,41 @@ class CreateOfferModel {
     }
 
     async createDocs(OfferId: string) {
+        try {
+            const uploadPromises: Promise<{ type: string, success: boolean, error?: string }>[] = []
 
-        const uploadPromises: Promise<{ type: string, success: boolean, error?: string }>[] = []
+            const fileMappings = [
+                { type: 'offer', file: this.docsModel.offer, api: offerFileUploadApi, key: 'OfferFile' },
+                { type: 'passport', file: this.docsModel.passport, api: passportFileUploadApi, key: 'PassportFile' },
+                { type: 'certificate', file: this.docsModel.certificate, api: certificateFileUploadApi, key: 'CertificateFile' },
+                { type: 'scheme', file: this.docsModel.scheme, api: schemeFileUploadApi, key: 'PlanFile' }
+            ] as const
 
-        const fileMappings = [
-            { type: 'offer', file: this.docsModel.offer, api: offerFileUploadApi, key: 'OfferFile' },
-            { type: 'passport', file: this.docsModel.passport, api: passportFileUploadApi, key: 'PassportFile' },
-            { type: 'certificate', file: this.docsModel.certificate, api: certificateFileUploadApi, key: 'CertificateFile' },
-            { type: 'scheme', file: this.docsModel.scheme, api: schemeFileUploadApi, key: 'PlanFile' }
-        ] as const
+            for (const mapping of fileMappings) {
+                if (mapping.file) {
+                    const formData = new FormData()
+                    formData.append('OfferId', OfferId)
+                    formData.append(mapping.key, mapping.file)
 
-        for (const mapping of fileMappings) {
-            if (mapping.file) {
-                const formData = new FormData()
-                formData.append('OfferId', OfferId)
-                formData.append(mapping.key, mapping.file)
-
-                uploadPromises.push(
-                    mapping.api(formData)
-                        .then(() => ({ type: mapping.type, success: true }))
-                        .catch(error => ({
-                            type: mapping.type,
-                            success: false,
-                            error: error.message
-                        }))
-                )
+                    uploadPromises.push(
+                        mapping.api(formData)
+                            .then(() => ({ type: mapping.type, success: true }))
+                            .catch(error => ({
+                                type: mapping.type,
+                                success: false,
+                                error: error.message
+                            }))
+                    )
+                }
             }
+
+            const results = await Promise.all(uploadPromises)
+
+            return true
+        } catch (error) {
+            console.log(error)
+            return false
         }
-
-        const results = await Promise.all(uploadPromises)
-
-        console.log(results)
-
-        // const uploadedFiles = results.filter(r => r.success).map(r => r.type)
-
-        // const failedFiles = results.filter(r => !r.success).map(r => ({ type: r.type, error: r.error! }))
-
-        // return {
-        //     success: failedFiles.length === 0,
-        //     uploadedFiles,
-        //     failedFiles
-        // }
     }
 }
 

@@ -112,7 +112,6 @@ class SupplierPreviewModel {
         makeAutoObservable(this, {}, { autoBind: true })
     }
 
-
     async clickRequestUser(requestId) {
         try {
             const res = await clickAccountApi({
@@ -176,6 +175,9 @@ class SupplierPreviewModel {
                 resquestRes && this.formingRequest(resquestRes.data)
                 this.formingPump(configRes.data)
             }
+
+            this.viewUser(id)
+
         } catch (error) {
             console.log(error)
         } finally {
