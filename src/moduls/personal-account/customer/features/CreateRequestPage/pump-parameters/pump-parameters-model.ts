@@ -1,5 +1,5 @@
 import { getPumpTypes } from "@/entities/pumps/api"
-import { InstalationType, LiquidsIntakeType, LiquidType, PipesConditions, PumpManagement } from "@/entities/pumps/config"
+import { InstalationType, LiquidsIntakeType, LiquidType, PipesConditions, PumpManagement, submersibleTypesId } from "@/entities/pumps/config"
 import { IPumpsForm, IPumpType } from "@/entities/pumps/type"
 import { ErrorModelClass } from "@/shared/libs/error-model"
 import { getObjectNumberList } from "@/utils/get-object-keys-list"
@@ -11,7 +11,6 @@ class PumpParametersModel {
     configTypes: IPumpType[] = []
     controlTypeVlue: PumpManagement | null = null
     instalationTypeCurrentList: string[] = []
-    submersibleTypesId: string = ""
 
     model: IPumpsForm = {
         pumpedLiquidType: '',
@@ -219,30 +218,25 @@ class PumpParametersModel {
 
 
         if (name == "pumpTypeId") {
+
+            this.model.pumpTypeName = this.configTypes.find(item => item.id === this.model.pumpTypeId)?.typeName
+
             if (value != this.model.pumpTypeId) {
                 this.model.instalationType = ""
             }
 
-            if (value == this.submersibleTypesId) {
+            if (value == submersibleTypesId) {
                 this.instalationTypeCurrentList = [InstalationType.HalfStable.toString(), InstalationType.Portable.toString()]
             } else {
                 this.instalationTypeCurrentList = [InstalationType.Horizontal.toString(), InstalationType.Vertical.toString()]
             }
-
         }
-
     }
 
     async initData() {
         try {
             const res = await getPumpTypes()
             this.configTypes = res.data
-
-            res.data.forEach(element => {
-                if (element.typeName == "Погружной") {
-                    this.submersibleTypesId = element.id
-                }
-            });
 
         } catch (error) {
             console.log(error)

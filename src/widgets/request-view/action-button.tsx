@@ -1,3 +1,4 @@
+import { Button } from "@/shared/ui-kits/button"
 import { Link } from "react-router-dom"
 
 export function OfferButton({ onCreateOffer }: { onCreateOffer: string }) {
@@ -17,15 +18,19 @@ export function OfferButton({ onCreateOffer }: { onCreateOffer: string }) {
 
 export function RespondButton({ freeClicksLeft, isClicksAvailable, onRespond }: { freeClicksLeft: number | string, isClicksAvailable: boolean, onRespond: () => void }) {
   return (
-    <div className="text-center p-8 bg-slate-50 rounded-2xl my-8">
-      <button
-        className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-br from-[#4A85F6] to-[#3A6BC9] border-none rounded-xl text-white text-base font-semibold cursor-pointer transition-all duration-300 shadow-lg shadow-[#4A85F6]/30 mb-4 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#4A85F6]/40"
+    <div className="text-center p-8 rounded-2xl bg-slate-50">
+      <Button
+        className={`inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-br border-none rounded-xl text-white text-base 
+          font-semibold cursor-pointer transition-all duration-300 mb-4
+          ${isClicksAvailable && "shadow-lg shadow-[#4A85F6]/30 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#4A85F6]/40"}
+          `}
         onClick={onRespond}
         disabled={!isClicksAvailable}
+        styleColor={!isClicksAvailable ? "gray" : "blue"}
       >
-        <PlusIcon />
-        {isClicksAvailable ? 'Откликнуться на заявку' : 'Бесплатные отклики закончились'}
-      </button>
+        {isClicksAvailable && <PlusIcon />}
+        {isClicksAvailable ? 'Откликнуться на заявку' : 'Пополните счёт'}
+      </Button>
       <p className="m-0 text-sm text-slate-500">
         {isClicksAvailable
           ? `Останется ${Number(freeClicksLeft) - 1} бесплатных откликов`

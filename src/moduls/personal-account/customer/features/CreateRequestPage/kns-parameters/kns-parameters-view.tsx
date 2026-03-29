@@ -11,15 +11,16 @@ import { KnsData } from '@/entities/request/type';
 interface Props {
     knsData: KnsData,
     elements: EquipmentDataCheckbox[],
-    fileUrl: string,
+    fileUrl?: string,
+    fileType?: "download" | "create",
 }
 
 
-export const KnsParametersView = observer(({ knsData, elements, fileUrl }: Props) => {
+export const KnsParametersView = observer(({ knsData, elements, fileUrl, fileType }: Props) => {
 
     return (
         <>
-            <div className='grid grid-cols-2 gap-5'>
+            <div className='grid grid-cols-2 gap-5 rounded-[20px] border border-[#e2e8f0] p-8 bg-white'>
                 <div>
                     {/* <div className="grid grid-cols-3 gap-4 mb-8 p-5 bg-slate-50 rounded-2xl">
                     <InfoItem
@@ -46,7 +47,7 @@ export const KnsParametersView = observer(({ knsData, elements, fileUrl }: Props
                         items={[
                             {
                                 label: "Производительность:",
-                                value: knsData.capacity + " " + PerfomanceMeasureUnitTranslations[knsData.units],
+                                value: knsData.perfomance + " " + PerfomanceMeasureUnitTranslations[knsData.units],
                             },
                             {
                                 label: "Напор:",
@@ -90,7 +91,7 @@ export const KnsParametersView = observer(({ knsData, elements, fileUrl }: Props
                         ]}
                     />
 
-                    {elements.length > 0 && elements[3].checked &&
+                    {/* {elements.length > 0 && elements[3].checked &&
                         <ParametersViewContainer
                             title='Габаритные размеры'
                             items={[
@@ -120,18 +121,18 @@ export const KnsParametersView = observer(({ knsData, elements, fileUrl }: Props
                                 },
                             ]}
                         />
-                    }
+                    } */}
 
 
                     {elements.length > 0 &&
                         <ParametersViewContainer
                             title='Габаритные размеры'
-                            list={elements.filter(item => item.checked)}
+                            list={elements}
                         />
                     }
                 </div>
 
-                <SchemeDocsView url={fileUrl} />
+                <SchemeDocsView url={fileUrl} fileType={fileType} />
             </div>
         </>
     );

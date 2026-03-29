@@ -7,6 +7,7 @@ import { configTypeKeys } from '@/entities/request/config'
 import { RequestRes } from '@/entities/request/type'
 import { useAuth } from '@/features/user/context/context'
 import { useQuery, useMutation, useQueryClient, useQueries } from '@tanstack/react-query'
+import { useEffect } from 'react'
 
 // Ключи для кэширования
 export const queryKeys = {
@@ -32,48 +33,34 @@ export const useRequestsListData = () => {
 
     const requests = requestsQuery.data?.data ?? []
 
-    const requestDetailsQueries = useQueries({
-        queries: requests.map((request: RequestRes) => ({
-            queryKey: [queryKeys.requestDetail, request.id],
-            queryFn: () => request.configTypeId == configTypeKeys.pupm ? getPumpSingle({ requestId: request.id }) : requestSingleApi({ id: request.id }),
-            staleTime: 5 * 60 * 1000,
-            enabled: !!request.id,
-        })),
-    })
-
     const offersQueries = useQueries({
         queries: requests.map((request: RequestRes) => ({
-            queryKey: ['request-offers', request.id],
-            queryFn: () => offersByRequestsApi({ requestId: request.id }),
+            queryKey: ['request-offers', request.requestId],
+            queryFn: () => offersByRequestsApi({ requestId: request.requestId }),
             staleTime: 5 * 60 * 1000,
-            enabled: !!request.id,
+            enabled: !!request.requestId,
         })),
     })
 
-    const requestsWithOffers = requests
-        .map((request: RequestRes, index: number) => {
-            const detailResult = requestDetailsQueries[index]
-            const offersResult = offersQueries[index]
+    const requestsWithOffers = requests.map((request: RequestRes, index: number) => {
+        const offersResult = offersQueries[index]
 
-            // Пропускаем, если какой-то из запросов еще загружается или содержит ошибку
-            if (detailResult.isLoading || offersResult.isLoading) {
-                return null
-            }
+        if (offersResult.isLoading) {
+            return null
+        }
 
-            // Если есть ошибка в одном из запросов, логируем и пропускаем
-            if (detailResult.error || offersResult.error) {
-                console.error(`Ошибка при обработке request ${request.id}:`, {
-                    detailError: detailResult.error,
-                    offersError: offersResult.error,
-                })
-                return null
-            }
+        if (offersResult.error) {
+            console.error(`Ошибка при обработке request ${request.requestId}:`, {
+                offersError: offersResult.error,
+            })
+            return null
+        }
 
-            return {
-                data: detailResult.data?.data ?? request,
-                offers: offersResult.data?.data ?? [],
-            }
-        })
+        return {
+            data: request,
+            offers: offersResult.data?.data ?? [],
+        }
+    })
         .filter((item) => item !== null)
 
 
@@ -104,8 +91,8 @@ export const useRequestsListData = () => {
 
     return {
         requests: sortRequests(requestsWithOffers),
-        isLoading: requestsQuery.isLoading || requestDetailsQueries.some(q => q.isLoading) || offersQueries.some(q => q.isLoading),
-        isError: requestsQuery.isError || requestDetailsQueries.some(q => q.isError) || offersQueries.some(q => q.isError),
+        isLoading: requestsQuery.isLoading || offersQueries.some(q => q.isLoading),
+        isError: requestsQuery.isError || offersQueries.some(q => q.isError),
         errors: requestsQuery.error,
         archiveRequest: archiveRequestMutation.mutate,
         refetchAll: () => {

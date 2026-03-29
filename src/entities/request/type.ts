@@ -17,12 +17,13 @@ export interface BaseInfo {
 export interface BaseInfoFull extends BaseInfo {
     id?: string
     innerId: string
+    schemeFileId?: string
 }
 
 
 export interface KnsData {
     // Основные параметры
-    capacity: string,
+    perfomance: string,
     units: PerfomanceMeasureUnit,
     head: string,
     workingPumps: string,
@@ -55,9 +56,9 @@ export interface KnsData {
     cabinetLocation: string,
 
     // Дополнительные элементы конструктора схемы
-    element1Name: string,
-    element1Value: string,
-    element2Param: string,
+    element1Name?: string,
+    element1Value?: string,
+    element2Param?: string,
     elements?: EquipmentDataCheckbox
     equipmentGuidList?: string[]
 }

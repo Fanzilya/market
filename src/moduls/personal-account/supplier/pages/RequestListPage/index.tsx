@@ -1,26 +1,16 @@
-// src/pages/SupplierPage/index.tsx
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import AccessDenied from './components/AccessDenied'
-import Header from './components/Header'
 import FiltersBar from './components/FiltersBar'
 import StatsBar from './components/StatsBar'
-import RequestsTable from './components/RequestsTable'
-import RequestsGrid from './components/RequestsGrid'
-import LogoutConfirmModal from './components/LogoutConfirmModal'
 import useSupplierData from './hooks/useSupplierData'
-import useFavorites from './hooks/useFavorites'
 import { useAuth } from '@/features/user/context/context'
 import styles from './SupplierPage.module.css'
-import { createColumns } from './config/tableColumns'
-// import { requestListModel } from '../../features/supplier-request-list/request-list-model'
 import Loader from '@/shared/ui-kits/loader/loader'
-import { RequestTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-table-row'
 import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 import Icon from '@/shared/ui-kits/Icon'
 import { useRequestListModel } from '../../features/supplier-request-list/useRequestListModel'
 import EmptyState from '../../../../../shared/components/EmptyRequest/EmptyState'
-import { RequestsupplierTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-supplier-table-row'
+import { RequestSupplierTableRow } from '@/moduls/personal-account/customer/widgets/request-list/request-supplier-table-row'
 
 
 export const SupplierPage = () => {
@@ -95,8 +85,8 @@ export const SupplierPage = () => {
           ) : (
             <div className={styles.tableContainer}>
               <div className={styles.table}>
-                <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
-                  {['ID', 'Регион', 'Тип', 'Производительность', 'Отклики', 'Дата', 'Статус', 'Действия'].map((item, key) => (
+                <div className='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr] justify-center items-center'>
+                  {['ID', 'Регион', 'Тип', 'Производительность', 'Отклики', 'Дата', 'Действия'].map((item, key) => (
                     // 'КП', 
                     <div key={key} className={`${styles.th} flex justify-center text-center`}>{item}</div>
                   ))}
@@ -104,9 +94,9 @@ export const SupplierPage = () => {
 
                 <div>
                   {requests.map((item, key) => (
-                    <RequestsupplierTableRow
+                    <RequestSupplierTableRow
                       key={item.id || key}
-                      gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr_1fr]'
+                      gridClass='grid grid-cols-[70px_1fr_1fr_1fr_1fr_1fr_1fr]'
                       number={key + 1}
                       styles={styles}
                       item={item}

@@ -63,4 +63,8 @@ export const PumpManagementTranslations: Record<PumpManagement, string> = {
     [PumpManagement.AutoFloatSensor]: 'Автоматическое с помощью поплавкового датчика',
     [PumpManagement.AutoPneumatic]: 'Автоматическое пневматическое',
     [PumpManagement.Other]: 'Другой способ управления',
-}; 
+};
+
+
+
+export const submersibleTypesId = "019d2f11-b1b0-767d-8280-b2594a149346";

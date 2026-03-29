@@ -1,4 +1,4 @@
-import { ACCOUNT_SUPPLY_KEY } from "@/entities/user/config";
+import { ACCOUNT_SUPPLY } from "@/entities/user/config";
 import { IAccountSupply } from "@/entities/user/type";
 import { makeAutoObservable } from "mobx";
 
@@ -22,7 +22,7 @@ export class AccountSupplyModel {
     }
 
     private initFromStorage() {
-        const storedData = localStorage.getItem(ACCOUNT_SUPPLY_KEY);
+        const storedData = localStorage.getItem(ACCOUNT_SUPPLY);
 
         if (storedData) {
             try {
@@ -34,7 +34,7 @@ export class AccountSupplyModel {
     }
 
     private clearStorage() {
-        localStorage.removeItem(ACCOUNT_SUPPLY_KEY);
+        localStorage.removeItem(ACCOUNT_SUPPLY);
     }
 
     setAccount(data: IAccountSupply | null) {
@@ -51,13 +51,13 @@ export class AccountSupplyModel {
             id: data.id,
         };
 
-        localStorage.setItem(ACCOUNT_SUPPLY_KEY, JSON.stringify(sessionData));
+        localStorage.setItem(ACCOUNT_SUPPLY, JSON.stringify(sessionData));
         this.setAccount(sessionData);
     }
 
 
     signOutAccount(): void {
-        localStorage.removeItem(ACCOUNT_SUPPLY_KEY);
+        localStorage.removeItem(ACCOUNT_SUPPLY);
         this.setAccount(null);
     }
 }

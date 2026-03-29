@@ -9,7 +9,7 @@ class KnsParametersModel {
 
     knsData: KnsData = {
         // Основные параметры
-        capacity: '',
+        perfomance: '',
         units: PerfomanceMeasureUnit.LiterSecond,
         head: '',
         workingPumps: '',
@@ -60,7 +60,7 @@ class KnsParametersModel {
     clearForm() {
         return
         this.knsData = {
-            capacity: '',
+            perfomance: '',
             units: PerfomanceMeasureUnit.LiterSecond,
             head: '',
             workingPumps: '',
@@ -106,7 +106,7 @@ class KnsParametersModel {
         this.errorModel.clearErrors()
 
         // Основные параметры
-        if (!this.knsData.capacity?.trim()) {
+        if (!this.knsData.perfomance?.trim()) {
             this.errorModel.setError("capacity", "Укажите производительность");
         }
         // if (!this.knsData.head?.trim()) {

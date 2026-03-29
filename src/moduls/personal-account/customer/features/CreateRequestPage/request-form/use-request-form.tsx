@@ -50,6 +50,7 @@ export function useRequestForm(requestId: string | undefined) {
             const fileRes = await fileUpload(resultId, fileData)
             if (fileRes) {
                 toast.success("Заявка успешно создалась")
+
                 navigate('/customer/request')
             }
         }
@@ -125,7 +126,7 @@ export function useRequestForm(requestId: string | undefined) {
                 projectOrganizationName: basicData.projectOrganizationName,
 
                 // Данные из knsData
-                perfomance: Number(configParametrsData.capacity) || 0,
+                perfomance: Number(configParametrsData.perfomance) || 0,
                 units: Number(configParametrsData.units) || 0,  // medium вместо units
                 requiredPumpPressure: Number(configParametrsData.head) || 0,
                 activePumpsCount: Number(configParametrsData.workingPumps) || 0,

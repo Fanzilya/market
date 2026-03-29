@@ -1,16 +1,14 @@
 import { OfferFull } from "@/entities/offer/type";
 import { configTypeKeys, PerfomanceMeasureUnitTranslations, RequestStatus, RequestStatusTranslations } from "@/entities/request/config";
 import { getStatusClass, getStatusText } from "@/entities/request/functions";
-import { IRequest, RequestRes } from "@/entities/request/type";
+import { RequestRes } from "@/entities/request/type";
 import { Role } from "@/entities/user/role";
 import { useAuth } from "@/features/user/context/context";
 import { PlusIcon, ViewIcon } from "@/moduls/personal-account/supplier/pages/RequestListPage/config/tableColumns";
 import Icon from "@/shared/ui-kits/Icon";
-import { formatDate } from "@/utils/get-form-data";
 import { Link, useNavigate } from "react-router-dom";
 import { RequestOffersTableRow } from "./request-offers-table-row";
-import { Selector } from "@/shared/ui-kits/select";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ArchiveConfirmModal } from "./archive-confirm-modal";
 
 interface Props {
@@ -22,7 +20,6 @@ interface Props {
     },
     goToEditRequest?: any,
     handleDeleteRequest?: any,
-    handleResubmit?: any,
     gridClass?: any
 
     onFavoriteAdd?: any
@@ -32,7 +29,7 @@ interface Props {
 }
 
 
-export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleDeleteRequest, handleResubmit, number, gridClass, onArhiv, onChangeStatus, onFavoriteAdd, onFavoriteRemove }: Props) => {
+export const RequestSupplierTableRow = ({ styles, item, goToEditRequest, handleDeleteRequest, number, gridClass, onArhiv, onChangeStatus, onFavoriteAdd, onFavoriteRemove }: Props) => {
 
     // Функция для переключения видимости КП
     const toggleOffers = (itemId: string) => {
@@ -59,23 +56,17 @@ export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleD
     }
 
     const { user } = useAuth()
-
     const navigate = useNavigate()
-
     const [selectedStatus, setSelectedStatus] = useState('')
-
     const [showArchiveConfirm, setShowArchiveConfirm] = useState<boolean>(false)
-
     const openArchiveConfirm = (e: Event, value: boolean) => {
         e.stopPropagation();
         setShowArchiveConfirm(value)
     }
-
     const handleArhive = () => {
         onArhiv(item.data.id)
         setShowArchiveConfirm(false)
     }
-
 
     // useEffect(() => { console.log(item.data) }, [])
 
@@ -96,7 +87,7 @@ export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleD
                     </div>
 
                     <div className={styles.div}>
-                        <span className={styles.idBadge}>{item.data.region?.regionName || "-"}</span>
+                        <span className={styles.idBadge}>{item.data.region?.regionName}</span>
                     </div>
 
                     <div className={styles.div}>
@@ -120,11 +111,11 @@ export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleD
                         </span>
                     </div>
 
-                    <div className={`${styles.div} flex justify-center items-center`}>
+                    {/* <div className={`${styles.div} flex justify-center items-center`}>
                         <span className={`${styles.statusBadge} ${getStatusClass(item.data)}`}>
                             {getStatusText(item.data)}
                         </span>
-                    </div>
+                    </div> */}
 
 
                     <div className={styles.div}>
@@ -313,9 +304,6 @@ export const RequestsupplierTableRow = ({ styles, item, goToEditRequest, handleD
                             </button>
                         </div>
                     }
-                </div>
-                <div id={`offers-${item.data.id}`} className="bg-gray-50 hidden opacity-0 translate-y-[-10px] transition-all duration-300 ease-in-out border-b border-gray-300 overflow-hidden">
-                    <RequestOffersTableRow item={item} user={user} />
                 </div>
             </div>
         </>

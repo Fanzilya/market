@@ -44,7 +44,7 @@ export const FormBasicInformationForm = observer(({ fullClear, styles, handleNex
 
     return (
         <>
-            <div className={styles.stepContent}>
+            <div className="rounded-[20px] border border-[#e2e8f0] p-8 bg-white">
                 <h2 className={styles.sectionTitle}>Основная информация</h2>
                 <div className={styles.formGrid}>
                     <Input

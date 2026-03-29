@@ -9,10 +9,6 @@ interface Props {
 
 
 export const RequestOffersTableRow = ({ item, user }: Props) => {
-
-
-
-
     return item.offers && item.offers.length > 0 ?
         (item.offers.map((offer: any) => {
 

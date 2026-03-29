@@ -23,7 +23,7 @@ export const BasicInformationView = observer(({ formData }: Props) => {
                     },
                     {
                         label: "Регион:",
-                        value: formData?.regionName || "",
+                        value: formData?.regionName,
                     },
                     {
                         label: "Заказчик:",

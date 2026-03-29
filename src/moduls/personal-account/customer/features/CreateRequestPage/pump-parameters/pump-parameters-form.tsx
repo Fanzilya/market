@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { SchemeDocsForm } from '@/widgets/scheme-docs/scheme-docs-form';
 import { Selector } from '@/shared/ui-kits/select';
 import { getObjectNumberList } from '@/utils/get-object-keys-list';
-import { InstalationTypeTranslations, LiquidsIntakeType, LiquidsIntakeTypeTranslations, LiquidType, LiquidTypeTranslations, PipesConditions, PipesConditionsTranslations, PumpManagement, PumpManagementTranslations } from '@/entities/pumps/config';
+import { InstalationTypeTranslations, LiquidsIntakeType, LiquidsIntakeTypeTranslations, LiquidType, LiquidTypeTranslations, PipesConditions, PipesConditionsTranslations, PumpManagement, PumpManagementTranslations, submersibleTypesId } from '@/entities/pumps/config';
 import { Textarea } from '@/shared/ui-kits/Input/Textarea';
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 export const PumpParametersForm = observer(({ styles, handleNext, handleBack, fullClear }: Props) => {
 
     const { clearForm, validateForm, setModelData, initData, model, configTypes, controlTypeVlue,
-        setControlTypeVlue, instalationTypeCurrentList, errorModel, setFile, fileUrl, file, submersibleTypesId } = pumpParametersModel
+        setControlTypeVlue, instalationTypeCurrentList, errorModel, setFile, fileUrl, file } = pumpParametersModel
 
     useEffect(() => {
         if (configTypes.length == 0) {
@@ -45,10 +45,10 @@ export const PumpParametersForm = observer(({ styles, handleNext, handleBack, fu
 
 
     return (
-        <div className={styles.stepContent} >
+        <div className='rounded-xl border border-[#e2e8f0] p-8 bg-white'>
             <h2 className={styles.sectionTitle}>Технические параметры насосов</h2>
             <div className={styles.formGrid}>
-                <div>
+                <div className='rounded-[20px] border-[1px_solid_#f0f2f5] p-8'>
 
                     <h3 className={styles.subsectionTitle}>Установка насоса</h3>
                     <div className={styles.formGridTech}>

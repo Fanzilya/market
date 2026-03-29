@@ -72,7 +72,6 @@
 
 /* Карточка создания */
 .createCard {
-  background: white;
   border-radius: 20px;
   border: 1px solid #f0f2f5;
   padding: 32px;
@@ -80,6 +79,7 @@
 
 /* Шаги */
 .steps {
+  background-color: white;
   display: flex;
   align-items: flex-start;
   gap: 16px;

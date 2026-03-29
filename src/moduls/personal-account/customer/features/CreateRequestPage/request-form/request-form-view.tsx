@@ -25,7 +25,7 @@ export const RequestFormView = observer(({ configTypeId, handleBack, handleSubmi
 
     const { formData, regionList } = basicInformationModel
     const { knsData, preparationData, file: filekns, elements, fileUrl } = knsParametersModel
-    const { model, file: filePump, configTypes, submersibleTypesId, fileUrl: fileUrlPump } = pumpParametersModel
+    const { model, file: filePump, configTypes, fileUrl: fileUrlPump } = pumpParametersModel
 
 
     const onSubmit = () => {
@@ -50,14 +50,12 @@ export const RequestFormView = observer(({ configTypeId, handleBack, handleSubmi
             {configTypeId == configTypeKeys.kns
                 ? <KnsParametersView
                     knsData={knsData}
-                    elements={elements}
+                    elements={elements.filter(item => item.checked)}
                     fileUrl={fileUrl}
                 />
                 : <PupmParametersView
                     model={model}
-                    configTypes={configTypes}
                     fileUrl={fileUrlPump}
-                    submersibleTypesId={submersibleTypesId}
                 />
             }
 

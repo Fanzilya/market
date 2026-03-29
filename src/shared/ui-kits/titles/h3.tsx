@@ -5,7 +5,7 @@ interface Props {
 
 export const PageTitle = ({ text, className }: Props) => {
     return (
-        <div className={`m-0 text-2xl font-semibold text-[#1E293B] ${className}`}>{text}</div>
+        <div className={`text-2xl font-semibold text-[#1E293B] ${className}`}>{text}</div>
     );
 }
 

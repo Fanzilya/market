@@ -1,119 +1,111 @@
 // src/pages/supplier/SupplierPreviewPage/index.tsx
 import { useState, useEffect } from 'react'
-import { useNavigate, useParams, useLocation } from 'react-router-dom'
-import InfoBanner from './components/InfoBanner'
-import ClicksInfo from '../../../../../widgets/request-view/clicks-info'
-import useFreeClicks from './hooks/useFreeClicks'
-import useFavorites from './hooks/useFavorites'
+import { useParams } from 'react-router-dom'
 import { useAuth } from '@/features/user/context/context'
 import FreeClicksModal from '@/shared/components/FreeClicksModal'
-import styles from "./RequestPreviewPage.module.css"
 import { supplierPreviewModel } from '../../features/supplier-preview/supplier-preview-model'
 import Loader from '@/shared/ui-kits/loader/loader'
 import { observer } from 'mobx-react-lite'
 import { AccountHeader } from '@/moduls/personal-account/_layout/widgets/account-header'
 import Icon from '@/shared/ui-kits/Icon'
-import { RequestView } from '@/widgets/request-view'
-import { OfferButton, RespondButton } from '@/widgets/request-view/action-button'
 import { BasicInformationView } from '@/moduls/personal-account/customer/features/CreateRequestPage/basic-information-form/basic-information-view'
 import { KnsParametersView } from '@/moduls/personal-account/customer/features/CreateRequestPage/kns-parameters/kns-parameters-view'
 import { PupmParametersView } from '@/moduls/personal-account/customer/features/CreateRequestPage/pump-parameters/pump-parameters-view'
+import InfoBanner from './components/InfoBanner'
+import ClicksInfo from '@/widgets/request-view/clicks-info'
+import { OfferButton, RespondButton } from '@/widgets/request-view/action-button'
+import { ACCOUNT_SUPPLY } from '@/entities/user/config'
 
 export const RequestPreviewPage = observer(() => {
   const { requestId, type } = useParams()
 
 
-  const { user, accountData } = useAuth()
+  const { accountData } = useAuth()
   const [showFreeClicksModal, setShowFreeClicksModal] = useState(false)
 
-  const { request, isLoader, init } = supplierPreviewModel
+  const { viewUser, request, isLoader, init, knsData, knsElementsData, pumpData, isPay, clickRequestUser } = supplierPreviewModel
 
   useEffect(() => {
     init(requestId!, accountData, type)
+    viewUser(requestId!)
   }, [])
 
-  // const { decrementClicks, isClicksAvailable } = useFreeClicks()
-  // const { isFavorite, handleToggleFavorite } = useFavorites({ user, requestId })
+  const handleRespond = () => { setShowFreeClicksModal(true) }
 
-  // const handleRespond = () => { setShowFreeClicksModal(true) }
-
-  // const handleConfirmFreeClick = async () => {
-  //   decrementClicks()
-  //   setShowFreeClicksModal(false)
-  //   await clickRequestUser()
-  //   window.scrollTo({ top: 0, behavior: 'smooth' })
-  // }
+  const handleConfirmFreeClick = async () => {
+    setShowFreeClicksModal(false);
+    clickRequestUser(requestId);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   return isLoader ? <Loader /> : (
     <>
-      <div className="bg-white rounded-[20px] p-[32px] border-[1px_solid_#f0f2f5]">
-        <AccountHeader
-          // title={request.supplierRequestStatus == "Payed" ? 'Заявка' : 'Предпросмотр заявки'}
-          title={'Заявка'}
-          breadcrumbs={{
-            current: `Заявка ${request?.innerId || "-"}`
-          }}
 
-          rightBlock={
-            <button
-            // className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
-            // onClick={handleToggleFavorite}
-            // title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
-            >
-              <Icon name="star" />
-            </button>}
+      <AccountHeader
+        navBack={'/supplier'}
+        title={isPay ? 'Заявка' : 'Предпросмотр заявки'}
+        breadcrumbs={{
+          current: `Заявка ${request?.innerId || "-"}`,
+          linksBack: [
+            {
+              link: "/supplier",
+              text: "Заявки"
+            },
+            {
+              link: "/supplier",
+              text: "Заявки"
+            }
+          ]
+        }}
+
+        rightBlock={
+          <button
+          // className={`${styles.favoriteButton} ${isFavorite ? styles.favoriteActive : ''}`}
+          // onClick={handleToggleFavorite}
+          // title={isFavorite ? 'Удалить из избранного' : 'Добавить в избранное'}
+          >
+            <Icon name="star" />
+          </button>}
+      />
+
+      <InfoBanner hasResponded={!isPay} />
+
+      <BasicInformationView formData={request} />
+
+      {type == "kns"
+        ? <KnsParametersView
+          knsData={knsData}
+          elements={knsElementsData}
+          fileUrl={request.schemeFileId != null ? `https://triapi.ru/market/api/Request/schemeFile/download?fileId=${request.schemeFileId}` : ""}
+          fileType={"download"}
         />
+        : <PupmParametersView
+          model={pumpData}
+          fileUrl={request.schemeFileId != null ? `https://triapi.ru/market/api/Request/schemeFile/download?fileId=${request.schemeFileId}` : ""}
+          fileType={"download"}
+        />
+      }
 
-        <BasicInformationView formData={request} />
+      {!isPay && (
+        <ClicksInfo freeClicksLeft={accountData.coins} />
+      )}
 
-        {type == "kns"
-          ? <KnsParametersView
-            knsData={knsData}
-            elements={elements}
-            fileUrl={fileUrl}
-          />
-          : <PupmParametersView
-            model={model}
-            configTypes={configTypes}
-            fileUrl={fileUrlPump}
-            submersibleTypesId={submersibleTypesId}
-          />
-        }
-
-
-        {/* <InfoBanner hasResponded={request.supplierRequestStatus != "Payed"} /> */}
-
-        {/* <RequestView
-          request={request}
-          currentModel={currentModel}
-          equipmentCurrentModel={equipmentCurrentModel}
-          hasResponded={request.supplierRequestStatus == "Payed"}
-          schemeIsActive={schemeIsActive}
+      {isPay ? (
+        <OfferButton onCreateOffer={`/supplier/request/${requestId}/offer/new`} />
+      ) : (
+        <RespondButton
           freeClicksLeft={accountData.coins}
-          isClicksAvailable={isClicksAvailable}
-          handleRespond={handleRespond}
-        /> */}
+          isClicksAvailable={accountData.coins > 0}
+          onRespond={handleRespond}
+        />
+      )}
 
-        {/* {request.supplierRequestStatus != "Payed" && (
-          <ClicksInfo freeClicksLeft={accountData.coins} />
-        )}
-
-        {request.supplierRequestStatus == "Payed" ? (
-          <OfferButton onCreateOffer={`/supplier/request/${requestId}/offer/new`} />
-        ) : (
-          <RespondButton
-            freeClicksLeft={accountData.coins}
-            isClicksAvailable={isClicksAvailable}
-            onRespond={handleRespond}
-          />
-        )} */}
-
-      </div>
 
       {showFreeClicksModal && (
         <FreeClicksModal
           clicksLeft={accountData.coins}
           onConfirm={handleConfirmFreeClick}
+
           onClose={() => setShowFreeClicksModal(false)}
         />
       )}

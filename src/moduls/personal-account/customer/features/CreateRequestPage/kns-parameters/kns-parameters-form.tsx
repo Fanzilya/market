@@ -47,7 +47,7 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
     }
 
     return (
-        <div className={styles.stepContent}>
+        <div className='rounded-xl border border-[#e2e8f0] p-8 bg-white'>
             <h2 className={styles.sectionTitle}>Технические параметры</h2>
             <div className={styles.formGrid}>
                 <div>
@@ -57,10 +57,10 @@ export const KnsParametersForm = observer(({ styles, handleNext, handleBack, ful
                             <Input
                                 type="number"
                                 required
-                                value={knsData.capacity}
+                                value={knsData.perfomance}
                                 label='Производительность'
-                                onChange={(e) => setKnsData("capacity", e)}
-                                error={errorModel.errors.capacity}
+                                onChange={(e) => setKnsData("perfomance", e)}
+                                error={errorModel.errors.perfomance}
                                 classNames={{ container: "min-w-[50%] flex-1" }}
                                 placeholder="0"
                             />

@@ -33,29 +33,12 @@ interface Props {
 
 
 export const RequestTableRow = ({ styles, item, goToEditRequest, handleDeleteRequest, handleResubmit, number, gridClass, onArhiv, onChangeStatus, onFavoriteAdd, onFavoriteRemove }: Props) => {
-    // Функция для переключения видимости КП
-    const toggleOffers = (itemId: string) => {
-        // Находим элемент с КП по id родителя
-        const offersElement = document.getElementById(`offers-${itemId}`);
 
-        if (offersElement) {
-            if (offersElement.classList.contains('hidden')) {
-                // Показываем элемент с анимацией
-                offersElement.classList.remove('hidden');
-                // Небольшая задержка для срабатывания transition
-                setTimeout(() => {
-                    offersElement.classList.remove('opacity-0', 'translate-y-[-10px]');
-                }, 10);
-            } else {
-                // Скрываем элемент с анимацией
-                offersElement.classList.add('opacity-0', 'translate-y-[-10px]');
-                // Ждем окончания анимации перед скрытием
-                setTimeout(() => {
-                    offersElement.classList.add('hidden');
-                }, 300); // Длительность анимации
-            }
-        }
-    }
+    const [isOpen, setIsOpen] = useState(false);
+    const toggleOffers = () => {
+        setIsOpen(prev => !prev);
+    };
+
 
     const { user } = useAuth()
 
@@ -69,6 +52,10 @@ export const RequestTableRow = ({ styles, item, goToEditRequest, handleDeleteReq
         e.stopPropagation();
         setShowArchiveConfirm(value)
     }
+
+    useEffect(() => {
+        console.log(item)
+    }, [])
 
     const handleArhive = () => {
         onArhiv(item.data.id)
@@ -86,7 +73,7 @@ export const RequestTableRow = ({ styles, item, goToEditRequest, handleDeleteReq
             )}
 
             <div className="relative">
-                <div key={number} onClick={() => user?.role != Role.Supplier && toggleOffers(item.data.id)} className={`${styles.tr} py-5 px-3 cursor-pointer items-center text-center hover:bg-[rgba(74,_133,_246,_0.05)] border-b border-gray-300 ${gridClass}`}>
+                <div key={number} onClick={() => user?.role != Role.Supplier && toggleOffers()} className={`${styles.tr} py-5 px-3 cursor-pointer items-center text-center hover:bg-[rgba(74,_133,_246,_0.05)] border-b border-gray-300 ${gridClass}`}>
                     <div className={styles.div}>
                         <span className={styles.idBadge}>{item.data.innerId || number}</span>
                     </div>
@@ -100,15 +87,13 @@ export const RequestTableRow = ({ styles, item, goToEditRequest, handleDeleteReq
                     <div className={styles.div}>{item.data.customerName}</div>
 
                     <div className={styles.div}>
-                        <span className={styles.typeBadge}>КНС</span>
+                        <span className={styles.typeBadge}>{item.data.requestConfigType?.configTypeName}</span>
                     </div>
+
                     <div className={styles.div}>
                         <div className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-100 rounded-full text-xs font-semibold text-green-600" >
-
-                            <Icon name='check' width={12} />
-                            {/* offerCount === 0  */}
-                            {/* {offerCount} */}
-                            <span className={styles.noOffers}>{item.offers.length}</span>
+                            <ViewIcon />
+                            {item.data.businessOffersCount}
                         </div>
                     </div>
 
@@ -310,9 +295,15 @@ export const RequestTableRow = ({ styles, item, goToEditRequest, handleDeleteReq
                         </div>
                     }
                 </div>
-                <div id={`offers-${item.data.id}`} className="bg-gray-50 hidden opacity-0 translate-y-[-10px] transition-all duration-300 ease-in-out border-b border-gray-300 overflow-hidden">
-                    <RequestOffersTableRow item={item} user={user} />
-                </div>
+                {isOpen &&
+                    <div id={`offers-${item.data.id}`}
+                        className={`bg-gray-50  ease-in-out border-b border-gray-300 transition-all duration-300 
+                        ${isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 hidden translate-y-[-10px] pointer-events-none'}`
+                        }>
+
+                        <RequestOffersTableRow item={item} user={user} />
+                    </div>
+                }
             </div>
         </>
     );

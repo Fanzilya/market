@@ -17,7 +17,7 @@ interface Props {
     handleRespond?: () => void,
 }
 
-export const RequestView = ({ request, currentModel, equipmentCurrentModel, schemeIsActive, hasResponded, freeClicksLeft, isClicksAvailable, handleRespond }: Props) => {
+export const RequestView = ({ request, currentModel, equipmentCurrentModel, schemeIsActive }: Props) => {
     return (
         <div className="bg-white rounded-[20px] border border-slate-200 p-8">
             <div className="flex items-center justify-between mb-6 pb-5 border-b border-slate-100">

@@ -2,25 +2,22 @@ import { observer } from 'mobx-react-lite';
 import { pumpParametersModel } from './pump-parameters-model';
 import { SchemeDocsView } from '@/widgets/scheme-docs/scheme-docs-view';
 import { ParametersViewContainer } from '@/widgets/request-view/parameters-view-container';
-import { InstalationTypeTranslations, LiquidsIntakeTypeTranslations, LiquidTypeTranslations, PipesConditionsTranslations } from '@/entities/pumps/config';
+import { InstalationTypeTranslations, LiquidsIntakeTypeTranslations, LiquidTypeTranslations, PipesConditionsTranslations, submersibleTypesId } from '@/entities/pumps/config';
 import { TitleBlock } from '@/widgets/request-view/request-titles';
 import { IPumpsForm, IPumpType } from '@/entities/pumps/type';
 
 
 interface Props {
     model: IPumpsForm,
-    configTypes: IPumpType[],
-    fileUrl: string,
-    submersibleTypesId: string,
+    fileUrl?: string,
+    fileType?: "download" | "create",
 }
 
 
-export const PupmParametersView = observer(({ model, fileUrl, configTypes, submersibleTypesId, }: Props) => {
-
-
+export const PupmParametersView = observer(({ model, fileUrl, fileType }: Props) => {
     return (
         <>
-            <div className='grid grid-cols-2 gap-5'>
+            <div className='grid grid-cols-2 gap-5 rounded-xl border border-[#e2e8f0] p-8 bg-white'>
                 <div>
                     <ParametersViewContainer
                         title='Установка насоса'
@@ -30,14 +27,14 @@ export const PupmParametersView = observer(({ model, fileUrl, configTypes, subme
                         items={[
                             {
                                 label: "Способ установки насоса:",
-                                value: configTypes.find(item => item.id === model.pumpTypeId)?.typeName!,
+                                value: model.pumpTypeName,
                             },
                             {
                                 label: "Тип установки насоса агрегата:",
                                 value: InstalationTypeTranslations[model.instalationType],
                             },
                             {
-                                label: model.pumpTypeId == submersibleTypesId
+                                label: model.pumpTypeName == submersibleTypesId
                                     ? 'Предпологаемая глубина погружения:'
                                     : "Высота всасывания:",
                                 value: !model.heightOrDepth ? "" : model.heightOrDepth + " м",
@@ -212,7 +209,7 @@ export const PupmParametersView = observer(({ model, fileUrl, configTypes, subme
                     </>}
                 </div>
 
-                <SchemeDocsView url={fileUrl} />
+                <SchemeDocsView url={fileUrl} fileType={fileType} />
             </div>
         </>
     );

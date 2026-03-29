@@ -41,10 +41,6 @@ export const CustomerPage = observer(() => {
 
   const { requests, isLoading, archiveRequest } = useRequestsListData()
 
-  useEffect(() => {
-    console.log(requests)
-  }, [requests])
-
 
   return (
     <>

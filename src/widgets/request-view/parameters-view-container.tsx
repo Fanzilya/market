@@ -22,10 +22,6 @@ interface ContainerProps {
 
 export const ParametersViewContainer = ({ title, items, classNames, list }: ContainerProps) => {
 
-    useEffect(() => {
-        console.log(items)
-    }, [])
-
     const isValuePresent = (value: any) => {
         if (value === null || value === undefined) return false;
         if (typeof value === 'string') return value.trim() !== "";
@@ -33,9 +29,7 @@ export const ParametersViewContainer = ({ title, items, classNames, list }: Cont
     };
 
     const buildItems = (items: { label: string; value: any }[]) => items && items.filter(item => isValuePresent(item.value));
-
     const filteredItems = buildItems(items);
-
     if (filteredItems && !filteredItems.length) return null;
 
     return (

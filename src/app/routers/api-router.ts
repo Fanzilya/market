@@ -29,6 +29,7 @@ export const RequestRouter = {
     allPublic: "/Request/actual/published/all",
     single: "/Request/single",
     supplierSingle: "/Request/supplier/single",
+    supplierSingleHalf: "/Request/supplier/single/halfrequest",
     allByUser: "/Request/user/requests/all",
     favouritesByUser: "/Request/user/favourites",
     favouritesAdd: "/Request/favourites/add",
@@ -36,6 +37,7 @@ export const RequestRouter = {
     requestArhiv: "/Request/archive",
     viewAccount: "/Request/supplier/view/request",
     clickAccount: "/Request/supplier/click/request",
+    payStatus: "/Request/request/payStatus/check",
 }
 
 

@@ -33,6 +33,7 @@ export interface IPumpsForm {
     // ---
 
     pumpTypeId: string, // Способ установки насоса (configTypes)
+    pumpTypeName?: string, // Способ установки насоса (configTypes)
 
     // Если выбрал погружной, то 
     heightOrDepth: string, // number // либо глубина либо высота всасывания
@@ -64,7 +65,6 @@ export interface IPumpsForm {
     flushValve: boolean, // есть || нету
     otherLevelMeters: boolean, // есть || нету
     otherRequirements: string, // Доп требования
-
 }
 
 export type IPumpsCreate = IPumpBaseInformation & IPumpsForm & {

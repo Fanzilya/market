@@ -34,6 +34,9 @@ export const requestSingleApi = (params: IRequestId) => {
 export const requestSupplierSingleApi = (params: IBiznesView) => {
     return instance.post(RequestRouter.supplierSingle, params)
 }
+export const requestSupplierSingleHalfApi = (params: IBiznesView) => {
+    return instance.post(RequestRouter.supplierSingleHalf, params)
+}
 
 export const favouritesAddApi = (params: FavouritesAddIds) => {
     return instance.post(RequestRouter.favouritesAdd, params)
@@ -57,4 +60,8 @@ export const viewUserApi = (params: IBiznesView) => {
 
 export const clickAccountApi = (params: IBiznesView) => {
     return instance.put(RequestRouter.clickAccount, params)
+}
+
+export const payStatusApi = (params: IBiznesView) => {
+    return instance.post(RequestRouter.payStatus, params)
 }
